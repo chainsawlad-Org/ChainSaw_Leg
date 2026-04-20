@@ -1,9 +1,8 @@
 using UnityEngine;
 
-public class CameraFollow : MonoBehaviour
+public class CameraFlow : MonoBehaviour
 {
     [SerializeField] private Transform target;
-
     [SerializeField] private float smoothTime = 0.15f;
 
     [Header("Dead Zone")]
@@ -20,20 +19,21 @@ public class CameraFollow : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (target == null)
+        {
+            return;
+        }
 
-        Vector3 currentPos = transform.position;
         Vector3 targetPos = target.position + offset;
 
         float distance = Vector3.Distance(currentPos, targetPos);
 
         if (distance < deadZoneRadius)
             return;
-
         transform.position = Vector3.SmoothDamp(
-            currentPos,
+            transform.position,
             targetPos,
             ref velocity,
-            smoothTime
-        );
+            smoothTime);
     }
 }

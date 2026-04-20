@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afca137c8a22e4b9f990608ace6a7e64, type: 3}
+  m_Name: SO_ExplorationInteractionConfig
+  m_EditorClassIdentifier: Assembly-CSharp::ExplorationInteractionConfig
+  interactionRadius: 2
+  scanIntervalSeconds: 0.05
+  interactionLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  facingDotThreshold: 0.7
+  defaultPromptText: Press E to interact
