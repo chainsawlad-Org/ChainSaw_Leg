@@ -718,6 +718,7 @@ GameObject:
   - component: {fileID: 1157121964}
   - component: {fileID: 1157121965}
   - component: {fileID: 1157121966}
+  - component: {fileID: 1157121967}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -855,8 +856,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63424b21c27d84a5b863ff04a44fdde3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  moveSpeed: 1
+  moveSpeed: 5
   snapTo8Directions: 1
+--- !u!114 &1157121967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1157121958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1e7f3da0eb0f4be6a866654e2264fb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDash
+  dashForce: 10
+  dashDuration: 0.2
+  dashCooldown: 2
+  isDashing: 0
 --- !u!1 &1696215484
 GameObject:
   m_ObjectHideFlags: 0

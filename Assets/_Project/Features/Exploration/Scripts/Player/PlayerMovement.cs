@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private PlayerInputHandler inputHandler;
+    private PlayerDash dash;
 
     public Vector2 LastMoveDir { get; private set; } = Vector2.up;
 
@@ -15,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         inputHandler = GetComponent<PlayerInputHandler>();
+        dash = GetComponent<PlayerDash>();
     }
 
     private void FixedUpdate()
@@ -24,6 +26,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
+        if (dash != null && dash.isDashing)
+            return;
+
         Vector2 move = inputHandler.MoveInput;
 
         Vector2 input = inputHandler.MoveInput;
