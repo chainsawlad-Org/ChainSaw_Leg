@@ -19,6 +19,10 @@ public class CameraFlow : MonoBehaviour
 
     private void LateUpdate()
     {
+
+        if (!Application.isPlaying)
+            return;
+
         if (target == null)
         {
             return;
