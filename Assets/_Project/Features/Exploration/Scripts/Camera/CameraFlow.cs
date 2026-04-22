@@ -24,6 +24,7 @@ public class CameraFlow : MonoBehaviour
             return;
         }
 
+        Vector3 currentPos = transform.position;
         Vector3 targetPos = target.position + offset;
 
         float distance = Vector3.Distance(currentPos, targetPos);
