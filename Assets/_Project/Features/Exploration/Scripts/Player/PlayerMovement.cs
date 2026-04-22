@@ -31,12 +31,12 @@ public class PlayerMovement : MonoBehaviour
 
         Vector2 move = inputHandler.MoveInput;
 
-        Vector2 input = inputHandler.MoveInput;
+        // Vector2 input = inputHandler.MoveInput;
 
-        if (input.sqrMagnitude > 1f)
-            input = input.normalized;
+        if (move.sqrMagnitude > 1f)
+            move = move.normalized;
 
-        Vector2 moveDir = snapTo8Directions ? SnapTo8(input) : input;
+        Vector2 moveDir = snapTo8Directions ? SnapTo8(move) : move;
 
         if (moveDir.sqrMagnitude > 0.001f)
         {
