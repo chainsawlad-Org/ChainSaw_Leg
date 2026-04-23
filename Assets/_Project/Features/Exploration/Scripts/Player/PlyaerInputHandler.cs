@@ -9,6 +9,8 @@ public class PlayerInputHandler : MonoBehaviour
     public bool InteractPressed { get; private set; }
     public Vector2 MoveInput { get; private set; }
 
+    public bool SubmitPressed { get; private set; }
+
     private void Awake()
     {
         input = new PlayerInputActions();
@@ -23,6 +25,8 @@ public class PlayerInputHandler : MonoBehaviour
 
         input.Player.Dash.performed += OnDash;
         input.Player.Interact.performed += OnInteract;
+        input.Player.Submit.performed += OnSubmit;
+
     }
 
     private void OnDisable()
@@ -32,6 +36,8 @@ public class PlayerInputHandler : MonoBehaviour
 
         input.Player.Dash.performed -= OnDash;
         input.Player.Interact.performed -= OnInteract;
+        input.Player.Submit.performed -= OnSubmit;
+
 
         input.Disable();
     }
@@ -59,5 +65,17 @@ public class PlayerInputHandler : MonoBehaviour
     public void ConsumeInteract()
     {
         InteractPressed = false;
+    }
+
+    private void OnSubmit(InputAction.CallbackContext context)
+
+    {
+        SubmitPressed = true;
+    }
+
+    public void ConsumeSubmit()
+
+    {
+        SubmitPressed = false;
     }
 }
