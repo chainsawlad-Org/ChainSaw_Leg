@@ -5,8 +5,8 @@ public class DialogueUI_Cutscene : MonoBehaviour
 {
     public static DialogueUI_Cutscene Instance;
 
-    private GameObject root;
-    private TextMeshProUGUI text;
+    [SerializeField] private GameObject root;
+    [SerializeField] private TextMeshProUGUI text;
 
     private void Awake()
     {

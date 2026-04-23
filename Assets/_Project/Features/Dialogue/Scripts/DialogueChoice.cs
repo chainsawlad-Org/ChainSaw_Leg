@@ -5,5 +5,5 @@ using UnityEngine;
 public class DialogueChoice
 {
     public string text;
-    public DialogueNode nextNote;
+    public DialogueNode nextNode;
 }

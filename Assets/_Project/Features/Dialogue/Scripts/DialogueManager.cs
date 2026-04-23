@@ -70,18 +70,15 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void Choice(int index)
+
+    public void Choose(int index)
+
     {
         if (!HasChoices) return;
 
-        if (currentNode.choices == null || currentNode.choices.Count == 0)
-            return;
-
-        currentNode = currentNode.choices[index].nextNote;
+        currentNode = currentNode.choices[index].nextNode;
         ShowCurrentNode();
     }
-
-
 
     private void EndDialogue()
     {
