@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class DialogueUI_RPG : MonoBehaviour
 {
@@ -25,28 +26,35 @@ public class DialogueUI_RPG : MonoBehaviour
         root.SetActive(false);
     }
 
-    public void Show(DialogueNode node)
+    public void ShowRoot()
     {
         root.SetActive(true);
-        dialogueText.text = node.text;
+    }
 
+    public void ShowText(string t)
+    {
+        root.SetActive(true);
+        dialogueText.text = t;
+        ClearChoices();
+        continueHint.SetActive(true);
+    }
+
+    public void ShowChoices(List<DialogueChoice> choices)
+    {
         ClearChoices();
 
-        bool hasChoices = node.choices != null && node.choices.Count > 0;
-        continueHint.SetActive(!hasChoices);
+        continueHint.SetActive(false);
 
-        if (hasChoices)
+        for (int i = 0; i < choices.Count; i++)
         {
-            for (int i = 0; i < node.choices.Count; i++)
+            int index = i;
+            var btn = Instantiate(choiceButtonPrefab, choicesContainer);
+
+            btn.GetComponentInChildren<TextMeshProUGUI>().text = choices[i].text;
+            btn.onClick.AddListener(() =>
             {
-                int index = i;
-                var btn = Instantiate(choiceButtonPrefab, choicesContainer);
-                btn.GetComponentInChildren<TextMeshProUGUI>().text = node.choices[i].text;
-                btn.onClick.AddListener(() =>
-                {
-                    DialogueManager.Instance.Choose(index);
-                });
-            }
+                DialogueManager.Instance.Choose(index, choices);
+            });
         }
     }
 
@@ -57,12 +65,8 @@ public class DialogueUI_RPG : MonoBehaviour
     }
 
     private void ClearChoices()
-
     {
         foreach (Transform child in choicesContainer)
-
-        {
             Destroy(child.gameObject);
-        }
     }
 }

@@ -11,12 +11,28 @@ public class DialogueUI_Bubble : MonoBehaviour
 
     private Transform target;
 
-
-
     private void Awake()
     {
         Instance = this;
         root.SetActive(false);
+    }
+
+    public void SetTarget(Transform t)
+    {
+        target = t;
+    }
+
+    public void ShowRoot()
+    {
+        root.SetActive(true);
+    }
+
+    public void ShowText(string message)
+    {
+        text.text = message;
+        root.SetActive(true);
+
+        // Invoke(nameof(Hide), 3f);
     }
 
     private void Update()
@@ -33,8 +49,6 @@ public class DialogueUI_Bubble : MonoBehaviour
         target = targetTransform;
         text.text = message;
         root.SetActive(true);
-
-        // Invoke(nameof(Hide), 3f);
     }
 
     public void Hide()

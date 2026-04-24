@@ -1,92 +1,208 @@
-using NUnit.Framework;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance;
 
-    private DialogueNode currentNode;
+    [Header("UI")]
+    [SerializeField] private DialogueUI_RPG rpgUI;
+    [SerializeField] private DialogueUI_Bubble bubbleUI;
+    [SerializeField] private DialogueUI_Cutscene cutsceneUI;
+
+    private Queue<IDialogueEvent> eventQueue = new();
+
     private DialogueType currentType;
     private Transform currentSpeaker;
 
-    public bool IsActive { get; private set; }
+    public DialogueState State { get; private set; } = DialogueState.Idle;
+    public bool IsActive => State != DialogueState.Idle;
 
-    public bool HasChoices =>
-        currentNode != null &&
-        currentNode.choices != null &&
-        currentNode.choices.Count > 0;
+    public DialogueType CurrentType => currentType;
+
+    private Coroutine typingCoroutine;
+    private bool isTyping;
+    public string CurrentFullText { get; private set; }
 
     private void Awake()
     {
         Instance = this;
     }
 
-    public void StartDialogue(DialogueData data, DialogueType type, Transform speaker)
+    public void StartDialogue(List<IDialogueEvent> events, DialogueType type, Transform speaker = null)
     {
-        if (data == null || data.startNode == null) return;
+        eventQueue.Clear();
 
-        IsActive = true;
-        currentNode = data.startNode;
+        foreach (var e in events)
+            eventQueue.Enqueue(e);
+
         currentType = type;
         currentSpeaker = speaker;
 
-        ShowCurrentNode();
+        SetState(DialogueState.Playing);
+
+        ShowUI();
+        ProcessNextEvent();
     }
 
-    private void ShowCurrentNode()
+    private void ShowUI()
     {
-        if (currentNode == null)
+        rpgUI.Hide();
+        bubbleUI.Hide();
+        cutsceneUI.Hide();
+
+        switch (currentType)
+        {
+            case DialogueType.RPG:
+                rpgUI.ShowRoot();
+                break;
+
+            case DialogueType.Bubble:
+                bubbleUI.SetTarget(currentSpeaker);
+                bubbleUI.ShowRoot();
+                break;
+
+            case DialogueType.Cutscene:
+                cutsceneUI.ShowRoot();
+                break;
+        }
+    }
+
+    public void ProcessNextEvent()
+    {
+        if (eventQueue.Count == 0)
         {
             EndDialogue();
             return;
         }
 
-        switch (currentType)
+        var e = eventQueue.Dequeue();
+        e.Execute(this);
+    }
+
+    public void Submit()
+    {
+        if (State == DialogueState.Typing)
         {
-            case DialogueType.Bubble:
-                DialogueUI_Bubble.Instance.Show(currentNode.text, currentSpeaker);
-                break;
-            case DialogueType.RPG:
-                DialogueUI_RPG.Instance.Show(currentNode);
-                break;
-            case DialogueType.Cutscene:
-                DialogueUI_Cutscene.Instance.Show(currentNode);
-                break;
+            SkipTyping();
+            return;
+        }
+
+        if (State == DialogueState.WaitingInput)
+        {
+            ProcessNextEvent();
         }
     }
 
-    public void Next()
+    public void Choose(int index, List<DialogueChoice> choices)
     {
-        if (!IsActive || HasChoices) return;
+        if (choices == null || index < 0 || index >= choices.Count)
+            return;
 
-        if (currentNode.nextNode != null)
+        var next = choices[index].nextNode;
+
+        if (next == null)
         {
-            currentNode = currentNode.nextNode;
-            ShowCurrentNode();
+            ProcessNextEvent();
+            return;
+        }
+
+        ShowText(next.text);
+
+        if (next.choices != null && next.choices.Count > 0)
+        {
+            ShowChoices(next.choices);
+            SetState(DialogueState.Choosing);
         }
         else
         {
-            EndDialogue();
+            SetState(DialogueState.WaitingInput);
         }
     }
 
-
-    public void Choose(int index)
-
+    public void StartTyping(string text, float speed)
     {
-        if (!HasChoices) return;
+        CurrentFullText = text;
 
-        currentNode = currentNode.choices[index].nextNode;
-        ShowCurrentNode();
+        if (typingCoroutine != null)
+            StopCoroutine(typingCoroutine);
+
+        typingCoroutine = StartCoroutine(TypeRoutine(text, speed));
+    }
+
+    private IEnumerator TypeRoutine(string text, float speed)
+    {
+        isTyping = true;
+        SetState(DialogueState.Typing);
+
+        string current = "";
+
+        foreach (char c in text)
+        {
+            current += c;
+            ShowText(current);
+
+            yield return new WaitForSeconds(speed);
+        }
+
+        isTyping = false;
+        SetState(DialogueState.WaitingInput);
+    }
+
+    public void SkipTyping()
+    {
+        if (!isTyping)
+            return;
+
+        if (typingCoroutine != null)
+            StopCoroutine(typingCoroutine);
+
+        ShowText(CurrentFullText);
+
+        isTyping = false;
+        SetState(DialogueState.WaitingInput);
+    }
+
+    public void ShowText(string text)
+    {
+        switch (currentType)
+        {
+            case DialogueType.RPG:
+                rpgUI.ShowText(text);
+                break;
+
+            case DialogueType.Bubble:
+                bubbleUI.ShowText(text);
+                break;
+
+            case DialogueType.Cutscene:
+                cutsceneUI.ShowText(text);
+                break;
+        }
+    }
+
+    public void ShowChoices(List<DialogueChoice> choices)
+    {
+        if (currentType == DialogueType.RPG)
+        {
+            rpgUI.ShowChoices(choices);
+        }
+    }
+
+    public void SetState(DialogueState state)
+    {
+        State = state;
     }
 
     private void EndDialogue()
     {
-        IsActive = false;
-        currentNode = null;
+        SetState(DialogueState.Idle);
 
-        DialogueUI_Bubble.Instance.Hide();
-        DialogueUI_RPG.Instance.Hide();
-        DialogueUI_Cutscene.Instance.Hide();
+        rpgUI.Hide();
+        bubbleUI.Hide();
+        cutsceneUI.Hide();
+
+        currentSpeaker = null;
     }
 }
