@@ -13,12 +13,12 @@ public class NpcDialogue : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        var events = BubbleDialogue();
+        var events = Dialogue();
 
         DialogueManager.Instance.StartDialogue(events, DialogueType.RPG, transform);
     }
 
-    private List<IDialogueEvent> BubbleDialogue()
+    private List<IDialogueEvent> Dialogue()
     {
         var endNode = new DialogueNode
         {
