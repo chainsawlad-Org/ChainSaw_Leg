@@ -58,6 +58,43 @@ Assets/
 └── ...
 ```
 
+```
+Features/
+└── Dialogue/
+    ├── Scripts/                      # Основные скрипты диалоговой системы
+    │   ├── Core/                     # Ядро системы (не зависит от UI)
+    │   │   ├── DialogueManager.cs    # Главный менеджер (фасад)
+    │   │   ├── DialogueState.cs      # Состояния диалога (Idle, Active, Waiting)
+    │   │   ├── DialogueType.cs       # Типы диалогов (Bubble, Cutscene, RPG)
+    │   │   └── IDialogueEvent.cs     # Интерфейс событий
+    │   │
+    │   ├── Data/                     # Данные и конфиги
+    │   │   ├── DialogueData.cs       # Данные диалога (SO)
+    │   │   ├── DialogueNode.cs       # Узлы диалога
+    │   │   └── NpcDialogue.cs        # Связка NPC -> DialogueData
+    │   │
+    │   ├── Events/                   # ⚡ Реализации событий
+    │   │   ├── ShowTextEvent.cs      # Показать текст
+    │   │   ├── ChoiceEvent.cs        # Выбор варианта
+    │   │   └── AudioEvent.cs         # (доп. пример)
+    │   │
+    │   ├── Input/                    # Ввод для диалогов
+    │   │   └── DialogueInputRouter.cs # Маршрутизация ввода
+    │   │
+    │   ├── Choices/                  # Система выбора
+    │   │   └── DialogueChoice.cs     # Варианты ответов
+    │   │
+    │   └── Utilities/                # Вспомогательные классы
+    │       ├── DialogueParser.cs     # Парсинг диалогов (опционально)
+    │       └── DialogueLogger.cs     # Логирование (для дебага)
+    │
+    └── UI/                           # UI-представления
+        ├── DialogueUI_Bubble.cs      # Пузырь над головой
+        ├── DialogueUI_Cutscene.cs    # Кат-сценный стиль
+        ├── DialogueUI_RPG.cs         # RPG-стиль (окно внизу)
+        └── EventDispatchers/         # (опционально)
+            └── DialogueEventDispatcher.cs
+```
 
 ## Устранение проблем
 
