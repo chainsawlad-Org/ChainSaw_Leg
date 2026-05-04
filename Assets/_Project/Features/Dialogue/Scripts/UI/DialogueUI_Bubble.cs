@@ -5,7 +5,7 @@ public class DialogueUI_Bubble : MonoBehaviour
 {
     [SerializeField] private GameObject root;
     [SerializeField] private TextMeshProUGUI text;
-    [SerializeField] private Vector3 offset = new Vector3(0f, 2f, 0);
+    [SerializeField] private Vector3 offset = new Vector3(1f, 1f, 0);
 
     private Transform target;
 
@@ -18,6 +18,8 @@ public class DialogueUI_Bubble : MonoBehaviour
     {
         target = t;
         Debug.Log("Bubble target: " + t.name);
+        Debug.Log("Bubble position: " + t.position);
+        Debug.Log("Bubble position: " + root.name);
     }
 
     public void ShowRoot()
@@ -38,6 +40,7 @@ public class DialogueUI_Bubble : MonoBehaviour
         if (target != null && root.activeSelf)
         {
             root.transform.position = target.position + offset;
+
         }
     }
 

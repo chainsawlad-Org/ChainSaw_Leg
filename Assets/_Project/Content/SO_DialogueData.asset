@@ -12,6 +12,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04ba0b6e3447b42369e65c55b9385adc, type: 3}
   m_Name: SO_DialogueData
   m_EditorClassIdentifier: Assembly-CSharp::DialogueData
-  startNode:
-    text: 
-    choices: []
