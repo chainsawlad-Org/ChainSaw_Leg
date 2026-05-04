@@ -26,12 +26,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
+        if (DialogueManager.Instance != null && DialogueManager.Instance.BlockGameplayInput)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
         if (dash != null && dash.isDashing)
             return;
 
         Vector2 move = inputHandler.MoveInput;
-
-        // Vector2 input = inputHandler.MoveInput;
 
         if (move.sqrMagnitude > 1f)
             move = move.normalized;

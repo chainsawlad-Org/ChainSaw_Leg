@@ -12,18 +12,18 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private DialogueUI_Cutscene cutsceneUI;
 
     private Queue<IDialogueEvent> eventQueue = new();
-
     private DialogueType currentType;
     private Transform currentSpeaker;
+    private Coroutine typingCoroutine;
+    private bool isTyping;
 
     public DialogueState State { get; private set; } = DialogueState.Idle;
     public bool IsActive => State != DialogueState.Idle;
-
     public DialogueType CurrentType => currentType;
-
-    private Coroutine typingCoroutine;
-    private bool isTyping;
     public string CurrentFullText { get; private set; }
+    public bool BlockGameplayInput =>
+        State != DialogueState.Idle &&
+        (currentType == DialogueType.RPG || currentType == DialogueType.Cutscene);
 
     private void Awake()
     {
