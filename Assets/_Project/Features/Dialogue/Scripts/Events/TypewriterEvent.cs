@@ -1,7 +1,6 @@
 using UnityEngine;
 
 [System.Serializable]
-
 public class TypewriterEvent : IDialogueEvent
 {
     [TextArea(2, 5)]

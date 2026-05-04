@@ -3,23 +3,21 @@ using TMPro;
 
 public class DialogueUI_Bubble : MonoBehaviour
 {
-    public static DialogueUI_Bubble Instance;
-
     [SerializeField] private GameObject root;
     [SerializeField] private TextMeshProUGUI text;
-    [SerializeField] private Vector3 offset = new Vector3(0, 2f, 0);
+    [SerializeField] private Vector3 offset = new Vector3(0f, 2f, 0);
 
     private Transform target;
 
     private void Awake()
     {
-        Instance = this;
         root.SetActive(false);
     }
 
     public void SetTarget(Transform t)
     {
         target = t;
+        Debug.Log("Bubble target: " + t.name);
     }
 
     public void ShowRoot()
@@ -35,12 +33,11 @@ public class DialogueUI_Bubble : MonoBehaviour
         // Invoke(nameof(Hide), 3f);
     }
 
-    private void Update()
+    private void LateUpdate()
     {
-        if (target == null)
+        if (target != null && root.activeSelf)
         {
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(target.position + offset);
-            root.transform.position = screenPos;
+            root.transform.position = target.position + offset;
         }
     }
 

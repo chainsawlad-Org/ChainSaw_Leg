@@ -108,17 +108,35 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        ShowText(next.text);
+        var newEvents = ConvertNodeToEvents(next);
 
-        if (next.choices != null && next.choices.Count > 0)
+        eventQueue.Clear();
+
+        foreach (var e in newEvents)
+            eventQueue.Enqueue(e);
+
+        ProcessNextEvent();
+    }
+
+    private List<IDialogueEvent> ConvertNodeToEvents(DialogueNode start)
+    {
+        var events = new List<IDialogueEvent>();
+
+        DialogueNode current = start;
+
+        while (current != null)
         {
-            ShowChoices(next.choices);
-            SetState(DialogueState.Choosing);
+            events.Add(new TypewriterEvent { text = current.text, speed = 0.05f });
+
+            if (current.choices != null && current.choices.Count > 0)
+
+            {
+                events.Add(new ChoiceEvent { choices = current.choices });
+                break;
+            }
+            current = current.nextNode;
         }
-        else
-        {
-            SetState(DialogueState.WaitingInput);
-        }
+        return events;
     }
 
     public void StartTyping(string text, float speed)

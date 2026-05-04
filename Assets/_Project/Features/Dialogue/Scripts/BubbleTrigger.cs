@@ -6,6 +6,9 @@ public class BubbleTrigger : MonoBehaviour
 {
     [TextArea] public string text = "Эй! Не проходи мимо!";
 
+    [Header("Bubble Anchor")]
+    [SerializeField] private Transform bubbleAnchor;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
@@ -16,6 +19,10 @@ public class BubbleTrigger : MonoBehaviour
             new DelayEvent() { duration = 2f},
         };
 
-        DialogueManager.Instance.StartDialogue(events, DialogueType.Bubble, transform);
+        DialogueManager.Instance.StartDialogue(
+            events,
+            DialogueType.Bubble,
+            bubbleAnchor
+        );
     }
 }
