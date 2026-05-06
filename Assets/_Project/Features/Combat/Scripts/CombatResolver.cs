@@ -7,7 +7,7 @@ public class CombatResolver
         switch (action.Type)
         {
             case ActionType.Attack:
-                DealDamage(action.Actor, action.Target);
+                action.Target.TakeDamage(10);
                 break;
 
             case ActionType.Block:
@@ -15,27 +15,13 @@ public class CombatResolver
                 break;
 
             case ActionType.Heal:
-                Heal(action.Actor);
+                action.Actor.Heal(5);
                 break;
         }
-    }
-
-    private void DealDamage(Unit attacker, Unit target)
-    {
-        int damage = 10;
-        target.CurrentHP -= damage;
-        Debug.Log($"{attacker.Id} hits {target.Id} for {damage}");
     }
 
     private void ApplyBlock(Unit unit)
     {
         Debug.Log($"{unit.Id} is blocking");
-    }
-
-    private void Heal(Unit unit)
-    {
-        int heal = 5;
-        unit.CurrentHP = Mathf.Min(unit.CurrentHP + heal, unit.MaxHP);
-        Debug.Log($"{unit.Id} heals {heal}");
     }
 }

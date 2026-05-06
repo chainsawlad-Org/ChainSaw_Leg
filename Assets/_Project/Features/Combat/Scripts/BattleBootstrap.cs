@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class BattleBootstrap : MonoBehaviour
 {
+    public HPBarView playerHPBar;
+    public HPBarView enemyHPBar;
+
     private BattleManager battleManager;
     private float timer;
 
@@ -12,6 +15,9 @@ public class BattleBootstrap : MonoBehaviour
 
         var player = new Unit("Player", 100);
         var enemy = new Unit("Enemy", 100);
+
+        playerHPBar.Bind(player);
+        enemyHPBar.Bind(enemy);
 
         var playerTeam = new List<Unit> { player };
         var enemyTeam = new List<Unit> { enemy };
