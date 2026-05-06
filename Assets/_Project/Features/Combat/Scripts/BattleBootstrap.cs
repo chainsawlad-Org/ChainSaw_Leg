@@ -9,21 +9,22 @@ public class BattleBootstrap : MonoBehaviour
     void Start()
     {
         Debug.Log("Bootstrap started");
-        // создаём юнитов
+
         var player = new Unit("Player", 100);
         var enemy = new Unit("Enemy", 100);
 
         var playerTeam = new List<Unit> { player };
         var enemyTeam = new List<Unit> { enemy };
 
-        // DI
         var turnSystem = new TurnSystem(playerTeam, enemyTeam);
         var resolver = new CombatResolver();
         var ai = new SimpleAI();
 
-        battleManager = new BattleManager(turnSystem, resolver, ai);
+        var controller = new PlayerActionController();
+        BattleContext.PlayerController = controller;
 
-        battleManager.StartBattle();
+
+        battleManager = new BattleManager(turnSystem, resolver, ai, controller);
     }
 
     void Update()

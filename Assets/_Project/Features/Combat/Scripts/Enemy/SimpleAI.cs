@@ -1,10 +1,10 @@
 public class SimpleAI
 {
-    private System.Random _random = new();
+    private System.Random random = new();
 
     public ActionType ChooseAction()
     {
-        int value = _random.Next(0, 3);
+        int value = random.Next(0, 3);
 
         return (ActionType)value;
     }
