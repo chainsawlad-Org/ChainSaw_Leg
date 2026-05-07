@@ -5,6 +5,10 @@ public class BattleBootstrap : MonoBehaviour
 {
     public HPBarView playerHPBar;
     public HPBarView enemyHPBar;
+    public ActionTextView playerTextView;
+    public ActionTextView enemyTextView;
+    public DamageTextView playerDamageView;
+    public DamageTextView enemyDamageView;
 
     private BattleManager battleManager;
     private float timer;
@@ -18,6 +22,12 @@ public class BattleBootstrap : MonoBehaviour
 
         playerHPBar.Bind(player);
         enemyHPBar.Bind(enemy);
+
+        playerTextView.targetUnit = player;
+        enemyTextView.targetUnit = enemy;
+
+        playerDamageView.targetUnit = player;
+        enemyDamageView.targetUnit = enemy;
 
         var playerTeam = new List<Unit> { player };
         var enemyTeam = new List<Unit> { enemy };
