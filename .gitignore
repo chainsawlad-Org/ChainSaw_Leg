@@ -103,3 +103,6 @@ InitTestScene*.unity*
 
 *.slnx
 *.idea
+
+# Ignore TextMesh Pro essential resources imported into Assets
+/[Aa]ssets/TextMesh Pro/
