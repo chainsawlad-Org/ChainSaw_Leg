@@ -103,6 +103,8 @@ Features/
 1. Откройте `Edit → Project Settings → Graphics`
 2. В поле `Scriptable Render Pipeline Settings` укажите:  
    `Assets/_Project/Core/Infrastructure/Rendering/UniversalRP.asset`
+3. Method 'ResetStaticValues' is in a generic class, but [RuntimeInitializeOnLoad] methods cannot be in generic classes - Ошибка, Zenject, не трогать, она не влияет на функциональность. Стандартная ошибка для версии 9.2.1 (стабильная, не нужно обновляться для 9.3..)
+
 
 ### Сцена не найдена
 
