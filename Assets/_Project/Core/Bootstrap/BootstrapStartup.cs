@@ -22,6 +22,6 @@ public class BootstrapStartup : IInitializable
     {
         await sceneLoader.LoadAdditive("SC_Persistent");
 
-        await gameStateMachine.Push(new MainMenuPhase(sceneLoader));
+        await gameStateMachine.Enter<MainMenuPhase>();
     }
 }
