@@ -110,3 +110,5 @@ InitTestScene*.unity*
 echo /Packages/com.svermeulen.extenject/ >> .gitignore
 
 echo "TextMesh Pro.meta" >> ../.gitignore
+
+.DS_Store
