@@ -5,10 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : ISceneLoader
 {
-    public async UniTask Load(string sceneName)
-    {
-        await SceneManager.LoadSceneAsync(sceneName);
-    }
+
+    private string currentScene;
 
     public async UniTask LoadAdditive(string sceneName)
     {
@@ -20,6 +18,26 @@ public class SceneLoader : ISceneLoader
 
     public async UniTask Unload(string sceneName)
     {
+        var scene = SceneManager.GetSceneByName(sceneName);
+
+        if (!scene.isLoaded)
+            return;
+
         await SceneManager.UnloadSceneAsync(sceneName);
+    }
+
+    public async UniTask SwitchTo(string sceneName)
+    {
+        if (currentScene == sceneName)
+            return;
+
+        if (!string.IsNullOrEmpty(currentScene))
+        {
+            await Unload(currentScene);
+        }
+
+        await LoadAdditive(sceneName);
+
+        currentScene = sceneName;
     }
 }

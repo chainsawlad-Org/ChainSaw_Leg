@@ -11,15 +11,12 @@ public class MainMenuPhase : IGamePhase
     }
     public async UniTask Enter()
     {
-        Debug.Log("ENTER MAIN MENU");
 
-        await sceneLoader.Load("SC_MainMenu");
+        await sceneLoader.SwitchTo("SC_MainMenu");
     }
 
-    public async UniTask Exit()
+    public UniTask Exit()
     {
-        Debug.Log("EXIT MAIN MENU");
-
-        await sceneLoader.Unload("SC_MainMenu");
+        return UniTask.CompletedTask;
     }
 }

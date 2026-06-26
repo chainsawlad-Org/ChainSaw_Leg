@@ -12,16 +12,12 @@ public class ExplorationPhase : IGamePhase
 
     public async UniTask Enter()
     {
-        Debug.Log("ENTER WORLD");
-
-        await sceneLoader.Load("SC_World");
+        await sceneLoader.SwitchTo("SC_World");
     }
 
-    public async UniTask Exit()
+    public UniTask Exit()
     {
-        Debug.Log("EXIT WORLD");
-
-        await sceneLoader.Unload("SC_World");
+        return UniTask.CompletedTask;
     }
 }
 
