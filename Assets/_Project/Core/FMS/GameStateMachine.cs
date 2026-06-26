@@ -1,9 +1,23 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Zenject;
 
 public class GameStateMachine
 {
+    private readonly DiContainer container;
     private readonly Stack<IGamePhase> phases = new();
+
+    public GameStateMachine(DiContainer container)
+    {
+        this.container = container;
+    }
+
+    public async UniTask Enter<T>() where T : IGamePhase
+    {
+        var phase = container.Resolve<T>();
+
+        await Push(phase);
+    }
 
     public async UniTask Push(IGamePhase phase)
     {
