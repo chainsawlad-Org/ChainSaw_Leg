@@ -10,5 +10,11 @@ public class ProjectInstaller : MonoInstaller
         Container.Bind<ISceneLoader>()
             .To<SceneLoader>()
             .AsSingle();
+
+        Container.Bind<MainMenuPhase>()
+            .AsTransient();
+
+        Container.Bind<ExplorationPhase>()
+            .AsTransient();
     }
 }
