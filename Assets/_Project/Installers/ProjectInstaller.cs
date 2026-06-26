@@ -16,5 +16,9 @@ public class ProjectInstaller : MonoInstaller
 
         Container.Bind<ExplorationPhase>()
             .AsTransient();
+
+        Container.BindInterfacesAndSelfTo<BootstrapStartup>()
+            .AsSingle()
+            .NonLazy();
     }
 }

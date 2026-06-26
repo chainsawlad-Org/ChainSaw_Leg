@@ -1,5 +1,4 @@
 using Cysharp.Threading.Tasks;
-using NUnit.Framework;
 using Zenject;
 
 public class BootstrapStartup : IInitializable
@@ -15,13 +14,12 @@ public class BootstrapStartup : IInitializable
 
     public void Initialize()
     {
-        Start().Forget();
+        Run().Forget();
     }
 
-    private async UniTask Start()
+    private async UniTask Run()
     {
-        await sceneLoader.LoadAdditive("SC_Persistent");
-
+        await sceneLoader.LoadAdditive(SceneNames.Persistent);
         await gameStateMachine.Enter<MainMenuPhase>();
     }
 }
