@@ -11,4 +11,9 @@ public class MainMenuUI : MonoBehaviour
         await fms.Push(
             new ExplorationPhase(sceneLoader));
     }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
 }
