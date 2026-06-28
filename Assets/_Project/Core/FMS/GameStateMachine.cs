@@ -7,7 +7,7 @@ public class GameStateMachine
     private readonly DiContainer container;
     private readonly Stack<OverlayPhase> overlayStack = new();
 
-    private GamePhase currentPhase;
+    private SceneGamePhase currentPhase;
 
     public GameStateMachine(DiContainer container)
     {

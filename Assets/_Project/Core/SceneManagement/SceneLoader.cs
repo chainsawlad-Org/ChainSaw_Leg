@@ -7,30 +7,7 @@ public class SceneLoader : ISceneLoader
 {
     private string currentScene;
 
-    private string CurrentScene => currentScene;
-
-    public async UniTask LoadAdditive(string sceneName)
-    {
-        Scene scene = SceneManager.GetSceneByName(sceneName);
-
-        if (scene.isLoaded)
-            return;
-
-        await SceneManager.LoadSceneAsync(
-            sceneName,
-            LoadSceneMode.Additive
-        );
-    }
-
-    public async UniTask Unload(string sceneName)
-    {
-        Scene scene = SceneManager.GetSceneByName(sceneName);
-
-        if (!scene.isLoaded)
-            return;
-
-        await SceneManager.UnloadSceneAsync(sceneName);
-    }
+    public string LoadedGameplayScene => currentScene;
 
     public async UniTask SwitchTo(string sceneName)
     {
@@ -46,4 +23,30 @@ public class SceneLoader : ISceneLoader
 
         currentScene = sceneName;
     }
+
+    public async UniTask LoadAdditive(string sceneName)
+    {
+        if (IsLoaded(sceneName))
+            return;
+
+        await SceneManager.LoadSceneAsync(
+            sceneName,
+            LoadSceneMode.Additive
+        );
+    }
+
+    public async UniTask Unload(string sceneName)
+    {
+        if (!IsLoaded(sceneName))
+            return;
+
+        await SceneManager.UnloadSceneAsync(sceneName);
+    }
+
+    public bool IsLoaded(string sceneName)
+    {
+        return SceneManager.GetSceneByName(sceneName).isLoaded;
+    }
+
+
 }
