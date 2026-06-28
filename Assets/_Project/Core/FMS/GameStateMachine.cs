@@ -4,14 +4,14 @@ using Zenject;
 
 public class GameStateMachine
 {
-    private readonly DiContainer container;
+    private readonly IPhaseFactory phaseRegistry;
     private readonly Stack<OverlayPhase> overlayStack = new();
 
     private SceneGamePhase currentPhase;
 
-    public GameStateMachine(DiContainer container)
+    public GameStateMachine(IPhaseFactory phaseRegistry)
     {
-        this.container = container;
+        this.phaseRegistry = phaseRegistry;
     }
 
     public async UniTask ReplaceMain<T>() where T : SceneGamePhase
@@ -21,14 +21,14 @@ public class GameStateMachine
             await currentPhase.Exit();
         }
 
-        currentPhase = container.Resolve<T>();
+        currentPhase = phaseRegistry.Get<T>();
 
         await currentPhase.Enter();
     }
 
     public async UniTask PushOverlay<T>() where T : OverlayPhase
     {
-        var phase = container.Resolve<T>();
+        var phase = phaseRegistry.Get<T>();
 
         overlayStack.Push(phase);
 
