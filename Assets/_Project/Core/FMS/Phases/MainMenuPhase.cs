@@ -1,22 +1,8 @@
-using Cysharp.Threading.Tasks;
-using UnityEngine;
 
-public class MainMenuPhase : IGamePhase
+public class MainMenuPhase : SceneGamePhase
 {
-    private readonly ISceneLoader sceneLoader;
+    protected override string SceneName => SceneNames.MainMenu;
 
-    public MainMenuPhase(ISceneLoader sceneLoader)
-    {
-        this.sceneLoader = sceneLoader;
-    }
-    public async UniTask Enter()
-    {
-
-        await sceneLoader.SwitchTo("SC_MainMenu");
-    }
-
-    public UniTask Exit()
-    {
-        return UniTask.CompletedTask;
-    }
+    public MainMenuPhase(ISceneLoader sceneLoader) : base(sceneLoader)
+    { }
 }

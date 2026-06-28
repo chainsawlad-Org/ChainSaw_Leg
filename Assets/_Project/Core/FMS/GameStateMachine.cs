@@ -5,39 +5,43 @@ using Zenject;
 public class GameStateMachine
 {
     private readonly DiContainer container;
-    private readonly Stack<IGamePhase> phases = new();
+    private readonly Stack<OverlayPhase> overlayStack = new();
+
+    private GamePhase currentPhase;
 
     public GameStateMachine(DiContainer container)
     {
         this.container = container;
     }
 
-    public async UniTask Enter<T>() where T : IGamePhase
+    public async UniTask ReplaceMain<T>() where T : SceneGamePhase
+    {
+        if (currentPhase != null)
+        {
+            await currentPhase.Exit();
+        }
+
+        currentPhase = container.Resolve<T>();
+
+        await currentPhase.Enter();
+    }
+
+    public async UniTask PushOverlay<T>() where T : OverlayPhase
     {
         var phase = container.Resolve<T>();
 
-        await Push(phase);
-    }
-
-    public async UniTask Push(IGamePhase phase)
-    {
-        if (phases.Count > 0)
-            await phases.Peek().Exit();
-
-        phases.Push(phase);
+        overlayStack.Push(phase);
 
         await phase.Enter();
     }
 
-    public async UniTask Pop()
+    public async UniTask PopOverlay()
     {
-        if (phases.Count == 0) return;
+        if (overlayStack.Count == 0)
+            return;
 
-        IGamePhase currentPhase = phases.Pop();
+        var phase = overlayStack.Pop();
 
-        await currentPhase.Exit();
-
-        if (phases.Count > 0)
-            await phases.Peek().Enter();
+        await phase.Exit();
     }
 }
