@@ -13,6 +13,7 @@ public class ProjectInstaller : MonoInstaller
             .AsSingle();
 
         PhaseInstaller.Install(Container);
+        ServiceInstaller.Install(Container);
 
         Container.BindInterfacesAndSelfTo<BootstrapStartup>()
             .AsSingle()
