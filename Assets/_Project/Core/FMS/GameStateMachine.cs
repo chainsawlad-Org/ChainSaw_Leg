@@ -3,31 +3,33 @@ using Cysharp.Threading.Tasks;
 
 public class GameStateMachine
 {
-    private readonly IPhaseFactory phaseRegistry;
+    private readonly IPhaseFactory phaseFactory;
     private readonly Stack<OverlayPhase> overlayStack = new();
 
     private SceneGamePhase currentPhase;
 
-    public GameStateMachine(IPhaseFactory phaseRegistry)
+    public GameStateMachine(IPhaseFactory phaseFactory)
     {
-        this.phaseRegistry = phaseRegistry;
+        this.phaseFactory = phaseFactory;
     }
 
     public async UniTask ReplaceMain<T>() where T : SceneGamePhase
     {
+        await CloseAllOverlays();
+
         if (currentPhase != null)
         {
             await currentPhase.Exit();
         }
 
-        currentPhase = phaseRegistry.Get<T>();
+        currentPhase = phaseFactory.Get<T>();
 
         await currentPhase.Enter();
     }
 
     public async UniTask PushOverlay<T>() where T : OverlayPhase
     {
-        var phase = phaseRegistry.Get<T>();
+        OverlayPhase phase = phaseFactory.Get<T>();
 
         overlayStack.Push(phase);
 
@@ -39,8 +41,19 @@ public class GameStateMachine
         if (overlayStack.Count == 0)
             return;
 
-        var phase = overlayStack.Pop();
+        OverlayPhase phase = overlayStack.Pop();
 
         await phase.Exit();
     }
+
+    public async UniTask CloseAllOverlays()
+    {
+        while (overlayStack.Count > 0)
+        {
+            await PopOverlay();
+        }
+    }
+
+    public bool HasOverlay => overlayStack.Count > 0;
+    public SceneGamePhase CurrentMainPhase => currentPhase;
 }
