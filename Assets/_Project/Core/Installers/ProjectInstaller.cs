@@ -12,17 +12,13 @@ public class ProjectInstaller : MonoInstaller
             .To<SceneLoader>()
             .AsSingle();
 
-        Container.Bind<MainMenuPhase>()
-            .AsTransient();
-
-        Container.Bind<ExplorationPhase>()
-            .AsTransient();
+        PhaseInstaller.Install(Container);
 
         Container.BindInterfacesAndSelfTo<BootstrapStartup>()
             .AsSingle()
             .NonLazy();
 
-        Container.Bind<StartupPhaseRegistry>()
-            .AsSingle();
+        // Container.Bind<StartupPhaseRegistry>()
+        //     .AsSingle();
     }
 }
