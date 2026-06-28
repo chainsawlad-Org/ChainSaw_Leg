@@ -12,6 +12,10 @@ public class ProjectInstaller : MonoInstaller
             .To<SceneLoader>()
             .AsSingle();
 
+        Container.Bind<IPhaseFactory>()
+            .To<PhaseFactory>()
+            .AsSingle();
+
         PhaseInstaller.Install(Container);
         ServiceInstaller.Install(Container);
 
