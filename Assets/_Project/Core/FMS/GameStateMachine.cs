@@ -29,7 +29,18 @@ public class GameStateMachine
 
     public async UniTask PushOverlay<T>() where T : OverlayPhase
     {
-        OverlayPhase phase = phaseFactory.Get<T>();
+        var phase = phaseFactory.Get<T>();
+
+        overlayStack.Push(phase);
+
+        await phase.Enter();
+    }
+
+    public async UniTask PushOverlay<T>(System.Action<T> configure) where T : OverlayPhase
+    {
+        var phase = phaseFactory.Get<T>();
+
+        configure?.Invoke(phase);
 
         overlayStack.Push(phase);
 
