@@ -1,33 +1,34 @@
-using Cysharp.Threading.Tasks;
+// using Cysharp.Threading.Tasks;
 
-public class BattleService : SceneService
-{
-    private UniTaskCompletionSource completionSource;
+// public class BattleService : SceneService
+// {
+//     private UniTaskCompletionSource completionSource;
 
-    public override UniTask Initialize()
-    {
-        return UniTask.CompletedTask;
-    }
+//     public override UniTask Initialize()
+//     {
+//         return UniTask.CompletedTask;
+//     }
 
-    public async UniTask StartBattle(BattleRequest request)
-    {
-        completionSource = new UniTaskCompletionSource();
+//     public async UniTask StartBattle(BattleRequest request)
+//     {
+//         completionSource = new UniTaskCompletionSource();
 
-        var manager = BattleBootstrap.Instance.Manager;
+//         BattleManager manager = BattleBootstrap.Instance.Manager;
 
-        manager.BattleFinished += OnBattleFinished;
+//         manager.BattleFinished += OnBattleFinished;
 
-        await completionSource.Task;
-        manager.BattleFinished -= OnBattleFinished;
-    }
+//         await completionSource.Task;
 
-    private void OnBattleFinished()
-    {
-        completionSource?.TrySetResult();
-    }
+//         manager.BattleFinished -= OnBattleFinished;
+//     }
 
-    public override UniTask Dispose()
-    {
-        return UniTask.CompletedTask;
-    }
-}
+//     private void OnBattleFinished()
+//     {
+//         completionSource.TrySetResult();
+//     }
+
+//     public override UniTask Dispose()
+//     {
+//         return UniTask.CompletedTask;
+//     }
+// }

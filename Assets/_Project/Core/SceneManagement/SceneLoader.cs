@@ -48,5 +48,8 @@ public class SceneLoader : ISceneLoader
         return SceneManager.GetSceneByName(sceneName).isLoaded;
     }
 
-
+    public void SetCurrentScene(string sceneName)
+    {
+        currentScene = sceneName;
+    }
 }

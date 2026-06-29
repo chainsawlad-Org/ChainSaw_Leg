@@ -1,11 +1,15 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using Zenject;
 
 public class CutsceneTrigger : MonoBehaviour
 {
-    private bool triggered = false;
+    [Inject] private GameStateMachine gameStateMachine;
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private bool triggered;
+
+    private async void OnTriggerEnter2D(Collider2D other)
     {
         if (triggered) return;
         if (!other.CompareTag("Player")) return;
@@ -21,6 +25,25 @@ public class CutsceneTrigger : MonoBehaviour
             new TypewriterEvent { text = "Игрок: Да. Прямо сейчас.", speed = 0.04f },
         };
 
-        DialogueManager.Instance.StartDialogue(events, DialogueType.Cutscene, transform);
+        var tcs = new UniTaskCompletionSource();
+
+        void OnFinished()
+        {
+            DialogueManager.Instance.DialogueFinished -= OnFinished;
+            tcs.TrySetResult();
+        }
+
+        DialogueManager.Instance.DialogueFinished += OnFinished;
+
+        DialogueManager.Instance.StartDialogue(
+            events,
+            DialogueType.Cutscene,
+            transform);
+
+        // Ждем окончания катсцены
+        await tcs.Task;
+
+        // После этого запускаем бой
+        await gameStateMachine.ReplaceMain<BattlePhase>();
     }
 }

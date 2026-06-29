@@ -57,10 +57,20 @@ public class BootstrapStartup : IInitializable
         {
             Debug.Log("Bootstrap: >>> ENTER EXPLORATION <<<");
 
+            (sceneLoader as SceneLoader)?.SetCurrentScene(SceneNames.World);
+            sceneLoader.SetCurrentScene(SceneNames.World);
+
             await gameStateMachine.ReplaceMain<ExplorationPhase>();
 
             Debug.Log("Bootstrap: ExplorationPhase finished Enter()");
 
+            return;
+        }
+
+        if (activeScene == SceneNames.Battle)
+        {
+            Debug.Log("Bootstrap: >>> ENTER BATTLE <<<");
+            sceneLoader.SetCurrentScene(SceneNames.Battle);
             return;
         }
 
