@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class BattleBootstrap : MonoBehaviour
 {
+    public static BattleBootstrap Instance { get; private set; }
+    public BattleManager Manager => battleManager;
     public HPBarView playerHPBar;
     public HPBarView enemyHPBar;
     public ActionTextView playerTextView;
@@ -51,5 +53,10 @@ public class BattleBootstrap : MonoBehaviour
             battleManager?.Update();
             timer = 0f;
         }
+    }
+
+    private void Awake()
+    {
+        Instance = this;
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class BattleManager
 {
@@ -6,6 +7,8 @@ public class BattleManager
     private readonly CombatResolver resolver;
     private readonly SimpleAI ai;
     private PlayerActionController playerController;
+
+    public event Action BattleFinished;
 
     public bool IsBattleOver
     { get; private set; }
@@ -63,7 +66,7 @@ public class BattleManager
         {
             IsBattleOver = true;
             Debug.Log("Battle Ended");
-            Application.Quit(); // заглушка
+            BattleFinished?.Invoke();
         }
     }
 }
