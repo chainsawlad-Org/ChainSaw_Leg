@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance;
+
+    public event Action DialogueFinished;
 
     [Header("UI")]
     [SerializeField] private DialogueUI_RPG rpgUI;
@@ -222,5 +225,7 @@ public class DialogueManager : MonoBehaviour
         cutsceneUI.Hide();
 
         currentSpeaker = null;
+
+        DialogueFinished?.Invoke();
     }
 }

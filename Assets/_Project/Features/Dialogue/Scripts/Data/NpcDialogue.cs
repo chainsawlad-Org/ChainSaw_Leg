@@ -1,10 +1,12 @@
-using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using Zenject;
 
 public class NpcDialogue : MonoBehaviour, IInteractable
 {
-    public string GetInteractionPrompt() => "Press [E] to talk";
+    [Inject] private GameStateMachine gameStateMachine;
 
+    public string GetInteractionPrompt() => "Press [E] to talk";
 
     public bool CanInteract()
     {
@@ -13,8 +15,21 @@ public class NpcDialogue : MonoBehaviour, IInteractable
 
     public void Interact()
     {
+        StartDialogue().Forget();
+    }
+
+    private async UniTask StartDialogue()
+    {
         var events = DialogueLibrary.TestDialogue();
 
-        DialogueManager.Instance.StartDialogue(events, DialogueType.RPG, transform);
+        await gameStateMachine.PushOverlay<DialoguePhase>(phase =>
+        {
+            phase.Configure(new DialogueRequest
+            {
+                Events = events,
+                Type = DialogueType.RPG,
+                Speaker = transform
+            });
+        });
     }
 }

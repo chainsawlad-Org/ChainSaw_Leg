@@ -5,10 +5,9 @@ public class BattleManager
     private readonly TurnSystem turnSystem;
     private readonly CombatResolver resolver;
     private readonly SimpleAI ai;
-    private PlayerActionController playerController;
+    private readonly PlayerActionController playerController;
 
-    public bool IsBattleOver
-    { get; private set; }
+    public bool IsBattleOver { get; private set; }
 
     public BattleManager(
         TurnSystem turnSystem,
@@ -24,12 +23,11 @@ public class BattleManager
 
     public void Update()
     {
-        if (IsBattleOver) return;
+        if (IsBattleOver)
+            return;
 
         var actor = turnSystem.GetCurrentUnit();
         var target = turnSystem.GetTarget(actor);
-
-        // BattleAction action;
 
         if (actor.Id == "Player")
         {
@@ -38,9 +36,6 @@ public class BattleManager
 
             var action = new BattleAction(actor, target, actionType);
             resolver.Resolve(action);
-
-            // // временно авто-атака
-            // action = new BattleAction(actor, target, ActionType.Attack);
         }
         else
         {
@@ -49,21 +44,22 @@ public class BattleManager
             resolver.Resolve(action);
         }
 
-        // resolver.Resolve(action);
-
         CheckBattleEnd();
 
-        turnSystem.NextTurn();
+        if (!IsBattleOver)
+        {
+            turnSystem.NextTurn();
+        }
     }
 
     private void CheckBattleEnd()
     {
-        // 1х1 пока
+        // Пока 1x1
         if (!turnSystem.GetCurrentUnit().IsAlive)
         {
-            IsBattleOver = true;
             Debug.Log("Battle Ended");
-            Application.Quit(); // заглушка
+
+            IsBattleOver = true;
         }
     }
 }

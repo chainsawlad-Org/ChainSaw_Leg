@@ -1,8 +1,16 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using Zenject;
 
 public class BattleBootstrap : MonoBehaviour
 {
+    [Inject] private GameStateMachine gameStateMachine;
+
+    public static BattleBootstrap Instance { get; private set; }
+
+    public BattleManager Manager => battleManager;
+
     public HPBarView playerHPBar;
     public HPBarView enemyHPBar;
     public ActionTextView playerTextView;
@@ -12,10 +20,16 @@ public class BattleBootstrap : MonoBehaviour
 
     private BattleManager battleManager;
     private float timer;
+    private bool returnedToExploration;
 
-    void Start()
+    private void Awake()
     {
-        Debug.Log("Bootstrap started");
+        Instance = this;
+    }
+
+    private void Start()
+    {
+        Debug.Log("Battle Bootstrap started");
 
         var player = new Unit("Player", 100);
         var enemy = new Unit("Enemy", 100);
@@ -39,17 +53,39 @@ public class BattleBootstrap : MonoBehaviour
         var controller = new PlayerActionController();
         BattleContext.PlayerController = controller;
 
-
-        battleManager = new BattleManager(turnSystem, resolver, ai, controller);
+        battleManager = new BattleManager(
+            turnSystem,
+            resolver,
+            ai,
+            controller);
     }
 
-    void Update()
+    private void Update()
     {
         timer += Time.deltaTime;
-        if (timer >= 1f)
+
+        if (timer < 1f)
+            return;
+
+        timer = 0f;
+
+        battleManager?.Update();
+
+        if (battleManager != null && battleManager.IsBattleOver)
         {
-            battleManager?.Update();
-            timer = 0f;
+            ReturnToExploration().Forget();
         }
+    }
+
+    private async UniTaskVoid ReturnToExploration()
+    {
+        if (returnedToExploration)
+            return;
+
+        returnedToExploration = true;
+
+        Debug.Log("Return to Exploration");
+
+        await gameStateMachine.ReplaceMain<ExplorationPhase>();
     }
 }

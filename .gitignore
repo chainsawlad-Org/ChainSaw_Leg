@@ -103,3 +103,12 @@ InitTestScene*.unity*
 
 *.slnx
 *.idea
+
+# Ignore TextMesh Pro essential resources imported into Assets
+/[Aa]ssets/TextMesh Pro/
+
+echo /Packages/com.svermeulen.extenject/ >> .gitignore
+
+echo "TextMesh Pro.meta" >> ../.gitignore
+
+.DS_Store
