@@ -1,81 +1,38 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
+using Zenject;
 
 public class PlayerInputHandler : MonoBehaviour
 {
-    private PlayerInputActions input;
+    private InputService inputService;
 
-    public bool DashPressed { get; private set; }
-    public bool InteractPressed { get; private set; }
-    public Vector2 MoveInput { get; private set; }
+    public bool DashPressed => inputService != null && inputService.DashPressed;
+    public bool InteractPressed => inputService != null && inputService.InteractPressed;
+    public Vector2 MoveInput => inputService != null ? inputService.MoveInput : Vector2.zero;
+    public bool SubmitPressed => inputService != null && inputService.SubmitPressed;
 
-    public bool SubmitPressed { get; private set; }
-
-    private void Awake()
+    [Inject]
+    public void Construct(InputService inputService)
     {
-        input = new PlayerInputActions();
-    }
-
-    private void OnEnable()
-    {
-        input.Enable();
-
-        input.Player.Move.performed += OnMove;
-        input.Player.Move.canceled += OnMove;
-
-        input.Player.Dash.performed += OnDash;
-        input.Player.Interact.performed += OnInteract;
-        input.Player.Submit.performed += OnSubmit;
-
-    }
-
-    private void OnDisable()
-    {
-        input.Player.Move.performed -= OnMove;
-        input.Player.Move.canceled -= OnMove;
-
-        input.Player.Dash.performed -= OnDash;
-        input.Player.Interact.performed -= OnInteract;
-        input.Player.Submit.performed -= OnSubmit;
-
-
-        input.Disable();
-    }
-
-    private void OnMove(InputAction.CallbackContext context)
-    {
-        MoveInput = context.ReadValue<Vector2>();
-    }
-
-    private void OnDash(InputAction.CallbackContext context)
-    {
-        DashPressed = true;
-    }
-
-    private void OnInteract(InputAction.CallbackContext context)
-    {
-        InteractPressed = true;
+        this.inputService = inputService;
     }
 
     public void ConsumeDash()
     {
-        DashPressed = false;
+        inputService?.ConsumeDash();
     }
 
     public void ConsumeInteract()
     {
-        InteractPressed = false;
-    }
-
-    private void OnSubmit(InputAction.CallbackContext context)
-
-    {
-        SubmitPressed = true;
+        inputService?.ConsumeInteract();
     }
 
     public void ConsumeSubmit()
-
     {
-        SubmitPressed = false;
+        inputService?.ConsumeSubmit();
+    }
+
+    private void OnDisable()
+    {
+        inputService?.ResetTransientInput();
     }
 }
