@@ -33,6 +33,12 @@ public class DialogueManager : MonoBehaviour
         Instance = this;
     }
 
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
+
     public void StartDialogue(List<IDialogueEvent> events, DialogueType type, Transform speaker = null)
     {
         eventQueue.Clear();
@@ -92,10 +98,32 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
+        if (State == DialogueState.Choosing)
+        {
+            rpgUI.SubmitCurrentChoice();
+            return;
+        }
+
         if (State == DialogueState.WaitingInput)
         {
             ProcessNextEvent();
         }
+    }
+
+    public void SelectPreviousChoice()
+    {
+        if (currentType != DialogueType.RPG || State != DialogueState.Choosing)
+            return;
+
+        rpgUI.SelectPreviousChoice();
+    }
+
+    public void SelectNextChoice()
+    {
+        if (currentType != DialogueType.RPG || State != DialogueState.Choosing)
+            return;
+
+        rpgUI.SelectNextChoice();
     }
 
     public void Choose(int index, List<DialogueChoice> choices)

@@ -10,11 +10,15 @@ public class NpcDialogue : MonoBehaviour, IInteractable
 
     public bool CanInteract()
     {
-        return !DialogueManager.Instance.IsActive;
+        DialogueManager dialogueManager = DialogueManager.Instance;
+        return dialogueManager != null && !dialogueManager.IsActive;
     }
 
     public void Interact()
     {
+        if (DialogueManager.Instance == null)
+            return;
+
         StartDialogue().Forget();
     }
 
@@ -31,5 +35,8 @@ public class NpcDialogue : MonoBehaviour, IInteractable
                 Speaker = transform
             });
         });
+
+        if (gameStateMachine.IsTopOverlay<DialoguePhase>())
+            await gameStateMachine.PopOverlay();
     }
 }

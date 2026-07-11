@@ -5,6 +5,7 @@
         "Zenject",
         "UniTask",
         "Unity.InputSystem",
+        "UnityEngine.UI",
         "Unity.TextMeshPro"
     ],
     "includePlatforms": [],

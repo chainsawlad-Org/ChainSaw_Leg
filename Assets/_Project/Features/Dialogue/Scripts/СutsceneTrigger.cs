@@ -26,16 +26,22 @@ public class CutsceneTrigger : MonoBehaviour
         };
 
         var tcs = new UniTaskCompletionSource();
+        DialogueManager dialogueManager = DialogueManager.Instance;
+
+        if (dialogueManager == null)
+            return;
 
         void OnFinished()
         {
-            DialogueManager.Instance.DialogueFinished -= OnFinished;
+            if (DialogueManager.Instance != null)
+                DialogueManager.Instance.DialogueFinished -= OnFinished;
+
             tcs.TrySetResult();
         }
 
-        DialogueManager.Instance.DialogueFinished += OnFinished;
+        dialogueManager.DialogueFinished += OnFinished;
 
-        DialogueManager.Instance.StartDialogue(
+        dialogueManager.StartDialogue(
             events,
             DialogueType.Cutscene,
             transform);

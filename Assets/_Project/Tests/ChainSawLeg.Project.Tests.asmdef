@@ -1,0 +1,21 @@
+{
+    "name": "ChainSawLeg.Project.Tests",
+    "rootNamespace": "",
+    "references": [
+        "ChainSawLeg.Project"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false,
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ]
+}

@@ -6,6 +6,9 @@ public class DialoguePhase : OverlayPhase
 
     private DialogueRequest request;
 
+    public override InputBlockChannels BlockedInputChannels =>
+        InputBlockChannels.Move | InputBlockChannels.Dash | InputBlockChannels.Interact;
+
     public DialoguePhase(DialogueService dialogueService)
     {
         this.dialogueService = dialogueService;

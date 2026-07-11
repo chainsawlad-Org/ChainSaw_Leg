@@ -6,14 +6,34 @@ public class DialogueInputRouter : MonoBehaviour
 
     private void Update()
     {
-        if (!DialogueManager.Instance.IsActive)
+        DialogueManager dialogueManager = DialogueManager.Instance;
+
+        if (dialogueManager == null || input == null)
             return;
+
+        if (!dialogueManager.IsActive)
+            return;
+
+        if (dialogueManager.State == DialogueState.Choosing)
+        {
+            if (input.PreviousPressed)
+            {
+                input.ConsumePrevious();
+                dialogueManager.SelectPreviousChoice();
+            }
+
+            if (input.NextPressed)
+            {
+                input.ConsumeNext();
+                dialogueManager.SelectNextChoice();
+            }
+        }
 
         if (!input.SubmitPressed)
             return;
 
         input.ConsumeSubmit();
 
-        DialogueManager.Instance.Submit();
+        dialogueManager.Submit();
     }
 }

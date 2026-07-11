@@ -872,6 +872,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2073018753}
+  - component: {fileID: 2073018754}
+  - component: {fileID: 2073018755}
   m_Layer: 0
   m_Name: Context
   m_TagString: Untagged
@@ -894,6 +896,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2073018754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073018752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 330cedaf81ea4e4faa3436510cf4404b, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::SafeSceneContext
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 2073018755}
+  _installerPrefabs: []
+  _autoRun: 1
+  OnPreInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  _parentNewObjectsUnderSceneContext: 0
+  _contractNames: []
+  _parentContractNames: []
+--- !u!114 &2073018755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073018752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 364c408bc0fb4b6ca55a6e1a9d63f763, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::PersistentUIInstaller
+  uiRoot: {fileID: 1940759982}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -9,6 +9,8 @@ public class PlayerInputHandler : MonoBehaviour
     public bool InteractPressed => inputService != null && inputService.InteractPressed;
     public Vector2 MoveInput => inputService != null ? inputService.MoveInput : Vector2.zero;
     public bool SubmitPressed => inputService != null && inputService.SubmitPressed;
+    public bool PreviousPressed => inputService != null && inputService.PreviousPressed;
+    public bool NextPressed => inputService != null && inputService.NextPressed;
 
     [Inject]
     public void Construct(InputService inputService)
@@ -29,6 +31,16 @@ public class PlayerInputHandler : MonoBehaviour
     public void ConsumeSubmit()
     {
         inputService?.ConsumeSubmit();
+    }
+
+    public void ConsumePrevious()
+    {
+        inputService?.ConsumePrevious();
+    }
+
+    public void ConsumeNext()
+    {
+        inputService?.ConsumeNext();
     }
 
     private void OnDisable()

@@ -17,17 +17,27 @@ public class DialogueService : SceneService
 
     public async UniTask Play(DialogueRequest request)
     {
+        DialogueManager dialogueManager = DialogueManager.Instance;
+
+        if (dialogueManager == null)
+        {
+            Debug.LogError("DialogueService.Play called without an active DialogueManager in scene.");
+            return;
+        }
+
         var completion = new UniTaskCompletionSource();
 
         void Finished()
         {
-            DialogueManager.Instance.DialogueFinished -= Finished;
+            if (DialogueManager.Instance != null)
+                DialogueManager.Instance.DialogueFinished -= Finished;
+
             completion.TrySetResult();
         }
 
-        DialogueManager.Instance.DialogueFinished += Finished;
+        dialogueManager.DialogueFinished += Finished;
 
-        DialogueManager.Instance.StartDialogue(
+        dialogueManager.StartDialogue(
             request.Events,
             request.Type,
             request.Speaker);

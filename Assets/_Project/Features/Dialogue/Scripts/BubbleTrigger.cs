@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class BubbleTrigger : MonoBehaviour
 {
@@ -13,16 +12,23 @@ public class BubbleTrigger : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
+        DialogueManager dialogueManager = DialogueManager.Instance;
+
+        if (dialogueManager == null)
+            return;
+
         var events = new List<IDialogueEvent>()
         {
             new ShowTextEvent() { text = text },
             new DelayEvent() { duration = 2f},
         };
 
-        DialogueManager.Instance.StartDialogue(
+        Transform targetAnchor = bubbleAnchor != null ? bubbleAnchor : transform;
+
+        dialogueManager.StartDialogue(
             events,
             DialogueType.Bubble,
-            bubbleAnchor
+            targetAnchor
         );
     }
 }

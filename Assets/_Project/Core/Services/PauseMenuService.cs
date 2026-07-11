@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 
 public class PauseMenuService
 {
@@ -17,14 +18,21 @@ public class PauseMenuService
 
     public void RequestPause()
     {
-        if (!CanOpenPause())
+        if (!CanHandlePauseRequest())
             return;
 
         PauseRequested?.Invoke();
+        TogglePauseMenu().Forget();
     }
 
-    private bool CanOpenPause()
+    private bool CanHandlePauseRequest()
     {
+        if (gameStateMachine.IsTopOverlay<SaveBrowserPhase>())
+            return true;
+
+        if (gameStateMachine.IsTopOverlay<PauseMenuPhase>())
+            return true;
+
         SceneGamePhase currentMainPhase = gameStateMachine.CurrentMainPhase;
 
         if (currentMainPhase == null)
@@ -36,5 +44,22 @@ public class PauseMenuService
         }
 
         return currentMainPhase is not MainMenuPhase;
+    }
+
+    private async UniTaskVoid TogglePauseMenu()
+    {
+        if (gameStateMachine.IsTopOverlay<SaveBrowserPhase>())
+        {
+            await gameStateMachine.PopOverlay();
+            return;
+        }
+
+        if (gameStateMachine.IsTopOverlay<PauseMenuPhase>())
+        {
+            await gameStateMachine.PopOverlay();
+            return;
+        }
+
+        await gameStateMachine.PushOverlay<PauseMenuPhase>();
     }
 }
