@@ -40,6 +40,35 @@ public sealed class ExplorationCheckpointSaveServiceTests
         service.Dispose();
     }
 
+    [Test]
+    public async Task SaveCheckpointToSlotAsyncUsesExplicitSlotIdAndBypassesRotation()
+    {
+        var serializer = new CapturingSerializer();
+        var storageProvider = new CapturingStorageProvider();
+        var context = new ExplorationSaveContextService();
+        var coordinator = new GameSaveCoordinator(
+            serializer,
+            storageProvider,
+            new GameSaveValidationService(),
+            new GameSaveMigrationService(new List<IGameSaveMigrationStep>()),
+            new List<IGameSaveContributor> { new TestContributor() },
+            new List<IGameSaveRestorer>());
+        var service = new ExplorationCheckpointSaveService(
+            coordinator,
+            new CheckpointGameSaveSlotRotationService(storageProvider),
+            context,
+            new TestMetadataProvider());
+
+        await service.SaveCheckpointToSlotAsync("checkpoint_7", "world_gate", CancellationToken.None);
+
+        Assert.That(storageProvider.LastRequest.Kind, Is.EqualTo(GameSaveKind.Checkpoint));
+        Assert.That(storageProvider.LastRequest.SlotId, Is.EqualTo("checkpoint_7"));
+        Assert.That(storageProvider.LastRequest.CheckpointId, Is.EqualTo("world_gate"));
+        Assert.That(context.CheckpointId, Is.EqualTo("world_gate"));
+
+        service.Dispose();
+    }
+
     private sealed class TestMetadataProvider : IGameSaveRuntimeMetadataProvider
     {
         public string ProfileId => "profile-test";

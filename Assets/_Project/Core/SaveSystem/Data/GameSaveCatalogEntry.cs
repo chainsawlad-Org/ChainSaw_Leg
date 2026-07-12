@@ -11,5 +11,6 @@ namespace ChainSawLeg.Core.SaveSystem
         public string SceneName { get; set; }
         public DateTime UtcTimestamp { get; set; }
         public bool IsLoadable { get; set; }
+        public bool IsEmpty { get; set; }
     }
 }

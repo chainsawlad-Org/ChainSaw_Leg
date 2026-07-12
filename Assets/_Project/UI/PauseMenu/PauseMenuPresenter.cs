@@ -214,11 +214,11 @@ public class PauseMenuPresenter : IInitializable, ITickable, IDisposable
             await EnsureSaveBrowserOpenAsync(cancellationToken);
             CancelCatalogRefresh();
             saveBrowserView.ShowError("Не удалось загрузить сохранение");
-            view.SetSaveBrowserInteractionEnabled(true);
         }
         finally
         {
             isLoadInProgress = false;
+            view.SetSaveBrowserInteractionEnabled(true);
         }
     }
 

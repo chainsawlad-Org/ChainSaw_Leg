@@ -59,5 +59,7 @@ public class ServiceInstaller : Installer<ServiceInstaller>
             .AsSingle();
         Container.BindInterfacesAndSelfTo<ExplorationCheckpointSaveService>()
             .AsSingle();
+        Container.Bind<CheckpointSaveRequestBroker>()
+            .AsSingle();
     }
 }

@@ -184,7 +184,8 @@ public class PauseMenuView : MonoBehaviour
             navigationButtons.Clear();
             saveBrowserView.AppendInteractableButtons(navigationButtons);
             navigationButtons.Add(backButton);
-            MoveSelectionWithin(navigationButtons, direction);
+            Button selectedButton = MoveSelectionWithin(navigationButtons, direction);
+            saveBrowserView.EnsureButtonVisible(selectedButton == backButton ? null : selectedButton);
             return;
         }
 
@@ -195,7 +196,7 @@ public class PauseMenuView : MonoBehaviour
         MoveSelectionWithin(navigationButtons, direction);
     }
 
-    private static void MoveSelectionWithin(List<Button> buttons, int direction)
+    private static Button MoveSelectionWithin(List<Button> buttons, int direction)
     {
         GameObject selectedObject = EventSystem.current != null
             ? EventSystem.current.currentSelectedGameObject
@@ -205,7 +206,9 @@ public class PauseMenuView : MonoBehaviour
             ? 0
             : Mathf.Clamp(currentIndex + direction, 0, buttons.Count - 1);
 
-        SelectButton(buttons[nextIndex]);
+        Button nextButton = buttons[nextIndex];
+        SelectButton(nextButton);
+        return nextButton;
     }
 
     private void SetBuiltInNavigationEnabled(bool isEnabled)

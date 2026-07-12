@@ -24,22 +24,49 @@ namespace ChainSawLeg.Features.Exploration.Save
             CancellationToken cancellationToken)
         {
             IReadOnlyList<GameSaveSlotInfo> slots = await storageProvider.ListSlotsAsync(cancellationToken);
+            Dictionary<string, GameSaveSlotInfo> slotsById = slots
+                .Where(IsCheckpointSlot)
+                .ToDictionary(slot => slot.SlotId, StringComparer.Ordinal);
+
             var entries = new List<GameSaveCatalogEntry>(GameSaveSlotCatalog.CheckpointSlotIds.Count);
 
-            foreach (GameSaveSlotInfo slot in slots)
+            foreach (string slotId in GameSaveSlotCatalog.CheckpointSlotIds)
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
-                if (!IsCheckpointSlot(slot))
+                if (!slotsById.TryGetValue(slotId, out GameSaveSlotInfo slot))
                     continue;
 
                 entries.Add(await CreateEntryAsync(slot, cancellationToken));
             }
 
-            return entries
-                .OrderByDescending(entry => entry.UtcTimestamp)
-                .ThenBy(entry => entry.SlotId, StringComparer.Ordinal)
-                .ToArray();
+            return entries;
+        }
+
+        public async UniTask<IReadOnlyList<GameSaveCatalogEntry>> GetCheckpointSaveMenuEntriesAsync(
+            CancellationToken cancellationToken)
+        {
+            IReadOnlyList<GameSaveSlotInfo> slots = await storageProvider.ListSlotsAsync(cancellationToken);
+            Dictionary<string, GameSaveSlotInfo> slotsById = slots
+                .Where(IsCheckpointSlot)
+                .ToDictionary(slot => slot.SlotId, StringComparer.Ordinal);
+
+            var entries = new List<GameSaveCatalogEntry>(GameSaveSlotCatalog.CheckpointSlotIds.Count);
+
+            foreach (string slotId in GameSaveSlotCatalog.CheckpointSlotIds)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                if (!slotsById.TryGetValue(slotId, out GameSaveSlotInfo slot))
+                {
+                    entries.Add(CreateEmptyEntry(slotId));
+                    continue;
+                }
+
+                entries.Add(await CreateEntryAsync(slot, cancellationToken));
+            }
+
+            return entries;
         }
 
         private async UniTask<GameSaveCatalogEntry> CreateEntryAsync(
@@ -79,6 +106,21 @@ namespace ChainSawLeg.Features.Exploration.Save
             return slot != null &&
                    GameSaveSlotCatalog.CheckpointSlotIds.Contains(slot.SlotId) &&
                    (slot.Metadata == null || slot.Metadata.Kind == GameSaveKind.Checkpoint);
+        }
+
+        private static GameSaveCatalogEntry CreateEmptyEntry(string slotId)
+        {
+            return new GameSaveCatalogEntry
+            {
+                Kind = GameSaveKind.Checkpoint,
+                SlotId = slotId,
+                CheckpointId = null,
+                SceneId = string.Empty,
+                SceneName = "—",
+                UtcTimestamp = DateTime.MinValue,
+                IsLoadable = false,
+                IsEmpty = true
+            };
         }
 
         private static GameSaveCatalogEntry CreateCorruptedEntry(string slotId)

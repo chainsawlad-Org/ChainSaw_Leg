@@ -9,7 +9,14 @@ namespace ChainSawLeg.Core.SaveSystem
         {
             "checkpoint_0",
             "checkpoint_1",
-            "checkpoint_2"
+            "checkpoint_2",
+            "checkpoint_3",
+            "checkpoint_4",
+            "checkpoint_5",
+            "checkpoint_6",
+            "checkpoint_7",
+            "checkpoint_8",
+            "checkpoint_9"
         };
 
         public static IReadOnlyList<string> CheckpointSlotIds => checkpointSlotIds;

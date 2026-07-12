@@ -39,23 +39,54 @@ namespace ChainSawLeg.Features.Exploration.Save
             try
             {
                 string slotId = await slotRotationService.GetNextSlotIdAsync(cancellationToken);
-                saveContextService.SetContext(saveContextService.SceneId, checkpointId);
-
-                var request = new GameSaveRequest(
-                    GameSaveKind.Checkpoint,
-                    slotId,
-                    checkpointId);
-
-                await saveCoordinator.SaveAsync(
-                    request,
-                    metadataProvider.ProfileId,
-                    metadataProvider.BuildNumber,
-                    cancellationToken);
+                await SaveToSlotCoreAsync(slotId, checkpointId, cancellationToken);
             }
             finally
             {
                 saveLock.Release();
             }
+        }
+
+        public async UniTask SaveCheckpointToSlotAsync(
+            string slotId,
+            string checkpointId,
+            CancellationToken cancellationToken)
+        {
+            if (string.IsNullOrWhiteSpace(slotId))
+                throw new GameSaveValidationException("Slot ID is required.");
+
+            if (string.IsNullOrWhiteSpace(checkpointId))
+                throw new GameSaveValidationException("Checkpoint ID is required.");
+
+            await saveLock.WaitAsync(cancellationToken);
+
+            try
+            {
+                await SaveToSlotCoreAsync(slotId, checkpointId, cancellationToken);
+            }
+            finally
+            {
+                saveLock.Release();
+            }
+        }
+
+        private async UniTask SaveToSlotCoreAsync(
+            string slotId,
+            string checkpointId,
+            CancellationToken cancellationToken)
+        {
+            saveContextService.SetContext(saveContextService.SceneId, checkpointId);
+
+            var request = new GameSaveRequest(
+                GameSaveKind.Checkpoint,
+                slotId,
+                checkpointId);
+
+            await saveCoordinator.SaveAsync(
+                request,
+                metadataProvider.ProfileId,
+                metadataProvider.BuildNumber,
+                cancellationToken);
         }
 
         public void Dispose()

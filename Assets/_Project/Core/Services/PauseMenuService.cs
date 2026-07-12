@@ -33,6 +33,9 @@ public class PauseMenuService
         if (gameStateMachine.IsTopOverlay<PauseMenuPhase>())
             return true;
 
+        if (gameStateMachine.IsTopOverlay<CheckpointSavePhase>())
+            return true;
+
         SceneGamePhase currentMainPhase = gameStateMachine.CurrentMainPhase;
 
         if (currentMainPhase == null)
@@ -55,6 +58,12 @@ public class PauseMenuService
         }
 
         if (gameStateMachine.IsTopOverlay<PauseMenuPhase>())
+        {
+            await gameStateMachine.PopOverlay();
+            return;
+        }
+
+        if (gameStateMachine.IsTopOverlay<CheckpointSavePhase>())
         {
             await gameStateMachine.PopOverlay();
             return;

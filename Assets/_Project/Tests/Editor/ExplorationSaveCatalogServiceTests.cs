@@ -10,7 +10,7 @@ using NUnit.Framework;
 public sealed class ExplorationSaveCatalogServiceTests
 {
     [Test]
-    public async Task CatalogShowsOnlyCheckpointSlotsSortedNewestFirst()
+    public async Task CatalogShowsOnlyCheckpointSlotsInFixedSlotOrder()
     {
         var serializer = new OdinGameSaveSerializer();
         var storage = new CatalogStorageProvider(serializer);
@@ -32,12 +32,50 @@ public sealed class ExplorationSaveCatalogServiceTests
             await catalog.GetCheckpointEntriesAsync(CancellationToken.None);
 
         Assert.That(entries.Count, Is.EqualTo(3));
-        Assert.That(entries[0].SlotId, Is.EqualTo("checkpoint_1"));
-        Assert.That(entries[0].CheckpointId, Is.EqualTo("checkpoint_new"));
+        Assert.That(entries[0].SlotId, Is.EqualTo("checkpoint_0"));
+        Assert.That(entries[0].CheckpointId, Is.EqualTo("checkpoint_old"));
         Assert.That(entries[0].SceneName, Is.EqualTo(SceneNames.World));
-        Assert.That(entries[1].SlotId, Is.EqualTo("checkpoint_0"));
+        Assert.That(entries[1].SlotId, Is.EqualTo("checkpoint_1"));
+        Assert.That(entries[1].CheckpointId, Is.EqualTo("checkpoint_new"));
         Assert.That(entries[2].SlotId, Is.EqualTo("checkpoint_2"));
         Assert.That(entries[2].IsLoadable, Is.False);
+    }
+
+    [Test]
+    public async Task SaveMenuEntriesReturnAllTenSlotsInFixedOrderWithEmptyPlaceholders()
+    {
+        var serializer = new OdinGameSaveSerializer();
+        var storage = new CatalogStorageProvider(serializer);
+        storage.Add(GameSaveKind.Checkpoint, "checkpoint_0", Utc(10), "checkpoint_old");
+        storage.Add(GameSaveKind.Checkpoint, "checkpoint_2", Utc(11), "checkpoint_new");
+        storage.AddCorrupted("checkpoint_5");
+
+        var coordinator = new GameSaveCoordinator(
+            serializer,
+            storage,
+            new GameSaveValidationService(),
+            new GameSaveMigrationService(new List<IGameSaveMigrationStep>()),
+            new List<IGameSaveContributor>(),
+            new List<IGameSaveRestorer>());
+        var catalog = new ExplorationSaveCatalogService(storage, coordinator);
+
+        IReadOnlyList<GameSaveCatalogEntry> entries =
+            await catalog.GetCheckpointSaveMenuEntriesAsync(CancellationToken.None);
+
+        Assert.That(entries.Count, Is.EqualTo(10));
+
+        for (int index = 0; index < entries.Count; index++)
+            Assert.That(entries[index].SlotId, Is.EqualTo($"checkpoint_{index}"));
+
+        Assert.That(entries[0].IsEmpty, Is.False);
+        Assert.That(entries[0].CheckpointId, Is.EqualTo("checkpoint_old"));
+        Assert.That(entries[1].IsEmpty, Is.True);
+        Assert.That(entries[1].IsLoadable, Is.False);
+        Assert.That(entries[2].IsEmpty, Is.False);
+        Assert.That(entries[2].CheckpointId, Is.EqualTo("checkpoint_new"));
+        Assert.That(entries[5].IsEmpty, Is.False);
+        Assert.That(entries[5].IsLoadable, Is.False);
+        Assert.That(entries[9].IsEmpty, Is.True);
     }
 
     private static DateTime Utc(int hour)

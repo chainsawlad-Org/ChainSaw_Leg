@@ -10,6 +10,7 @@ public sealed class SaveBrowserView : MonoBehaviour
     [SerializeField] private SaveSlotView rowTemplate;
     [SerializeField] private Text statusText;
     [SerializeField] private Text errorText;
+    [SerializeField] private ScrollRect scrollRect;
 
     private readonly List<SaveSlotView> rows = new();
     private bool interactionEnabled = true;
@@ -20,12 +21,14 @@ public sealed class SaveBrowserView : MonoBehaviour
         RectTransform rowsContainer,
         SaveSlotView rowTemplate,
         Text statusText,
-        Text errorText)
+        Text errorText,
+        ScrollRect scrollRect)
     {
         this.rowsContainer = rowsContainer;
         this.rowTemplate = rowTemplate;
         this.statusText = statusText;
         this.errorText = errorText;
+        this.scrollRect = scrollRect;
         rowTemplate.gameObject.SetActive(false);
     }
 
@@ -35,6 +38,7 @@ public sealed class SaveBrowserView : MonoBehaviour
         errorText.gameObject.SetActive(false);
         statusText.text = "Загрузка сохранений...";
         statusText.gameObject.SetActive(true);
+        ResetScrollPosition();
     }
 
     public void ShowEntries(IReadOnlyList<GameSaveCatalogEntry> entries)
@@ -89,6 +93,29 @@ public sealed class SaveBrowserView : MonoBehaviour
         return null;
     }
 
+    public void EnsureButtonVisible(Button button)
+    {
+        if (button == null || scrollRect == null || scrollRect.viewport == null)
+            return;
+
+        Canvas.ForceUpdateCanvases();
+
+        RectTransform buttonRect = button.GetComponent<RectTransform>();
+        Bounds buttonBounds = RectTransformUtility.CalculateRelativeRectTransformBounds(
+            scrollRect.viewport,
+            buttonRect);
+        Rect viewportRect = scrollRect.viewport.rect;
+        Vector2 contentPosition = scrollRect.content.anchoredPosition;
+
+        if (buttonBounds.max.y > viewportRect.yMax)
+            contentPosition.y += viewportRect.yMax - buttonBounds.max.y;
+        else if (buttonBounds.min.y < viewportRect.yMin)
+            contentPosition.y += viewportRect.yMin - buttonBounds.min.y;
+
+        scrollRect.StopMovement();
+        scrollRect.content.anchoredPosition = contentPosition;
+    }
+
     private void EnsureRowCount(int count)
     {
         while (rows.Count < count)
@@ -97,9 +124,14 @@ public sealed class SaveBrowserView : MonoBehaviour
             row.name = $"SaveSlot_{rows.Count}";
             row.LoadClicked += HandleLoadClicked;
             RectTransform rowRect = row.GetComponent<RectTransform>();
-            rowRect.anchoredPosition = new Vector2(0f, -rows.Count * 72f);
+            rowRect.anchoredPosition = new Vector2(0f, -rows.Count * 64f);
             rows.Add(row);
         }
+
+        float contentHeight = rows.Count * 64f;
+
+        if (rowsContainer.sizeDelta.y < contentHeight)
+            rowsContainer.sizeDelta = new Vector2(rowsContainer.sizeDelta.x, contentHeight);
     }
 
     private void HideRows()
@@ -111,5 +143,14 @@ public sealed class SaveBrowserView : MonoBehaviour
     private void HandleLoadClicked(GameSaveCatalogEntry entry)
     {
         LoadRequested?.Invoke(entry);
+    }
+
+    private void ResetScrollPosition()
+    {
+        if (scrollRect == null)
+            return;
+
+        scrollRect.StopMovement();
+        scrollRect.verticalNormalizedPosition = 1f;
     }
 }
