@@ -139,7 +139,14 @@ namespace ChainSawLeg.Features.Exploration.Save
 
         private static string GetSceneName(string sceneId)
         {
-            return sceneId == ExplorationSceneIds.World ? SceneNames.World : sceneId;
+            try
+            {
+                return ExplorationSceneIds.ResolveSceneName(sceneId);
+            }
+            catch (GameSaveValidationException)
+            {
+                return sceneId;
+            }
         }
     }
 }

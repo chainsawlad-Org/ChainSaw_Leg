@@ -1,0 +1,20 @@
+{
+    "name": "ChainSawLeg.Features.Dialogue.Runtime",
+    "rootNamespace": "ChainSawLeg.Features.Dialogue",
+    "references": [
+        "ChainSawLeg.Core.Runtime",
+        "Zenject",
+        "UniTask",
+        "UnityEngine.UI",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

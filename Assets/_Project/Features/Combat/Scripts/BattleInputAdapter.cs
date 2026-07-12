@@ -1,29 +1,39 @@
 using UnityEngine;
+using Zenject;
 
 public class BattleInputAdapter : MonoBehaviour
 {
-    public PlayerInputHandler playerInput;
+    private InputService inputService;
 
-    void Update()
+    [Inject]
+    public void Construct(InputService inputService)
+    {
+        this.inputService = inputService;
+    }
+
+    private void Update()
     {
         var controller = BattleContext.PlayerController;
 
-        if (playerInput.SubmitPressed)
+        if (controller == null || inputService == null)
+            return;
+
+        if (inputService.SubmitPressed)
         {
             controller.SelectAction(ActionType.Attack);
-            playerInput.ConsumeSubmit();
+            inputService.ConsumeSubmit();
         }
 
-        if (playerInput.InteractPressed)
+        if (inputService.InteractPressed)
         {
             controller.SelectAction(ActionType.Heal);
-            playerInput.ConsumeInteract();
+            inputService.ConsumeInteract();
         }
 
-        if (playerInput.DashPressed)
+        if (inputService.DashPressed)
         {
             controller.SelectAction(ActionType.Block);
-            playerInput.ConsumeDash();
+            inputService.ConsumeDash();
         }
     }
 }

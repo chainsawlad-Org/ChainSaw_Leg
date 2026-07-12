@@ -1,0 +1,21 @@
+{
+    "name": "ChainSawLeg.Composition.Runtime",
+    "rootNamespace": "ChainSawLeg.Composition",
+    "references": [
+        "ChainSawLeg.Core.Runtime",
+        "ChainSawLeg.Features.Dialogue.Runtime",
+        "ChainSawLeg.Features.Exploration.Runtime",
+        "ChainSawLeg.UI.Runtime",
+        "Zenject",
+        "UnityEngine.UI"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

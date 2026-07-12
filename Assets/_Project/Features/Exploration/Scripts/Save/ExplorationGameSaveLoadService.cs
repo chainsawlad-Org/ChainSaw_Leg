@@ -67,8 +67,7 @@ namespace ChainSawLeg.Features.Exploration.Save
             if (saveData == null || string.IsNullOrWhiteSpace(saveData.SceneId))
                 throw new GameSaveValidationException("Exploration save scene ID is required.");
 
-            if (saveData.SceneId != ExplorationSceneIds.World)
-                throw new GameSaveValidationException($"Unknown exploration scene ID: {saveData.SceneId}.");
+            ExplorationSceneIds.ResolveSceneName(saveData.SceneId);
 
             if (float.IsNaN(saveData.PositionX) || float.IsInfinity(saveData.PositionX) ||
                 float.IsNaN(saveData.PositionY) || float.IsInfinity(saveData.PositionY))

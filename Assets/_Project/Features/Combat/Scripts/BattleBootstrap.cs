@@ -29,7 +29,6 @@ public class BattleBootstrap : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("Battle Bootstrap started");
 
         var player = new Unit("Player", 100);
         var enemy = new Unit("Enemy", 100);
@@ -84,7 +83,6 @@ public class BattleBootstrap : MonoBehaviour
 
         returnedToExploration = true;
 
-        Debug.Log("Return to Exploration");
 
         await gameStateMachine.ReplaceMain<ExplorationPhase>();
     }

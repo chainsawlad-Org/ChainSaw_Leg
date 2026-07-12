@@ -1,10 +1,10 @@
 {
-    "name": "ChainSawLeg.Project",
-    "rootNamespace": "",
+    "name": "ChainSawLeg.Features.Exploration.Runtime",
+    "rootNamespace": "ChainSawLeg.Features.Exploration",
     "references": [
+        "ChainSawLeg.Core.Runtime",
         "Zenject",
         "UniTask",
-        "Unity.InputSystem",
         "UnityEngine.UI",
         "Unity.TextMeshPro"
     ],

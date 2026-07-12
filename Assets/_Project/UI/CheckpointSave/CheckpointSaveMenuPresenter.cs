@@ -16,6 +16,7 @@ public sealed class CheckpointSaveMenuPresenter : IInitializable, IDisposable
     private readonly IRuntimeErrorLogger errorLogger;
 
     private UniTaskCompletionSource<bool> pendingResult;
+    private CancellationTokenSource activeRequestCancellation;
     private string pendingCheckpointId;
     private bool isSaveInProgress;
 
@@ -49,6 +50,8 @@ public sealed class CheckpointSaveMenuPresenter : IInitializable, IDisposable
         view.BackRequested -= OnBackRequested;
         gameStateMachine.StateChanged -= OnStateChanged;
         saveRequestBroker.SaveRequested -= RequestSaveAsync;
+        activeRequestCancellation?.Cancel();
+        pendingResult?.TrySetResult(false);
     }
 
     public async UniTask<bool> RequestSaveAsync(string checkpointId, CancellationToken cancellationToken)
@@ -56,38 +59,54 @@ public sealed class CheckpointSaveMenuPresenter : IInitializable, IDisposable
         if (gameStateMachine.HasOverlayOfType<CheckpointSavePhase>())
             return false;
 
+        var requestCancellation = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        var resultSource = new UniTaskCompletionSource<bool>();
+        activeRequestCancellation = requestCancellation;
         pendingCheckpointId = checkpointId;
-        pendingResult = new UniTaskCompletionSource<bool>();
-
-        await gameStateMachine.PushOverlay<CheckpointSavePhase>();
-
-        IReadOnlyList<GameSaveCatalogEntry> entries =
-            await saveCatalogService.GetCheckpointSaveMenuEntriesAsync(cancellationToken);
-
-        view.SetInteractionEnabled(true);
-        view.ShowEntries(entries);
-        view.Show();
-
-        bool result;
+        pendingResult = resultSource;
+        bool result = false;
 
         try
         {
-            result = await pendingResult.Task.AttachExternalCancellation(cancellationToken);
+            CancellationToken requestToken = requestCancellation.Token;
+            await gameStateMachine.PushOverlay<CheckpointSavePhase>();
+            requestToken.ThrowIfCancellationRequested();
+
+            IReadOnlyList<GameSaveCatalogEntry> entries =
+                await saveCatalogService.GetCheckpointSaveMenuEntriesAsync(requestToken);
+
+            requestToken.ThrowIfCancellationRequested();
+            view.SetInteractionEnabled(true);
+            view.ShowEntries(entries);
+            view.Show();
+            result = await resultSource.Task.AttachExternalCancellation(requestToken);
         }
-        catch (OperationCanceledException)
+        catch (OperationCanceledException) when (requestCancellation.IsCancellationRequested)
         {
-            result = false;
+        }
+        catch (Exception exception)
+        {
+            errorLogger.LogException(exception, $"Checkpoint menu failed: {checkpointId}");
         }
         finally
         {
-            pendingResult = null;
-            pendingCheckpointId = null;
+            requestCancellation.Cancel();
+
+            if (ReferenceEquals(activeRequestCancellation, requestCancellation))
+                activeRequestCancellation = null;
+
+            if (ReferenceEquals(pendingResult, resultSource))
+            {
+                pendingResult = null;
+                pendingCheckpointId = null;
+            }
+
+            if (gameStateMachine.IsTopOverlay<CheckpointSavePhase>())
+                await gameStateMachine.PopOverlay();
+
+            view.Hide();
+            requestCancellation.Dispose();
         }
-
-        if (gameStateMachine.IsTopOverlay<CheckpointSavePhase>())
-            await gameStateMachine.PopOverlay();
-
-        view.Hide();
 
         return result;
     }
@@ -97,19 +116,38 @@ public sealed class CheckpointSaveMenuPresenter : IInitializable, IDisposable
         if (pendingResult == null || isSaveInProgress)
             return;
 
-        SaveToSlotAsync(slotId, pendingCheckpointId).Forget();
+        CancellationTokenSource requestCancellation = activeRequestCancellation;
+
+        if (requestCancellation == null)
+            return;
+
+        SaveToSlotAsync(
+            slotId,
+            pendingCheckpointId,
+            pendingResult,
+            requestCancellation.Token).Forget();
     }
 
-    private async UniTask SaveToSlotAsync(string slotId, string checkpointId)
+    private async UniTask SaveToSlotAsync(
+        string slotId,
+        string checkpointId,
+        UniTaskCompletionSource<bool> resultSource,
+        CancellationToken cancellationToken)
     {
-        UniTaskCompletionSource<bool> resultSource = pendingResult;
         isSaveInProgress = true;
         view.SetInteractionEnabled(false);
 
         try
         {
-            await checkpointSaveService.SaveCheckpointToSlotAsync(slotId, checkpointId, CancellationToken.None);
+            await checkpointSaveService.SaveCheckpointToSlotAsync(
+                slotId,
+                checkpointId,
+                cancellationToken);
             resultSource.TrySetResult(true);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            resultSource.TrySetResult(false);
         }
         catch (Exception exception)
         {
@@ -135,6 +173,9 @@ public sealed class CheckpointSaveMenuPresenter : IInitializable, IDisposable
             return;
 
         if (!gameStateMachine.IsTopOverlay<CheckpointSavePhase>())
+        {
+            activeRequestCancellation?.Cancel();
             pendingResult.TrySetResult(false);
+        }
     }
 }

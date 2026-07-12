@@ -33,15 +33,22 @@ public class GameStateMachine
 
     public UniTask ReplaceMainAsync<T>(CancellationToken cancellationToken) where T : SceneGamePhase
     {
-        return TransitionMainAsync<T>(cancellationToken, forceReload: false);
+        return TransitionMainAsync<T>(null, cancellationToken, forceReload: false);
     }
 
     public UniTask ReloadMainAsync<T>(CancellationToken cancellationToken) where T : SceneGamePhase
     {
-        return TransitionMainAsync<T>(cancellationToken, forceReload: true);
+        return TransitionMainAsync<T>(null, cancellationToken, forceReload: true);
+    }
+
+    public UniTask ReloadMainAsync<T>(Action<T> configure, CancellationToken cancellationToken)
+        where T : SceneGamePhase
+    {
+        return TransitionMainAsync(configure, cancellationToken, forceReload: true);
     }
 
     private async UniTask TransitionMainAsync<T>(
+        Action<T> configure,
         CancellationToken cancellationToken,
         bool forceReload) where T : SceneGamePhase
     {
@@ -62,6 +69,7 @@ public class GameStateMachine
 
             cancellationToken.ThrowIfCancellationRequested();
             nextPhase = phaseFactory.Get<T>();
+            configure?.Invoke((T)nextPhase);
 
             if (!nextPhase.AllowsGameplayInput)
                 ApplyMainPhaseInputState(nextPhase);

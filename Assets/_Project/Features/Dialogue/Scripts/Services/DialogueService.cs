@@ -1,17 +1,21 @@
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 public class DialogueService : SceneService
 {
+    private readonly IRuntimeErrorLogger errorLogger;
+
+    public DialogueService(IRuntimeErrorLogger errorLogger)
+    {
+        this.errorLogger = errorLogger;
+    }
+
     public override UniTask Initialize()
     {
-        Debug.Log("DialogueService Initialize");
         return UniTask.CompletedTask;
     }
 
     public override UniTask Dispose()
     {
-        Debug.Log("DialogueService Dispose");
         return UniTask.CompletedTask;
     }
 
@@ -21,7 +25,9 @@ public class DialogueService : SceneService
 
         if (dialogueManager == null)
         {
-            Debug.LogError("DialogueService.Play called without an active DialogueManager in scene.");
+            errorLogger.LogException(
+                new System.InvalidOperationException("DialogueManager is not active in the current scene."),
+                nameof(DialogueService));
             return;
         }
 

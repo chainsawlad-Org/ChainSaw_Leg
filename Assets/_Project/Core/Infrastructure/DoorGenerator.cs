@@ -72,8 +72,6 @@ public class DoorGenerator : MonoBehaviour
         // Позиционируем
         door.transform.position = transform.position;
 
-        Debug.Log($"Дверь {name} создана! Размер: {widthTiles}x{heightTiles} тайлов");
-        Debug.Log($"Позиция двери: {door.transform.position}");
 #if UNITY_EDITOR
         // Выделяем созданную дверь в сцене
         UnityEditor.Selection.activeGameObject = door;

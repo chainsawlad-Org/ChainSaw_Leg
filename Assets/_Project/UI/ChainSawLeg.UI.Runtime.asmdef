@@ -1,23 +1,20 @@
 {
-    "name": "ChainSawLeg.Project.Tests",
-    "rootNamespace": "",
+    "name": "ChainSawLeg.UI.Runtime",
+    "rootNamespace": "ChainSawLeg.UI",
     "references": [
         "ChainSawLeg.Core.Runtime",
         "ChainSawLeg.Features.Exploration.Runtime",
-        "UniTask"
+        "Zenject",
+        "UniTask",
+        "UnityEngine.UI"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
-    "autoReferenced": false,
+    "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [],
-    "noEngineReferences": false,
-    "optionalUnityReferences": [
-        "TestAssemblies"
-    ]
+    "noEngineReferences": false
 }

@@ -57,7 +57,6 @@ public class BattleManager
         // Пока 1x1
         if (!turnSystem.GetCurrentUnit().IsAlive)
         {
-            Debug.Log("Battle Ended");
 
             IsBattleOver = true;
         }

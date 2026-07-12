@@ -26,6 +26,5 @@ public class CombatResolver
 
     private void ApplyBlock(Unit unit)
     {
-        Debug.Log($"{unit.Id} is blocking");
     }
 }

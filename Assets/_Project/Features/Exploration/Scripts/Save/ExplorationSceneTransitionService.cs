@@ -15,10 +15,11 @@ namespace ChainSawLeg.Features.Exploration.Save
 
         public UniTask ReloadSceneAsync(string sceneId, CancellationToken cancellationToken)
         {
-            if (sceneId != ExplorationSceneIds.World)
-                throw new GameSaveValidationException($"Unknown exploration scene ID: {sceneId}.");
+            string sceneName = ExplorationSceneIds.ResolveSceneName(sceneId);
 
-            return gameStateMachine.ReloadMainAsync<ExplorationPhase>(cancellationToken);
+            return gameStateMachine.ReloadMainAsync<ExplorationPhase>(
+                phase => phase.SetTargetScene(sceneName),
+                cancellationToken);
         }
     }
 }

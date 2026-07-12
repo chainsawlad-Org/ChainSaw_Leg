@@ -1,14 +1,21 @@
 using UnityEngine;
+using Zenject;
 
 public class DialogueInputRouter : MonoBehaviour
 {
-    [SerializeField] private PlayerInputHandler input;
+    private InputService inputService;
+
+    [Inject]
+    public void Construct(InputService inputService)
+    {
+        this.inputService = inputService;
+    }
 
     private void Update()
     {
         DialogueManager dialogueManager = DialogueManager.Instance;
 
-        if (dialogueManager == null || input == null)
+        if (dialogueManager == null || inputService == null)
             return;
 
         if (!dialogueManager.IsActive)
@@ -16,23 +23,23 @@ public class DialogueInputRouter : MonoBehaviour
 
         if (dialogueManager.State == DialogueState.Choosing)
         {
-            if (input.PreviousPressed)
+            if (inputService.PreviousPressed)
             {
-                input.ConsumePrevious();
+                inputService.ConsumePrevious();
                 dialogueManager.SelectPreviousChoice();
             }
 
-            if (input.NextPressed)
+            if (inputService.NextPressed)
             {
-                input.ConsumeNext();
+                inputService.ConsumeNext();
                 dialogueManager.SelectNextChoice();
             }
         }
 
-        if (!input.SubmitPressed)
+        if (!inputService.SubmitPressed)
             return;
 
-        input.ConsumeSubmit();
+        inputService.ConsumeSubmit();
 
         dialogueManager.Submit();
     }

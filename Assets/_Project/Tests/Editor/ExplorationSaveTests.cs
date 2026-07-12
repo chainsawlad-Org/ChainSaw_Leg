@@ -69,6 +69,30 @@ public sealed class ExplorationSaveTests
     }
 
     [Test]
+    public void WorldSceneIdResolvesToWorldSceneName()
+    {
+        Assert.That(
+            ExplorationSceneIds.ResolveSceneName(ExplorationSceneIds.World),
+            Is.EqualTo(SceneNames.World));
+    }
+
+    [Test]
+    public void ExplorationSceneNameCanBeUsedAsSaveSceneId()
+    {
+        const string sceneName = "SC_Hub_School";
+
+        Assert.That(ExplorationSceneIds.ResolveSceneName(sceneName), Is.EqualTo(sceneName));
+    }
+
+    [TestCase(SceneNames.MainMenu)]
+    [TestCase(SceneNames.Persistent)]
+    [TestCase(SceneNames.Battle)]
+    public void NonExplorationSceneIsRejected(string sceneId)
+    {
+        Assert.Throws<GameSaveValidationException>(() => ExplorationSceneIds.ResolveSceneName(sceneId));
+    }
+
+    [Test]
     public void StalePlayerCannotUnregisterNewPlayer()
     {
         var registry = new ExplorationPlayerRegistry();
