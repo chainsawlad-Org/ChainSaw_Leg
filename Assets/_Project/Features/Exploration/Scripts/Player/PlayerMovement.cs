@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        if (dash != null && dash.isDashing)
+        if (dash != null && dash.IsDashing)
             return;
 
         Vector2 move = inputHandler.MoveInput;
@@ -61,5 +61,11 @@ public class PlayerMovement : MonoBehaviour
         float rad = snapped * Mathf.Deg2Rad;
 
         return new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)).normalized;
+    }
+
+    public void ResetMovementState()
+    {
+        if (rb != null)
+            rb.linearVelocity = Vector2.zero;
     }
 }

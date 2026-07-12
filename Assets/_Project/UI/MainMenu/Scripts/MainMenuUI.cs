@@ -1,22 +1,39 @@
+using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
 public class MainMenuUI : MonoBehaviour
 {
     [Inject] private GameStateMachine gameStateMachine;
+    [Inject] private IRuntimeErrorLogger runtimeErrorLogger;
 
-    public async void StartGame()
+    public void StartGame()
     {
-        await gameStateMachine.ReplaceMain<ExplorationPhase>();
+        StartGameAsync(this.GetCancellationTokenOnDestroy()).Forget();
     }
 
     public void ExitGame()
     {
-        Debug.Log("Exit");
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-    Application.Quit();
+        Application.Quit();
 #endif
+    }
+
+    private async UniTask StartGameAsync(System.Threading.CancellationToken cancellationToken)
+    {
+        try
+        {
+            await gameStateMachine.ReplaceMainAsync<ExplorationPhase>(cancellationToken);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+        }
+        catch (Exception exception)
+        {
+            runtimeErrorLogger.LogException(exception, nameof(MainMenuUI));
+        }
     }
 }

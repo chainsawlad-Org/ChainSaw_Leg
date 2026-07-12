@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public class PauseMenuView : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class PauseMenuView : MonoBehaviour
     [SerializeField] private Button savesButton;
     [SerializeField] private Button exitToMainMenuButton;
     [SerializeField] private Button backButton;
+    [SerializeField] private SaveBrowserView saveBrowserView;
+
+    private readonly List<Button> navigationButtons = new();
 
     public event Action ContinueClicked;
     public event Action SavesClicked;
@@ -28,7 +32,8 @@ public class PauseMenuView : MonoBehaviour
         Button continueButton,
         Button savesButton,
         Button exitToMainMenuButton,
-        Button backButton)
+        Button backButton,
+        SaveBrowserView saveBrowserView)
     {
         this.rootPanel = rootPanel;
         this.pausePanel = pausePanel;
@@ -37,6 +42,7 @@ public class PauseMenuView : MonoBehaviour
         this.savesButton = savesButton;
         this.exitToMainMenuButton = exitToMainMenuButton;
         this.backButton = backButton;
+        this.saveBrowserView = saveBrowserView;
 
         ConfigureNavigation();
     }
@@ -111,6 +117,17 @@ public class PauseMenuView : MonoBehaviour
             selectedButton.onClick.Invoke();
     }
 
+    public void SelectFirstSaveButton()
+    {
+        SelectButton(saveBrowserView.GetFirstInteractableButton() ?? backButton);
+    }
+
+    public void SetSaveBrowserInteractionEnabled(bool isEnabled)
+    {
+        backButton.interactable = isEnabled;
+        saveBrowserView.SetInteractionEnabled(isEnabled);
+    }
+
     private void HandleContinueClicked()
     {
         ContinueClicked?.Invoke();
@@ -164,18 +181,29 @@ public class PauseMenuView : MonoBehaviour
     {
         if (saveBrowserPanel.activeSelf)
         {
-            SelectButton(backButton);
+            navigationButtons.Clear();
+            saveBrowserView.AppendInteractableButtons(navigationButtons);
+            navigationButtons.Add(backButton);
+            MoveSelectionWithin(navigationButtons, direction);
             return;
         }
 
-        Button[] buttons = { continueButton, savesButton, exitToMainMenuButton };
+        navigationButtons.Clear();
+        navigationButtons.Add(continueButton);
+        navigationButtons.Add(savesButton);
+        navigationButtons.Add(exitToMainMenuButton);
+        MoveSelectionWithin(navigationButtons, direction);
+    }
+
+    private static void MoveSelectionWithin(List<Button> buttons, int direction)
+    {
         GameObject selectedObject = EventSystem.current != null
             ? EventSystem.current.currentSelectedGameObject
             : null;
-        int currentIndex = Array.FindIndex(buttons, button => button != null && button.gameObject == selectedObject);
+        int currentIndex = buttons.FindIndex(button => button != null && button.gameObject == selectedObject);
         int nextIndex = currentIndex < 0
             ? 0
-            : Mathf.Clamp(currentIndex + direction, 0, buttons.Length - 1);
+            : Mathf.Clamp(currentIndex + direction, 0, buttons.Count - 1);
 
         SelectButton(buttons[nextIndex]);
     }

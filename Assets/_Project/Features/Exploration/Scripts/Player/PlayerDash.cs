@@ -15,7 +15,9 @@ public class PlayerDash : MonoBehaviour
     private float cooldownTimer;
 
     private Vector2 dashDirection;
-    public bool isDashing;
+    [SerializeField] private bool isDashing;
+
+    public bool IsDashing => isDashing;
 
     private void Awake()
     {
@@ -71,5 +73,16 @@ public class PlayerDash : MonoBehaviour
         if (dashTimer <= 0f)
             isDashing = false;
 
+    }
+
+    public void ResetDashState()
+    {
+        isDashing = false;
+        dashTimer = 0f;
+        cooldownTimer = 0f;
+        dashDirection = Vector2.zero;
+
+        if (rb != null)
+            rb.linearVelocity = Vector2.zero;
     }
 }

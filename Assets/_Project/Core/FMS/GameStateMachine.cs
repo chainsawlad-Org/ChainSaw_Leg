@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using System;
+using System.Threading;
 
 public class GameStateMachine
 {
@@ -10,6 +11,8 @@ public class GameStateMachine
     private readonly Stack<OverlayPhase> overlayStack = new();
 
     private SceneGamePhase currentPhase;
+    private bool isMainGameplayInputBlocked;
+    private int mainTransitionState;
 
     public event Action StateChanged;
 
@@ -23,19 +26,68 @@ public class GameStateMachine
         this.gameplayInputBlockService = gameplayInputBlockService;
     }
 
-    public async UniTask ReplaceMain<T>() where T : SceneGamePhase
+    public UniTask ReplaceMain<T>() where T : SceneGamePhase
     {
-        await CloseAllOverlays();
+        return ReplaceMainAsync<T>(CancellationToken.None);
+    }
 
-        if (currentPhase != null)
+    public UniTask ReplaceMainAsync<T>(CancellationToken cancellationToken) where T : SceneGamePhase
+    {
+        return TransitionMainAsync<T>(cancellationToken, forceReload: false);
+    }
+
+    public UniTask ReloadMainAsync<T>(CancellationToken cancellationToken) where T : SceneGamePhase
+    {
+        return TransitionMainAsync<T>(cancellationToken, forceReload: true);
+    }
+
+    private async UniTask TransitionMainAsync<T>(
+        CancellationToken cancellationToken,
+        bool forceReload) where T : SceneGamePhase
+    {
+        if (Interlocked.CompareExchange(ref mainTransitionState, 1, 0) != 0)
+            return;
+
+        SceneGamePhase previousPhase = currentPhase;
+        SceneGamePhase nextPhase = null;
+
+        try
         {
-            await currentPhase.Exit();
+            cancellationToken.ThrowIfCancellationRequested();
+            await CloseAllOverlaysAsync(cancellationToken);
+            gamePauseService.Reset();
+
+            if (previousPhase != null)
+                await previousPhase.Exit();
+
+            cancellationToken.ThrowIfCancellationRequested();
+            nextPhase = phaseFactory.Get<T>();
+
+            if (!nextPhase.AllowsGameplayInput)
+                ApplyMainPhaseInputState(nextPhase);
+
+            if (forceReload)
+                await nextPhase.ReloadAsync(cancellationToken);
+            else
+                await nextPhase.EnterAsync(cancellationToken);
+            currentPhase = nextPhase;
+            ApplyMainPhaseInputState(nextPhase);
+            NotifyStateChanged();
         }
+        catch
+        {
+            ApplyMainPhaseInputState(previousPhase);
+            throw;
+        }
+        finally
+        {
+            Interlocked.Exchange(ref mainTransitionState, 0);
+        }
+    }
 
-        currentPhase = phaseFactory.Get<T>();
-
-        await currentPhase.Enter();
-        NotifyStateChanged();
+    public UniTask CloseAllOverlays()
+    {
+        return CloseAllOverlaysAsync(CancellationToken.None);
     }
 
     public async UniTask PushOverlay<T>() where T : OverlayPhase
@@ -100,10 +152,11 @@ public class GameStateMachine
         await phase.Exit();
     }
 
-    public async UniTask CloseAllOverlays()
+    public async UniTask CloseAllOverlaysAsync(CancellationToken cancellationToken)
     {
         while (overlayStack.Count > 0)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             await PopOverlay();
         }
     }
@@ -159,6 +212,21 @@ public class GameStateMachine
             gamePauseService.AcquirePause();
         else
             gamePauseService.ReleasePause();
+    }
+
+    private void ApplyMainPhaseInputState(SceneGamePhase phase)
+    {
+        bool shouldBlockGameplayInput = phase != null && !phase.AllowsGameplayInput;
+
+        if (shouldBlockGameplayInput == isMainGameplayInputBlocked)
+            return;
+
+        if (shouldBlockGameplayInput)
+            gameplayInputBlockService.AcquireBlock(InputBlockChannels.Gameplay);
+        else
+            gameplayInputBlockService.ReleaseBlock(InputBlockChannels.Gameplay);
+
+        isMainGameplayInputBlocked = shouldBlockGameplayInput;
     }
 
     private void NotifyStateChanged()

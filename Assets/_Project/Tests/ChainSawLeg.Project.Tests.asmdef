@@ -2,7 +2,8 @@
     "name": "ChainSawLeg.Project.Tests",
     "rootNamespace": "",
     "references": [
-        "ChainSawLeg.Project"
+        "ChainSawLeg.Project",
+        "UniTask"
     ],
     "includePlatforms": [
         "Editor"

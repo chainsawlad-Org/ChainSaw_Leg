@@ -1,3 +1,4 @@
+using System.Threading;
 using Cysharp.Threading.Tasks;
 
 public abstract class SceneGamePhase : GamePhase
@@ -10,10 +11,21 @@ public abstract class SceneGamePhase : GamePhase
     }
 
     protected abstract string SceneName { get; }
+    public virtual bool AllowsGameplayInput => true;
 
-    public override async UniTask Enter()
+    public override UniTask Enter()
     {
-        await sceneLoader.SwitchTo(SceneName);
+        return EnterAsync(CancellationToken.None);
+    }
+
+    public async UniTask EnterAsync(CancellationToken cancellationToken)
+    {
+        await sceneLoader.SwitchToAsync(SceneName, cancellationToken);
+    }
+
+    public async UniTask ReloadAsync(CancellationToken cancellationToken)
+    {
+        await sceneLoader.ReloadAsync(SceneName, cancellationToken);
     }
 
     public override UniTask Exit()
