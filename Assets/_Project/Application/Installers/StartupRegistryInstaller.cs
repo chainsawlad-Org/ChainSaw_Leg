@@ -11,7 +11,7 @@ public class StartupRegistryInstaller : IInitializable
 
     public void Initialize()
     {
-        registry.Regiseter<MainMenuPhase>(SceneNames.MainMenu);
-        registry.Regiseter<ExplorationPhase>(SceneNames.World);
+        registry.Register<MainMenuPhase>(SceneNames.MainMenu);
+        registry.Register<ExplorationPhase>(SceneNames.World);
     }
 }

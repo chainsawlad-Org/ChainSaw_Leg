@@ -23,7 +23,15 @@ public class ProjectInstaller : MonoInstaller
             .AsSingle()
             .NonLazy();
 
-        // Container.Bind<StartupPhaseRegistry>()
-        //     .AsSingle();
+        Container.Bind<IBootstrapRunner>()
+            .To<BootstrapRunner>()
+            .AsSingle();
+
+        Container.Bind<StartupPhaseRegistry>()
+            .AsSingle();
+
+        Container.Bind<IStartupResolver>()
+            .To<StartupResolver>()
+            .AsSingle();
     }
 }
