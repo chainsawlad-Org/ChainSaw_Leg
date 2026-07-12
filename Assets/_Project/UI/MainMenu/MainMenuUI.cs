@@ -5,8 +5,17 @@ using Zenject;
 
 public class MainMenuUI : MonoBehaviour
 {
-    [Inject] private GameStateMachine gameStateMachine;
-    [Inject] private IRuntimeErrorLogger runtimeErrorLogger;
+    private GameStateMachine gameStateMachine;
+    private IRuntimeErrorLogger runtimeErrorLogger;
+
+    [Inject]
+    public void Construct(
+        GameStateMachine gameStateMachine,
+        IRuntimeErrorLogger runtimeErrorLogger)
+    {
+        this.gameStateMachine = gameStateMachine;
+        this.runtimeErrorLogger = runtimeErrorLogger;
+    }
 
     public void StartGame()
     {

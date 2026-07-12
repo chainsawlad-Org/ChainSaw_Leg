@@ -145,6 +145,11 @@ public class PauseMenuExitTransitionTests
         {
             return (T)phases[typeof(T)];
         }
+
+        public GamePhase Get(Type phaseType)
+        {
+            return phases[phaseType];
+        }
     }
 
     private sealed class FakeSceneLoader : ISceneLoader

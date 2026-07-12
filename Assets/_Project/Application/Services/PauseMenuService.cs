@@ -1,17 +1,23 @@
 using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 
-public class PauseMenuService
+public class PauseMenuService : IPauseRequestHandler
 {
     private readonly GameStateMachine gameStateMachine;
     private readonly ISceneLoader sceneLoader;
+    private readonly IRuntimeErrorLogger errorLogger;
+
+    private int toggleState;
 
     public PauseMenuService(
         GameStateMachine gameStateMachine,
-        ISceneLoader sceneLoader)
+        ISceneLoader sceneLoader,
+        IRuntimeErrorLogger errorLogger)
     {
         this.gameStateMachine = gameStateMachine;
         this.sceneLoader = sceneLoader;
+        this.errorLogger = errorLogger;
     }
 
     public event Action PauseRequested;
@@ -21,8 +27,10 @@ public class PauseMenuService
         if (!CanHandlePauseRequest())
             return;
 
-        PauseRequested?.Invoke();
-        TogglePauseMenu().Forget();
+        if (Interlocked.CompareExchange(ref toggleState, 1, 0) != 0)
+            return;
+
+        HandlePauseRequestAsync().Forget();
     }
 
     private bool CanHandlePauseRequest()
@@ -49,7 +57,24 @@ public class PauseMenuService
         return currentMainPhase is not MainMenuPhase;
     }
 
-    private async UniTaskVoid TogglePauseMenu()
+    private async UniTask HandlePauseRequestAsync()
+    {
+        try
+        {
+            PauseRequested?.Invoke();
+            await TogglePauseMenuAsync();
+        }
+        catch (Exception exception)
+        {
+            errorLogger.LogException(exception, nameof(PauseMenuService));
+        }
+        finally
+        {
+            Interlocked.Exchange(ref toggleState, 0);
+        }
+    }
+
+    private async UniTask TogglePauseMenuAsync()
     {
         if (gameStateMachine.IsTopOverlay<SaveBrowserPhase>())
         {

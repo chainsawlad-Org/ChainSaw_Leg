@@ -84,16 +84,14 @@ namespace ChainSawLeg.Features.Exploration.Save
                     saveData,
                     ExplorationSaveContributor.Id);
 
-                return new GameSaveCatalogEntry
-                {
-                    Kind = slot.Metadata.Kind,
-                    SlotId = slot.SlotId,
-                    CheckpointId = explorationData.CheckpointId,
-                    SceneId = explorationData.SceneId,
-                    SceneName = GetSceneName(explorationData.SceneId),
-                    UtcTimestamp = slot.Metadata.UtcTimestamp,
-                    IsLoadable = true
-                };
+                return new GameSaveCatalogEntry(
+                    slot.Metadata.Kind,
+                    slot.SlotId,
+                    explorationData.CheckpointId,
+                    explorationData.SceneId,
+                    GetSceneName(explorationData.SceneId),
+                    slot.Metadata.UtcTimestamp,
+                    isLoadable: true);
             }
             catch (GameSaveException)
             {
@@ -110,31 +108,27 @@ namespace ChainSawLeg.Features.Exploration.Save
 
         private static GameSaveCatalogEntry CreateEmptyEntry(string slotId)
         {
-            return new GameSaveCatalogEntry
-            {
-                Kind = GameSaveKind.Checkpoint,
-                SlotId = slotId,
-                CheckpointId = null,
-                SceneId = string.Empty,
-                SceneName = "—",
-                UtcTimestamp = DateTime.MinValue,
-                IsLoadable = false,
-                IsEmpty = true
-            };
+            return new GameSaveCatalogEntry(
+                GameSaveKind.Checkpoint,
+                slotId,
+                checkpointId: null,
+                sceneId: string.Empty,
+                sceneName: "—",
+                utcTimestamp: DateTime.MinValue,
+                isLoadable: false,
+                isEmpty: true);
         }
 
         private static GameSaveCatalogEntry CreateCorruptedEntry(string slotId)
         {
-            return new GameSaveCatalogEntry
-            {
-                Kind = GameSaveKind.Checkpoint,
-                SlotId = slotId,
-                CheckpointId = "Повреждено",
-                SceneId = string.Empty,
-                SceneName = "—",
-                UtcTimestamp = DateTime.MinValue,
-                IsLoadable = false
-            };
+            return new GameSaveCatalogEntry(
+                GameSaveKind.Checkpoint,
+                slotId,
+                checkpointId: "Повреждено",
+                sceneId: string.Empty,
+                sceneName: "—",
+                utcTimestamp: DateTime.MinValue,
+                isLoadable: false);
         }
 
         private static string GetSceneName(string sceneId)

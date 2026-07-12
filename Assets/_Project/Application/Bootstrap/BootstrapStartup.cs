@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 using Zenject;
 
 public class BootstrapStartup : IInitializable, IDisposable
@@ -20,8 +19,6 @@ public class BootstrapStartup : IInitializable, IDisposable
 
     public void Initialize()
     {
-        Debug.Log("========== Bootstrap Initialize ==========");
-
         RunAsync(lifetimeCancellation.Token).Forget();
     }
 

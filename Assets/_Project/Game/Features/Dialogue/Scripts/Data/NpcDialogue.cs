@@ -1,42 +1,65 @@
+using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
 public class NpcDialogue : MonoBehaviour, IInteractable
 {
-    [Inject] private GameStateMachine gameStateMachine;
+    private GameStateMachine gameStateMachine;
+    private DialogueRuntimeRegistry runtimeRegistry;
+    private IRuntimeErrorLogger errorLogger;
+
+    [Inject]
+    public void Construct(
+        GameStateMachine gameStateMachine,
+        DialogueRuntimeRegistry runtimeRegistry,
+        IRuntimeErrorLogger errorLogger)
+    {
+        this.gameStateMachine = gameStateMachine;
+        this.runtimeRegistry = runtimeRegistry;
+        this.errorLogger = errorLogger;
+    }
 
     public string GetInteractionPrompt() => "Press [E] to talk";
 
     public bool CanInteract()
     {
-        DialogueManager dialogueManager = DialogueManager.Instance;
+        DialogueManager dialogueManager = runtimeRegistry.Current;
         return dialogueManager != null && !dialogueManager.IsActive;
     }
 
     public void Interact()
     {
-        if (DialogueManager.Instance == null)
+        if (!CanInteract())
             return;
 
-        StartDialogue().Forget();
+        StartDialogue(destroyCancellationToken).Forget();
     }
 
-    private async UniTask StartDialogue()
+    private async UniTask StartDialogue(System.Threading.CancellationToken cancellationToken)
     {
-        var events = DialogueLibrary.TestDialogue();
-
-        await gameStateMachine.PushOverlay<DialoguePhase>(phase =>
+        try
         {
-            phase.Configure(new DialogueRequest
-            {
-                Events = events,
-                Type = DialogueType.RPG,
-                Speaker = transform
-            });
-        });
+            var events = DialogueLibrary.TestDialogue();
 
-        if (gameStateMachine.IsTopOverlay<DialoguePhase>())
-            await gameStateMachine.PopOverlay();
+            await gameStateMachine.PushOverlay<DialoguePhase>(phase =>
+            {
+                phase.Configure(new DialogueRequest(
+                    events,
+                    DialogueType.RPG,
+                    transform,
+                    cancellationToken));
+            });
+
+            if (gameStateMachine.IsTopOverlay<DialoguePhase>())
+                await gameStateMachine.PopOverlay();
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+        }
+        catch (Exception exception)
+        {
+            errorLogger.LogException(exception, nameof(NpcDialogue));
+        }
     }
 }

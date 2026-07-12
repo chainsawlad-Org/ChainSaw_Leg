@@ -1,0 +1,21 @@
+{
+    "name": "ChainSawLeg.Coordination.Runtime",
+    "rootNamespace": "ChainSawLeg.Coordination",
+    "references": [
+        "ChainSawLeg.Application.Runtime",
+        "ChainSawLeg.Infrastructure.Runtime",
+        "ChainSawLeg.Features.Exploration.Runtime",
+        "ChainSawLeg.UI.Runtime",
+        "Zenject",
+        "UniTask"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

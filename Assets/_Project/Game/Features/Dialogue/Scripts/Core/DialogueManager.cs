@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Zenject;
 
 public class DialogueManager : MonoBehaviour
 {
-    public static DialogueManager Instance;
-
     public event Action DialogueFinished;
 
     [Header("UI")]
@@ -19,6 +18,7 @@ public class DialogueManager : MonoBehaviour
     private Transform currentSpeaker;
     private Coroutine typingCoroutine;
     private bool isTyping;
+    private DialogueRuntimeRegistry runtimeRegistry;
 
     public DialogueState State { get; private set; } = DialogueState.Idle;
     public bool IsActive => State != DialogueState.Idle;
@@ -28,18 +28,20 @@ public class DialogueManager : MonoBehaviour
         State != DialogueState.Idle &&
         (currentType == DialogueType.RPG || currentType == DialogueType.Cutscene);
 
-    private void Awake()
+    [Inject]
+    public void Construct(DialogueRuntimeRegistry runtimeRegistry)
     {
-        Instance = this;
+        this.runtimeRegistry = runtimeRegistry;
+        rpgUI.SetDialogueManager(this);
+        runtimeRegistry.Register(this);
     }
 
     private void OnDestroy()
     {
-        if (Instance == this)
-            Instance = null;
+        runtimeRegistry?.Unregister(this);
     }
 
-    public void StartDialogue(List<IDialogueEvent> events, DialogueType type, Transform speaker = null)
+    public void StartDialogue(IReadOnlyList<IDialogueEvent> events, DialogueType type, Transform speaker = null)
     {
         eventQueue.Clear();
 

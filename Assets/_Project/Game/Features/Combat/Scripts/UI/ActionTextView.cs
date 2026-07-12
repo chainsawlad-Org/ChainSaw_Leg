@@ -1,21 +1,36 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using Zenject;
 
 public class ActionTextView : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI text;
+    [SerializeField] private TextMeshProUGUI text;
 
-    public Unit targetUnit;
+    private CombatEventBus eventBus;
+    private Unit targetUnit;
+    private bool isSubscribed;
+
+    [Inject]
+    public void Construct(CombatEventBus eventBus)
+    {
+        this.eventBus = eventBus;
+        Subscribe();
+    }
+
+    public void Bind(Unit unit)
+    {
+        targetUnit = unit;
+    }
 
     private void OnEnable()
     {
-        BattleEvents.OnActionPerfomed += OnAction;
+        Subscribe();
     }
 
     private void OnDisable()
     {
-        BattleEvents.OnActionPerfomed -= OnAction;
+        Unsubscribe();
     }
 
     private void OnAction(Unit unit, ActionType action)
@@ -34,5 +49,23 @@ public class ActionTextView : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         text.gameObject.SetActive(false);
+    }
+
+    private void Subscribe()
+    {
+        if (isSubscribed || eventBus == null)
+            return;
+
+        eventBus.ActionPerformed += OnAction;
+        isSubscribed = true;
+    }
+
+    private void Unsubscribe()
+    {
+        if (!isSubscribed)
+            return;
+
+        eventBus.ActionPerformed -= OnAction;
+        isSubscribed = false;
     }
 }

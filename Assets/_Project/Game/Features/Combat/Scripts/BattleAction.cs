@@ -1,8 +1,8 @@
-public class BattleAction
+public sealed class BattleAction
 {
-    public Unit Actor;
-    public Unit Target;
-    public ActionType Type;
+    public Unit Actor { get; }
+    public Unit Target { get; }
+    public ActionType Type { get; }
 
     public BattleAction(Unit actor, Unit target, ActionType type)
     {

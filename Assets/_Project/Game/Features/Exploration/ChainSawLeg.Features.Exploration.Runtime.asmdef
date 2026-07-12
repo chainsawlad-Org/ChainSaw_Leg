@@ -2,7 +2,9 @@
     "name": "ChainSawLeg.Features.Exploration.Runtime",
     "rootNamespace": "ChainSawLeg.Features.Exploration",
     "references": [
-        "ChainSawLeg.Core.Runtime",
+        "ChainSawLeg.Application.Runtime",
+        "ChainSawLeg.Infrastructure.Runtime",
+        "ChainSawLeg.Game.Shared.Runtime",
         "Zenject",
         "UniTask",
         "UnityEngine.UI",

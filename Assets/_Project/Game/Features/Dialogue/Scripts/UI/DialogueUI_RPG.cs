@@ -12,8 +12,6 @@ public class DialogueUI_RPG : MonoBehaviour
     private static readonly Color ChoiceSelectedColor = new Color(0.67f, 0.82f, 1f, 1f);
     private static readonly Color ChoiceOutlineColor = new Color(0.16f, 0.44f, 0.82f, 1f);
 
-    public static DialogueUI_RPG Instance;
-
     [Header("Root")]
     [SerializeField] private GameObject root;
 
@@ -31,11 +29,16 @@ public class DialogueUI_RPG : MonoBehaviour
     private readonly List<Outline> activeChoiceOutlines = new();
     private List<DialogueChoice> activeChoices;
     private int selectedChoiceIndex = -1;
+    private DialogueManager dialogueManager;
 
     private void Awake()
     {
-        Instance = this;
         root.SetActive(false);
+    }
+
+    public void SetDialogueManager(DialogueManager manager)
+    {
+        dialogueManager = manager;
     }
 
     public void ShowRoot()
@@ -68,7 +71,7 @@ public class DialogueUI_RPG : MonoBehaviour
             btn.onClick.AddListener(() =>
             {
                 SelectChoice(index);
-                DialogueManager.Instance.Choose(index, activeChoices);
+                dialogueManager?.Choose(index, activeChoices);
             });
 
             activeChoiceButtons.Add(btn);
@@ -125,7 +128,7 @@ public class DialogueUI_RPG : MonoBehaviour
         if (selectedChoiceIndex < 0)
             SelectChoice(0);
 
-        DialogueManager.Instance.Choose(selectedChoiceIndex, activeChoices);
+        dialogueManager?.Choose(selectedChoiceIndex, activeChoices);
     }
 
     private void SelectChoice(int index)

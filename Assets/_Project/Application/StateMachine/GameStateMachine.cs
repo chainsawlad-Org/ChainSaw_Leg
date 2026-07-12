@@ -33,25 +33,37 @@ public class GameStateMachine
 
     public UniTask ReplaceMainAsync<T>(CancellationToken cancellationToken) where T : SceneGamePhase
     {
-        return TransitionMainAsync<T>(null, cancellationToken, forceReload: false);
+        return TransitionMainAsync(typeof(T), null, cancellationToken, forceReload: false);
+    }
+
+    public UniTask ReplaceMainAsync(Type phaseType, CancellationToken cancellationToken)
+    {
+        return TransitionMainAsync(phaseType, null, cancellationToken, forceReload: false);
     }
 
     public UniTask ReloadMainAsync<T>(CancellationToken cancellationToken) where T : SceneGamePhase
     {
-        return TransitionMainAsync<T>(null, cancellationToken, forceReload: true);
+        return TransitionMainAsync(typeof(T), null, cancellationToken, forceReload: true);
     }
 
     public UniTask ReloadMainAsync<T>(Action<T> configure, CancellationToken cancellationToken)
         where T : SceneGamePhase
     {
-        return TransitionMainAsync(configure, cancellationToken, forceReload: true);
+        return TransitionMainAsync(typeof(T), phase => configure?.Invoke((T)phase), cancellationToken, forceReload: true);
     }
 
-    private async UniTask TransitionMainAsync<T>(
-        Action<T> configure,
+    private async UniTask TransitionMainAsync(
+        Type phaseType,
+        Action<SceneGamePhase> configure,
         CancellationToken cancellationToken,
-        bool forceReload) where T : SceneGamePhase
+        bool forceReload)
     {
+        if (phaseType == null)
+            throw new ArgumentNullException(nameof(phaseType));
+
+        if (!typeof(SceneGamePhase).IsAssignableFrom(phaseType))
+            throw new ArgumentException($"Type {phaseType.FullName} is not a scene game phase.", nameof(phaseType));
+
         if (Interlocked.CompareExchange(ref mainTransitionState, 1, 0) != 0)
             return;
 
@@ -68,8 +80,8 @@ public class GameStateMachine
                 await previousPhase.Exit();
 
             cancellationToken.ThrowIfCancellationRequested();
-            nextPhase = phaseFactory.Get<T>();
-            configure?.Invoke((T)nextPhase);
+            nextPhase = (SceneGamePhase)phaseFactory.Get(phaseType);
+            configure?.Invoke(nextPhase);
 
             if (!nextPhase.AllowsGameplayInput)
                 ApplyMainPhaseInputState(nextPhase);
@@ -115,9 +127,7 @@ public class GameStateMachine
         }
         catch
         {
-            overlayStack.Pop();
-            ApplyOverlayState(phase, isActive: false);
-            NotifyStateChanged();
+            RollbackFailedOverlay(phase);
             throw;
         }
     }
@@ -141,9 +151,7 @@ public class GameStateMachine
         }
         catch
         {
-            overlayStack.Pop();
-            ApplyOverlayState(phase, isActive: false);
-            NotifyStateChanged();
+            RollbackFailedOverlay(phase);
             throw;
         }
     }
@@ -201,6 +209,16 @@ public class GameStateMachine
         }
 
         return true;
+    }
+
+    private void RollbackFailedOverlay(OverlayPhase phase)
+    {
+        if (overlayStack.Count == 0 || !ReferenceEquals(overlayStack.Peek(), phase))
+            return;
+
+        overlayStack.Pop();
+        ApplyOverlayState(phase, isActive: false);
+        NotifyStateChanged();
     }
 
     private void ApplyOverlayState(OverlayPhase phase, bool isActive)

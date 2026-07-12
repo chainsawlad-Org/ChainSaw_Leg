@@ -10,7 +10,7 @@ namespace ChainSawLeg.Features.Exploration.Save
     public sealed class ExplorationCheckpointTrigger : MonoBehaviour, IInteractable
     {
         [SerializeField] private string checkpointId;
-        [SerializeField] private string interactionPrompt = "Нажмите E, чтобы сохраниться";
+        [SerializeField] private string interactionPrompt = "Нажмите E для сохранения";
 
         private Collider2D triggerCollider;
         private CheckpointSaveFeedbackView feedbackView;

@@ -1,0 +1,19 @@
+{
+    "name": "ChainSawLeg.Application.Editor",
+    "rootNamespace": "ChainSawLeg.Application.Editor",
+    "references": [
+        "ChainSawLeg.Application.Runtime",
+        "ChainSawLeg.Infrastructure.Runtime"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

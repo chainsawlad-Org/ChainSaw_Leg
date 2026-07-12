@@ -2,8 +2,13 @@
     "name": "ChainSawLeg.Project.Tests",
     "rootNamespace": "",
     "references": [
-        "ChainSawLeg.Core.Runtime",
+        "ChainSawLeg.Application.Runtime",
+        "ChainSawLeg.Infrastructure.Runtime",
+        "ChainSawLeg.Game.Shared.Runtime",
+        "ChainSawLeg.Features.Combat.Runtime",
+        "ChainSawLeg.Features.Dialogue.Runtime",
         "ChainSawLeg.Features.Exploration.Runtime",
+        "Zenject",
         "UniTask"
     ],
     "includePlatforms": [

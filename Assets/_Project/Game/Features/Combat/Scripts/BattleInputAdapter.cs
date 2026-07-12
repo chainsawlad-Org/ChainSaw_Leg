@@ -4,35 +4,37 @@ using Zenject;
 public class BattleInputAdapter : MonoBehaviour
 {
     private InputService inputService;
+    private PlayerActionController playerController;
 
     [Inject]
-    public void Construct(InputService inputService)
+    public void Construct(
+        InputService inputService,
+        PlayerActionController playerController)
     {
         this.inputService = inputService;
+        this.playerController = playerController;
     }
 
     private void Update()
     {
-        var controller = BattleContext.PlayerController;
-
-        if (controller == null || inputService == null)
+        if (inputService == null)
             return;
 
         if (inputService.SubmitPressed)
         {
-            controller.SelectAction(ActionType.Attack);
+            playerController.SelectAction(ActionType.Attack);
             inputService.ConsumeSubmit();
         }
 
         if (inputService.InteractPressed)
         {
-            controller.SelectAction(ActionType.Heal);
+            playerController.SelectAction(ActionType.Heal);
             inputService.ConsumeInteract();
         }
 
         if (inputService.DashPressed)
         {
-            controller.SelectAction(ActionType.Block);
+            playerController.SelectAction(ActionType.Block);
             inputService.ConsumeDash();
         }
     }

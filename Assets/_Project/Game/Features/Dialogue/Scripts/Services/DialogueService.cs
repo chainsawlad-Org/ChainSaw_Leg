@@ -1,12 +1,18 @@
+using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 
 public class DialogueService : SceneService
 {
     private readonly IRuntimeErrorLogger errorLogger;
+    private readonly DialogueRuntimeRegistry runtimeRegistry;
 
-    public DialogueService(IRuntimeErrorLogger errorLogger)
+    public DialogueService(
+        IRuntimeErrorLogger errorLogger,
+        DialogueRuntimeRegistry runtimeRegistry)
     {
         this.errorLogger = errorLogger;
+        this.runtimeRegistry = runtimeRegistry;
     }
 
     public override UniTask Initialize()
@@ -19,35 +25,52 @@ public class DialogueService : SceneService
         return UniTask.CompletedTask;
     }
 
-    public async UniTask Play(DialogueRequest request)
+    public async UniTask Play(DialogueRequest request, CancellationToken cancellationToken)
     {
-        DialogueManager dialogueManager = DialogueManager.Instance;
+        if (request == null)
+            throw new ArgumentNullException(nameof(request));
+
+        cancellationToken.ThrowIfCancellationRequested();
+        DialogueManager dialogueManager = runtimeRegistry.Current;
 
         if (dialogueManager == null)
         {
-            errorLogger.LogException(
-                new System.InvalidOperationException("DialogueManager is not active in the current scene."),
-                nameof(DialogueService));
-            return;
+            var exception = new InvalidOperationException("DialogueManager is not active in the current scene.");
+            errorLogger.LogException(exception, nameof(DialogueService));
+            throw exception;
         }
 
         var completion = new UniTaskCompletionSource();
 
         void Finished()
         {
-            if (DialogueManager.Instance != null)
-                DialogueManager.Instance.DialogueFinished -= Finished;
-
             completion.TrySetResult();
         }
 
+        void ManagerUnregistered(DialogueManager manager)
+        {
+            if (manager == dialogueManager)
+                completion.TrySetCanceled(cancellationToken);
+        }
+
         dialogueManager.DialogueFinished += Finished;
+        runtimeRegistry.ManagerUnregistered += ManagerUnregistered;
+        using CancellationTokenRegistration registration = cancellationToken.Register(
+            () => completion.TrySetCanceled(cancellationToken));
 
-        dialogueManager.StartDialogue(
-            request.Events,
-            request.Type,
-            request.Speaker);
+        try
+        {
+            dialogueManager.StartDialogue(
+                request.Events,
+                request.Type,
+                request.Speaker);
 
-        await completion.Task;
+            await completion.Task;
+        }
+        finally
+        {
+            dialogueManager.DialogueFinished -= Finished;
+            runtimeRegistry.ManagerUnregistered -= ManagerUnregistered;
+        }
     }
 }

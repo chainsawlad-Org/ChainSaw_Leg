@@ -11,12 +11,18 @@ public class ProjectInstaller : MonoInstaller
             .To<SceneLoader>()
             .AsSingle();
 
+        Container.Bind<IActiveSceneProvider>()
+            .To<UnityActiveSceneProvider>()
+            .AsSingle();
+
         Container.Bind<IPhaseFactory>()
             .To<PhaseFactory>()
             .AsSingle();
 
         PhaseInstaller.Install(Container);
         ServiceInstaller.Install(Container);
+        DialogueInstaller.Install(Container);
+        ExplorationInstaller.Install(Container);
 
         Container.Bind<IBootstrapRunner>()
             .To<BootstrapRunner>()
@@ -33,8 +39,12 @@ public class ProjectInstaller : MonoInstaller
             .AsSingle()
             .NonLazy();
 
+        Container.BindExecutionOrder<StartupRegistryInstaller>(-100);
+
         Container.BindInterfacesAndSelfTo<BootstrapStartup>()
             .AsSingle()
             .NonLazy();
+
+        Container.BindExecutionOrder<BootstrapStartup>(100);
     }
 }

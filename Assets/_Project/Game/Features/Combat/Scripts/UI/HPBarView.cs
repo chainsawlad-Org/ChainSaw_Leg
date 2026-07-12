@@ -11,7 +11,7 @@ public class HPBarView : MonoBehaviour
     {
         this.unit = unit;
 
-        unit.OnHPChanged += UpdateBar;
+        unit.HpChanged += UpdateBar;
 
         UpdateBar(unit.CurrentHP, unit.MaxHP);
     }
@@ -24,6 +24,6 @@ public class HPBarView : MonoBehaviour
     private void OnDestroy()
     {
         if (unit != null)
-            unit.OnHPChanged -= UpdateBar;
+            unit.HpChanged -= UpdateBar;
     }
 }

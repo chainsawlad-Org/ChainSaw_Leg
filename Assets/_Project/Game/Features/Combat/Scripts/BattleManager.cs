@@ -54,11 +54,6 @@ public class BattleManager
 
     private void CheckBattleEnd()
     {
-        // Пока 1x1
-        if (!turnSystem.GetCurrentUnit().IsAlive)
-        {
-
-            IsBattleOver = true;
-        }
+        IsBattleOver = turnSystem.IsBattleOver();
     }
 }

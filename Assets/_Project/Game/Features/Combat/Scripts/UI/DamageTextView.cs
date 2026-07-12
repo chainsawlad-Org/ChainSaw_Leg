@@ -1,24 +1,39 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using Zenject;
 
 public class DamageTextView : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI text;
 
-    public Unit targetUnit;
+    private CombatEventBus eventBus;
+    private Unit targetUnit;
+    private bool isSubscribed;
+
+    [Inject]
+    public void Construct(CombatEventBus eventBus)
+    {
+        this.eventBus = eventBus;
+        Subscribe();
+    }
+
+    public void Bind(Unit unit)
+    {
+        targetUnit = unit;
+    }
 
     private void OnEnable()
     {
-        BattleEvents.OnHPChangedVisual += OnHPChanged;
+        Subscribe();
     }
 
     private void OnDisable()
     {
-        BattleEvents.OnHPChangedVisual -= OnHPChanged;
+        Unsubscribe();
     }
 
-    private void OnHPChanged(Unit unit, int value)
+    private void OnHpVisualChanged(Unit unit, int value)
     {
         if (unit != targetUnit) return;
 
@@ -34,5 +49,23 @@ public class DamageTextView : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         text.gameObject.SetActive(false);
+    }
+
+    private void Subscribe()
+    {
+        if (isSubscribed || eventBus == null)
+            return;
+
+        eventBus.HpVisualChanged += OnHpVisualChanged;
+        isSubscribed = true;
+    }
+
+    private void Unsubscribe()
+    {
+        if (!isSubscribed)
+            return;
+
+        eventBus.HpVisualChanged -= OnHpVisualChanged;
+        isSubscribed = false;
     }
 }

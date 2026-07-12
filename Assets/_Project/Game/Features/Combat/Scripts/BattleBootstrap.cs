@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -5,26 +6,36 @@ using Zenject;
 
 public class BattleBootstrap : MonoBehaviour
 {
-    [Inject] private GameStateMachine gameStateMachine;
+    [SerializeField] private HPBarView playerHPBar;
+    [SerializeField] private HPBarView enemyHPBar;
+    [SerializeField] private ActionTextView playerTextView;
+    [SerializeField] private ActionTextView enemyTextView;
+    [SerializeField] private DamageTextView playerDamageView;
+    [SerializeField] private DamageTextView enemyDamageView;
 
-    public static BattleBootstrap Instance { get; private set; }
-
-    public BattleManager Manager => battleManager;
-
-    public HPBarView playerHPBar;
-    public HPBarView enemyHPBar;
-    public ActionTextView playerTextView;
-    public ActionTextView enemyTextView;
-    public DamageTextView playerDamageView;
-    public DamageTextView enemyDamageView;
+    private GameStateMachine gameStateMachine;
+    private PlayerActionController playerController;
+    private CombatResolver resolver;
+    private SimpleAI ai;
+    private IRuntimeErrorLogger errorLogger;
 
     private BattleManager battleManager;
     private float timer;
     private bool returnedToExploration;
 
-    private void Awake()
+    [Inject]
+    public void Construct(
+        GameStateMachine gameStateMachine,
+        PlayerActionController playerController,
+        CombatResolver resolver,
+        SimpleAI ai,
+        IRuntimeErrorLogger errorLogger)
     {
-        Instance = this;
+        this.gameStateMachine = gameStateMachine;
+        this.playerController = playerController;
+        this.resolver = resolver;
+        this.ai = ai;
+        this.errorLogger = errorLogger;
     }
 
     private void Start()
@@ -36,27 +47,21 @@ public class BattleBootstrap : MonoBehaviour
         playerHPBar.Bind(player);
         enemyHPBar.Bind(enemy);
 
-        playerTextView.targetUnit = player;
-        enemyTextView.targetUnit = enemy;
+        playerTextView.Bind(player);
+        enemyTextView.Bind(enemy);
 
-        playerDamageView.targetUnit = player;
-        enemyDamageView.targetUnit = enemy;
+        playerDamageView.Bind(player);
+        enemyDamageView.Bind(enemy);
 
         var playerTeam = new List<Unit> { player };
         var enemyTeam = new List<Unit> { enemy };
 
         var turnSystem = new TurnSystem(playerTeam, enemyTeam);
-        var resolver = new CombatResolver();
-        var ai = new SimpleAI();
-
-        var controller = new PlayerActionController();
-        BattleContext.PlayerController = controller;
-
         battleManager = new BattleManager(
             turnSystem,
             resolver,
             ai,
-            controller);
+            playerController);
     }
 
     private void Update()
@@ -72,18 +77,25 @@ public class BattleBootstrap : MonoBehaviour
 
         if (battleManager != null && battleManager.IsBattleOver)
         {
-            ReturnToExploration().Forget();
+            ReturnToExplorationAsync().Forget();
         }
     }
 
-    private async UniTaskVoid ReturnToExploration()
+    private async UniTask ReturnToExplorationAsync()
     {
         if (returnedToExploration)
             return;
 
         returnedToExploration = true;
 
-
-        await gameStateMachine.ReplaceMain<ExplorationPhase>();
+        try
+        {
+            await gameStateMachine.ReplaceMain<ExplorationPhase>();
+        }
+        catch (Exception exception)
+        {
+            returnedToExploration = false;
+            errorLogger.LogException(exception, nameof(BattleBootstrap));
+        }
     }
 }

@@ -1,11 +1,19 @@
 using UnityEngine;
+using Zenject;
 
 public class ActionButton : MonoBehaviour
 {
-    public ActionType actionType;
+    [SerializeField] private ActionType actionType;
+    private PlayerActionController playerController;
+
+    [Inject]
+    public void Construct(PlayerActionController playerController)
+    {
+        this.playerController = playerController;
+    }
 
     public void OnClick()
     {
-        BattleContext.PlayerController.SelectAction(actionType);
+        playerController.SelectAction(actionType);
     }
 }

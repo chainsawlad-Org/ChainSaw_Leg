@@ -4,16 +4,20 @@ using Zenject;
 public class DialogueInputRouter : MonoBehaviour
 {
     private InputService inputService;
+    private DialogueRuntimeRegistry runtimeRegistry;
 
     [Inject]
-    public void Construct(InputService inputService)
+    public void Construct(
+        InputService inputService,
+        DialogueRuntimeRegistry runtimeRegistry)
     {
         this.inputService = inputService;
+        this.runtimeRegistry = runtimeRegistry;
     }
 
     private void Update()
     {
-        DialogueManager dialogueManager = DialogueManager.Instance;
+        DialogueManager dialogueManager = runtimeRegistry.Current;
 
         if (dialogueManager == null || inputService == null)
             return;

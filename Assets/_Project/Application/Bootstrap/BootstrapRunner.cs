@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 public class BootstrapRunner : IBootstrapRunner
 {
@@ -21,28 +20,9 @@ public class BootstrapRunner : IBootstrapRunner
 
     public async UniTask Run(CancellationToken cancellationToken)
     {
-        Debug.Log("Bootstrap: Run started");
-
         await sceneLoader.LoadAdditiveAsync(SceneNames.Persistent, cancellationToken);
 
         Type startupPhase = startupResolver.Resolve();
-
-        if (startupPhase == typeof(ExplorationPhase))
-        {
-            sceneLoader.SetCurrentScene(SceneNames.World);
-
-            await gameStateMachine.ReplaceMainAsync<ExplorationPhase>(cancellationToken);
-
-            return;
-        }
-
-        if (startupPhase == typeof(BattlePhase))
-        {
-            sceneLoader.SetCurrentScene(SceneNames.Battle);
-
-            return;
-        }
-
-        await gameStateMachine.ReplaceMainAsync<MainMenuPhase>(cancellationToken);
+        await gameStateMachine.ReplaceMainAsync(startupPhase, cancellationToken);
     }
 }
