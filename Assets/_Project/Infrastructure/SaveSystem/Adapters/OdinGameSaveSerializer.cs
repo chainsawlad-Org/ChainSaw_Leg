@@ -1,5 +1,3 @@
-// Placement: Docs/Ru/01_Architecture.md:71-83. Quote: "- Save System".
-
 using System;
 using OdinSerializer;
 
@@ -19,10 +17,13 @@ namespace ChainSawLeg.Core.SaveSystem
                 if (value == null || expectedType == null || !expectedType.IsInstanceOfType(value))
                     throw new InvalidOperationException("Value does not match the expected save DTO type.");
 
+                var context = new SerializationContext();
+                context.Config.SerializationPolicy = SerializationPolicies.Everything;
+
                 return SerializationUtility.SerializeValueWeak(
                     value,
                     DataFormat.Binary,
-                    (SerializationContext)null);
+                    context);
             }
             catch (Exception exception) when (exception is not GameSaveSerializationException)
             {
@@ -42,10 +43,13 @@ namespace ChainSawLeg.Core.SaveSystem
                 if (data == null || data.Length == 0)
                     throw new InvalidOperationException("Serialized game save data is empty.");
 
+                var context = new DeserializationContext();
+                context.Config.SerializationPolicy = SerializationPolicies.Everything;
+
                 object value = SerializationUtility.DeserializeValueWeak(
                     data,
                     DataFormat.Binary,
-                    (DeserializationContext)null);
+                    context);
 
                 if (value == null || expectedType == null || !expectedType.IsInstanceOfType(value))
                     throw new InvalidOperationException("Serialized game save data has an unexpected type.");

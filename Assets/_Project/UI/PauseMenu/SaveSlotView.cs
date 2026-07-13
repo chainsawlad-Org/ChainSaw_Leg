@@ -1,5 +1,4 @@
 using System;
-using ChainSawLeg.Core.SaveSystem;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,9 +10,9 @@ public sealed class SaveSlotView : MonoBehaviour
     [SerializeField] private Text sceneText;
     [SerializeField] private Button loadButton;
 
-    private GameSaveCatalogEntry entry;
+    private SaveSlotViewData entry;
 
-    public event Action<GameSaveCatalogEntry> LoadClicked;
+    public event Action<string> LoadClicked;
 
     public Button LoadButton => loadButton;
 
@@ -41,10 +40,10 @@ public sealed class SaveSlotView : MonoBehaviour
         loadButton.onClick.RemoveListener(HandleLoadClicked);
     }
 
-    public void Show(GameSaveCatalogEntry catalogEntry, bool interactionEnabled)
+    public void Show(SaveSlotViewData catalogEntry, bool interactionEnabled)
     {
         entry = catalogEntry;
-        kindText.text = catalogEntry.Kind.ToString();
+        kindText.text = catalogEntry.KindLabel;
         locationText.text = string.IsNullOrWhiteSpace(catalogEntry.CheckpointId)
             ? catalogEntry.SlotId
             : catalogEntry.CheckpointId;
@@ -72,6 +71,6 @@ public sealed class SaveSlotView : MonoBehaviour
     private void HandleLoadClicked()
     {
         if (entry != null && entry.IsLoadable)
-            LoadClicked?.Invoke(entry);
+            LoadClicked?.Invoke(entry.SlotId);
     }
 }

@@ -2,10 +2,6 @@
     "name": "ChainSawLeg.Features.Dialogue.Runtime",
     "rootNamespace": "ChainSawLeg.Features.Dialogue",
     "references": [
-        "ChainSawLeg.Application.Runtime",
-        "ChainSawLeg.Infrastructure.Runtime",
-        "ChainSawLeg.Game.Shared.Runtime",
-        "Zenject",
         "UniTask",
         "UnityEngine.UI",
         "Unity.TextMeshPro"

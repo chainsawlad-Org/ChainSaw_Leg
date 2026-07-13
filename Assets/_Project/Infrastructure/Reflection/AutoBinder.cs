@@ -1,6 +1,3 @@
-
-// Placement: Docs/Ru/02_ProjectStructure.md:178-188. Quote: "├── Reflection".
-
 using System;
 using System.Linq;
 using Zenject;

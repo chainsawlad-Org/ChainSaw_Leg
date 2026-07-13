@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using ChainSawLeg.Core.SaveSystem;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -34,7 +33,7 @@ public sealed class CheckpointSaveMenuView : MonoBehaviour
         root.SetActive(false);
     }
 
-    public void ShowEntries(IReadOnlyList<GameSaveCatalogEntry> entries)
+    public void ShowEntries(IReadOnlyList<SaveSlotViewData> entries)
     {
         for (int index = 0; index < rows.Length; index++)
         {

@@ -1,5 +1,4 @@
 using System;
-using ChainSawLeg.Core.SaveSystem;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +9,7 @@ public sealed class CheckpointSaveSlotView : MonoBehaviour
     [SerializeField] private Text timestampText;
     [SerializeField] private Button saveButton;
 
-    private GameSaveCatalogEntry entry;
+    private SaveSlotViewData entry;
 
     public event Action<string> SaveClicked;
 
@@ -38,7 +37,7 @@ public sealed class CheckpointSaveSlotView : MonoBehaviour
         saveButton.onClick.RemoveListener(HandleSaveClicked);
     }
 
-    public void Show(GameSaveCatalogEntry catalogEntry, bool interactionEnabled)
+    public void Show(SaveSlotViewData catalogEntry, bool interactionEnabled)
     {
         entry = catalogEntry;
         titleText.text = BuildSlotLabel(catalogEntry.SlotId);

@@ -1,5 +1,3 @@
-// Placement: Docs/Ru/01_Architecture.md:71-83. Quote: "- Save System".
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,15 +40,13 @@ namespace ChainSawLeg.Core.SaveSystem
             validationService.ValidateRequest(request);
             cancellationToken.ThrowIfCancellationRequested();
 
-            var saveData = new GameSaveData
-            {
-                Metadata = GameSaveMetadata.Create(
-                    request,
-                    GameSaveData.CurrentFormatVersion,
-                    DateTime.UtcNow,
-                    buildNumber,
-                    profileId)
-            };
+            GameSaveMetadata metadata = GameSaveMetadata.Create(
+                request,
+                GameSaveData.CurrentFormatVersion,
+                DateTime.UtcNow,
+                buildNumber,
+                profileId);
+            var entries = new List<GameSaveEntry>();
 
             var contributorIds = new HashSet<string>(StringComparer.Ordinal);
 
@@ -62,15 +58,25 @@ namespace ChainSawLeg.Core.SaveSystem
                 object contributorData = contributor.CaptureSaveData();
                 validationService.ValidateContributorData(contributorData, contributor.SaveDataType);
 
-                saveData.Entries.Add(new GameSaveEntry
-                {
-                    ContributorId = contributor.ContributorId,
-                    Payload = serializer.Serialize(contributorData, contributor.SaveDataType)
-                });
+                entries.Add(new GameSaveEntry(
+                    contributor.ContributorId,
+                    serializer.Serialize(contributorData, contributor.SaveDataType)));
             }
 
+            var saveData = new GameSaveData(metadata, entries);
             validationService.ValidateForSave(saveData);
             byte[] serializedSnapshot = serializer.Serialize(saveData);
+            GameSaveData verifiedSnapshot = serializer.Deserialize<GameSaveData>(serializedSnapshot);
+            validationService.ValidateLoadedData(verifiedSnapshot);
+
+            if (verifiedSnapshot.Metadata.SlotId != request.SlotId ||
+                verifiedSnapshot.Metadata.Kind != request.Kind)
+            {
+                throw new GameSaveValidationException(
+                    "Serialized game save identity does not match the requested slot.");
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
             await storageProvider.WriteAsync(request, serializedSnapshot, cancellationToken);
         }
 

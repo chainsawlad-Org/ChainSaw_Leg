@@ -26,13 +26,11 @@ namespace ChainSawLeg.Features.Exploration.Save
             if (!playerPositionProvider.IsPlayerAvailable)
                 throw new GameSaveValidationException("Player is not available for exploration save capture.");
 
-            return new ExplorationSaveData
-            {
-                SceneId = saveContextProvider.SceneId,
-                CheckpointId = saveContextProvider.CheckpointId,
-                PositionX = playerPositionProvider.PositionX,
-                PositionY = playerPositionProvider.PositionY
-            };
+            return new ExplorationSaveData(
+                saveContextProvider.SceneId,
+                saveContextProvider.CheckpointId,
+                playerPositionProvider.PositionX,
+                playerPositionProvider.PositionY);
         }
     }
 }

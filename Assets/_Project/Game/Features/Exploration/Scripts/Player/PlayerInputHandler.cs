@@ -1,9 +1,9 @@
+using System;
 using UnityEngine;
-using Zenject;
 
 public class PlayerInputHandler : MonoBehaviour
 {
-    private InputService inputService;
+    private IGameInputService inputService;
 
     public bool DashPressed => inputService != null && inputService.DashPressed;
     public bool InteractPressed => inputService != null && inputService.InteractPressed;
@@ -12,10 +12,9 @@ public class PlayerInputHandler : MonoBehaviour
     public bool PreviousPressed => inputService != null && inputService.PreviousPressed;
     public bool NextPressed => inputService != null && inputService.NextPressed;
 
-    [Inject]
-    public void Construct(InputService inputService)
+    public void Initialize(IGameInputService inputService)
     {
-        this.inputService = inputService;
+        this.inputService = inputService ?? throw new ArgumentNullException(nameof(inputService));
     }
 
     public void ConsumeDash()

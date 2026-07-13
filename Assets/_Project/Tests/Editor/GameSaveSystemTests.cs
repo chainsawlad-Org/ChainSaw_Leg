@@ -64,6 +64,20 @@ public class GameSaveSystemTests
     }
 
     [Test]
+    public void OdinRoundTripPreservesImmutableSaveProperties()
+    {
+        GameSaveData source = CreateSaveData(GameSaveData.CurrentFormatVersion);
+        var serializer = new OdinGameSaveSerializer();
+
+        GameSaveData restored = serializer.Deserialize<GameSaveData>(serializer.Serialize(source));
+
+        Assert.That(restored.Metadata, Is.Not.Null);
+        Assert.That(restored.Metadata.SlotId, Is.EqualTo("slot-version"));
+        Assert.That(restored.Metadata.FormatVersion, Is.EqualTo(GameSaveData.CurrentFormatVersion));
+        Assert.That(restored.Entries, Is.Not.Null);
+    }
+
+    [Test]
     public void CorruptedStoredDataThrowsSerializationError()
     {
         var storageProvider = new InMemoryGameSaveStorageProvider();
@@ -111,15 +125,13 @@ public class GameSaveSystemTests
     {
         var request = new GameSaveRequest(GameSaveKind.Manual, "slot-version");
 
-        return new GameSaveData
-        {
-            Metadata = GameSaveMetadata.Create(
+        return new GameSaveData(
+            GameSaveMetadata.Create(
                 request,
                 formatVersion,
                 DateTime.UtcNow,
                 "build-1",
-                "profile-a")
-        };
+                "profile-a"));
     }
 
     [Serializable]

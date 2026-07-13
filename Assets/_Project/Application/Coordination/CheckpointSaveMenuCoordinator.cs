@@ -77,7 +77,7 @@ public sealed class CheckpointSaveMenuCoordinator : IInitializable, IDisposable
 
             requestToken.ThrowIfCancellationRequested();
             view.SetInteractionEnabled(true);
-            view.ShowEntries(entries);
+            view.ShowEntries(SaveSlotViewDataMapper.Map(entries));
             view.Show();
             result = await resultSource.Task.AttachExternalCancellation(requestToken);
         }
@@ -136,6 +136,8 @@ public sealed class CheckpointSaveMenuCoordinator : IInitializable, IDisposable
     {
         isSaveInProgress = true;
         view.SetInteractionEnabled(false);
+        bool shouldCompleteRequest = false;
+        bool saveSucceeded = false;
 
         try
         {
@@ -143,11 +145,12 @@ public sealed class CheckpointSaveMenuCoordinator : IInitializable, IDisposable
                 slotId,
                 checkpointId,
                 cancellationToken);
-            resultSource.TrySetResult(true);
+            shouldCompleteRequest = true;
+            saveSucceeded = true;
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
-            resultSource.TrySetResult(false);
+            shouldCompleteRequest = true;
         }
         catch (Exception exception)
         {
@@ -160,6 +163,9 @@ public sealed class CheckpointSaveMenuCoordinator : IInitializable, IDisposable
             if (pendingResult == resultSource)
                 view.SetInteractionEnabled(true);
         }
+
+        if (shouldCompleteRequest)
+            resultSource.TrySetResult(saveSucceeded);
     }
 
     private void OnBackRequested()
@@ -179,4 +185,3 @@ public sealed class CheckpointSaveMenuCoordinator : IInitializable, IDisposable
         }
     }
 }
-

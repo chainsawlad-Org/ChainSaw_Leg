@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using ChainSawLeg.Core.SaveSystem;
 using ChainSawLeg.Features.Exploration.Save;
@@ -14,6 +15,8 @@ public class PauseMenuCoordinator : IInitializable, ITickable, IDisposable
     private readonly SaveBrowserView saveBrowserView;
     private readonly ExplorationSaveCatalogService saveCatalogService;
     private readonly ExplorationGameSaveLoadService saveLoadService;
+    private readonly Dictionary<string, GameSaveCatalogEntry> entriesBySlotId =
+        new(StringComparer.Ordinal);
     private readonly IRuntimeErrorLogger errorLogger;
     private readonly CancellationTokenSource lifetimeCancellation = new();
 
@@ -153,9 +156,11 @@ public class PauseMenuCoordinator : IInitializable, ITickable, IDisposable
         exitCommandService.RequestExitToMainMenu();
     }
 
-    private void OnLoadRequested(GameSaveCatalogEntry entry)
+    private void OnLoadRequested(string slotId)
     {
-        if (isLoadInProgress || !gameStateMachine.IsTopOverlay<SaveBrowserPhase>())
+        if (isLoadInProgress ||
+            !gameStateMachine.IsTopOverlay<SaveBrowserPhase>() ||
+            !entriesBySlotId.TryGetValue(slotId, out GameSaveCatalogEntry entry))
             return;
 
         isLoadInProgress = true;
@@ -168,6 +173,7 @@ public class PauseMenuCoordinator : IInitializable, ITickable, IDisposable
     {
         CancelCatalogRefresh();
         catalogCancellation = CancellationTokenSource.CreateLinkedTokenSource(lifetimeCancellation.Token);
+        view.SetSaveBrowserInteractionEnabled(true);
         saveBrowserView.ShowLoading();
         RefreshCatalogAsync(catalogCancellation.Token).Forget();
     }
@@ -181,7 +187,9 @@ public class PauseMenuCoordinator : IInitializable, ITickable, IDisposable
             if (!gameStateMachine.IsTopOverlay<SaveBrowserPhase>())
                 return;
 
-            saveBrowserView.ShowEntries(entries);
+            view.SetSaveBrowserInteractionEnabled(true);
+            StoreEntries(entries);
+            saveBrowserView.ShowEntries(SaveSlotViewDataMapper.Map(entries));
             view.SelectFirstSaveButton();
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
@@ -247,5 +255,12 @@ public class PauseMenuCoordinator : IInitializable, ITickable, IDisposable
         catalogCancellation.Dispose();
         catalogCancellation = null;
     }
-}
 
+    private void StoreEntries(IReadOnlyList<GameSaveCatalogEntry> entries)
+    {
+        entriesBySlotId.Clear();
+
+        foreach (GameSaveCatalogEntry entry in entries)
+            entriesBySlotId[entry.SlotId] = entry;
+    }
+}

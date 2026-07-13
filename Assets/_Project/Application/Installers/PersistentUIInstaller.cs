@@ -1,3 +1,4 @@
+using ChainSawLeg.Core.SaveSystem;
 using UnityEngine;
 using Zenject;
 
@@ -7,27 +8,29 @@ public class PersistentUIInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
-        PauseMenuView pauseMenuView = PauseMenuViewFactory.BuildPauseMenuView(
-            uiRoot,
-            out SaveBrowserView saveBrowserView);
+        Container.Bind<PersistentUIViewRegistry>()
+            .AsSingle()
+            .WithArguments(uiRoot, GameSaveSlotCatalog.CheckpointSlotIds.Count)
+            .NonLazy();
 
         Container.Bind<PauseMenuView>()
-            .FromInstance(pauseMenuView)
+            .FromResolveGetter<PersistentUIViewRegistry>(registry => registry.PauseMenuView)
             .AsSingle();
 
         Container.Bind<SaveBrowserView>()
-            .FromInstance(saveBrowserView)
+            .FromResolveGetter<PersistentUIViewRegistry>(registry => registry.SaveBrowserView)
             .AsSingle();
 
         Container.BindInterfacesTo<PauseMenuCoordinator>()
             .AsSingle()
             .NonLazy();
 
-        CheckpointSaveMenuView checkpointSaveMenuView =
-            CheckpointSaveMenuViewFactory.BuildCheckpointSaveMenuView(uiRoot);
+        Container.BindInterfacesTo<MainMenuSaveBrowserCoordinator>()
+            .AsSingle()
+            .NonLazy();
 
         Container.Bind<CheckpointSaveMenuView>()
-            .FromInstance(checkpointSaveMenuView)
+            .FromResolveGetter<PersistentUIViewRegistry>(registry => registry.CheckpointSaveMenuView)
             .AsSingle();
 
         Container.BindInterfacesTo<CheckpointSaveMenuCoordinator>()

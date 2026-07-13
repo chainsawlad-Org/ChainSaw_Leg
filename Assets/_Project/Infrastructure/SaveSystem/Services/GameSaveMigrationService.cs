@@ -1,5 +1,3 @@
-// Placement: Docs/Ru/01_Architecture.md:71-83. Quote: "- Save System".
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +44,7 @@ namespace ChainSawLeg.Core.SaveSystem
                     throw new GameSaveMigrationException("Migration returned invalid game save data.");
 
                 version = migrationStep.TargetVersion;
-                saveData.Metadata.FormatVersion = version;
+                saveData = saveData.WithMetadata(saveData.Metadata.WithFormatVersion(version));
             }
 
             return saveData;

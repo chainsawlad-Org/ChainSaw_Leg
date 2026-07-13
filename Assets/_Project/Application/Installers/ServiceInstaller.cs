@@ -16,11 +16,22 @@ public class ServiceInstaller : Installer<ServiceInstaller>
         Container.Bind<IRuntimeErrorLogger>()
             .To<UnityRuntimeErrorLogger>()
             .AsSingle();
+        Container.Bind<IApplicationQuitService>()
+            .To<UnityApplicationQuitService>()
+            .AsSingle();
         Container.BindInterfacesAndSelfTo<InputService>()
             .AsSingle();
         Container.BindInterfacesAndSelfTo<PauseMenuService>()
             .AsSingle();
         Container.BindInterfacesAndSelfTo<PauseMenuExitCommandService>()
+            .AsSingle();
+        Container.BindInterfacesAndSelfTo<MainMenuStartCommandService>()
+            .AsSingle();
+        Container.BindInterfacesAndSelfTo<BattleSceneTransitionService>()
+            .AsSingle();
+        Container.Bind<BattleSessionService>()
+            .AsSingle();
+        Container.BindInterfacesAndSelfTo<MainMenuSaveBrowserRequestBroker>()
             .AsSingle();
         Container.Bind<IGameSaveSerializer>()
             .To<OdinGameSaveSerializer>()

@@ -8,5 +8,6 @@ public class BattleInstaller : MonoInstaller
         Container.Bind<PlayerActionController>().AsSingle();
         Container.Bind<CombatResolver>().AsSingle();
         Container.Bind<SimpleAI>().AsSingle();
+        Container.Bind<BattleSessionController>().AsSingle();
     }
 }

@@ -1,5 +1,3 @@
-// Placement: Docs/Ru/02_ProjectStructure.md:222-234. Quote: "Система пользовательского ввода."
-
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,7 +6,7 @@ using Zenject;
 using UnityEditor;
 #endif
 
-public class InputService : IInitializable, IDisposable
+public class InputService : IGameInputService, IInitializable, IDisposable
 {
     private readonly IPauseRequestHandler pauseRequestHandler;
     private readonly GameplayInputBlockService gameplayInputBlockService;
@@ -27,9 +25,12 @@ public class InputService : IInitializable, IDisposable
         pauseAction = systemInputMap.FindAction("Pause", throwIfNotFound: true);
     }
 
-    public Vector2 MoveInput => gameplayInputBlockService.IsChannelBlocked(InputBlockChannels.Move)
+    public bool IsReady => isInitialized && !isDisposed;
+    public bool IsGameplayInputEnabled => IsReady && input.Player.enabled;
+    public Vector2 MoveInput => !IsGameplayInputEnabled ||
+        gameplayInputBlockService.IsChannelBlocked(InputBlockChannels.Move)
         ? Vector2.zero
-        : rawMoveInput;
+        : input.Player.Move.ReadValue<Vector2>();
 
     public bool DashPressed => !gameplayInputBlockService.IsChannelBlocked(InputBlockChannels.Dash) && dashPressed;
     public bool InteractPressed => !gameplayInputBlockService.IsChannelBlocked(InputBlockChannels.Interact) && interactPressed;
@@ -38,7 +39,6 @@ public class InputService : IInitializable, IDisposable
     public bool PreviousPressed => previousPressed;
     public bool NextPressed => nextPressed;
 
-    private Vector2 rawMoveInput;
     private bool dashPressed;
     private bool interactPressed;
     private bool submitPressed;
@@ -54,8 +54,6 @@ public class InputService : IInitializable, IDisposable
             return;
 
         gameplayInputBlockService.BlockStateChanged += OnGameplayBlockStateChanged;
-        input.Player.Move.performed += OnMove;
-        input.Player.Move.canceled += OnMove;
         input.Player.Dash.performed += OnDash;
         input.Player.Interact.performed += OnInteract;
         input.Player.Submit.performed += OnSubmit;
@@ -103,24 +101,12 @@ public class InputService : IInitializable, IDisposable
 
     public void ResetTransientInput()
     {
-        rawMoveInput = Vector2.zero;
         dashPressed = false;
         interactPressed = false;
         submitPressed = false;
         uiSubmitPressed = false;
         previousPressed = false;
         nextPressed = false;
-    }
-
-    private void OnMove(InputAction.CallbackContext context)
-    {
-        if (gameplayInputBlockService.IsChannelBlocked(InputBlockChannels.Move))
-        {
-            rawMoveInput = Vector2.zero;
-            return;
-        }
-
-        rawMoveInput = context.ReadValue<Vector2>();
     }
 
     private void OnDash(InputAction.CallbackContext context)
@@ -173,7 +159,6 @@ public class InputService : IInitializable, IDisposable
     {
         if (gameplayInputBlockService.IsChannelBlocked(InputBlockChannels.Move))
         {
-            rawMoveInput = Vector2.zero;
             previousPressed = false;
             nextPressed = false;
         }
@@ -201,8 +186,6 @@ public class InputService : IInitializable, IDisposable
         if (isInitialized)
         {
             gameplayInputBlockService.BlockStateChanged -= OnGameplayBlockStateChanged;
-            input.Player.Move.performed -= OnMove;
-            input.Player.Move.canceled -= OnMove;
             input.Player.Dash.performed -= OnDash;
             input.Player.Interact.performed -= OnInteract;
             input.Player.Submit.performed -= OnSubmit;

@@ -2722,7 +2722,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 011171015ee12452d8696b53073fd402, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldInstaller
+  cameraFlow: {fileID: 519420033}
   playerStateAdapter: {fileID: 1157121971}
+  dialogueInputRouter: {fileID: 1157121970}
   checkpointTriggers:
   - {fileID: 1908745104}
 --- !u!1 &943447761
@@ -9877,6 +9879,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 475c3ec5952d34317bb37cdb4f16f23d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CutsceneTrigger
+  encounterId: world_enemy_2
+  defeatedObject: {fileID: 1058707904}
 --- !u!61 &1816048916
 BoxCollider2D:
   m_ObjectHideFlags: 0

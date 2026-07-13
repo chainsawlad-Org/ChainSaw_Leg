@@ -3,6 +3,7 @@
     "rootNamespace": "",
     "references": [
         "ChainSawLeg.Application.Runtime",
+        "ChainSawLeg.Coordination.Runtime",
         "ChainSawLeg.Infrastructure.Runtime",
         "ChainSawLeg.Game.Shared.Runtime",
         "ChainSawLeg.Features.Combat.Runtime",

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using ChainSawLeg.Core.SaveSystem;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +14,7 @@ public sealed class SaveBrowserView : MonoBehaviour
     private readonly List<SaveSlotView> rows = new();
     private bool interactionEnabled = true;
 
-    public event Action<GameSaveCatalogEntry> LoadRequested;
+    public event Action<string> LoadRequested;
 
     public void SetReferences(
         RectTransform rowsContainer,
@@ -41,7 +40,7 @@ public sealed class SaveBrowserView : MonoBehaviour
         ResetScrollPosition();
     }
 
-    public void ShowEntries(IReadOnlyList<GameSaveCatalogEntry> entries)
+    public void ShowEntries(IReadOnlyList<SaveSlotViewData> entries)
     {
         EnsureRowCount(entries.Count);
 
@@ -140,9 +139,9 @@ public sealed class SaveBrowserView : MonoBehaviour
             row.Hide();
     }
 
-    private void HandleLoadClicked(GameSaveCatalogEntry entry)
+    private void HandleLoadClicked(string slotId)
     {
-        LoadRequested?.Invoke(entry);
+        LoadRequested?.Invoke(slotId);
     }
 
     private void ResetScrollPosition()

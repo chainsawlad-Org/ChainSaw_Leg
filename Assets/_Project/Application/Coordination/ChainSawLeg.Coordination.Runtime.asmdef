@@ -4,6 +4,7 @@
     "references": [
         "ChainSawLeg.Application.Runtime",
         "ChainSawLeg.Infrastructure.Runtime",
+        "ChainSawLeg.Game.Shared.Runtime",
         "ChainSawLeg.Features.Exploration.Runtime",
         "ChainSawLeg.UI.Runtime",
         "Zenject",

@@ -3,6 +3,8 @@
     "rootNamespace": "ChainSawLeg.Application",
     "references": [
         "ChainSawLeg.Infrastructure.Runtime",
+        "ChainSawLeg.Game.Shared.Runtime",
+        "ChainSawLeg.Features.Dialogue.Runtime",
         "Zenject",
         "UniTask"
     ],

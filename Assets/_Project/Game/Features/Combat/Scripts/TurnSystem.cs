@@ -32,4 +32,9 @@ public class TurnSystem
     {
         return !playerTeam[0].IsAlive || !enemyTeam[0].IsAlive;
     }
+
+    public bool IsPlayerVictory()
+    {
+        return playerTeam[0].IsAlive && !enemyTeam[0].IsAlive;
+    }
 }

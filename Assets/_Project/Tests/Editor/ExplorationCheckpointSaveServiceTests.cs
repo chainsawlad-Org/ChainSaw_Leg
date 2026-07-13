@@ -69,6 +69,37 @@ public sealed class ExplorationCheckpointSaveServiceTests
         service.Dispose();
     }
 
+    [Test]
+    public void FailedWriteRestoresPreviousCheckpointContext()
+    {
+        var serializer = new CapturingSerializer();
+        var storageProvider = new CapturingStorageProvider { FailWrites = true };
+        var context = new ExplorationSaveContextService();
+        context.SetContext(ExplorationSceneIds.World, "previous_checkpoint");
+        var coordinator = new GameSaveCoordinator(
+            serializer,
+            storageProvider,
+            new GameSaveValidationService(),
+            new GameSaveMigrationService(new List<IGameSaveMigrationStep>()),
+            new List<IGameSaveContributor> { new TestContributor() },
+            new List<IGameSaveRestorer>());
+        var service = new ExplorationCheckpointSaveService(
+            coordinator,
+            new CheckpointGameSaveSlotRotationService(storageProvider),
+            context,
+            new TestMetadataProvider());
+
+        Assert.ThrowsAsync<GameSaveStorageException>(async () =>
+            await service.SaveCheckpointToSlotAsync(
+                "checkpoint_0",
+                "new_checkpoint",
+                CancellationToken.None).AsTask());
+        Assert.That(context.SceneId, Is.EqualTo(ExplorationSceneIds.World));
+        Assert.That(context.CheckpointId, Is.EqualTo("previous_checkpoint"));
+
+        service.Dispose();
+    }
+
     private sealed class TestMetadataProvider : IGameSaveRuntimeMetadataProvider
     {
         public string ProfileId => "profile-test";
@@ -117,6 +148,7 @@ public sealed class ExplorationCheckpointSaveServiceTests
     private sealed class CapturingStorageProvider : IGameSaveStorageProvider
     {
         public GameSaveRequest LastRequest { get; private set; }
+        public bool FailWrites { get; set; }
 
         public UniTask WriteAsync(
             GameSaveRequest request,
@@ -124,6 +156,10 @@ public sealed class ExplorationCheckpointSaveServiceTests
             CancellationToken cancellationToken)
         {
             LastRequest = request;
+
+            if (FailWrites)
+                throw new GameSaveStorageException("Expected test write failure.");
+
             return UniTask.CompletedTask;
         }
 

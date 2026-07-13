@@ -75,6 +75,7 @@ public class GameStateMachine
             cancellationToken.ThrowIfCancellationRequested();
             await CloseAllOverlaysAsync(cancellationToken);
             gamePauseService.Reset();
+            ResetGameplayInputState();
 
             if (previousPhase != null)
                 await previousPhase.Exit();
@@ -92,10 +93,16 @@ public class GameStateMachine
                 await nextPhase.EnterAsync(cancellationToken);
             currentPhase = nextPhase;
             ApplyMainPhaseInputState(nextPhase);
+
+            if (nextPhase.AllowsGameplayInput &&
+                gameplayInputBlockService.IsChannelBlocked(InputBlockChannels.Gameplay))
+                throw new InvalidOperationException("Gameplay input remained blocked after entering a gameplay phase.");
+
             NotifyStateChanged();
         }
         catch
         {
+            ResetGameplayInputState();
             ApplyMainPhaseInputState(previousPhase);
             throw;
         }
@@ -253,6 +260,12 @@ public class GameStateMachine
             gameplayInputBlockService.ReleaseBlock(InputBlockChannels.Gameplay);
 
         isMainGameplayInputBlocked = shouldBlockGameplayInput;
+    }
+
+    private void ResetGameplayInputState()
+    {
+        gameplayInputBlockService.Reset();
+        isMainGameplayInputBlocked = false;
     }
 
     private void NotifyStateChanged()

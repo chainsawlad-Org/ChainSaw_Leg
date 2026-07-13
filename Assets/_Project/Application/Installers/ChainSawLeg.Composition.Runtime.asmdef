@@ -5,12 +5,15 @@
         "ChainSawLeg.Application.Runtime",
         "ChainSawLeg.Infrastructure.Runtime",
         "ChainSawLeg.Coordination.Runtime",
+        "ChainSawLeg.Game.Shared.Runtime",
         "ChainSawLeg.Features.Combat.Runtime",
         "ChainSawLeg.Features.Dialogue.Runtime",
         "ChainSawLeg.Features.Exploration.Runtime",
         "ChainSawLeg.UI.Runtime",
         "Zenject",
-        "UnityEngine.UI"
+        "UniTask",
+        "UnityEngine.UI",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

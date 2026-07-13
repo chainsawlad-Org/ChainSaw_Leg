@@ -1,11 +1,12 @@
-using ChainSawLeg.Core.SaveSystem;
 using UnityEngine;
 using UnityEngine.UI;
 using static RuntimeUIElementFactory;
 
 public static class CheckpointSaveMenuViewFactory
 {
-    public static CheckpointSaveMenuView BuildCheckpointSaveMenuView(Transform parent)
+    public static CheckpointSaveMenuView BuildCheckpointSaveMenuView(
+        Transform parent,
+        int slotCount)
     {
         var canvasObject = new GameObject(
             "CheckpointSaveMenuCanvas",
@@ -67,9 +68,9 @@ public static class CheckpointSaveMenuViewFactory
         rowsContainer.anchorMax = new Vector2(1f, 1f);
         rowsContainer.pivot = new Vector2(0.5f, 1f);
         rowsContainer.anchoredPosition = Vector2.zero;
-        rowsContainer.sizeDelta = new Vector2(0f, GameSaveSlotCatalog.CheckpointSlotIds.Count * 64f);
+        rowsContainer.sizeDelta = new Vector2(0f, slotCount * 64f);
 
-        var rows = new CheckpointSaveSlotView[GameSaveSlotCatalog.CheckpointSlotIds.Count];
+        var rows = new CheckpointSaveSlotView[slotCount];
 
         for (int index = 0; index < rows.Length; index++)
             rows[index] = CreateCheckpointSaveSlotRow(rowsContainer, index);

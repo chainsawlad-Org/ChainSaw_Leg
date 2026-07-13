@@ -1,5 +1,3 @@
-// Placement: Docs/Ru/02_ProjectStructure.md:192-202. Quote: "Содержит управление сценами."
-
 using System.Threading;
 using Cysharp.Threading.Tasks;
 

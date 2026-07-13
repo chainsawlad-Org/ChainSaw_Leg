@@ -71,6 +71,18 @@ public class GamePauseServiceTests
         Assert.That(gamePauseService.ActivePauseCount, Is.EqualTo(0));
     }
 
+    [Test]
+    public void ResetRestoresStaleZeroTimeScaleWithoutActivePause()
+    {
+        var timeScaleController = new FakeTimeScaleController(0f);
+        var gamePauseService = new GamePauseService(timeScaleController);
+
+        gamePauseService.Reset();
+
+        Assert.That(gamePauseService.ActivePauseCount, Is.EqualTo(0));
+        Assert.That(timeScaleController.TimeScale, Is.EqualTo(1f));
+    }
+
     private sealed class FakeTimeScaleController : ITimeScaleController
     {
         public FakeTimeScaleController(float initialTimeScale)

@@ -2,10 +2,6 @@
     "name": "ChainSawLeg.UI.Runtime",
     "rootNamespace": "ChainSawLeg.UI",
     "references": [
-        "ChainSawLeg.Application.Runtime",
-        "ChainSawLeg.Infrastructure.Runtime",
-        "Zenject",
-        "UniTask",
         "UnityEngine.UI"
     ],
     "includePlatforms": [],

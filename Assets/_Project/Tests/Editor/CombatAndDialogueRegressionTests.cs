@@ -36,6 +36,22 @@ public sealed class CombatAndDialogueRegressionTests
         manager.Update();
 
         Assert.That(manager.IsBattleOver, Is.True);
+        Assert.That(manager.IsPlayerVictory, Is.True);
+    }
+
+    [Test]
+    public void BattleSessionRestoresOriginAndMarksDefeatedEncounterAfterVictory()
+    {
+        var session = new BattleSessionService();
+        session.BeginEncounter("world_enemy_2", 3.5f, -7.25f);
+
+        session.CompleteCurrentEncounter(playerWon: true);
+
+        Assert.That(session.IsEncounterDefeated("world_enemy_2"), Is.True);
+        Assert.That(session.TryConsumeReturnPosition(out float positionX, out float positionY), Is.True);
+        Assert.That(positionX, Is.EqualTo(3.5f));
+        Assert.That(positionY, Is.EqualTo(-7.25f));
+        Assert.That(session.TryConsumeReturnPosition(out _, out _), Is.False);
     }
 
     [Test]

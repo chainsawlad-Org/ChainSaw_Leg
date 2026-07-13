@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Zenject;
 
-public class DialogueManager : MonoBehaviour
+public class DialogueManager : MonoBehaviour, IDialogueRuntime
 {
     public event Action DialogueFinished;
 
@@ -18,7 +17,7 @@ public class DialogueManager : MonoBehaviour
     private Transform currentSpeaker;
     private Coroutine typingCoroutine;
     private bool isTyping;
-    private DialogueRuntimeRegistry runtimeRegistry;
+    private IDialogueRuntimeRegistry runtimeRegistry;
 
     public DialogueState State { get; private set; } = DialogueState.Idle;
     public bool IsActive => State != DialogueState.Idle;
@@ -28,8 +27,7 @@ public class DialogueManager : MonoBehaviour
         State != DialogueState.Idle &&
         (currentType == DialogueType.RPG || currentType == DialogueType.Cutscene);
 
-    [Inject]
-    public void Construct(DialogueRuntimeRegistry runtimeRegistry)
+    public void Initialize(IDialogueRuntimeRegistry runtimeRegistry)
     {
         this.runtimeRegistry = runtimeRegistry;
         rpgUI.SetDialogueManager(this);

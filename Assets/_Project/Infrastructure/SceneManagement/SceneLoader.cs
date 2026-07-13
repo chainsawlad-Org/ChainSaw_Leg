@@ -1,6 +1,4 @@
-
-// Placement: Docs/Ru/02_ProjectStructure.md:192-202. Quote: "Содержит управление сценами."
-
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -24,15 +22,30 @@ public class SceneLoader : ISceneLoader
         if (currentScene == sceneName)
             return;
 
-        await LoadAdditiveAsync(sceneName, cancellationToken);
-        cancellationToken.ThrowIfCancellationRequested();
+        bool targetWasLoaded = IsLoaded(sceneName);
+        List<AudioListener> suspendedAudioListeners = SuspendAudioListeners(currentScene);
 
-        if (!string.IsNullOrEmpty(currentScene))
+        try
         {
-            await UnloadAsync(currentScene, cancellationToken);
-            currentScene = null;
+            await LoadAdditiveOperationAsync(sceneName);
+        }
+        catch
+        {
+            RestoreAudioListeners(suspendedAudioListeners);
+            throw;
+        }
+
+        if (cancellationToken.IsCancellationRequested)
+        {
+            if (!targetWasLoaded)
+                await UnloadOperationAsync(sceneName);
+
+            RestoreAudioListeners(suspendedAudioListeners);
             cancellationToken.ThrowIfCancellationRequested();
         }
+
+        if (!string.IsNullOrEmpty(currentScene))
+            await UnloadOperationAsync(currentScene);
 
         currentScene = sceneName;
     }
@@ -42,12 +55,9 @@ public class SceneLoader : ISceneLoader
         cancellationToken.ThrowIfCancellationRequested();
 
         if (!string.IsNullOrEmpty(currentScene))
-        {
-            await UnloadAsync(currentScene, cancellationToken);
-            cancellationToken.ThrowIfCancellationRequested();
-        }
+            await UnloadOperationAsync(currentScene);
 
-        await LoadAdditiveAsync(sceneName, cancellationToken);
+        await LoadAdditiveOperationAsync(sceneName);
         currentScene = sceneName;
     }
 
@@ -60,15 +70,7 @@ public class SceneLoader : ISceneLoader
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        if (IsLoaded(sceneName))
-            return;
-
-        AsyncOperation operation = SceneManager.LoadSceneAsync(
-            sceneName,
-            LoadSceneMode.Additive
-        );
-
-        await operation.ToUniTask(cancellationToken: cancellationToken);
+        await LoadAdditiveOperationAsync(sceneName);
     }
 
     public UniTask Unload(string sceneName)
@@ -80,11 +82,63 @@ public class SceneLoader : ISceneLoader
     {
         cancellationToken.ThrowIfCancellationRequested();
 
+        await UnloadOperationAsync(sceneName);
+    }
+
+    private async UniTask LoadAdditiveOperationAsync(string sceneName)
+    {
+        if (IsLoaded(sceneName))
+            return;
+
+        AsyncOperation operation = SceneManager.LoadSceneAsync(
+            sceneName,
+            LoadSceneMode.Additive);
+        await operation.ToUniTask();
+    }
+
+    private async UniTask UnloadOperationAsync(string sceneName)
+    {
         if (!IsLoaded(sceneName))
             return;
 
         AsyncOperation operation = SceneManager.UnloadSceneAsync(sceneName);
-        await operation.ToUniTask(cancellationToken: cancellationToken);
+        await operation.ToUniTask();
+    }
+
+    private static List<AudioListener> SuspendAudioListeners(string sceneName)
+    {
+        var suspendedListeners = new List<AudioListener>();
+
+        if (string.IsNullOrEmpty(sceneName))
+            return suspendedListeners;
+
+        Scene scene = SceneManager.GetSceneByName(sceneName);
+
+        if (!scene.isLoaded)
+            return suspendedListeners;
+
+        foreach (GameObject root in scene.GetRootGameObjects())
+        {
+            foreach (AudioListener listener in root.GetComponentsInChildren<AudioListener>(true))
+            {
+                if (!listener.enabled)
+                    continue;
+
+                listener.enabled = false;
+                suspendedListeners.Add(listener);
+            }
+        }
+
+        return suspendedListeners;
+    }
+
+    private static void RestoreAudioListeners(IEnumerable<AudioListener> listeners)
+    {
+        foreach (AudioListener listener in listeners)
+        {
+            if (listener != null)
+                listener.enabled = true;
+        }
     }
 
     public bool IsLoaded(string sceneName)

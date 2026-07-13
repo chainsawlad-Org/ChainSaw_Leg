@@ -82,6 +82,19 @@ public class PauseMenuExitTransitionTests
         Assert.That(context.InputBlockService.IsChannelBlocked(InputBlockChannels.Gameplay), Is.False);
     }
 
+    [Test]
+    public async Task StartingExplorationClearsStaleGameplayBlocks()
+    {
+        TestContext context = CreateContext(1f);
+        await context.GameStateMachine.ReplaceMainAsync<MainMenuPhase>(CancellationToken.None);
+        context.InputBlockService.AcquireBlock(InputBlockChannels.Gameplay);
+
+        await context.GameStateMachine.ReplaceMainAsync<ExplorationPhase>(CancellationToken.None);
+
+        Assert.That(context.GameStateMachine.CurrentMainPhase, Is.TypeOf<ExplorationPhase>());
+        Assert.That(context.InputBlockService.IsChannelBlocked(InputBlockChannels.Gameplay), Is.False);
+    }
+
     private static TestContext CreateContext(float initialTimeScale)
     {
         var sceneLoader = new FakeSceneLoader();

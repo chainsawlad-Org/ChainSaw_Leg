@@ -36,13 +36,11 @@ public sealed class ExplorationSaveTests
         var context = new ExplorationSaveContextService();
         var restorer = new ExplorationSaveRestorer(target, context);
 
-        restorer.RestoreSaveData(new ExplorationSaveData
-        {
-            SceneId = "world",
-            CheckpointId = "checkpoint_shop",
-            PositionX = 8f,
-            PositionY = 3f
-        });
+        restorer.RestoreSaveData(new ExplorationSaveData(
+            "world",
+            "checkpoint_shop",
+            8f,
+            3f));
 
         Assert.That(context.SceneId, Is.EqualTo("world"));
         Assert.That(context.CheckpointId, Is.EqualTo("checkpoint_shop"));
@@ -55,7 +53,7 @@ public sealed class ExplorationSaveTests
     public void PendingRestoreIsClearedAfterUse()
     {
         var pending = new GameSavePendingRestoreService();
-        var saveData = new GameSaveData();
+        var saveData = new GameSaveData(metadata: null);
 
         pending.SetPending(saveData);
 
@@ -72,7 +70,7 @@ public sealed class ExplorationSaveTests
     public void WorldSceneIdResolvesToWorldSceneName()
     {
         Assert.That(
-            ExplorationSceneIds.ResolveSceneName(ExplorationSceneIds.World),
+            ExplorationSceneResolver.ResolveSceneName(ExplorationSceneIds.World),
             Is.EqualTo(SceneNames.World));
     }
 
@@ -81,7 +79,7 @@ public sealed class ExplorationSaveTests
     {
         const string sceneName = "SC_Hub_School";
 
-        Assert.That(ExplorationSceneIds.ResolveSceneName(sceneName), Is.EqualTo(sceneName));
+        Assert.That(ExplorationSceneResolver.ResolveSceneName(sceneName), Is.EqualTo(sceneName));
     }
 
     [TestCase(SceneNames.MainMenu)]
@@ -89,7 +87,7 @@ public sealed class ExplorationSaveTests
     [TestCase(SceneNames.Battle)]
     public void NonExplorationSceneIsRejected(string sceneId)
     {
-        Assert.Throws<GameSaveValidationException>(() => ExplorationSceneIds.ResolveSceneName(sceneId));
+        Assert.Throws<GameSaveValidationException>(() => ExplorationSceneResolver.ResolveSceneName(sceneId));
     }
 
     [Test]
@@ -109,6 +107,22 @@ public sealed class ExplorationSaveTests
         Assert.That(registry.PositionX, Is.EqualTo(30f));
         Assert.That(registry.PositionY, Is.EqualTo(40f));
         Assert.That(newPlayer.RestoreCount, Is.EqualTo(1));
+    }
+
+    [Test]
+    public void RegistryNotifiesAfterPlayerPositionIsRestored()
+    {
+        var registry = new ExplorationPlayerRegistry();
+        var player = new FakePlayerState(1f, 2f);
+        int notificationCount = 0;
+        registry.PositionRestored += () => notificationCount++;
+        registry.Register(player, player);
+
+        registry.RestorePosition(8f, 9f);
+
+        Assert.That(notificationCount, Is.EqualTo(1));
+        Assert.That(player.PositionX, Is.EqualTo(8f));
+        Assert.That(player.PositionY, Is.EqualTo(9f));
     }
 
     private sealed class FakePlayerPositionProvider : IPlayerPositionProvider

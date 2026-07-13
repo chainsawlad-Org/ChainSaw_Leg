@@ -184,15 +184,13 @@ public class FileGameSaveStorageProviderTests
         DateTime timestamp,
         string buildNumber = "build-1")
     {
-        var saveData = new GameSaveData
-        {
-            Metadata = GameSaveMetadata.Create(
+        var saveData = new GameSaveData(
+            GameSaveMetadata.Create(
                 request,
                 GameSaveData.CurrentFormatVersion,
                 timestamp,
                 buildNumber,
-                "profile-a")
-        };
+                "profile-a"));
 
         return serializer.Serialize(saveData);
     }

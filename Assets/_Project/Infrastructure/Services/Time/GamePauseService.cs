@@ -1,5 +1,3 @@
-// Placement: Docs/Ru/02_ProjectStructure.md:172-176. Quote: "Любой код, работающий непосредственно с API Unity, должен находиться здесь."
-
 public class GamePauseService
 {
     private readonly ITimeScaleController timeScaleController;
@@ -19,7 +17,8 @@ public class GamePauseService
     {
         if (activePauseCount == 0)
         {
-            previousTimeScale = timeScaleController.TimeScale;
+            float currentTimeScale = timeScaleController.TimeScale;
+            previousTimeScale = currentTimeScale > 0f ? currentTimeScale : 1f;
             timeScaleController.TimeScale = 0f;
         }
 
@@ -41,10 +40,13 @@ public class GamePauseService
 
     public void Reset()
     {
-        if (activePauseCount == 0)
-            return;
+        float currentTimeScale = timeScaleController.TimeScale;
 
         activePauseCount = 0;
-        timeScaleController.TimeScale = previousTimeScale;
+
+        if (currentTimeScale <= 0f)
+            timeScaleController.TimeScale = previousTimeScale > 0f ? previousTimeScale : 1f;
+
+        previousTimeScale = timeScaleController.TimeScale;
     }
 }

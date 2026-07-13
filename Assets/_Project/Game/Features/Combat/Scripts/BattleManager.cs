@@ -8,6 +8,7 @@ public class BattleManager
     private readonly PlayerActionController playerController;
 
     public bool IsBattleOver { get; private set; }
+    public bool IsPlayerVictory => IsBattleOver && turnSystem.IsPlayerVictory();
 
     public BattleManager(
         TurnSystem turnSystem,

@@ -78,6 +78,33 @@ public sealed class ExplorationSaveCatalogServiceTests
         Assert.That(entries[9].IsEmpty, Is.True);
     }
 
+    [Test]
+    public async Task FullCatalogIncludesCheckpointAutoAndManualSlots()
+    {
+        var serializer = new OdinGameSaveSerializer();
+        var storage = new CatalogStorageProvider(serializer);
+        storage.Add(GameSaveKind.Checkpoint, "checkpoint_0", Utc(10), "checkpoint_place");
+        storage.Add(GameSaveKind.Auto, "auto_0", Utc(11), "auto_place");
+        storage.Add(GameSaveKind.Manual, "manual_0", Utc(12), "manual_place");
+
+        var coordinator = new GameSaveCoordinator(
+            serializer,
+            storage,
+            new GameSaveValidationService(),
+            new GameSaveMigrationService(new List<IGameSaveMigrationStep>()),
+            new List<IGameSaveContributor>(),
+            new List<IGameSaveRestorer>());
+        var catalog = new ExplorationSaveCatalogService(storage, coordinator);
+
+        IReadOnlyList<GameSaveCatalogEntry> entries =
+            await catalog.GetEntriesAsync(CancellationToken.None);
+
+        Assert.That(entries.Count, Is.EqualTo(3));
+        Assert.That(entries[0].Kind, Is.EqualTo(GameSaveKind.Checkpoint));
+        Assert.That(entries[1].Kind, Is.EqualTo(GameSaveKind.Auto));
+        Assert.That(entries[2].Kind, Is.EqualTo(GameSaveKind.Manual));
+    }
+
     private static DateTime Utc(int hour)
     {
         return new DateTime(2026, 7, 12, hour, 0, 0, DateTimeKind.Utc);
@@ -107,38 +134,27 @@ public sealed class ExplorationSaveCatalogServiceTests
                 timestamp,
                 "build-test",
                 "profile-test");
-            var saveData = new GameSaveData { Metadata = metadata };
-            saveData.Entries.Add(new GameSaveEntry
-            {
-                ContributorId = ExplorationSaveContributor.Id,
-                Payload = serializer.Serialize(
-                    new ExplorationSaveData
-                    {
-                        SceneId = ExplorationSceneIds.World,
-                        CheckpointId = checkpointId,
-                        PositionX = 1f,
-                        PositionY = 2f
-                    },
-                    typeof(ExplorationSaveData))
-            });
+            var explorationData = new ExplorationSaveData(
+                ExplorationSceneIds.World,
+                checkpointId,
+                1f,
+                2f);
+            var saveData = new GameSaveData(
+                metadata,
+                new[]
+                {
+                    new GameSaveEntry(
+                        ExplorationSaveContributor.Id,
+                        serializer.Serialize(explorationData, typeof(ExplorationSaveData)))
+                });
 
             dataBySlot[slotId] = serializer.Serialize(saveData);
-            slots.Add(new GameSaveSlotInfo
-            {
-                SlotId = slotId,
-                Metadata = metadata,
-                IsCorrupted = false
-            });
+            slots.Add(new GameSaveSlotInfo(slotId, metadata, isCorrupted: false));
         }
 
         public void AddCorrupted(string slotId)
         {
-            slots.Add(new GameSaveSlotInfo
-            {
-                SlotId = slotId,
-                Metadata = null,
-                IsCorrupted = true
-            });
+            slots.Add(new GameSaveSlotInfo(slotId, metadata: null, isCorrupted: true));
         }
 
         public UniTask<byte[]> ReadAsync(

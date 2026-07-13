@@ -1,5 +1,3 @@
-// Placement: Docs/Ru/01_Architecture.md:71-83. Quote: "- Save System".
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -220,21 +218,17 @@ namespace ChainSawLeg.Core.SaveSystem
         {
             try
             {
-                return new GameSaveSlotInfo
-                {
-                    SlotId = slotId,
-                    Metadata = DeserializeMetadata(slotId, data),
-                    IsCorrupted = false
-                };
+                return new GameSaveSlotInfo(
+                    slotId,
+                    DeserializeMetadata(slotId, data),
+                    isCorrupted: false);
             }
             catch (GameSaveException)
             {
-                return new GameSaveSlotInfo
-                {
-                    SlotId = slotId,
-                    Metadata = null,
-                    IsCorrupted = true
-                };
+                return new GameSaveSlotInfo(
+                    slotId,
+                    metadata: null,
+                    isCorrupted: true);
             }
         }
 

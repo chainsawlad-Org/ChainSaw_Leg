@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using ChainSawLeg.Core.SaveSystem;
 using Cysharp.Threading.Tasks;
@@ -10,6 +11,8 @@ namespace ChainSawLeg.Features.Exploration.Save
     {
         private IPlayerPositionProvider positionProvider;
         private IPlayerPositionRestorationTarget restorationTarget;
+
+        public event Action PositionRestored;
 
         public bool IsPlayerAvailable =>
             positionProvider != null && positionProvider.IsPlayerAvailable &&
@@ -47,6 +50,7 @@ namespace ChainSawLeg.Features.Exploration.Save
                 throw new GameSaveValidationException("Player is not registered for restoration.");
 
             restorationTarget.RestorePosition(positionX, positionY);
+            PositionRestored?.Invoke();
         }
 
         public async UniTask WaitForRegistrationAfterAsync(

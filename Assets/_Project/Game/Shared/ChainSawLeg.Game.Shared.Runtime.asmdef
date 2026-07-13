@@ -1,7 +1,9 @@
 {
     "name": "ChainSawLeg.Game.Shared.Runtime",
     "rootNamespace": "ChainSawLeg.Game.Shared",
-    "references": [],
+    "references": [
+        "UniTask"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
