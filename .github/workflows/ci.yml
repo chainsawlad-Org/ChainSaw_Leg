@@ -132,7 +132,8 @@ jobs:
           customImage: unityci/editor:ubuntu-6000.3.9f1-base-3
           testMode: editmode
           artifactsPath: unity-test-artifacts
-          customParameters: -logFile /dev/stdout
+          coverageOptions: ''
+          customParameters: -logFile /dev/stdout -assemblyNames ChainSawLeg.Project.Tests
           githubToken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Unity test artifacts

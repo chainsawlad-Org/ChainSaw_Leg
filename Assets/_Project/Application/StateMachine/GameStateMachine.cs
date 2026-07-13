@@ -76,6 +76,7 @@ public class GameStateMachine
             await CloseAllOverlaysAsync(cancellationToken);
             gamePauseService.Reset();
             ResetGameplayInputState();
+            ApplyMainPhaseInputState(previousPhase);
 
             if (previousPhase != null)
                 await previousPhase.Exit();

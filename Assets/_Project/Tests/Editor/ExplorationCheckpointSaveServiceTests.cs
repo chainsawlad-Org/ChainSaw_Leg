@@ -70,7 +70,7 @@ public sealed class ExplorationCheckpointSaveServiceTests
     }
 
     [Test]
-    public void FailedWriteRestoresPreviousCheckpointContext()
+    public async Task FailedWriteRestoresPreviousCheckpointContext()
     {
         var serializer = new CapturingSerializer();
         var storageProvider = new CapturingStorageProvider { FailWrites = true };
@@ -89,11 +89,21 @@ public sealed class ExplorationCheckpointSaveServiceTests
             context,
             new TestMetadataProvider());
 
-        Assert.ThrowsAsync<GameSaveStorageException>(async () =>
+        GameSaveStorageException exception = null;
+
+        try
+        {
             await service.SaveCheckpointToSlotAsync(
                 "checkpoint_0",
                 "new_checkpoint",
-                CancellationToken.None).AsTask());
+                CancellationToken.None);
+        }
+        catch (GameSaveStorageException caughtException)
+        {
+            exception = caughtException;
+        }
+
+        Assert.That(exception, Is.Not.Null);
         Assert.That(context.SceneId, Is.EqualTo(ExplorationSceneIds.World));
         Assert.That(context.CheckpointId, Is.EqualTo("previous_checkpoint"));
 
@@ -121,27 +131,29 @@ public sealed class ExplorationCheckpointSaveServiceTests
 
     private sealed class CapturingSerializer : IGameSaveSerializer
     {
+        private readonly OdinGameSaveSerializer serializer = new();
+
         public GameSaveData LastSnapshot { get; private set; }
 
         public byte[] Serialize<T>(T value)
         {
             LastSnapshot = value as GameSaveData;
-            return new byte[] { 1 };
+            return serializer.Serialize(value);
         }
 
         public byte[] Serialize(object value, Type expectedType)
         {
-            return new byte[] { 1 };
+            return serializer.Serialize(value, expectedType);
         }
 
         public T Deserialize<T>(byte[] data)
         {
-            throw new NotSupportedException();
+            return serializer.Deserialize<T>(data);
         }
 
         public object Deserialize(byte[] data, Type expectedType)
         {
-            throw new NotSupportedException();
+            return serializer.Deserialize(data, expectedType);
         }
     }
 
