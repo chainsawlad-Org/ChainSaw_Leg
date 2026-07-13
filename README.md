@@ -58,6 +58,43 @@ Assets/
 └── ...
 ```
 
+```
+Features/
+└── Dialogue/
+    ├── Scripts/                      # Основные скрипты диалоговой системы
+    │   ├── Core/                     # Ядро системы (не зависит от UI)
+    │   │   ├── DialogueManager.cs    # Главный менеджер (фасад)
+    │   │   ├── DialogueState.cs      # Состояния диалога (Idle, Active, Waiting)
+    │   │   ├── DialogueType.cs       # Типы диалогов (Bubble, Cutscene, RPG)
+    │   │   └── IDialogueEvent.cs     # Интерфейс событий
+    │   │
+    │   ├── Data/                     # Данные и конфиги
+    │   │   ├── DialogueData.cs       # Данные диалога (SO)
+    │   │   ├── DialogueNode.cs       # Узлы диалога
+    │   │   └── NpcDialogue.cs        # Связка NPC -> DialogueData
+    │   │
+    │   ├── Events/                   # ⚡ Реализации событий
+    │   │   ├── ShowTextEvent.cs      # Показать текст
+    │   │   ├── ChoiceEvent.cs        # Выбор варианта
+    │   │   └── AudioEvent.cs         # (доп. пример)
+    │   │
+    │   ├── Input/                    # Ввод для диалогов
+    │   │   └── DialogueInputRouter.cs # Маршрутизация ввода
+    │   │
+    │   ├── Choices/                  # Система выбора
+    │   │   └── DialogueChoice.cs     # Варианты ответов
+    │   │
+    │   └── Utilities/                # Вспомогательные классы
+    │       ├── DialogueParser.cs     # Парсинг диалогов (опционально)
+    │       └── DialogueLogger.cs     # Логирование (для дебага)
+    │
+    └── UI/                           # UI-представления
+        ├── DialogueUI_Bubble.cs      # Пузырь над головой
+        ├── DialogueUI_Cutscene.cs    # Кат-сценный стиль
+        ├── DialogueUI_RPG.cs         # RPG-стиль (окно внизу)
+        └── EventDispatchers/         # (опционально)
+            └── DialogueEventDispatcher.cs
+```
 
 ## Устранение проблем
 
@@ -66,6 +103,8 @@ Assets/
 1. Откройте `Edit → Project Settings → Graphics`
 2. В поле `Scriptable Render Pipeline Settings` укажите:  
    `Assets/_Project/Core/Infrastructure/Rendering/UniversalRP.asset`
+3. Method 'ResetStaticValues' is in a generic class, but [RuntimeInitializeOnLoad] methods cannot be in generic classes - Ошибка, Zenject, не трогать, она не влияет на функциональность. Стандартная ошибка для версии 9.2.1 (стабильная, не нужно обновляться для 9.3..)
+
 
 ### Сцена не найдена
 

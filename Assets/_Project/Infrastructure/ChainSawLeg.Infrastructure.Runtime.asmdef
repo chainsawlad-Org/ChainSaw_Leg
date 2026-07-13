@@ -1,0 +1,19 @@
+{
+    "name": "ChainSawLeg.Infrastructure.Runtime",
+    "rootNamespace": "ChainSawLeg.Infrastructure",
+    "references": [
+        "ChainSawLeg.Game.Shared.Runtime",
+        "Zenject",
+        "UniTask",
+        "Unity.InputSystem"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
