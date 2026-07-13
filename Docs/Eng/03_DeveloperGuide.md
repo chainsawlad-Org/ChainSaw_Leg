@@ -1,7 +1,7 @@
 # Developer Guide
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -24,32 +24,34 @@ Before starting development, it is recommended to read:
 
 Almost every new task follows these steps.
 
-```text
-Idea
+```mermaid
+flowchart TD
 
-↓
+N1["Idea"]
 
-Define Responsibility
+N2["Define Responsibility"]
 
-↓
+N3["Choose the Architectural Layer"]
 
-Choose the Architectural Layer
+N4["Create a Feature / Service / UI"]
 
-↓
+N5["Register in DI"]
 
-Create a Feature / Service / UI
+N6["Testing"]
 
-↓
+N7["Code Review"]
 
-Register in DI
+N1 --> N2
 
-↓
+N2 --> N3
 
-Testing
+N3 --> N4
 
-↓
+N4 --> N5
 
-Code Review
+N5 --> N6
+
+N6 --> N7
 ```
 
 Before writing code, determine:
@@ -191,7 +193,7 @@ An Overlay Phase never loads game scenes.
 
 # Adding a New Feature
 
-Each gameplay mechanic is created as a separate Feature.
+Each independent gameplay mechanic is created as a separate Feature. A change to an existing mechanic remains inside its Feature.
 
 Example:
 
@@ -216,7 +218,6 @@ Fishing
 ├── Models
 ├── Views
 ├── Configs
-├── Installers
 └── Prefabs
 ```
 
@@ -231,7 +232,7 @@ A Service should be created when its functionality is shared by multiple systems
 Examples:
 
 - AudioService
-- SaveService
+- GamePauseService
 - InputService
 
 Create the service.
@@ -255,7 +256,7 @@ Use it through Dependency Injection.
 
 # Adding UI
 
-UI is responsible only for presentation.
+UI is a passive presentation layer: it displays data and converts user input into events.
 
 UI may:
 
@@ -297,7 +298,7 @@ ScriptableObject is the preferred implementation.
 
 # Adding Installers
 
-Each independent Feature should have its own Installer.
+Each independent Feature should have a separate registration in the Composition Root.
 
 For example:
 
@@ -313,6 +314,8 @@ An Installer is responsible only for dependency registration.
 
 Any game logic inside an Installer is prohibited.
 
+A Feature Installer lives under `Application/Installers`, not inside the Game Feature. This keeps Game independent of Zenject.
+
 ---
 
 # Working with Scenes
@@ -323,23 +326,25 @@ Never use SceneManager directly.
 
 Correct:
 
-```text
-GameStateMachine
+```mermaid
+flowchart TD
 
-↓
+N1["GameStateMachine"]
 
-SceneGamePhase
+N2["SceneGamePhase"]
 
-↓
+N3["SceneLoader"]
 
-SceneLoader
+N1 --> N2
+
+N2 --> N3
 ```
 
 ---
 
 # Working with Dependency Injection
 
-All dependencies should be provided through constructors.
+Regular C# services, phases, and coordinators receive required dependencies through constructors.
 
 Correct:
 
@@ -357,6 +362,8 @@ Incorrect:
 var audio = new AudioService();
 ```
 
+For `MonoBehaviour` and other Unity-created objects, method injection through `[Inject] Construct(...)` is allowed. Serialized references are used only for scene or prefab references owned by the View or adapter itself.
+
 ---
 
 # Working with MonoBehaviour
@@ -371,6 +378,8 @@ For example:
 
 Game logic should be implemented in regular C# classes.
 
+A Feature-local MonoBehaviour may live inside its Feature, a passive UI component in UI, and a cross-layer scene adapter under `Application/Installers/FeatureAdapters`.
+
 ---
 
 # Working with Features
@@ -379,29 +388,41 @@ A Feature must not access the internal classes of another Feature directly.
 
 Correct:
 
-```text
-Dialogue
+```mermaid
+flowchart TD
 
-↓
+N1["Dialogue"]
 
-QuestService
+N2["public event / shared contract"]
+
+N3["Application coordinator"]
+
+N4["Quest"]
+
+N1 --> N2
+
+N2 --> N3
+
+N3 --> N4
 ```
 
 Incorrect:
 
-```text
-DialogueController
+```mermaid
+flowchart TD
 
-↓
+N1["DialogueController"]
 
-QuestDatabase
+N2["QuestDatabase"]
 
-↓
+N3["QuestInternalManager"]
 
-QuestInternalManager
+N1 --> N2
+
+N2 --> N3
 ```
 
-Communication between systems should occur through public interfaces.
+Features communicate through shared contracts, C# events, and Application coordinators.
 
 ---
 
@@ -409,55 +430,67 @@ Communication between systems should occur through public interfaces.
 
 The correct sequence for switching between game modes.
 
-```text
-Player Action
+```mermaid
+flowchart TD
 
-↓
+N1["Player Action"]
 
-Controller
+N2["Controller"]
 
-↓
+N3["GameStateMachine"]
 
-GameStateMachine
+N4["SceneGamePhase"]
 
-↓
+N5["SceneLoader"]
 
-SceneGamePhase
+N6["Unity SceneManager"]
 
-↓
+N1 --> N2
 
-SceneLoader
+N2 --> N3
 
-↓
+N3 --> N4
 
-Unity SceneManager
+N4 --> N5
+
+N5 --> N6
 ```
 
 Any deviation from this flow requires a separate architectural discussion.
 
 ---
 
-# Adding Save Support *(To Be Implemented Later)*
+# Adding Save Support
 
-Once the Save System is introduced, every system whose data needs to be saved must implement the save interface.
+Every Feature whose data must be saved provides a dedicated Save DTO and contributor.
 
-For example:
+If the data must be restored, the Feature also provides a restorer with the same stable contributor ID.
 
-```text
-Player
+Correct flow:
 
-Inventory
+```mermaid
+flowchart TD
 
-Quest
+N1["Runtime Model"]
 
-World
+N2["IGameSaveContributor"]
 
-Settings
+N3["Save DTO"]
+
+N4["GameSaveCoordinator"]
+
+N1 --> N2
+
+N2 --> N3
+
+N3 --> N4
 ```
 
-All save operations are performed centrally through SaveService.
+The DTO contains no `MonoBehaviour`, `Transform`, `GameObject`, `Component`, or other `UnityEngine.Object` reference.
 
-Gameplay systems must not work with files directly.
+Contributor and restorer are registered through the corresponding installer. Gameplay systems and UI never access the serializer, files, or full path directly.
+
+The complete pipeline and migration rules are documented in `ArchitectureAtlas/09_SaveSystem.md`.
 
 ---
 
@@ -483,13 +516,13 @@ A MonoBehaviour must not contain game logic.
 
 ## ❌ Feature depending directly on another Feature
 
-Use services, events, or public interfaces.
+Use shared contracts, C# events, or an Application coordinator.
 
 ---
 
 ## ❌ Duplicating logic
 
-If the same code is used by multiple systems, it should be moved to Shared or Infrastructure.
+If pure code is shared by multiple Features, it should be moved to Game Shared. Infrastructure is reserved for technical integrations with Unity, the file system, or external libraries.
 
 ---
 
@@ -514,10 +547,10 @@ Before creating a Pull Request, verify the following:
 
 When developing new functionality, follow these rules:
 
-- Every new gameplay mechanic is created as a separate Feature.
+- Every new independent gameplay mechanic is created as a separate Feature.
 - Game modes are implemented as either a Main Phase or an Overlay Phase.
 - All scenes are loaded only through SceneLoader.
-- All dependencies are created through Dependency Injection.
-- UI is responsible only for presentation.
+- Services, phases, and coordinators are created and connected through Dependency Injection.
+- UI displays data and emits events but makes no gameplay decisions.
 - MonoBehaviour contains only Unity-specific code.
 - Any new architectural idea must follow the principles described in `01_Architecture.md`.

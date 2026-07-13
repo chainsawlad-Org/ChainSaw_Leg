@@ -1,7 +1,7 @@
 # Glossary
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -34,12 +34,12 @@ Application не содержит игровой логики.
 
 ## Infrastructure
 
-Слой, изолирующий игровой код от Unity API и внешних библиотек.
+Слой глобальных технических интеграций с Unity API, файловой системой и внешними библиотеками.
 
 Примеры:
 
 - SceneLoader
-- SaveService
+- GameSaveCoordinator
 - AudioService
 - InputService
 
@@ -59,7 +59,7 @@ Infrastructure предоставляет функциональность, но
 
 Слой отображения информации.
 
-UI показывает данные пользователю и принимает ввод.
+UI показывает данные пользователю, принимает ввод и отправляет события представления.
 
 UI не содержит игровых правил.
 
@@ -165,7 +165,8 @@ FSM не содержит игровой логики.
 
 - Main Menu
 - Exploration
-- Battle
+- Combat
+- Exploration
 - Minigame
 
 Main Phase обычно связана с игровой сценой.
@@ -224,10 +225,19 @@ Service не содержит игровых правил.
 
 Примеры:
 
-- SceneLoader
-- SaveService
 - AudioService
 - InputService
+- GamePauseService
+
+---
+
+# Coordinator
+
+Класс, координирующий несколько компонентов в рамках одного application use case.
+
+Например, GameSaveCoordinator управляет техническим pipeline сохранения, а PauseMenuCoordinator связывает UI с фазами и сервисами.
+
+Coordinator не содержит View-логики и не обращается к глобальному состоянию через static Instance.
 
 ---
 
@@ -271,19 +281,21 @@ Factory скрывает детали создания объектов.
 
 Например:
 
+```mermaid
+flowchart TD
+
+N1["GameSaveCoordinator"]
+
+N2["IGameSaveSerializer"]
+
+N3["IGameSaveStorageProvider"]
+
+N1 --> N2
+
+N2 --> N3
 ```
-BattleController
 
-↓
-
-AudioService
-
-↓
-
-SaveService
-```
-
-AudioService и SaveService являются зависимостями BattleController.
+IGameSaveSerializer и IGameSaveStorageProvider являются зависимостями GameSaveCoordinator.
 
 ---
 
@@ -340,20 +352,22 @@ SC_Battle
 
 Стандартная схема:
 
-```
-GameStateMachine
+```mermaid
+flowchart TD
 
-↓
+N1["GameStateMachine"]
 
-SceneGamePhase
+N2["SceneGamePhase"]
 
-↓
+N3["SceneLoader"]
 
-SceneLoader
+N4["Unity SceneManager"]
 
-↓
+N1 --> N2
 
-Unity SceneManager
+N2 --> N3
+
+N3 --> N4
 ```
 
 ---
@@ -410,13 +424,15 @@ BattleStarted
 
 ---
 
-# Save System *(будущее)*
+# Save System
 
 Подсистема сохранения и загрузки игрового состояния.
 
 Игровые системы не работают напрямую с файлами.
 
-Все операции проходят через SaveService.
+Общий pipeline координирует GameSaveCoordinator.
+
+Игровые Feature подключаются через Save DTO, contributor и restorer.
 
 ---
 
@@ -432,7 +448,7 @@ BattleStarted
 
 Точка приложения, в которой создаются и связываются все зависимости.
 
-В текущем проекте Composition Root представлен ProjectInstaller и связанными Installer'ами.
+В текущем проекте Composition Root представлен `ProjectContext`, `SceneContext` и installer-ами из `Application/Installers`.
 
 ---
 

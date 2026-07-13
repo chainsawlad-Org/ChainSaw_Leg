@@ -16,6 +16,7 @@ on:
 permissions:
   contents: read
   pull-requests: read
+  checks: write
 
 concurrency:
   group: chainsaw-leg-ci-${{ github.workflow }}-${{ github.ref }}
@@ -54,6 +55,7 @@ jobs:
   unity-project-validation:
     name: Validate Unity Project
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     needs:
       - validate-target-branch
 
@@ -107,14 +109,39 @@ jobs:
             exit 1
           fi
 
-      - name: Unity tests placeholder
-        run: |
-          echo "Unity Test Runner step will be added later."
-          echo "Planned checks:"
-          echo "- EditMode tests"
-          echo "- PlayMode tests"
-          echo "- Unity build"
-          echo "- .meta files validation"
+      - name: Cache Unity Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-${{ runner.os }}-Unity-6000.3.9f1-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-${{ runner.os }}-Unity-6000.3.9f1-
+            Library-${{ runner.os }}-Unity-
+
+      - name: Run Unity EditMode tests
+        id: unity-editmode-tests
+        timeout-minutes: 30
+        uses: game-ci/unity-test-runner@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          projectPath: .
+          unityVersion: 6000.3.9f1
+          customImage: unityci/editor:ubuntu-6000.3.9f1-base-3
+          testMode: editmode
+          artifactsPath: unity-test-artifacts
+          coverageOptions: ''
+          customParameters: -logFile /dev/stdout -assemblyNames ChainSawLeg.Project.Tests
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Unity test artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unity-editmode-test-results
+          path: unity-test-artifacts
 
       - name: CI completed
         run: echo "Basic CI validation completed successfully."

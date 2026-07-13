@@ -1,7 +1,7 @@
 # Startup
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -51,7 +51,9 @@ MainPhase
 
 BootstrapRunner --> StartupResolver
 StartupResolver --> StartupPhaseRegistry
-StartupPhaseRegistry --> GameStateMachine
+StartupPhaseRegistry -->|Registered phase type| StartupResolver
+StartupResolver -->|Selected Main Phase| BootstrapRunner
+BootstrapRunner --> GameStateMachine
 GameStateMachine --> MainPhase
 ```
 
@@ -87,28 +89,34 @@ StartupPhaseRegistry хранит соответствие между сцена
 
 Например:
 
-```
-SC_MainMenu
+```mermaid
+flowchart TD
 
-↓
+N1["SC_MainMenu"]
 
-MainMenuPhase
-```
+N2["MainMenuPhase"]
 
-```
-SC_World
-
-↓
-
-ExplorationPhase
+N1 --> N2
 ```
 
+```mermaid
+flowchart TD
+
+N1["SC_World"]
+
+N2["ExplorationPhase"]
+
+N1 --> N2
 ```
-SC_Battle
 
-↓
+```mermaid
+flowchart TD
 
-BattlePhase
+N1["SC_Battle"]
+
+N2["BattlePhase"]
+
+N1 --> N2
 ```
 
 Registry не содержит логики выбора.
@@ -135,12 +143,14 @@ Registry не содержит логики выбора.
 
 Например:
 
-```
-SC_World
+```mermaid
+flowchart TD
 
-↓
+N1["SC_World"]
 
-ExplorationPhase
+N2["ExplorationPhase"]
+
+N1 --> N2
 ```
 
 Это позволяет запускать отдельные игровые сцены напрямую без необходимости каждый раз проходить главное меню.
@@ -244,7 +254,7 @@ StartupPhaseRegistry хранит только данные.
 - выполнить автоматические тесты;
 - открыть специальный режим отладки.
 
-Такие изменения должны вноситься исключительно в StartupResolver без изменения остальных компонентов.
+Правило выбора стартового сценария добавляется в StartupResolver. Фактическую загрузку сохранения и переключение сцен он делегирует Application-сервисам и GameStateMachine, поэтому Startup не обращается к файлам или SceneManager напрямую.
 
 ---
 

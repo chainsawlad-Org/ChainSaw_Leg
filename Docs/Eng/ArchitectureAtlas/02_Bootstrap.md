@@ -1,7 +1,7 @@
 # Bootstrap
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -60,7 +60,9 @@ BootstrapStartup --> BootstrapRunner
 
 BootstrapRunner --> StartupResolver
 
-StartupResolver --> GameStateMachine
+StartupResolver -->|Selected Main Phase| BootstrapRunner
+
+BootstrapRunner --> GameStateMachine
 
 GameStateMachine --> MainPhase
 ```
@@ -107,16 +109,18 @@ This is where the main startup sequence is executed.
 
 Typical lifecycle:
 
-```text
-Load Persistent Scene
+```mermaid
+flowchart TD
 
-↓
+N1["Load Persistent Scene"]
 
-Resolve Startup Phase
+N2["Resolve Startup Phase"]
 
-↓
+N3["GameStateMachine.ReplaceMain(...)"]
 
-GameStateMachine.ReplaceMain(...)
+N1 --> N2
+
+N2 --> N3
 ```
 
 BootstrapRunner does not know which game scene should be opened.
@@ -146,7 +150,11 @@ BootstrapRunner --> StartupResolver
 
 StartupResolver --> StartupPhaseRegistry
 
-StartupPhaseRegistry --> Phase
+StartupPhaseRegistry -->|Registered phase type| StartupResolver
+
+StartupResolver -->|Selected Main Phase| BootstrapRunner
+
+BootstrapRunner --> Phase
 ```
 
 This allows the startup rules to change without modifying Bootstrap.
@@ -241,7 +249,7 @@ Bootstrap contains no hidden transitions.
 
 Bootstrap does not create dependencies itself.
 
-All objects are provided by the Zenject container.
+All Bootstrap service dependencies are provided by the Zenject container. Bootstrap does not create Unity-owned objects manually.
 
 ---
 
@@ -265,32 +273,34 @@ Bootstrap can be extended without modifying the existing logic.
 
 For example:
 
-```text
-BootstrapRunner
+```mermaid
+flowchart TD
 
-↓
+N1["BootstrapRunner"]
 
-Load Persistent
+N2["Load Persistent"]
 
-↓
+N3["Load Addressables"]
 
-Load Addressables
+N4["Initialize Analytics"]
 
-↓
+N5["Check Save Data"]
 
-Initialize Analytics
+N6["Resolve Startup"]
 
-↓
+N7["Enter Phase"]
 
-Check Save Data
+N1 --> N2
 
-↓
+N2 --> N3
 
-Resolve Startup
+N3 --> N4
 
-↓
+N4 --> N5
 
-Enter Phase
+N5 --> N6
+
+N6 --> N7
 ```
 
 New stages should be added to BootstrapRunner.

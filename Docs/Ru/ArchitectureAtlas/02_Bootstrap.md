@@ -1,7 +1,7 @@
 # Bootstrap
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -60,7 +60,9 @@ BootstrapStartup --> BootstrapRunner
 
 BootstrapRunner --> StartupResolver
 
-StartupResolver --> GameStateMachine
+StartupResolver -->|Selected Main Phase| BootstrapRunner
+
+BootstrapRunner --> GameStateMachine
 
 GameStateMachine --> MainPhase
 ```
@@ -107,16 +109,18 @@ BootstrapRunner является координатором процесса з�
 
 Типичный жизненный цикл:
 
-```
-Load Persistent Scene
+```mermaid
+flowchart TD
 
-↓
+N1["Load Persistent Scene"]
 
-Resolve Startup Phase
+N2["Resolve Startup Phase"]
 
-↓
+N3["GameStateMachine.ReplaceMain(...)"]
 
-GameStateMachine.ReplaceMain(...)
+N1 --> N2
+
+N2 --> N3
 ```
 
 BootstrapRunner не знает, какая игровая сцена должна быть открыта.
@@ -146,7 +150,11 @@ BootstrapRunner --> StartupResolver
 
 StartupResolver --> StartupPhaseRegistry
 
-StartupPhaseRegistry --> Phase
+StartupPhaseRegistry -->|Registered phase type| StartupResolver
+
+StartupResolver -->|Selected Main Phase| BootstrapRunner
+
+BootstrapRunner --> Phase
 ```
 
 Это позволяет изменять правила запуска без изменения Bootstrap.
@@ -241,7 +249,7 @@ Bootstrap отвечает исключительно за запуск прил
 
 Bootstrap не создаёт зависимости самостоятельно.
 
-Все объекты предоставляются контейнером Zenject.
+Все сервисные зависимости Bootstrap предоставляются контейнером Zenject. Unity-owned объекты не создаются Bootstrap вручную.
 
 ---
 
@@ -265,32 +273,34 @@ Bootstrap может быть расширен без изменения сущ�
 
 Например:
 
-```
-BootstrapRunner
+```mermaid
+flowchart TD
 
-↓
+N1["BootstrapRunner"]
 
-Load Persistent
+N2["Load Persistent"]
 
-↓
+N3["Load Addressables"]
 
-Load Addressables
+N4["Initialize Analytics"]
 
-↓
+N5["Check Save Data"]
 
-Initialize Analytics
+N6["Resolve Startup"]
 
-↓
+N7["Enter Phase"]
 
-Check Save Data
+N1 --> N2
 
-↓
+N2 --> N3
 
-Resolve Startup
+N3 --> N4
 
-↓
+N4 --> N5
 
-Enter Phase
+N5 --> N6
+
+N6 --> N7
 ```
 
 Новые этапы должны добавляться в BootstrapRunner.

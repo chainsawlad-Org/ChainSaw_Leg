@@ -1,7 +1,7 @@
 # Startup
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -51,7 +51,9 @@ MainPhase
 
 BootstrapRunner --> StartupResolver
 StartupResolver --> StartupPhaseRegistry
-StartupPhaseRegistry --> GameStateMachine
+StartupPhaseRegistry -->|Registered phase type| StartupResolver
+StartupResolver -->|Selected Main Phase| BootstrapRunner
+BootstrapRunner --> GameStateMachine
 GameStateMachine --> MainPhase
 ```
 
@@ -87,28 +89,34 @@ StartupPhaseRegistry stores the mapping between Unity Scenes and game phases.
 
 For example:
 
-```text
-SC_MainMenu
+```mermaid
+flowchart TD
 
-↓
+N1["SC_MainMenu"]
 
-MainMenuPhase
+N2["MainMenuPhase"]
+
+N1 --> N2
 ```
 
-```text
-SC_World
+```mermaid
+flowchart TD
 
-↓
+N1["SC_World"]
 
-ExplorationPhase
+N2["ExplorationPhase"]
+
+N1 --> N2
 ```
 
-```text
-SC_Battle
+```mermaid
+flowchart TD
 
-↓
+N1["SC_Battle"]
 
-BattlePhase
+N2["BattlePhase"]
+
+N1 --> N2
 ```
 
 The Registry contains no decision-making logic.
@@ -135,12 +143,14 @@ If the scene is registered in StartupPhaseRegistry, the corresponding Main Phase
 
 For example:
 
-```text
-SC_World
+```mermaid
+flowchart TD
 
-↓
+N1["SC_World"]
 
-ExplorationPhase
+N2["ExplorationPhase"]
+
+N1 --> N2
 ```
 
 This allows individual gameplay scenes to be launched directly without having to go through the main menu every time.
@@ -244,7 +254,7 @@ For example:
 - run automated tests;
 - launch a special debug mode.
 
-Such changes should be made exclusively in StartupResolver without modifying the other components.
+The startup-scenario selection rule belongs in StartupResolver. Actual save loading and scene transitions are delegated to Application services and the GameStateMachine, so Startup does not access files or SceneManager directly.
 
 ---
 

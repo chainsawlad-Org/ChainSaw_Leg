@@ -1,7 +1,7 @@
 # Scene Management
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -62,20 +62,22 @@ SceneLoader --> UnitySceneManager
 
 Подсистема состоит из следующих компонентов.
 
-```
-ISceneLoader
+```mermaid
+flowchart TD
 
-↓
+N1["ISceneLoader"]
 
-SceneLoader
+N2["SceneLoader"]
 
-↓
+N3["SceneGamePhase"]
 
-SceneGamePhase
+N4["SceneNames"]
 
-↓
+N1 --> N2
 
-SceneNames
+N2 --> N3
+
+N3 --> N4
 ```
 
 ---
@@ -101,7 +103,7 @@ SceneLoader является единственной реализацией ISc
 
 Он инкапсулирует работу с Unity SceneManager.
 
-Все вызовы Unity API находятся только здесь.
+Все прямые вызовы Unity SceneManager находятся только здесь.
 
 ---
 
@@ -189,7 +191,7 @@ SC_World
 SC_Battle
 ```
 
-В любой момент времени активна только одна Gameplay Scene.
+В любой момент времени существует только одна логически текущая Gameplay Scene. Во время управляемого перехода старая и новая сцены могут кратковременно оставаться загруженными одновременно.
 
 ---
 
@@ -225,20 +227,22 @@ SceneLoader->>Unity: Unload Previous Scene
 
 Переключение игровых сцен всегда происходит одинаково.
 
-```
-GameStateMachine
+```mermaid
+flowchart TD
 
-↓
+N1["GameStateMachine"]
 
-SceneGamePhase
+N2["SceneGamePhase"]
 
-↓
+N3["SceneLoader"]
 
-SceneLoader
+N4["Unity SceneManager"]
 
-↓
+N1 --> N2
 
-Unity SceneManager
+N2 --> N3
+
+N3 --> N4
 ```
 
 Обход этой последовательности запрещён.
@@ -273,9 +277,9 @@ SceneLoader хранит информацию о текущей игровой �
 
 ## One Gameplay Scene
 
-Одновременно может быть загружена только одна игровая сцена.
+В стабильном состоянии существует одна логически текущая gameplay-сцена плюс Persistent Scene.
 
-Исключением является Persistent Scene.
+Во время `SwitchTo` новая сцена сначала загружается, а предыдущая затем выгружается. Кратковременное техническое перекрытие двух загруженных gameplay-сцен допустимо только внутри SceneLoader и не означает две активные Main Phase.
 
 ---
 
@@ -347,9 +351,9 @@ Battle, Dialogue, Inventory и другие Feature не должны самос
 
 ---
 
-## ❌ Несколько Gameplay Scene
+## ❌ Несколько текущих Gameplay Scene
 
-В проекте допускается только одна активная игровая сцена.
+После завершения перехода SceneLoader должен хранить только одну текущую gameplay-сцену. Постоянная загрузка нескольких gameplay-сцен вне управляемого перехода запрещена.
 
 ---
 

@@ -1,7 +1,7 @@
 # Scene Management
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -62,20 +62,22 @@ All scene operations go through SceneLoader.
 
 The subsystem consists of the following components.
 
-```text
-ISceneLoader
+```mermaid
+flowchart TD
 
-↓
+N1["ISceneLoader"]
 
-SceneLoader
+N2["SceneLoader"]
 
-↓
+N3["SceneGamePhase"]
 
-SceneGamePhase
+N4["SceneNames"]
 
-↓
+N1 --> N2
 
-SceneNames
+N2 --> N3
+
+N3 --> N4
 ```
 
 ---
@@ -101,7 +103,7 @@ SceneLoader is the only implementation of ISceneLoader.
 
 It encapsulates all interaction with the Unity SceneManager.
 
-All Unity API calls are located exclusively here.
+All direct Unity SceneManager calls are located exclusively here.
 
 ---
 
@@ -189,7 +191,7 @@ SC_World
 SC_Battle
 ```
 
-Only one Gameplay Scene can be active at any given time.
+There is only one logically current Gameplay Scene at any given time. During a managed transition, the old and new scenes may briefly remain loaded at the same time.
 
 ---
 
@@ -225,20 +227,22 @@ After `SwitchTo()` completes, the new gameplay scene becomes the current scene.
 
 Gameplay scene transitions always follow the same sequence.
 
-```text
-GameStateMachine
+```mermaid
+flowchart TD
 
-↓
+N1["GameStateMachine"]
 
-SceneGamePhase
+N2["SceneGamePhase"]
 
-↓
+N3["SceneLoader"]
 
-SceneLoader
+N4["Unity SceneManager"]
 
-↓
+N1 --> N2
 
-Unity SceneManager
+N2 --> N3
+
+N3 --> N4
 ```
 
 Bypassing this sequence is prohibited.
@@ -273,9 +277,9 @@ The rest of the project must not use the Unity SceneManager.
 
 ## One Gameplay Scene
 
-Only one gameplay scene may be loaded at a time.
+In a stable state there is one logically current gameplay scene plus the Persistent Scene.
 
-The only exception is the Persistent Scene.
+During `SwitchTo`, the new scene is loaded before the previous scene is unloaded. A short technical overlap of two loaded gameplay scenes is allowed only inside SceneLoader and does not mean that two Main Phases are active.
 
 ---
 
@@ -347,9 +351,9 @@ Use the GameStateMachine for transitions.
 
 ---
 
-## ❌ Multiple Gameplay Scenes
+## ❌ Multiple Current Gameplay Scenes
 
-Only one active gameplay scene is allowed in the project.
+After a transition completes, SceneLoader must track only one current gameplay scene. Keeping multiple gameplay scenes loaded outside a managed transition is forbidden.
 
 ---
 

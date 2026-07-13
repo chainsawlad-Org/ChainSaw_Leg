@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using ChainSawLeg.Core.SaveSystem;
 using Cysharp.Threading.Tasks;
 using NUnit.Framework;
+using UnityEngine;
+using UnityEngine.TestTools;
 
 public class GameSaveSystemTests
 {
@@ -78,15 +80,26 @@ public class GameSaveSystemTests
     }
 
     [Test]
-    public void CorruptedStoredDataThrowsSerializationError()
+    public async Task CorruptedStoredDataThrowsSerializationError()
     {
         var storageProvider = new InMemoryGameSaveStorageProvider();
         GameSaveCoordinator coordinator = CreateCoordinator(storageProvider, null, null);
         var request = new GameSaveRequest(GameSaveKind.Auto, "slot-corrupted");
         storageProvider.Set(request, new byte[] { 0x01, 0x02, 0x03, 0x04 });
+        LogAssert.Expect(LogType.Error, "Failed to enter node ''.");
 
-        Assert.ThrowsAsync<GameSaveSerializationException>(async () =>
-            await coordinator.LoadAsync(request, CancellationToken.None).AsTask());
+        GameSaveSerializationException exception = null;
+
+        try
+        {
+            await coordinator.LoadAsync(request, CancellationToken.None);
+        }
+        catch (GameSaveSerializationException caughtException)
+        {
+            exception = caughtException;
+        }
+
+        Assert.That(exception, Is.Not.Null);
     }
 
     [Test]

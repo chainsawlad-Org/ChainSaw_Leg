@@ -1,7 +1,7 @@
 # Architecture Overview
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -24,7 +24,13 @@ Startup
 
 GameStateMachine
 
+GamePhases["Game Phases"]
+
+ApplicationCoordination
+
 SceneManagement
+
+SaveSystem
 
 Features
 
@@ -34,18 +40,26 @@ Bootstrap --> Startup
 
 Startup --> GameStateMachine
 
-GameStateMachine --> SceneManagement
+GameStateMachine --> GamePhases
 
-GameStateMachine --> Features
+GamePhases --> SceneManagement
 
-Features --> UI
+ApplicationCoordination --> GameStateMachine
+
+ApplicationCoordination --> SaveSystem
+
+ApplicationCoordination --> Features
+
+ApplicationCoordination --> UI
+
+SaveSystem --> Features
 ```
 
 ---
 
 # System Overview
 
-Проект состоит из шести основных архитектурных подсистем.
+Проект состоит из нескольких основных архитектурных подсистем.
 
 | System | Responsibility |
 |----------|----------------|
@@ -55,6 +69,7 @@ Features --> UI
 | Scene Management | Загрузка и переключение игровых сцен |
 | Features | Игровая логика |
 | UI | Отображение информации игроку |
+| Save System | Сохранение и восстановление игрового состояния |
 
 Каждая подсистема имеет строго определённую область ответственности.
 
@@ -64,28 +79,30 @@ Features --> UI
 
 После запуска приложения управление проходит через несколько последовательных этапов.
 
-```text
-Application Start
+```mermaid
+flowchart TD
 
-↓
+N1["Application Start"]
 
-Bootstrap
+N2["Bootstrap"]
 
-↓
+N3["Startup"]
 
-Startup
+N4["Game State Machine"]
 
-↓
+N5["Game Phases"]
 
-Game State Machine
+N6["Gameplay"]
 
-↓
+N1 --> N2
 
-Main Phase
+N2 --> N3
 
-↓
+N3 --> N4
 
-Gameplay
+N4 --> N5
+
+N5 --> N6
 ```
 
 После завершения Bootstrap управление полностью переходит Game State Machine.
@@ -103,6 +120,8 @@ Player
 
 UI
 
+ApplicationCoordination
+
 GameStateMachine
 
 MainPhase
@@ -111,42 +130,40 @@ OverlayPhase
 
 SceneLoader
 
+SaveSystem
+
 Player --> UI
 
-UI --> MainPhase
+UI --> ApplicationCoordination
 
-MainPhase --> GameStateMachine
+ApplicationCoordination --> GameStateMachine
+
+ApplicationCoordination --> SaveSystem
 
 GameStateMachine --> OverlayPhase
 
-GameStateMachine --> SceneLoader
+GameStateMachine --> MainPhase
+
+MainPhase --> SceneLoader
+
+SaveSystem --> Features
 ```
 
 ---
 
 # Layered Architecture
 
-Архитектура проекта разделена на четыре уровня.
+Архитектура проекта разделена на четыре слоя с разными обязанностями.
 
 ```text
-Application
-
-↓
-
-Infrastructure
-
-↓
-
-Game
-
-↓
-
-UI
+Application / Composition ──▶ Game
+           │
+           ├────────────────▶ Infrastructure ──▶ Game Shared contracts
+           │
+           └────────────────▶ UI
 ```
 
-Каждый уровень зависит только от нижележащих компонентов.
-
-Обратные зависимости запрещены.
+Game не зависит от остальных слоёв. Application и Composition связывают подсистемы. Infrastructure и UI не зависят от Application и не создают циклических asmdef-ссылок.
 
 ---
 
@@ -230,7 +247,7 @@ SceneLoader --> Unity
 
 # Dependency Injection
 
-Все основные объекты создаются контейнером Zenject.
+Сервисы, phases и coordinators создаются контейнером Zenject. Unity scene objects создаются Unity и получают зависимости через injection.
 
 ```mermaid
 flowchart TD
@@ -254,7 +271,7 @@ Installers --> DiContainer
 DiContainer --> Application
 ```
 
-Все зависимости передаются через конструкторы.
+Обычные C# классы получают зависимости через конструкторы. Unity-created MonoBehaviour используют method injection.
 
 ---
 
@@ -265,15 +282,11 @@ DiContainer --> Application
 ```text
 Game
 
-├── Battle
+├── Combat
 
 ├── Dialogue
 
-├── Inventory
-
-├── Quest
-
-├── NPC
+├── Exploration
 
 └── Minigames
 ```
@@ -293,48 +306,57 @@ Player
 
 UI
 
+ApplicationCoordinator
+
 Game
 
 Player --> UI
 
-UI --> Game
+UI -->|View events| ApplicationCoordinator
 
-Game --> UI
+ApplicationCoordinator -->|Commands / use cases| Game
+
+Game -->|Domain events / results| ApplicationCoordinator
+
+ApplicationCoordinator -->|Presentation state| UI
 ```
 
 UI отображает данные и передаёт действия пользователя.
 
 Игровые решения принимаются только игровыми системами.
 
+Стрелки показывают runtime-поток. На уровне compile-time Game не зависит от ApplicationCoordinator, а UI не зависит от конкретной реализации Game Feature.
+
 ---
 
 # Dependency Direction
 
-Зависимости всегда направлены в одну сторону.
+Compile-time зависимости направлены к стабильным контрактам.
 
 ```mermaid
 flowchart TD
 
-Bootstrap
+Application
 
-GameStateMachine
+Infrastructure
 
-SceneManagement
-
-Features
+Game
 
 UI
 
-Bootstrap --> GameStateMachine
+GameShared["Game Shared contracts"]
 
-GameStateMachine --> SceneManagement
+Application --> Infrastructure
 
-GameStateMachine --> Features
+Application --> Game
 
-Features --> UI
+Application --> UI
+
+Infrastructure --> GameShared
+
 ```
 
-Архитектура не допускает циклических зависимостей между подсистемами.
+Game не зависит от Application, Infrastructure, UI или Zenject. Архитектура не допускает циклических зависимостей между asmdef.
 
 ---
 
@@ -369,6 +391,7 @@ Features --> UI
 | 06_DependencyInjection | Dependency Injection |
 | 07_Features | Архитектура игровых Feature |
 | 08_UI | Архитектура пользовательского интерфейса |
+| 09_SaveSystem | Сохранение и восстановление игрового состояния |
 
 ---
 
