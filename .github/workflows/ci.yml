@@ -132,7 +132,7 @@ jobs:
           customImage: unityci/editor:ubuntu-6000.3.9f1-base-3
           testMode: editmode
           artifactsPath: unity-test-artifacts
-          coverageOptions: useProjectSettings
+          customParameters: -logFile /dev/stdout
           githubToken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Unity test artifacts
