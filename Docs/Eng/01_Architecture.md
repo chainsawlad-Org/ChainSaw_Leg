@@ -1,7 +1,7 @@
 # Architecture
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -37,7 +37,7 @@ The primary goal of the architecture is to make the project scalable and maintai
 
 # Architectural Layers
 
-The project is divided into four independent layers.
+The project is divided into four layers with different responsibilities.
 
 ```text
 Application
@@ -70,17 +70,21 @@ The Application layer does not contain game logic.
 
 ## Infrastructure
 
-Isolates the project from the Unity API and external libraries.
+Isolates global technical integrations with the Unity API and external libraries.
 
 Examples:
 
 - Scene Management
-- Save System
+- Save System serialization and file storage
 - Audio
 - Input
 - Addressables
 
-Infrastructure provides services to other layers.
+Infrastructure provides technical services to other layers. Feature-local Views, UI Views, and scene adapters may use the Unity API outside Infrastructure when they remain narrow adapters and do not contain game rules.
+
+Save System does not belong entirely to Infrastructure. It is a cross-cutting subsystem: shared contracts and DTOs live in Game Shared, gameplay mappers live in the corresponding Feature, use cases are coordinated in Application, and the serializer and storage provider live in Infrastructure.
+
+Detailed placement is documented in `ArchitectureAtlas/09_SaveSystem.md`.
 
 ---
 
@@ -105,7 +109,7 @@ The Game layer knows nothing about Bootstrap or Dependency Injection.
 
 ## UI
 
-Responsible exclusively for presenting information.
+Responsible for presenting information and converting user input into view events.
 
 UI:
 
@@ -119,22 +123,23 @@ UI does not contain game rules.
 
 # Dependency Direction
 
-Dependencies always point from top to bottom.
+The layers do not form a linear chain. Dependencies point toward stable contracts and must not create cycles.
 
 ```text
-Application
-      │
-      ▼
-Infrastructure
-      │
-      ▼
-Game
-      │
-      ▼
-UI
+Application / Composition ──▶ Game
+           │
+           ├────────────────▶ Infrastructure ──▶ Game Shared contracts
+           │
+           └────────────────▶ UI
 ```
 
-Reverse dependencies are not allowed.
+Core rules:
+
+- Game does not depend on Application, Infrastructure, UI, or Zenject;
+- Infrastructure implements technical contracts and may depend on Game Shared;
+- UI remains passive and does not depend on concrete gameplay Feature implementations;
+- Application and Composition connect the layers and coordinate use cases;
+- cyclic asmdef dependencies are forbidden.
 
 ---
 
@@ -147,7 +152,7 @@ Each gameplay mechanic is implemented as an independent Feature.
 For example:
 
 ```text
-Battle
+Combat
 
 Dialogue
 
@@ -166,11 +171,11 @@ A Feature should be as independent as possible from the rest of the project.
 
 # Dependency Injection
 
-All core objects are created by the Zenject container.
+Services, phases, and coordinators are created by the Zenject container. Scene objects and MonoBehaviours are created by Unity and receive dependencies through injection.
 
-The project does not use global Singletons.
+The project does not use the static Singleton pattern with a global `Instance`. The `AsSingle()` lifetime inside a DI context is allowed.
 
-Dependencies are provided through constructors.
+Regular C# classes receive dependencies through constructors. Method injection is allowed for Unity-created MonoBehaviours.
 
 This reduces coupling between subsystems and simplifies testing.
 

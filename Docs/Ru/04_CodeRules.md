@@ -1,7 +1,7 @@
 # Code Rules
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -41,25 +41,17 @@
 
 ## Dependencies
 
-Зависимости должны быть направлены сверху вниз.
+Зависимости должны быть направлены к стабильным контрактам и не образовывать циклы.
 
 ```
-Application
+Application / Composition → Game
 
-↓
+Application / Composition → Infrastructure → Game Shared
 
-Infrastructure
-
-↓
-
-Game
-
-↓
-
-UI
+Application / Composition → UI
 ```
 
-Нижние слои не должны знать о верхних.
+Game не знает об Application, Infrastructure, UI и Zenject. UI не обращается к внутренним классам Feature. Infrastructure не зависит от Application или UI.
 
 ---
 
@@ -70,9 +62,9 @@ UI
 Использовать Dependency Injection.
 
 ```csharp
-public PlayerController(
-    AudioService audioService,
-    SaveService saveService)
+public ExplorationSaveCatalogService(
+    IGameSaveStorageProvider storageProvider,
+    GameSaveCoordinator saveCoordinator)
 {
 }
 ```
@@ -84,9 +76,9 @@ public PlayerController(
 Создавать сервисы самостоятельно.
 
 ```csharp
-new AudioService();
+new FileGameSaveStorageProvider(...);
 
-new SaveService();
+new GameSaveCoordinator(...);
 ```
 
 ---
@@ -113,7 +105,7 @@ SceneManager.LoadScene(...);
 SceneManager.UnloadScene(...);
 ```
 
-Единственное исключение — Infrastructure.
+Прямой доступ к SceneManager разрешён только реализации SceneLoader в Infrastructure.
 
 ---
 
@@ -141,35 +133,47 @@ await gameStateMachine.ReplaceMain<BattlePhase>();
 
 ### ✔ Разрешено
 
-```
-Dialogue
+```mermaid
+flowchart TD
 
-↓
+N1["Dialogue"]
 
-QuestService
+N2["shared contract / C# event"]
+
+N3["Application coordinator"]
+
+N4["Quest"]
+
+N1 --> N2
+
+N2 --> N3
+
+N3 --> N4
 ```
 
 ---
 
 ### ❌ Запрещено
 
+```mermaid
+flowchart TD
+
+N1["Dialogue"]
+
+N2["QuestController"]
+
+N3["QuestDatabase"]
+
+N4["QuestInternalClass"]
+
+N1 --> N2
+
+N2 --> N3
+
+N3 --> N4
 ```
-Dialogue
 
-↓
-
-QuestController
-
-↓
-
-QuestDatabase
-
-↓
-
-QuestInternalClass
-```
-
-Использовать внутренние классы других Feature запрещено.
+Использовать внутренние классы и services других Feature запрещено.
 
 ---
 
@@ -182,6 +186,8 @@ MonoBehaviour используется исключительно для инт�
 - получать ссылки;
 - получать события Unity;
 - передавать управление другим системам.
+
+MonoBehaviour может находиться в UI, внутри Feature или среди Application FeatureAdapters, если он является узким Unity-адаптером. Сам факт использования Unity API не требует переносить View или scene adapter в Infrastructure.
 
 ---
 
@@ -200,7 +206,6 @@ Update должен использоваться только при объек�
 - события;
 - UniTask;
 - таймеры;
-- SignalBus.
 
 ---
 
@@ -292,18 +297,28 @@ IAudioService
 
 ISceneLoader
 
-ISaveService
+IGameSaveSerializer
 ```
 
 ---
 
-## Services
+## Domain-Role Naming
 
-Всегда имеют суффикс:
+Имя отражает реальную роль класса.
 
+```text
+InputService
+
+GameSaveCoordinator
+
+SceneLoader
+
+PhaseFactory
+
+PauseMenuView
 ```
-Service
-```
+
+Суффикс `Service` используется только для Service. Coordinator, Loader, Factory и View не переименовываются в Service.
 
 ---
 
@@ -374,9 +389,10 @@ SC_Battle
 | Ответственность | Папка |
 |----------------|--------|
 | Управление приложением | Application |
-| Работа с Unity API | Infrastructure |
+| Глобальная техническая интеграция с Unity или внешней библиотекой | Infrastructure |
 | Игровая логика | Game |
-| Интерфейс | UI |
+| Пассивное представление и UI-события | UI |
+| Unity-адаптер конкретной Feature | Feature или Application/Installers/FeatureAdapters |
 
 ---
 
@@ -444,9 +460,11 @@ Reflection допускается только внутри Infrastructure.
 
 # Singletons
 
-Использование Singleton запрещено.
+Статический Singleton pattern с глобальным `Instance` запрещён.
 
 Все глобальные зависимости предоставляются через Dependency Injection.
+
+Регистрация `AsSingle()` задаёт lifetime внутри DI context и разрешена.
 
 ---
 
@@ -472,7 +490,9 @@ Static допускается только для:
 
 Игровые системы не работают напрямую с файлами.
 
-Все операции сохранения проходят через SaveService.
+Общий pipeline сохранения проходит через GameSaveCoordinator.
+
+Сериализуются только Save DTO без ссылок на UnityEngine.Object.
 
 ---
 
@@ -497,7 +517,7 @@ Static допускается только для:
 В проекте запрещается:
 
 - использовать `new` для сервисов;
-- использовать Singleton;
+- использовать статический Singleton pattern;
 - использовать `SceneManager` напрямую;
 - использовать `FindObjectOfType`;
 - использовать `GameObject.Find`;

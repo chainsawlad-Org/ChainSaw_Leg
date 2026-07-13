@@ -1,7 +1,7 @@
 # Features
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -34,14 +34,21 @@ Feature не отвечает за:
 
 # Current Features
 
-На текущем этапе проекта список Feature находится в процессе формирования.
-
-Планируемые игровые подсистемы:
+В текущем проекте реализованы:
 
 ```
-Battle
+Combat
 
 Dialogue
+
+Exploration
+
+Minigames
+```
+
+Планируемые самостоятельные Feature:
+
+```
 
 Inventory
 
@@ -52,8 +59,6 @@ NPC
 Craft
 
 Fishing
-
-Minigames
 ```
 
 По мере разработки каждая Feature получит собственную техническую документацию в ArchitectureAtlas.
@@ -67,18 +72,18 @@ flowchart TD
 
 Game
 
-Battle
+Combat
 
 Dialogue
 
-Inventory
+Exploration
 
-Quest
+Minigames
 
-Game --> Battle
+Game --> Combat
 Game --> Dialogue
-Game --> Inventory
-Game --> Quest
+Game --> Exploration
+Game --> Minigames
 ```
 
 Каждая Feature является самостоятельной частью игрового слоя.
@@ -97,11 +102,12 @@ Feature/
 ├── Views/
 ├── Services/
 ├── Configs/
-├── Installers/
 └── Runtime/
 ```
 
 Допускается изменение структуры, если это делает Feature проще и понятнее.
+
+Feature-specific View и MonoBehaviour могут находиться внутри Feature как Unity adapters. Zenject Installer находится в `Application/Installers`, поэтому Game не зависит от DI-контейнера.
 
 ---
 
@@ -117,7 +123,7 @@ Feature/
 
 Feature должна быть максимально независимой.
 
-Связь между Feature должна осуществляться через публичные интерфейсы или общие сервисы.
+Связь между Feature осуществляется через публичные contracts, C# события или Application coordinator. Одна Feature не внедряет внутренний service другой Feature напрямую.
 
 ---
 
@@ -148,16 +154,15 @@ Feature не должны обращаться к внутренним клас�
 Допустимые способы взаимодействия:
 
 - публичные интерфейсы;
-- сервисы;
-- события (после внедрения Event System).
+- contracts из Game Shared;
+- C# события;
+- Application coordinator.
 
 ---
 
 # Lifecycle
 
-Жизненный цикл Feature определяется активной Main Phase или Overlay Phase.
-
-Feature создаётся при входе в соответствующий игровой режим и завершает работу при его завершении.
+Жизненный цикл каждого компонента Feature задаётся явно через DI context. Runtime scene adapters живут вместе со сценой, phase-specific компоненты — вместе с фазой, а явно зарегистрированные project services могут жить всё приложение.
 
 ---
 
@@ -168,7 +173,7 @@ Feature создаётся при входе в соответствующий �
 Например:
 
 ```
-BattleArchitecture.md
+CombatArchitecture.md
 
 DialogueArchitecture.md
 
@@ -191,7 +196,7 @@ QuestArchitecture.md
 
 ## ❌ Зависимость от внутренней реализации другой Feature
 
-Использовать только публичные интерфейсы.
+Использовать shared contracts, C# события или Application coordinator.
 
 ---
 
@@ -213,5 +218,3 @@ QuestArchitecture.md
 - 02_ProjectStructure.md
 - 03_DeveloperGuide.md
 - 04_CodeRules.md
-- 11_BattleArchitecture.md *(future)*
-- 12_DialogueArchitecture.md *(future)*

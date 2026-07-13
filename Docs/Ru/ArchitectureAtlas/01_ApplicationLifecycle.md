@@ -1,7 +1,7 @@
 # Application Lifecycle
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -56,7 +56,8 @@ ProjectContext --> ProjectInstaller
 ProjectInstaller --> BootstrapStartup
 BootstrapStartup --> BootstrapRunner
 BootstrapRunner --> StartupResolver
-StartupResolver --> GameStateMachine
+StartupResolver -->|Selected Main Phase| BootstrapRunner
+BootstrapRunner --> GameStateMachine
 GameStateMachine --> Phase
 ```
 
@@ -68,32 +69,18 @@ GameStateMachine --> Phase
 
 Жизненный цикл приложения состоит из семи этапов.
 
-```
-1. Unity Initialization
 
-↓
+```mermaid
+flowchart TD
+    A[1. Unity Initialization]
+    B[2. Dependency Injection]
+    C[3. Bootstrap]
+    D[4. Persistent Scene]
+    E[5. Startup Resolution]
+    F[6. Game State Machine]
+    G[7. First Main Phase]
 
-2. Dependency Injection
-
-↓
-
-3. Bootstrap
-
-↓
-
-4. Persistent Scene
-
-↓
-
-5. Startup Resolution
-
-↓
-
-6. Game State Machine
-
-↓
-
-7. First Main Phase
+    A --> B --> C --> D --> E --> F --> G
 ```
 
 Каждый этап подробно описан ниже.
@@ -187,7 +174,9 @@ Phase
 
 BootstrapRunner --> StartupResolver
 StartupResolver --> StartupPhaseRegistry
-StartupPhaseRegistry --> Phase
+StartupPhaseRegistry -->|Registered phase type| StartupResolver
+StartupResolver -->|Selected Main Phase| BootstrapRunner
+BootstrapRunner --> Phase
 ```
 
 StartupResolver принимает решение на основании текущего состояния приложения.
@@ -203,14 +192,14 @@ Bootstrap ничего не знает об этих правилах.
 
 # Stage 6 — Game State Machine
 
-После определения стартовой фазы управление передаётся Game State Machine.
+После определения стартовой фазы управление передаётся Game State Machine (Finite-State Machine, FSM).
 
 FSM становится главным координатором игровых режимов.
 
 ```mermaid
 flowchart LR
 
-StartupResolver --> GameStateMachine --> MainPhase
+BootstrapRunner --> GameStateMachine --> MainPhase
 ```
 
 С этого момента именно GameStateMachine отвечает за переходы между игровыми состояниями.
@@ -219,7 +208,7 @@ Bootstrap завершает свою работу.
 
 ---
 
-# Stage 7 — First Main Phase
+# Stage 7 — First Game Phase
 
 GameStateMachine активирует первую Main Phase.
 
@@ -334,7 +323,7 @@ GameStateMachine не принимает решений о запуске при
 
 ## Dependency Injection
 
-Все объекты создаются контейнером Zenject.
+Сервисы, phases и coordinators создаются контейнером Zenject. Unity scene objects создаются Unity и получают зарегистрированные зависимости через injection.
 
 Компоненты не создают друг друга самостоятельно.
 
@@ -360,7 +349,7 @@ Bootstrap отвечает только за запуск приложения.
 
 ## ❌ Создание сервисов через `new`
 
-Все сервисы создаются только контейнером Dependency Injection.
+Обычные C#-сервисы создаются контейнером Dependency Injection. Scene `MonoBehaviour` создаются Unity и получают зарегистрированные сервисы через `SceneContext` injection.
 
 ---
 

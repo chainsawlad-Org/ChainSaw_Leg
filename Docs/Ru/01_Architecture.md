@@ -1,7 +1,7 @@
 # Architecture
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -37,7 +37,7 @@
 
 # Architectural Layers
 
-Проект разделён на четыре независимых слоя.
+Проект разделён на четыре слоя с разными обязанностями.
 
 ```text
 Application
@@ -70,17 +70,21 @@ Application не содержит игровой логики.
 
 ## Infrastructure
 
-Изолирует проект от Unity API и внешних библиотек.
+Изолирует глобальные технические интеграции с Unity API и внешними библиотеками.
 
 Примеры:
 
 - Scene Management
-- Save System
+- сериализация и файловое хранилище Save System
 - Audio
 - Input
 - Addressables
 
-Infrastructure предоставляет сервисы другим слоям.
+Infrastructure предоставляет технические сервисы другим слоям. Feature-local View, UI View и scene adapter могут использовать Unity API вне Infrastructure, если они остаются узкими адаптерами и не содержат игровых правил.
+
+Save System не принадлежит Infrastructure целиком. Это сквозная подсистема: общие контракты и DTO находятся в Game Shared, игровые mapper'ы находятся в соответствующей Feature, сценарии координируются в Application, а serializer и storage provider находятся в Infrastructure.
+
+Подробное размещение описано в `ArchitectureAtlas/09_SaveSystem.md`.
 
 ---
 
@@ -105,7 +109,7 @@ Game ничего не знает об устройстве Bootstrap или Dep
 
 ## UI
 
-Отвечает исключительно за отображение информации.
+Отвечает за отображение информации и преобразование пользовательского ввода в события представления.
 
 UI:
 
@@ -119,22 +123,23 @@ UI не содержит игровых правил.
 
 # Dependency Direction
 
-Зависимости всегда направлены сверху вниз.
+Слои не образуют линейную цепочку. Зависимости направлены к стабильным контрактам и не должны создавать циклы.
 
 ```text
-Application
-      │
-      ▼
-Infrastructure
-      │
-      ▼
-Game
-      │
-      ▼
-UI
+Application / Composition ──▶ Game
+           │
+           ├────────────────▶ Infrastructure ──▶ Game Shared contracts
+           │
+           └────────────────▶ UI
 ```
 
-Обратные зависимости запрещены.
+Основные правила:
+
+- Game не зависит от Application, Infrastructure, UI или Zenject;
+- Infrastructure реализует технические контракты и может зависеть от Game Shared;
+- UI остаётся пассивным и не зависит от конкретной реализации игровых Feature;
+- Application и Composition связывают слои и координируют пользовательские сценарии;
+- циклические asmdef-зависимости запрещены.
 
 ---
 
@@ -147,7 +152,7 @@ UI
 Например:
 
 ```text
-Battle
+Combat
 
 Dialogue
 
@@ -166,11 +171,11 @@ Feature должна быть максимально независимой от
 
 # Dependency Injection
 
-Все основные объекты создаются контейнером Zenject.
+Сервисы, phases и coordinators создаются контейнером Zenject. Scene objects и MonoBehaviour создаются Unity и получают зависимости через injection.
 
-Проект не использует глобальные Singleton.
+Проект не использует статический Singleton pattern с глобальным `Instance`. Lifetime `AsSingle()` внутри DI context разрешён.
 
-Зависимости передаются через конструктор.
+Обычные C# классы получают зависимости через конструктор. Для Unity-created MonoBehaviour допускается method injection.
 
 Это уменьшает связанность между подсистемами и упрощает тестирование.
 

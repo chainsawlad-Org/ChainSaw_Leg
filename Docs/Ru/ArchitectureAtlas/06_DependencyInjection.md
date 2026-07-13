@@ -1,7 +1,7 @@
 # Dependency Injection
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -28,7 +28,7 @@ Dependency Injection (DI) — это механизм создания и пер
 - регистрацию сервисов;
 - регистрацию игровых фаз;
 - регистрацию инфраструктурных компонентов;
-- предоставление зависимостей через конструкторы.
+- предоставление зависимостей через конструкторы или Unity-compatible method injection.
 
 Dependency Injection не отвечает за:
 
@@ -65,7 +65,7 @@ DiContainer --> SceneLoader
 DiContainer --> BootstrapRunner
 ```
 
-После завершения регистрации все объекты создаются контейнером автоматически.
+После завершения регистрации контейнер может создать graph обычных C# сервисов и внедрить зависимости в Unity-created объекты.
 
 ---
 
@@ -73,24 +73,26 @@ DiContainer --> BootstrapRunner
 
 Подсистема состоит из следующих компонентов.
 
-```
-ProjectContext
+```mermaid
+flowchart TD
 
-↓
+N1["ProjectContext"]
 
-ProjectInstaller
+N2["ProjectInstaller"]
 
-↓
+N3["Installers"]
 
-Installers
+N4["DiContainer"]
 
-↓
+N5["Application"]
 
-DiContainer
+N1 --> N2
 
-↓
+N2 --> N3
 
-Application
+N3 --> N4
+
+N4 --> N5
 ```
 
 ---
@@ -130,16 +132,18 @@ Installers используются для группировки регистр
 
 Например:
 
-```
-ProjectInstaller
+```mermaid
+flowchart TD
 
-↓
+N1["ProjectInstaller"]
 
-PhaseInstaller
+N2["PhaseInstaller"]
 
-↓
+N3["ServiceInstaller"]
 
-ServiceInstaller
+N1 --> N2
+
+N2 --> N3
 ```
 
 Каждый Installer отвечает только за свою область.
@@ -152,16 +156,18 @@ ServiceInstaller
 
 Например:
 
-```
-GamePhase
+```mermaid
+flowchart TD
 
-↓
+N1["GamePhase"]
 
-AutoBinder
+N2["AutoBinder"]
 
-↓
+N3["Container.Bind()"]
 
-Container.Bind()
+N1 --> N2
+
+N2 --> N3
 ```
 
 Это позволяет избежать ручной регистрации каждой новой фазы.
@@ -170,29 +176,23 @@ Container.Bind()
 
 # Object Creation
 
-Все объекты создаются контейнером Zenject.
+Обычные C# сервисы, phases и coordinators создаются контейнером Zenject. Scene objects и `MonoBehaviour` создаются Unity, после чего контейнер внедряет в них зависимости.
 
 Типичная последовательность выглядит следующим образом.
 
 ```mermaid
 sequenceDiagram
 
-participant Class
-
 participant DiContainer
 
 participant Dependency
 
-Class->>DiContainer: Resolve()
-
 DiContainer->>Dependency: Create()
 
-Dependency-->>DiContainer: Instance
-
-DiContainer-->>Class: Inject Dependency
+DiContainer->>Dependency: Inject required dependencies
 ```
 
-Разработчик не создаёт зависимости самостоятельно.
+Игровой код не использует контейнер как Service Locator и не создаёт сервисы самостоятельно.
 
 ---
 
@@ -214,11 +214,13 @@ public class BattlePhase : SceneGamePhase
 
 Конструктор явно показывает, какие зависимости необходимы классу.
 
+Для Unity-created `MonoBehaviour` используется method injection через `[Inject] Construct(...)`. Serialized fields хранят только scene/prefab references, принадлежащие самому View или adapter.
+
 ---
 
 # Lifetime
 
-Большинство глобальных сервисов регистрируются как Singleton внутри контейнера.
+Большинство глобальных сервисов регистрируются с lifetime `AsSingle()` внутри контейнера.
 
 Например:
 
@@ -228,7 +230,7 @@ Container.Bind<ISceneLoader>()
     .AsSingle();
 ```
 
-Это означает, что в течение работы приложения существует один экземпляр объекта.
+Это означает, что контейнер предоставляет один экземпляр объекта в пределах своего context. Это не gameplay Singleton pattern: у класса нет статического `Instance`, и доступ к нему выполняется только через DI.
 
 ---
 
@@ -256,23 +258,31 @@ SceneGamePhase --> SceneLoader
 
 # Composition Root
 
-Composition Root — единственное место, где происходит связывание зависимостей.
+Composition Root — единственная архитектурная область, где происходит связывание зависимостей.
 
 В текущем проекте Composition Root состоит из:
 
+```mermaid
+flowchart TD
+
+N1["ProjectContext"]
+
+N2["ProjectInstaller"]
+
+N3["Global Installers"]
+
+N4["SceneContext"]
+
+N5["Scene MonoInstallers"]
+
+N1 --> N2
+
+N2 --> N3
+
+N4 --> N5
 ```
-ProjectContext
 
-↓
-
-ProjectInstaller
-
-↓
-
-Installers
-```
-
-Все регистрации должны выполняться именно здесь.
+Все регистрации находятся в `Application/Installers`. `ProjectContext` создаёт глобальный graph, а `SceneContext` добавляет зависимости и adapters конкретной сцены.
 
 ---
 
@@ -280,7 +290,7 @@ Installers
 
 ## Constructor Injection
 
-Все обязательные зависимости передаются через конструктор.
+Все обязательные зависимости обычных C# классов передаются через конструктор.
 
 Это делает зависимости явными.
 
@@ -298,7 +308,7 @@ Installers
 
 Игровой код не создаёт сервисы самостоятельно.
 
-Все объекты предоставляет контейнер.
+Сервисы, phases и coordinators предоставляет контейнер. DTO и другие value objects могут создаваться явно через `new`.
 
 ---
 
@@ -312,16 +322,18 @@ Installers
 
 ## Loose Coupling
 
-Классы должны зависеть от интерфейсов, а не от конкретных реализаций.
+На границах подсистем классы зависят от интерфейсов. Внутри одной подсистемы допускается конкретный тип, если у него нет сменяемой реализации и это не создаёт обратную зависимость.
 
 Например:
 
-```
-ISceneLoader
+```mermaid
+flowchart TD
 
-↓
+N1["ISceneLoader"]
 
-SceneLoader
+N2["SceneLoader"]
+
+N1 --> N2
 ```
 
 В дальнейшем реализацию можно заменить без изменения игрового кода.
@@ -338,20 +350,20 @@ ProjectInstaller
 PhaseInstaller
 
 ServiceInstaller
-```
 
-В дальнейшем список может быть расширен.
+StartupRegistryInstaller
 
-Например:
+DialogueInstaller
 
-```
+ExplorationInstaller
+
 BattleInstaller
 
-UIInstaller
+WorldInstaller
 
-SaveInstaller
+MainMenuInstaller
 
-AudioInstaller
+PersistentUIInstaller
 ```
 
 ---
@@ -367,6 +379,12 @@ PhaseInstaller
 
 ServiceInstaller
 
+FeatureInstallers["DialogueInstaller / ExplorationInstaller"]
+
+SceneContext
+
+SceneInstallers["World / Battle / MainMenu / PersistentUI"]
+
 GameStateMachine
 
 SceneLoader
@@ -377,11 +395,15 @@ ProjectInstaller --> PhaseInstaller
 
 ProjectInstaller --> ServiceInstaller
 
+ProjectInstaller --> FeatureInstallers
+
 PhaseInstaller --> GameStateMachine
 
 ServiceInstaller --> SceneLoader
 
 ProjectInstaller --> BootstrapRunner
+
+SceneContext --> SceneInstallers
 ```
 
 ---
@@ -410,7 +432,7 @@ public BattlePhase(ISceneLoader sceneLoader)
 
 Игровой код не должен самостоятельно обращаться к контейнеру.
 
-Resolve допускается только внутри инфраструктурных компонентов (например, Factory).
+Resolve допускается только внутри принадлежащих Composition Root фабрик и адаптеров, которые отвечают за создание object graph.
 
 ---
 
@@ -418,13 +440,13 @@ Resolve допускается только внутри инфраструкт�
 
 Контейнер не должен использоваться как глобальный Service Locator.
 
-Зависимости должны быть явно переданы через конструктор.
+Обычные C#-классы получают зависимости через конструктор. Созданные Unity MonoBehaviour получают их через один явный метод `[Inject] Construct(...)`.
 
 ---
 
 ## ❌ Скрытые зависимости
 
-Если класс использует сервис, он должен получить его через конструктор.
+Если класс использует сервис, зависимость должна быть видна в конструкторе или в разрешённой Unity method injection точке.
 
 Не допускается поиск зависимостей во время выполнения.
 
@@ -442,8 +464,8 @@ Resolve допускается только внутри инфраструкт�
 
 Например:
 
-- Feature Installer;
-- Scene Installer;
+- Feature registration installer в `Application/Installers`;
+- Scene MonoInstaller в `Application/Installers`;
 - SignalBus;
 - фабрики объектов;
 - Memory Pool;

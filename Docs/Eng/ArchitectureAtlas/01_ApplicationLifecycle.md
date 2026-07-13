@@ -1,7 +1,7 @@
 # Application Lifecycle
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -56,7 +56,8 @@ ProjectContext --> ProjectInstaller
 ProjectInstaller --> BootstrapStartup
 BootstrapStartup --> BootstrapRunner
 BootstrapRunner --> StartupResolver
-StartupResolver --> GameStateMachine
+StartupResolver -->|Selected Main Phase| BootstrapRunner
+BootstrapRunner --> GameStateMachine
 GameStateMachine --> Phase
 ```
 
@@ -68,32 +69,17 @@ Each component performs only one task and, after completing it, passes control t
 
 The application lifecycle consists of seven stages.
 
-```text
-1. Unity Initialization
+```mermaid
+flowchart TD
+    A[1. Unity Initialization]
+    B[2. Dependency Injection]
+    C[3. Bootstrap]
+    D[4. Persistent Scene]
+    E[5. Startup Resolution]
+    F[6. Game State Machine]
+    G[7. First Main Phase]
 
-↓
-
-2. Dependency Injection
-
-↓
-
-3. Bootstrap
-
-↓
-
-4. Persistent Scene
-
-↓
-
-5. Startup Resolution
-
-↓
-
-6. Game State Machine
-
-↓
-
-7. First Main Phase
+    A --> B --> C --> D --> E --> F --> G
 ```
 
 Each stage is described in detail below.
@@ -187,7 +173,9 @@ Phase
 
 BootstrapRunner --> StartupResolver
 StartupResolver --> StartupPhaseRegistry
-StartupPhaseRegistry --> Phase
+StartupPhaseRegistry -->|Registered phase type| StartupResolver
+StartupResolver -->|Selected Main Phase| BootstrapRunner
+BootstrapRunner --> Phase
 ```
 
 StartupResolver makes its decision based on the current application state.
@@ -210,7 +198,7 @@ The FSM becomes the primary coordinator of game modes.
 ```mermaid
 flowchart LR
 
-StartupResolver --> GameStateMachine --> MainPhase
+BootstrapRunner --> GameStateMachine --> MainPhase
 ```
 
 From this point on, the GameStateMachine is responsible for transitions between game states.
@@ -334,7 +322,7 @@ This makes the architecture easier to understand and debug.
 
 ## Dependency Injection
 
-All objects are created by the Zenject container.
+Services, phases, and coordinators are created by the Zenject container. Unity scene objects are created by Unity and receive registered dependencies through injection.
 
 Components do not create each other directly.
 
@@ -360,7 +348,7 @@ All scene operations must be performed exclusively through SceneLoader.
 
 ## ❌ Creating services with `new`
 
-All services must be created only by the Dependency Injection container.
+Regular C# services are created by the Dependency Injection container. Scene MonoBehaviours are created by Unity and receive registered services through `SceneContext` injection.
 
 ---
 

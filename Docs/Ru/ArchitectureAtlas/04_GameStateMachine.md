@@ -1,7 +1,7 @@
 # Game State Machine
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -67,16 +67,18 @@ Overlay1 --> Overlay2
 
 Game State Machine состоит из следующих элементов.
 
-```
-GameStateMachine
+```mermaid
+flowchart TD
 
-↓
+N1["GameStateMachine"]
 
-SceneGamePhase
+N2["SceneGamePhase"]
 
-↓
+N3["OverlayPhase"]
 
-OverlayPhase
+N1 --> N2
+
+N2 --> N3
 ```
 
 ---
@@ -202,51 +204,65 @@ Overlay-->>FSM: Completed
 
 # Public API
 
-GameStateMachine предоставляет четыре основных метода.
+GameStateMachine предоставляет несколько групп методов для управления Main Phase и Overlay Phase.
 
 ---
 
-## ReplaceMain()
+## ReplaceMain() / ReplaceMainAsync()
 
 Заменяет текущую Main Phase.
 
 Последовательность:
 
-```
-Close All Overlay
+```mermaid
+flowchart TD
 
-↓
+N1["Close All Overlay"]
 
-Exit Current Main
+N2["Exit Current Main"]
 
-↓
+N3["Create New Main"]
 
-Create New Main
+N4["Enter New Main"]
 
-↓
+N1 --> N2
 
-Enter New Main
+N2 --> N3
+
+N3 --> N4
 ```
 
 Используется для переходов между игровыми режимами.
 
 Например:
 
+```mermaid
+flowchart TD
+
+N1["Main Menu"]
+
+N2["Exploration"]
+
+N3["Battle"]
+
+N4["Minigame"]
+
+N1 --> N2
+
+N2 --> N3
+
+N3 --> N4
 ```
-Main Menu
 
-↓
+---
 
-Exploration
+## ReloadMainAsync()
 
-↓
+Повторно создаёт и загружает Main Phase, даже если активна фаза того же типа.
 
-Battle
+Метод используется, когда нужно сначала подготовить контекст, а затем получить новые сценовые объекты. Например, Save System вызывает `ReloadMainAsync<ExplorationPhase>()`, загружает сохранённую exploration-сцену и только после регистрации нового игрока применяет pending restore.
 
-↓
-
-Minigame
-```
+Асинхронная версия принимает `CancellationToken`.
 
 ---
 
@@ -405,20 +421,26 @@ CutscenePhase
 
 # Current Overlay Phases
 
-В настоящий момент Overlay Phase используются как базовый тип.
-
-Планируемые реализации:
+В текущем проекте используются:
 
 ```
-PauseOverlay
+PauseMenuPhase
 
-DialogueOverlay
+DialoguePhase
 
-InventoryOverlay
+SaveBrowserPhase
 
-MapOverlay
+CheckpointSavePhase
+```
 
-SettingsOverlay
+В дальнейшем список может быть расширен:
+
+```
+InventoryPhase
+
+MapPhase
+
+SettingsPhase
 ```
 
 ---
@@ -427,7 +449,7 @@ SettingsOverlay
 
 ## ❌ Переключение сцен напрямую
 
-Переходы между игровыми режимами всегда выполняются через ReplaceMain().
+Переходы между игровыми режимами выполняются через `ReplaceMainAsync()`. Для контролируемой перезагрузки текущего типа Main Phase используется `ReloadMainAsync()`.
 
 ---
 

@@ -1,7 +1,7 @@
 # Features
 
 > Version: 1.0
-> Last Updated: 2026-07-13
+> Last Updated: 13-07-2026
 
 ---
 
@@ -34,14 +34,21 @@ A Feature is **not** responsible for:
 
 # Current Features
 
-At the current stage of the project, the list of Features is still being formed.
-
-Planned gameplay subsystems include:
+The current project implements:
 
 ```text
-Battle
+Combat
 
 Dialogue
+
+Exploration
+
+Minigames
+```
+
+Planned independent Features:
+
+```text
 
 Inventory
 
@@ -52,8 +59,6 @@ NPC
 Craft
 
 Fishing
-
-Minigames
 ```
 
 As development progresses, each Feature will receive its own dedicated technical documentation in the Architecture Atlas.
@@ -67,18 +72,18 @@ flowchart TD
 
 Game
 
-Battle
+Combat
 
 Dialogue
 
-Inventory
+Exploration
 
-Quest
+Minigames
 
-Game --> Battle
+Game --> Combat
 Game --> Dialogue
-Game --> Inventory
-Game --> Quest
+Game --> Exploration
+Game --> Minigames
 ```
 
 Each Feature is an independent part of the Game layer.
@@ -97,11 +102,12 @@ Feature/
 ├── Views/
 ├── Services/
 ├── Configs/
-├── Installers/
 └── Runtime/
 ```
 
 The structure may be adjusted if doing so makes the Feature simpler and easier to understand.
+
+Feature-specific Views and MonoBehaviours may live inside the Feature as Unity adapters. A Zenject Installer lives under `Application/Installers`, keeping Game independent of the DI container.
 
 ---
 
@@ -117,7 +123,7 @@ Each Feature implements exactly one gameplay mechanic.
 
 A Feature should be as independent as possible.
 
-Communication between Features should occur through public interfaces or shared services.
+Features communicate through public contracts, C# events, or an Application coordinator. One Feature does not inject another Feature's internal service directly.
 
 ---
 
@@ -148,16 +154,15 @@ Features must not access each other's internal classes directly.
 Allowed communication methods include:
 
 - public interfaces;
-- services;
-- events (after the Event System is introduced).
+- contracts from Game Shared;
+- C# events;
+- an Application coordinator.
 
 ---
 
 # Lifecycle
 
-A Feature's lifecycle is determined by the active Main Phase or Overlay Phase.
-
-A Feature is created when entering the corresponding game mode and is disposed of when that mode ends.
+The lifecycle of each Feature component is defined explicitly by its DI context. Runtime scene adapters live with their scene, phase-specific components live with their phase, and explicitly registered project services may live for the entire application.
 
 ---
 
@@ -168,7 +173,7 @@ As the project evolves, each Feature will receive its own Architecture Atlas doc
 For example:
 
 ```text
-BattleArchitecture.md
+CombatArchitecture.md
 
 DialogueArchitecture.md
 
@@ -191,7 +196,7 @@ These documents will describe:
 
 ## ❌ Depending on another Feature's internal implementation
 
-Use only public interfaces.
+Use shared contracts, C# events, or an Application coordinator.
 
 ---
 
@@ -213,5 +218,3 @@ Gameplay rules should remain as independent from Unity as possible.
 - 02_ProjectStructure.md
 - 03_DeveloperGuide.md
 - 04_CodeRules.md
-- 11_BattleArchitecture.md *(future)*
-- 12_DialogueArchitecture.md *(future)*
