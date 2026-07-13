@@ -3,7 +3,8 @@
     "rootNamespace": "ChainSawLeg.Application.Editor",
     "references": [
         "ChainSawLeg.Application.Runtime",
-        "ChainSawLeg.Infrastructure.Runtime"
+        "ChainSawLeg.Infrastructure.Runtime",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [
         "Editor"
