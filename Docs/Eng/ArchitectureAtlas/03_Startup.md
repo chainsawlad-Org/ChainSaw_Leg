@@ -1,7 +1,7 @@
 # Startup
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -51,7 +51,9 @@ MainPhase
 
 BootstrapRunner --> StartupResolver
 StartupResolver --> StartupPhaseRegistry
-StartupPhaseRegistry --> GameStateMachine
+StartupPhaseRegistry -->|Registered phase type| StartupResolver
+StartupResolver -->|Selected Main Phase| BootstrapRunner
+BootstrapRunner --> GameStateMachine
 GameStateMachine --> MainPhase
 ```
 
@@ -244,7 +246,7 @@ For example:
 - run automated tests;
 - launch a special debug mode.
 
-Such changes should be made exclusively in StartupResolver without modifying the other components.
+The startup-scenario selection rule belongs in StartupResolver. Actual save loading and scene transitions are delegated to Application services and the GameStateMachine, so Startup does not access files or SceneManager directly.
 
 ---
 

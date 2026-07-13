@@ -443,7 +443,7 @@ SettingsPhase
 
 ## ❌ Switching scenes directly
 
-Transitions between game modes must always be performed through `ReplaceMain()`.
+Transitions between game modes use `ReplaceMainAsync()`. `ReloadMainAsync()` is used for a controlled reload of the current Main Phase type.
 
 ---
 

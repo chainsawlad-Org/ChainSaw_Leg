@@ -1,7 +1,7 @@
 # Bootstrap
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -60,7 +60,9 @@ BootstrapStartup --> BootstrapRunner
 
 BootstrapRunner --> StartupResolver
 
-StartupResolver --> GameStateMachine
+StartupResolver -->|Selected Main Phase| BootstrapRunner
+
+BootstrapRunner --> GameStateMachine
 
 GameStateMachine --> MainPhase
 ```
@@ -146,7 +148,11 @@ BootstrapRunner --> StartupResolver
 
 StartupResolver --> StartupPhaseRegistry
 
-StartupPhaseRegistry --> Phase
+StartupPhaseRegistry -->|Registered phase type| StartupResolver
+
+StartupResolver -->|Selected Main Phase| BootstrapRunner
+
+BootstrapRunner --> Phase
 ```
 
 This allows the startup rules to change without modifying Bootstrap.
@@ -241,7 +247,7 @@ Bootstrap contains no hidden transitions.
 
 Bootstrap does not create dependencies itself.
 
-All objects are provided by the Zenject container.
+All Bootstrap service dependencies are provided by the Zenject container. Bootstrap does not create Unity-owned objects manually.
 
 ---
 

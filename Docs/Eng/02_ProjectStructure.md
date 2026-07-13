@@ -52,9 +52,12 @@ Application
 ├── Bootstrap
 ├── Startup
 ├── StateMachine
+├── Coordination
+├── Services
 ├── Installers
 ├── Factories
 ├── Signals
+└── Editor
 ```
 
 ---
@@ -151,6 +154,30 @@ A Factory does not contain game logic.
 
 ---
 
+## Coordination
+
+Contains application use cases that connect multiple subsystems.
+
+For example:
+
+```text
+PauseMenuCoordinator
+
+ExplorationGameSaveLoadService
+
+MainMenuCoordinator
+```
+
+A Coordinator does not contain gameplay rules and does not implement a Unity View.
+
+---
+
+## Services
+
+Contains application commands, registries, and brokers required by several Application scenarios.
+
+---
+
 ## Signals *(Future)*
 
 Contains application events.
@@ -169,11 +196,17 @@ Signals are used for communication between independent systems.
 
 ---
 
+## Editor
+
+Contains editor-only Application tooling. Runtime code must not depend on this directory.
+
+---
+
 # Infrastructure
 
-Infrastructure acts as the adapter between the project and Unity.
+Infrastructure contains global technical adapters for Unity API, the file system, and external libraries.
 
-Any code that interacts directly with the Unity API must be placed here.
+Feature-local MonoBehaviours, UI Views, and scene adapters may use Unity API outside Infrastructure, but they do not contain gameplay business logic.
 
 Typical structure:
 
@@ -286,7 +319,7 @@ Example:
 ```text
 Dialogue
 
-Battle
+Combat
 
 Inventory
 
@@ -313,7 +346,6 @@ Dialogue
 ├── Views
 ├── Services
 ├── Configs
-├── Installers
 ├── Prefabs
 └── Runtime
 ```
@@ -342,9 +374,11 @@ A Model does not depend on Unity.
 
 ## Views
 
-Responsible only for presentation.
+Display data and emit view events.
 
 A View knows nothing about the internal logic of the Feature.
+
+A View used by only one Feature may remain inside it. Global screens, shared widgets, and application menus belong to the separate UI layer.
 
 ---
 
@@ -368,11 +402,11 @@ Contains ScriptableObjects and other Feature configuration.
 
 ---
 
-## Installers
+## Registration
 
-The Feature Installer.
+A Game Feature does not contain a Zenject Installer and does not depend on the DI container.
 
-Registers dependencies only for that Feature.
+Its dependencies are registered by the corresponding installer under `Application/Installers`, such as `DialogueInstaller` or `ExplorationInstaller`.
 
 ---
 
@@ -400,23 +434,25 @@ If code belongs to only one Feature, it should remain inside that Feature.
 
 # UI
 
-UI contains presentation code only.
+UI contains passive views, UI events, and reusable interface elements.
 
-Typical structure:
+The current physical structure is organized by UI system:
 
 ```text
 UI
 │
-├── Windows
-├── HUD
-├── Popups
-├── Widgets
-└── Common
+├── MainMenu
+├── PauseMenu
+├── CheckpointSave
+├── Common
+└── Services
 ```
+
+HUD, Popups, and Widgets may be added as separate folders when those systems appear.
 
 ---
 
-## Windows
+## Screens And Menus
 
 Full-screen windows.
 
@@ -579,9 +615,10 @@ Before creating a class, its responsibility must be identified.
 | If the class... | Place it in... |
 |-----------------|----------------|
 | Starts the application | Application |
-| Works with the Unity API | Infrastructure |
+| Integrates a global technical system with Unity or an external library | Infrastructure |
 | Contains game rules | Game |
-| Displays information | UI |
+| Displays information and emits UI events | UI |
+| Adapts a scene object for a specific Feature | Feature or Application/Installers/FeatureAdapters |
 | Stores configuration | Configs |
 
 If there is uncertainty between two folders, the class responsibility has most likely been defined incorrectly.
@@ -590,7 +627,7 @@ If there is uncertainty between two folders, the class responsibility has most l
 
 # Feature First Rule
 
-New gameplay functionality should always be created as a new Feature.
+A new independent gameplay mechanic is created as a Feature. An extension of an existing mechanic remains inside that Feature.
 
 Incorrect:
 
@@ -634,6 +671,8 @@ The following naming conventions are used.
 | Interface | IAudioService |
 | Installer | BattleInstaller |
 | Factory | EnemyFactory |
+| Coordinator | PauseMenuCoordinator |
+| Loader | SceneLoader |
 | Config | BattleConfig |
 | View | InventoryView |
 | Controller | DialogueController |
@@ -646,8 +685,9 @@ The main project structure rules are:
 
 - Organize code by responsibility, not by file type.
 - Gameplay logic belongs only in the Game layer.
-- Unity API interaction is isolated in Infrastructure.
-- UI is responsible only for presentation.
+- Global technical integrations live in Infrastructure.
+- Feature-local Unity adapters and UI Views contain no gameplay rules.
+- UI displays data and emits events but makes no gameplay decisions.
 - New gameplay mechanics are created as separate Features.
 - Each Feature should be as independent as possible.
 - The project structure should make code easy to find and the project easy to scale.

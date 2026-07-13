@@ -41,25 +41,17 @@ If a class performs two independent tasks, it should be split.
 
 ## Dependencies
 
-Dependencies must always point from top to bottom.
+Dependencies must point toward stable contracts and must not form cycles.
 
 ```text
-Application
+Application / Composition → Game
 
-↓
+Application / Composition → Infrastructure → Game Shared
 
-Infrastructure
-
-↓
-
-Game
-
-↓
-
-UI
+Application / Composition → UI
 ```
 
-Lower layers must not know about higher layers.
+Game does not know about Application, Infrastructure, UI, or Zenject. UI does not access internal Feature classes. Infrastructure does not depend on Application or UI.
 
 ---
 
@@ -113,7 +105,7 @@ SceneManager.LoadScene(...);
 SceneManager.UnloadScene(...);
 ```
 
-The only exception is the Infrastructure layer.
+Direct SceneManager access is allowed only inside the SceneLoader implementation in Infrastructure.
 
 ---
 
@@ -146,7 +138,15 @@ Dialogue
 
 ↓
 
-QuestService
+shared contract / C# event
+
+↓
+
+Application coordinator
+
+↓
+
+Quest
 ```
 
 ---
@@ -169,7 +169,7 @@ QuestDatabase
 QuestInternalClass
 ```
 
-Using the internal classes of another Feature is prohibited.
+Using internal classes and services of another Feature is prohibited.
 
 ---
 
@@ -182,6 +182,8 @@ It may:
 - obtain references;
 - receive Unity events;
 - delegate control to other systems.
+
+A MonoBehaviour may live in UI, inside a Feature, or under Application FeatureAdapters when it is a narrow Unity adapter. Using Unity API does not by itself require moving a View or scene adapter into Infrastructure.
 
 ---
 
@@ -200,7 +202,6 @@ Prefer using:
 - events;
 - UniTask;
 - timers;
-- SignalBus.
 
 ---
 
@@ -297,13 +298,23 @@ IGameSaveSerializer
 
 ---
 
-## Services
+## Domain-Role Naming
 
-Always use the suffix:
+A class name reflects its actual role.
 
 ```text
-Service
+InputService
+
+GameSaveCoordinator
+
+SceneLoader
+
+PhaseFactory
+
+PauseMenuView
 ```
+
+The `Service` suffix is used only for a Service. Coordinators, Loaders, Factories, and Views are not renamed to Service.
 
 ---
 
@@ -374,9 +385,10 @@ A new class must be placed according to its responsibility.
 | Responsibility | Folder |
 |----------------|--------|
 | Application management | Application |
-| Unity API integration | Infrastructure |
+| Global technical Unity or external-library integration | Infrastructure |
 | Gameplay logic | Game |
-| User interface | UI |
+| Passive presentation and UI events | UI |
+| Feature-specific Unity adapter | Feature or Application/Installers/FeatureAdapters |
 
 ---
 
@@ -444,9 +456,11 @@ Reflection is allowed only inside Infrastructure.
 
 # Singletons
 
-Using the Singleton pattern is prohibited.
+The static Singleton pattern with a global `Instance` is prohibited.
 
 All global dependencies are provided through Dependency Injection.
+
+An `AsSingle()` registration defines a lifetime inside a DI context and is allowed.
 
 ---
 
@@ -499,7 +513,7 @@ Before creating a Pull Request, verify the following:
 The following are prohibited in the project:
 
 - using `new` to create services;
-- using the Singleton pattern;
+- using the static Singleton pattern;
 - using `SceneManager` directly;
 - using `FindObjectOfType`;
 - using `GameObject.Find`;

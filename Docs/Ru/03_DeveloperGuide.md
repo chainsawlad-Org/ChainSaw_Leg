@@ -191,7 +191,7 @@ Overlay никогда не загружает игровые сцены.
 
 # Adding a New Feature
 
-Каждая игровая механика создаётся как отдельная Feature.
+Каждая самостоятельная игровая механика создаётся как отдельная Feature. Изменение уже существующей механики остаётся внутри её Feature.
 
 Пример:
 
@@ -216,7 +216,6 @@ Fishing
 ├── Models
 ├── Views
 ├── Configs
-├── Installers
 └── Prefabs
 ```
 
@@ -255,7 +254,7 @@ Container.Bind<AudioService>()
 
 # Adding UI
 
-UI отвечает только за отображение.
+UI является пассивным представлением: отображает данные и преобразует пользовательский ввод в события.
 
 UI может:
 
@@ -297,7 +296,7 @@ BalanceConfig
 
 # Adding Installers
 
-Каждая независимая Feature должна иметь собственный Installer.
+Каждая независимая Feature должна иметь отдельную регистрацию в Composition Root.
 
 Например:
 
@@ -312,6 +311,8 @@ QuestInstaller
 Installer отвечает только за регистрацию зависимостей.
 
 Любая игровая логика внутри Installer запрещена.
+
+Feature Installer располагается в `Application/Installers`, а не внутри Game Feature. Благодаря этому Game не зависит от Zenject.
 
 ---
 
@@ -339,7 +340,7 @@ SceneLoader
 
 # Working with Dependency Injection
 
-Все зависимости должны передаваться через конструктор.
+Обычные C# сервисы, phases и coordinators получают обязательные зависимости через конструктор.
 
 Правильно:
 
@@ -357,6 +358,8 @@ public BattleController(
 var audio = new AudioService();
 ```
 
+Для `MonoBehaviour` и других объектов, созданных Unity, допускается method injection через `[Inject] Construct(...)`. Сериализованные ссылки используются только для scene/prefab references, которые принадлежат самому View или adapter.
+
 ---
 
 # Working with MonoBehaviour
@@ -371,6 +374,8 @@ MonoBehaviour должен содержать только код, связан�
 
 Игровая логика должна находиться в обычных C# классах.
 
+Feature-local MonoBehaviour может находиться внутри Feature, пассивный UI-компонент — в UI, а межслойный scene adapter — в `Application/Installers/FeatureAdapters`.
+
 ---
 
 # Working with Features
@@ -384,7 +389,15 @@ Dialogue
 
 ↓
 
-QuestService
+public event / shared contract
+
+↓
+
+Application coordinator
+
+↓
+
+Quest
 ```
 
 Неправильно:
@@ -401,7 +414,7 @@ QuestDatabase
 QuestInternalManager
 ```
 
-Общение между системами должно происходить через публичные интерфейсы.
+Общение между Feature происходит через shared contracts, C# события и Application coordinators.
 
 ---
 
@@ -491,13 +504,13 @@ MonoBehaviour не должен содержать игровую логику.
 
 ## ❌ Feature зависит от Feature
 
-Использовать сервисы, события или публичные интерфейсы.
+Использовать shared contracts, C# события или Application coordinator.
 
 ---
 
 ## ❌ Дублирование логики
 
-Если одинаковый код используется несколькими системами — его следует вынести в Shared или Infrastructure.
+Если чистый код используется несколькими Feature, его следует вынести в Game Shared. Infrastructure используется только для технических интеграций с Unity, файловой системой или внешними библиотеками.
 
 ---
 
@@ -522,10 +535,10 @@ MonoBehaviour не должен содержать игровую логику.
 
 При разработке новой функциональности необходимо придерживаться следующих правил:
 
-- Каждая новая игровая механика создаётся как отдельная Feature.
+- Каждая новая самостоятельная игровая механика создаётся как отдельная Feature.
 - Игровые режимы реализуются через Main Phase или Overlay Phase.
 - Все сцены загружаются только через SceneLoader.
-- Все зависимости создаются через Dependency Injection.
-- UI отвечает только за отображение.
+- Сервисы, phases и coordinators создаются и связываются через Dependency Injection.
+- UI отображает данные и отправляет события, но не принимает игровые решения.
 - MonoBehaviour содержит только Unity-специфичный код.
 - Любая новая архитектурная идея должна соответствовать принципам, описанным в `01_Architecture.md`.

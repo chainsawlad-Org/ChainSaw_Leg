@@ -34,7 +34,7 @@ Application не содержит игровой логики.
 
 ## Infrastructure
 
-Слой, изолирующий игровой код от Unity API и внешних библиотек.
+Слой глобальных технических интеграций с Unity API, файловой системой и внешними библиотеками.
 
 Примеры:
 
@@ -59,7 +59,7 @@ Infrastructure предоставляет функциональность, но
 
 Слой отображения информации.
 
-UI показывает данные пользователю и принимает ввод.
+UI показывает данные пользователю, принимает ввод и отправляет события представления.
 
 UI не содержит игровых правил.
 
@@ -165,7 +165,8 @@ FSM не содержит игровой логики.
 
 - Main Menu
 - Exploration
-- Battle
+- Combat
+- Exploration
 - Minigame
 
 Main Phase обычно связана с игровой сценой.
@@ -224,10 +225,19 @@ Service не содержит игровых правил.
 
 Примеры:
 
-- SceneLoader
-- GameSaveCoordinator
 - AudioService
 - InputService
+- GamePauseService
+
+---
+
+# Coordinator
+
+Класс, координирующий несколько компонентов в рамках одного application use case.
+
+Например, GameSaveCoordinator управляет техническим pipeline сохранения, а PauseMenuCoordinator связывает UI с фазами и сервисами.
+
+Coordinator не содержит View-логики и не обращается к глобальному состоянию через static Instance.
 
 ---
 
@@ -434,7 +444,7 @@ BattleStarted
 
 Точка приложения, в которой создаются и связываются все зависимости.
 
-В текущем проекте Composition Root представлен ProjectInstaller и связанными Installer'ами.
+В текущем проекте Composition Root представлен `ProjectContext`, `SceneContext` и installer-ами из `Application/Installers`.
 
 ---
 

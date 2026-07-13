@@ -1,7 +1,7 @@
 # Bootstrap
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -60,7 +60,9 @@ BootstrapStartup --> BootstrapRunner
 
 BootstrapRunner --> StartupResolver
 
-StartupResolver --> GameStateMachine
+StartupResolver -->|Selected Main Phase| BootstrapRunner
+
+BootstrapRunner --> GameStateMachine
 
 GameStateMachine --> MainPhase
 ```
@@ -146,7 +148,11 @@ BootstrapRunner --> StartupResolver
 
 StartupResolver --> StartupPhaseRegistry
 
-StartupPhaseRegistry --> Phase
+StartupPhaseRegistry -->|Registered phase type| StartupResolver
+
+StartupResolver -->|Selected Main Phase| BootstrapRunner
+
+BootstrapRunner --> Phase
 ```
 
 Это позволяет изменять правила запуска без изменения Bootstrap.
@@ -241,7 +247,7 @@ Bootstrap отвечает исключительно за запуск прил
 
 Bootstrap не создаёт зависимости самостоятельно.
 
-Все объекты предоставляются контейнером Zenject.
+Все сервисные зависимости Bootstrap предоставляются контейнером Zenject. Unity-owned объекты не создаются Bootstrap вручную.
 
 ---
 

@@ -24,6 +24,8 @@ Startup
 
 GameStateMachine
 
+ApplicationCoordination
+
 SceneManagement
 
 Features
@@ -34,11 +36,15 @@ Bootstrap --> Startup
 
 Startup --> GameStateMachine
 
-GameStateMachine --> SceneManagement
+GameStateMachine --> MainPhase
 
-GameStateMachine --> Features
+MainPhase --> SceneManagement
 
-Features --> UI
+ApplicationCoordination --> GameStateMachine
+
+ApplicationCoordination --> Features
+
+ApplicationCoordination --> UI
 ```
 
 ---
@@ -104,6 +110,8 @@ Player
 
 UI
 
+ApplicationCoordination
+
 GameStateMachine
 
 MainPhase
@@ -114,40 +122,32 @@ SceneLoader
 
 Player --> UI
 
-UI --> MainPhase
+UI --> ApplicationCoordination
 
-MainPhase --> GameStateMachine
+ApplicationCoordination --> GameStateMachine
 
 GameStateMachine --> OverlayPhase
 
-GameStateMachine --> SceneLoader
+GameStateMachine --> MainPhase
+
+MainPhase --> SceneLoader
 ```
 
 ---
 
 # Layered Architecture
 
-The project architecture is divided into four layers.
+The project architecture is divided into four layers with different responsibilities.
 
 ```text
-Application
-
-↓
-
-Infrastructure
-
-↓
-
-Game
-
-↓
-
-UI
+Application / Composition ──▶ Game
+           │
+           ├────────────────▶ Infrastructure ──▶ Game Shared contracts
+           │
+           └────────────────▶ UI
 ```
 
-Each layer depends only on the layers below it.
-
-Reverse dependencies are prohibited.
+Game does not depend on the other layers. Application and Composition connect subsystems. Infrastructure and UI do not depend on Application and do not create cyclic asmdef references.
 
 ---
 
@@ -231,7 +231,7 @@ Gameplay systems never access the SceneManager directly.
 
 # Dependency Injection
 
-All core objects are created by the Zenject container.
+Services, phases, and coordinators are created by the Zenject container. Unity scene objects are created by Unity and receive dependencies through injection.
 
 ```mermaid
 flowchart TD
@@ -255,7 +255,7 @@ Installers --> DiContainer
 DiContainer --> Application
 ```
 
-All dependencies are injected through constructors.
+Regular C# classes receive dependencies through constructors. Unity-created MonoBehaviours use method injection.
 
 ---
 
@@ -266,15 +266,11 @@ Gameplay logic follows the **Feature First** architecture.
 ```text
 Game
 
-├── Battle
+├── Combat
 
 ├── Dialogue
 
-├── Inventory
-
-├── Quest
-
-├── NPC
+├── Exploration
 
 └── Minigames
 ```
@@ -294,48 +290,57 @@ Player
 
 UI
 
+ApplicationCoordinator
+
 Game
 
 Player --> UI
 
-UI --> Game
+UI -->|View events| ApplicationCoordinator
 
-Game --> UI
+ApplicationCoordinator -->|Commands / use cases| Game
+
+Game -->|Domain events / results| ApplicationCoordinator
+
+ApplicationCoordinator -->|Presentation state| UI
 ```
 
 The UI displays data and forwards player actions.
 
 Gameplay decisions are made exclusively by the gameplay systems.
 
+The arrows show runtime flow. At compile time, Game does not depend on ApplicationCoordinator, and UI does not depend on a concrete Game Feature implementation.
+
 ---
 
 # Dependency Direction
 
-Dependencies always flow in a single direction.
+Compile-time dependencies point toward stable contracts.
 
 ```mermaid
 flowchart TD
 
-Bootstrap
+Application
 
-GameStateMachine
+Infrastructure
 
-SceneManagement
-
-Features
+Game
 
 UI
 
-Bootstrap --> GameStateMachine
+GameShared["Game Shared contracts"]
 
-GameStateMachine --> SceneManagement
+Application --> Infrastructure
 
-GameStateMachine --> Features
+Application --> Game
 
-Features --> UI
+Application --> UI
+
+Infrastructure --> GameShared
+
 ```
 
-The architecture does not allow cyclic dependencies between subsystems.
+Game does not depend on Application, Infrastructure, UI, or Zenject. The architecture does not allow cyclic asmdef dependencies.
 
 ---
 

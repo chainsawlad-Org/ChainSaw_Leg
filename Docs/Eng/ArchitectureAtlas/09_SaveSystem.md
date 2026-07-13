@@ -40,7 +40,7 @@ Save System is not responsible for:
 # High-Level Overview
 
 ```mermaid
-flowchart LR
+flowchart TD
 
 RuntimeModel["Runtime Model"]
 Contributor["IGameSaveContributor"]

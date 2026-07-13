@@ -24,6 +24,8 @@ Startup
 
 GameStateMachine
 
+ApplicationCoordination
+
 SceneManagement
 
 Features
@@ -34,11 +36,15 @@ Bootstrap --> Startup
 
 Startup --> GameStateMachine
 
-GameStateMachine --> SceneManagement
+GameStateMachine --> MainPhase
 
-GameStateMachine --> Features
+MainPhase --> SceneManagement
 
-Features --> UI
+ApplicationCoordination --> GameStateMachine
+
+ApplicationCoordination --> Features
+
+ApplicationCoordination --> UI
 ```
 
 ---
@@ -104,6 +110,8 @@ Player
 
 UI
 
+ApplicationCoordination
+
 GameStateMachine
 
 MainPhase
@@ -114,40 +122,32 @@ SceneLoader
 
 Player --> UI
 
-UI --> MainPhase
+UI --> ApplicationCoordination
 
-MainPhase --> GameStateMachine
+ApplicationCoordination --> GameStateMachine
 
 GameStateMachine --> OverlayPhase
 
-GameStateMachine --> SceneLoader
+GameStateMachine --> MainPhase
+
+MainPhase --> SceneLoader
 ```
 
 ---
 
 # Layered Architecture
 
-Архитектура проекта разделена на четыре уровня.
+Архитектура проекта разделена на четыре слоя с разными обязанностями.
 
 ```text
-Application
-
-↓
-
-Infrastructure
-
-↓
-
-Game
-
-↓
-
-UI
+Application / Composition ──▶ Game
+           │
+           ├────────────────▶ Infrastructure ──▶ Game Shared contracts
+           │
+           └────────────────▶ UI
 ```
 
-Каждый уровень зависит только от нижележащих компонентов.
-
-Обратные зависимости запрещены.
+Game не зависит от остальных слоёв. Application и Composition связывают подсистемы. Infrastructure и UI не зависят от Application и не создают циклических asmdef-ссылок.
 
 ---
 
@@ -231,7 +231,7 @@ SceneLoader --> Unity
 
 # Dependency Injection
 
-Все основные объекты создаются контейнером Zenject.
+Сервисы, phases и coordinators создаются контейнером Zenject. Unity scene objects создаются Unity и получают зависимости через injection.
 
 ```mermaid
 flowchart TD
@@ -255,7 +255,7 @@ Installers --> DiContainer
 DiContainer --> Application
 ```
 
-Все зависимости передаются через конструкторы.
+Обычные C# классы получают зависимости через конструкторы. Unity-created MonoBehaviour используют method injection.
 
 ---
 
@@ -266,15 +266,11 @@ DiContainer --> Application
 ```text
 Game
 
-├── Battle
+├── Combat
 
 ├── Dialogue
 
-├── Inventory
-
-├── Quest
-
-├── NPC
+├── Exploration
 
 └── Minigames
 ```
@@ -294,48 +290,57 @@ Player
 
 UI
 
+ApplicationCoordinator
+
 Game
 
 Player --> UI
 
-UI --> Game
+UI -->|View events| ApplicationCoordinator
 
-Game --> UI
+ApplicationCoordinator -->|Commands / use cases| Game
+
+Game -->|Domain events / results| ApplicationCoordinator
+
+ApplicationCoordinator -->|Presentation state| UI
 ```
 
 UI отображает данные и передаёт действия пользователя.
 
 Игровые решения принимаются только игровыми системами.
 
+Стрелки показывают runtime-поток. На уровне compile-time Game не зависит от ApplicationCoordinator, а UI не зависит от конкретной реализации Game Feature.
+
 ---
 
 # Dependency Direction
 
-Зависимости всегда направлены в одну сторону.
+Compile-time зависимости направлены к стабильным контрактам.
 
 ```mermaid
 flowchart TD
 
-Bootstrap
+Application
 
-GameStateMachine
+Infrastructure
 
-SceneManagement
-
-Features
+Game
 
 UI
 
-Bootstrap --> GameStateMachine
+GameShared["Game Shared contracts"]
 
-GameStateMachine --> SceneManagement
+Application --> Infrastructure
 
-GameStateMachine --> Features
+Application --> Game
 
-Features --> UI
+Application --> UI
+
+Infrastructure --> GameShared
+
 ```
 
-Архитектура не допускает циклических зависимостей между подсистемами.
+Game не зависит от Application, Infrastructure, UI или Zenject. Архитектура не допускает циклических зависимостей между asmdef.
 
 ---
 

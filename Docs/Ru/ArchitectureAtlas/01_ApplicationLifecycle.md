@@ -1,7 +1,7 @@
 # Application Lifecycle
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -56,7 +56,8 @@ ProjectContext --> ProjectInstaller
 ProjectInstaller --> BootstrapStartup
 BootstrapStartup --> BootstrapRunner
 BootstrapRunner --> StartupResolver
-StartupResolver --> GameStateMachine
+StartupResolver -->|Selected Main Phase| BootstrapRunner
+BootstrapRunner --> GameStateMachine
 GameStateMachine --> Phase
 ```
 
@@ -187,7 +188,9 @@ Phase
 
 BootstrapRunner --> StartupResolver
 StartupResolver --> StartupPhaseRegistry
-StartupPhaseRegistry --> Phase
+StartupPhaseRegistry -->|Registered phase type| StartupResolver
+StartupResolver -->|Selected Main Phase| BootstrapRunner
+BootstrapRunner --> Phase
 ```
 
 StartupResolver принимает решение на основании текущего состояния приложения.
@@ -210,7 +213,7 @@ FSM становится главным координатором игровы�
 ```mermaid
 flowchart LR
 
-StartupResolver --> GameStateMachine --> MainPhase
+BootstrapRunner --> GameStateMachine --> MainPhase
 ```
 
 С этого момента именно GameStateMachine отвечает за переходы между игровыми состояниями.
@@ -334,7 +337,7 @@ GameStateMachine не принимает решений о запуске при
 
 ## Dependency Injection
 
-Все объекты создаются контейнером Zenject.
+Сервисы, phases и coordinators создаются контейнером Zenject. Unity scene objects создаются Unity и получают зарегистрированные зависимости через injection.
 
 Компоненты не создают друг друга самостоятельно.
 
@@ -360,7 +363,7 @@ Bootstrap отвечает только за запуск приложения.
 
 ## ❌ Создание сервисов через `new`
 
-Все сервисы создаются только контейнером Dependency Injection.
+Обычные C#-сервисы создаются контейнером Dependency Injection. Scene `MonoBehaviour` создаются Unity и получают зарегистрированные сервисы через `SceneContext` injection.
 
 ---
 

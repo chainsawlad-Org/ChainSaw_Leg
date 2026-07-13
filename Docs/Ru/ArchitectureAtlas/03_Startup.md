@@ -1,7 +1,7 @@
 # Startup
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -51,7 +51,9 @@ MainPhase
 
 BootstrapRunner --> StartupResolver
 StartupResolver --> StartupPhaseRegistry
-StartupPhaseRegistry --> GameStateMachine
+StartupPhaseRegistry -->|Registered phase type| StartupResolver
+StartupResolver -->|Selected Main Phase| BootstrapRunner
+BootstrapRunner --> GameStateMachine
 GameStateMachine --> MainPhase
 ```
 
@@ -244,7 +246,7 @@ StartupPhaseRegistry хранит только данные.
 - выполнить автоматические тесты;
 - открыть специальный режим отладки.
 
-Такие изменения должны вноситься исключительно в StartupResolver без изменения остальных компонентов.
+Правило выбора стартового сценария добавляется в StartupResolver. Фактическую загрузку сохранения и переключение сцен он делегирует Application-сервисам и GameStateMachine, поэтому Startup не обращается к файлам или SceneManager напрямую.
 
 ---
 

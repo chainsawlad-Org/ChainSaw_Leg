@@ -40,7 +40,7 @@ Save System не отвечает за:
 # High-Level Overview
 
 ```mermaid
-flowchart LR
+flowchart TD
 
 RuntimeModel["Runtime Model"]
 Contributor["IGameSaveContributor"]

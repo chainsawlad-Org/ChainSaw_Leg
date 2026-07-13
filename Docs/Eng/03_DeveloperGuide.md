@@ -191,7 +191,7 @@ An Overlay Phase never loads game scenes.
 
 # Adding a New Feature
 
-Each gameplay mechanic is created as a separate Feature.
+Each independent gameplay mechanic is created as a separate Feature. A change to an existing mechanic remains inside its Feature.
 
 Example:
 
@@ -216,7 +216,6 @@ Fishing
 ├── Models
 ├── Views
 ├── Configs
-├── Installers
 └── Prefabs
 ```
 
@@ -255,7 +254,7 @@ Use it through Dependency Injection.
 
 # Adding UI
 
-UI is responsible only for presentation.
+UI is a passive presentation layer: it displays data and converts user input into events.
 
 UI may:
 
@@ -297,7 +296,7 @@ ScriptableObject is the preferred implementation.
 
 # Adding Installers
 
-Each independent Feature should have its own Installer.
+Each independent Feature should have a separate registration in the Composition Root.
 
 For example:
 
@@ -312,6 +311,8 @@ QuestInstaller
 An Installer is responsible only for dependency registration.
 
 Any game logic inside an Installer is prohibited.
+
+A Feature Installer lives under `Application/Installers`, not inside the Game Feature. This keeps Game independent of Zenject.
 
 ---
 
@@ -339,7 +340,7 @@ SceneLoader
 
 # Working with Dependency Injection
 
-All dependencies should be provided through constructors.
+Regular C# services, phases, and coordinators receive required dependencies through constructors.
 
 Correct:
 
@@ -357,6 +358,8 @@ Incorrect:
 var audio = new AudioService();
 ```
 
+For `MonoBehaviour` and other Unity-created objects, method injection through `[Inject] Construct(...)` is allowed. Serialized references are used only for scene or prefab references owned by the View or adapter itself.
+
 ---
 
 # Working with MonoBehaviour
@@ -371,6 +374,8 @@ For example:
 
 Game logic should be implemented in regular C# classes.
 
+A Feature-local MonoBehaviour may live inside its Feature, a passive UI component in UI, and a cross-layer scene adapter under `Application/Installers/FeatureAdapters`.
+
 ---
 
 # Working with Features
@@ -384,7 +389,15 @@ Dialogue
 
 ↓
 
-QuestService
+public event / shared contract
+
+↓
+
+Application coordinator
+
+↓
+
+Quest
 ```
 
 Incorrect:
@@ -401,7 +414,7 @@ QuestDatabase
 QuestInternalManager
 ```
 
-Communication between systems should occur through public interfaces.
+Features communicate through shared contracts, C# events, and Application coordinators.
 
 ---
 
@@ -491,13 +504,13 @@ A MonoBehaviour must not contain game logic.
 
 ## ❌ Feature depending directly on another Feature
 
-Use services, events, or public interfaces.
+Use shared contracts, C# events, or an Application coordinator.
 
 ---
 
 ## ❌ Duplicating logic
 
-If the same code is used by multiple systems, it should be moved to Shared or Infrastructure.
+If pure code is shared by multiple Features, it should be moved to Game Shared. Infrastructure is reserved for technical integrations with Unity, the file system, or external libraries.
 
 ---
 
@@ -522,10 +535,10 @@ Before creating a Pull Request, verify the following:
 
 When developing new functionality, follow these rules:
 
-- Every new gameplay mechanic is created as a separate Feature.
+- Every new independent gameplay mechanic is created as a separate Feature.
 - Game modes are implemented as either a Main Phase or an Overlay Phase.
 - All scenes are loaded only through SceneLoader.
-- All dependencies are created through Dependency Injection.
-- UI is responsible only for presentation.
+- Services, phases, and coordinators are created and connected through Dependency Injection.
+- UI displays data and emits events but makes no gameplay decisions.
 - MonoBehaviour contains only Unity-specific code.
 - Any new architectural idea must follow the principles described in `01_Architecture.md`.

@@ -52,9 +52,12 @@ Application
 ├── Bootstrap
 ├── Startup
 ├── StateMachine
+├── Coordination
+├── Services
 ├── Installers
 ├── Factories
 ├── Signals
+└── Editor
 ```
 
 ---
@@ -151,6 +154,30 @@ Factory не содержит логики игры.
 
 ---
 
+## Coordination
+
+Содержит application use cases, связывающие несколько подсистем.
+
+Например:
+
+```text
+PauseMenuCoordinator
+
+ExplorationGameSaveLoadService
+
+MainMenuCoordinator
+```
+
+Coordinator не содержит игровых правил и не реализует Unity View.
+
+---
+
+## Services
+
+Содержит application commands, registries и brokers, необходимые нескольким сценариям Application.
+
+---
+
 ## Signals *(будущее)*
 
 Содержит события приложения.
@@ -169,11 +196,17 @@ Signals используются для связи между независим
 
 ---
 
+## Editor
+
+Содержит editor-only инструменты Application. Runtime-код не должен зависеть от этой директории.
+
+---
+
 # Infrastructure
 
-Infrastructure является адаптером между проектом и Unity.
+Infrastructure содержит глобальные технические адаптеры к Unity API, файловой системе и внешним библиотекам.
 
-Любой код, работающий непосредственно с API Unity, должен находиться здесь.
+Feature-local MonoBehaviour, UI View и scene adapter могут использовать Unity API вне Infrastructure, но не содержат игровой бизнес-логики.
 
 Типичная структура:
 
@@ -288,7 +321,7 @@ Game
 ```
 Dialogue
 
-Battle
+Combat
 
 Inventory
 
@@ -315,7 +348,6 @@ Dialogue
 ├── Views
 ├── Services
 ├── Configs
-├── Installers
 ├── Prefabs
 └── Runtime
 ```
@@ -344,9 +376,11 @@ Model не зависит от Unity.
 
 ## Views
 
-Отвечают только за отображение.
+Отображают данные и отправляют события представления.
 
 View ничего не знает о внутренней логике Feature.
+
+View, используемый только одной Feature, может оставаться внутри неё. Глобальные экраны, общие виджеты и меню приложения находятся в отдельном слое UI.
 
 ---
 
@@ -370,11 +404,11 @@ DialogueHistoryService
 
 ---
 
-## Installers
+## Registration
 
-Installer Feature.
+Game Feature не содержит Zenject Installer и не зависит от DI-контейнера.
 
-Регистрирует зависимости только этой Feature.
+Её зависимости регистрирует соответствующий installer в `Application/Installers`, например `DialogueInstaller` или `ExplorationInstaller`.
 
 ---
 
@@ -402,23 +436,25 @@ Shared не должен превращаться в "свалку" общего
 
 # UI
 
-UI содержит исключительно отображение.
+UI содержит пассивные представления, UI-события и переиспользуемые элементы интерфейса.
 
-Типичная структура:
+Текущая физическая структура организована по UI-системам:
 
 ```
 UI
 │
-├── Windows
-├── HUD
-├── Popups
-├── Widgets
-└── Common
+├── MainMenu
+├── PauseMenu
+├── CheckpointSave
+├── Common
+└── Services
 ```
+
+HUD, Popups и Widgets могут добавляться отдельными папками, когда появятся соответствующие системы.
 
 ---
 
-## Windows
+## Screens And Menus
 
 Полноэкранные окна.
 
@@ -582,9 +618,10 @@ UniTask
 | Если класс... | Размещается в... |
 |----------------|------------------|
 | Запускает приложение | Application |
-| Работает с Unity API | Infrastructure |
+| Интегрирует глобальную техническую систему с Unity или внешней библиотекой | Infrastructure |
 | Содержит игровые правила | Game |
-| Отображает информацию | UI |
+| Отображает информацию и отправляет UI-события | UI |
+| Адаптирует сценовый объект конкретной Feature | Feature или Application/Installers/FeatureAdapters |
 | Хранит настройки | Configs |
 
 Если возникает сомнение между двумя папками, вероятнее всего ответственность класса определена неправильно.
@@ -593,7 +630,7 @@ UniTask
 
 # Правило Feature First
 
-Новый игровой функционал всегда создаётся как новая Feature.
+Новая самостоятельная игровая механика создаётся как Feature. Расширение уже существующей механики остаётся внутри её Feature.
 
 Неправильно:
 
@@ -637,6 +674,8 @@ Features
 | Interface | IAudioService |
 | Installer | BattleInstaller |
 | Factory | EnemyFactory |
+| Coordinator | PauseMenuCoordinator |
+| Loader | SceneLoader |
 | Config | BattleConfig |
 | View | InventoryView |
 | Controller | DialogueController |
@@ -649,8 +688,9 @@ Features
 
 - Код организуется по ответственности, а не по типам файлов.
 - Игровая логика находится только в слое Game.
-- Работа с Unity API изолирована в Infrastructure.
-- UI отвечает только за отображение.
+- Глобальные технические интеграции находятся в Infrastructure.
+- Feature-local Unity adapters и UI View не содержат игровых правил.
+- UI отображает данные и отправляет события, но не принимает игровые решения.
 - Новые игровые механики создаются как отдельные Feature.
 - Каждая Feature максимально независима.
 - Структура проекта должна упрощать поиск кода и масштабирование проекта.

@@ -1,7 +1,7 @@
 # Dependency Injection
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -28,7 +28,7 @@ The Dependency Injection subsystem is responsible for:
 - registering services;
 - registering game phases;
 - registering infrastructure components;
-- providing dependencies through constructors.
+- providing dependencies through constructors or Unity-compatible method injection.
 
 Dependency Injection is not responsible for:
 
@@ -65,7 +65,7 @@ DiContainer --> SceneLoader
 DiContainer --> BootstrapRunner
 ```
 
-Once registration is complete, all objects are created automatically by the container.
+After registration, the container can create the regular C# service graph and inject dependencies into Unity-created objects.
 
 ---
 
@@ -170,29 +170,23 @@ This eliminates the need to manually register every new phase.
 
 # Object Creation
 
-All objects are created by the Zenject container.
+Regular C# services, phases, and coordinators are created by the Zenject container. Scene objects and `MonoBehaviour` components are created by Unity and then injected by the container.
 
 A typical sequence looks like this.
 
 ```mermaid
 sequenceDiagram
 
-participant Class
-
 participant DiContainer
 
 participant Dependency
 
-Class->>DiContainer: Resolve()
-
 DiContainer->>Dependency: Create()
 
-Dependency-->>DiContainer: Instance
-
-DiContainer-->>Class: Inject Dependency
+DiContainer->>Dependency: Inject required dependencies
 ```
 
-Developers do not create dependencies manually.
+Gameplay code does not use the container as a Service Locator and does not create services manually.
 
 ---
 
@@ -214,11 +208,13 @@ public class BattlePhase : SceneGamePhase
 
 The constructor explicitly shows which dependencies the class requires.
 
+Unity-created `MonoBehaviour` components use method injection through `[Inject] Construct(...)`. Serialized fields store only scene or prefab references owned by the View or adapter itself.
+
 ---
 
 # Lifetime
 
-Most global services are registered as singletons within the container.
+Most global services are registered with the `AsSingle()` lifetime inside the container.
 
 For example:
 
@@ -228,7 +224,7 @@ Container.Bind<ISceneLoader>()
     .AsSingle();
 ```
 
-This means that only one instance of the object exists during the application's lifetime.
+This means that the container provides one instance within its context. It is not the gameplay Singleton pattern: the class has no static `Instance`, and access is available only through DI.
 
 ---
 
@@ -256,7 +252,7 @@ Each object receives only the dependencies it actually requires.
 
 # Composition Root
 
-The Composition Root is the only place where dependencies are wired together.
+The Composition Root is the only architectural area where dependencies are wired together.
 
 In the current project, the Composition Root consists of:
 
@@ -269,10 +265,16 @@ ProjectInstaller
 
 ↓
 
-Installers
+Global Installers
+
+SceneContext
+
+↓
+
+Scene MonoInstallers
 ```
 
-All registrations must be performed here.
+All registrations live under `Application/Installers`. `ProjectContext` creates the global graph, while `SceneContext` adds dependencies and adapters for a specific scene.
 
 ---
 
@@ -280,7 +282,7 @@ All registrations must be performed here.
 
 ## Constructor Injection
 
-All required dependencies are provided through the constructor.
+All required dependencies of regular C# classes are provided through constructors.
 
 This makes dependencies explicit.
 
@@ -298,7 +300,7 @@ Injecting dependencies "just in case" is not allowed.
 
 Gameplay code must not create services manually.
 
-All objects are provided by the container.
+Services, phases, and coordinators are provided by the container. DTOs and other value objects may be created explicitly with `new`.
 
 ---
 
@@ -312,7 +314,7 @@ This makes it easy to see which systems exist in the project.
 
 ## Loose Coupling
 
-Classes should depend on interfaces rather than concrete implementations.
+At subsystem boundaries, classes depend on interfaces. A concrete type is allowed inside one subsystem when it has no replaceable implementation and does not create a reverse dependency.
 
 For example:
 
@@ -338,20 +340,20 @@ ProjectInstaller
 PhaseInstaller
 
 ServiceInstaller
-```
 
-This list may be expanded in the future.
+StartupRegistryInstaller
 
-For example:
+DialogueInstaller
 
-```text
+ExplorationInstaller
+
 BattleInstaller
 
-UIInstaller
+WorldInstaller
 
-SaveInstaller
+MainMenuInstaller
 
-AudioInstaller
+PersistentUIInstaller
 ```
 
 ---
@@ -367,6 +369,12 @@ PhaseInstaller
 
 ServiceInstaller
 
+FeatureInstallers["DialogueInstaller / ExplorationInstaller"]
+
+SceneContext
+
+SceneInstallers["World / Battle / MainMenu / PersistentUI"]
+
 GameStateMachine
 
 SceneLoader
@@ -377,11 +385,15 @@ ProjectInstaller --> PhaseInstaller
 
 ProjectInstaller --> ServiceInstaller
 
+ProjectInstaller --> FeatureInstallers
+
 PhaseInstaller --> GameStateMachine
 
 ServiceInstaller --> SceneLoader
 
 ProjectInstaller --> BootstrapRunner
+
+SceneContext --> SceneInstallers
 ```
 
 ---
@@ -410,7 +422,7 @@ public BattlePhase(ISceneLoader sceneLoader)
 
 Gameplay code should never access the container directly.
 
-`Resolve()` is allowed only inside infrastructure components (for example, Factories).
+`Resolve()` is allowed only inside Composition Root-owned factories and adapters responsible for creating an object graph.
 
 ---
 
@@ -418,13 +430,13 @@ Gameplay code should never access the container directly.
 
 The container must not be used as a global Service Locator.
 
-Dependencies should always be explicitly provided through constructors.
+Regular C# classes receive dependencies through constructors. Unity-created MonoBehaviours receive them through one explicit `[Inject] Construct(...)` method.
 
 ---
 
 ## ❌ Hidden dependencies
 
-If a class uses a service, it must receive it through its constructor.
+If a class uses a service, the dependency must be visible in its constructor or in the approved Unity method-injection point.
 
 Runtime dependency lookups are not allowed.
 
@@ -442,8 +454,8 @@ As the project grows, the Dependency Injection subsystem can be extended.
 
 For example:
 
-- Feature Installers;
-- Scene Installers;
+- Feature registration installers under `Application/Installers`;
+- Scene MonoInstallers under `Application/Installers`;
 - SignalBus;
 - object factories;
 - Memory Pools;

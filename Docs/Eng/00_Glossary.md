@@ -34,7 +34,7 @@ The Application layer does not contain game logic.
 
 ## Infrastructure
 
-The layer that isolates game code from the Unity API and external libraries.
+The layer for global technical integrations with Unity API, the file system, and external libraries.
 
 Examples:
 
@@ -59,7 +59,7 @@ All game rules must be located here.
 
 The presentation layer.
 
-UI displays information to the player and receives input.
+UI displays information to the player, receives input, and emits view events.
 
 UI does not contain game rules.
 
@@ -165,7 +165,8 @@ Examples:
 
 - Main Menu
 - Exploration
-- Battle
+- Combat
+- Exploration
 - Minigame
 
 A Main Phase is usually associated with a game scene.
@@ -224,10 +225,19 @@ A Service does not contain game rules.
 
 Examples:
 
-- SceneLoader
-- GameSaveCoordinator
 - AudioService
 - InputService
+- GamePauseService
+
+---
+
+# Coordinator
+
+A class that coordinates multiple components within one application use case.
+
+For example, GameSaveCoordinator manages the technical save pipeline, while PauseMenuCoordinator connects UI with phases and services.
+
+A Coordinator contains no View logic and does not access global state through a static Instance.
 
 ---
 
@@ -434,7 +444,7 @@ Once implemented, it will become the only way to load game assets.
 
 The point in the application where all dependencies are created and connected.
 
-In the current project, the Composition Root is represented by ProjectInstaller and the related Installers.
+In the current project, the Composition Root is represented by `ProjectContext`, `SceneContext`, and installers under `Application/Installers`.
 
 ---
 
