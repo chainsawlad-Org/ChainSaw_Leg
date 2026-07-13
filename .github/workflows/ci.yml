@@ -108,23 +108,23 @@ jobs:
           fi
 
       - name: Run Unity EditMode tests
-          uses: game-ci/unity-test-runner@v4
-          env:
-            UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-            UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-            UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-          with:
-            projectPath: .
-            testMode: editmode
-            artifactsPath: unity-test-artifacts
-            githubToken: ${{ secrets.GITHUB_TOKEN }}
+        uses: game-ci/unity-test-runner@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          projectPath: .
+          testMode: editmode
+          artifactsPath: unity-test-artifacts
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Unity test artifacts
-          if: always()
-          uses: actions/upload-artifact@v4
-          with:
-            name: unity-editmode-test-results
-            path: unity-test-artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unity-editmode-test-results
+          path: unity-test-artifacts
 
       - name: CI completed
         run: echo "Basic CI validation completed successfully."
