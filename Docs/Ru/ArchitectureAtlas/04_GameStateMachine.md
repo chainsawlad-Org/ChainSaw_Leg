@@ -67,16 +67,18 @@ Overlay1 --> Overlay2
 
 Game State Machine состоит из следующих элементов.
 
-```
-GameStateMachine
+```mermaid
+flowchart TD
 
-↓
+N1["GameStateMachine"]
 
-SceneGamePhase
+N2["SceneGamePhase"]
 
-↓
+N3["OverlayPhase"]
 
-OverlayPhase
+N1 --> N2
+
+N2 --> N3
 ```
 
 ---
@@ -212,40 +214,44 @@ GameStateMachine предоставляет несколько групп мет
 
 Последовательность:
 
-```
-Close All Overlay
+```mermaid
+flowchart TD
 
-↓
+N1["Close All Overlay"]
 
-Exit Current Main
+N2["Exit Current Main"]
 
-↓
+N3["Create New Main"]
 
-Create New Main
+N4["Enter New Main"]
 
-↓
+N1 --> N2
 
-Enter New Main
+N2 --> N3
+
+N3 --> N4
 ```
 
 Используется для переходов между игровыми режимами.
 
 Например:
 
-```
-Main Menu
+```mermaid
+flowchart TD
 
-↓
+N1["Main Menu"]
 
-Exploration
+N2["Exploration"]
 
-↓
+N3["Battle"]
 
-Battle
+N4["Minigame"]
 
-↓
+N1 --> N2
 
-Minigame
+N2 --> N3
+
+N3 --> N4
 ```
 
 ---

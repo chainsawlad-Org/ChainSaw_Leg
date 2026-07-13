@@ -73,24 +73,26 @@ DiContainer --> BootstrapRunner
 
 Подсистема состоит из следующих компонентов.
 
-```
-ProjectContext
+```mermaid
+flowchart TD
 
-↓
+N1["ProjectContext"]
 
-ProjectInstaller
+N2["ProjectInstaller"]
 
-↓
+N3["Installers"]
 
-Installers
+N4["DiContainer"]
 
-↓
+N5["Application"]
 
-DiContainer
+N1 --> N2
 
-↓
+N2 --> N3
 
-Application
+N3 --> N4
+
+N4 --> N5
 ```
 
 ---
@@ -130,16 +132,18 @@ Installers используются для группировки регистр
 
 Например:
 
-```
-ProjectInstaller
+```mermaid
+flowchart TD
 
-↓
+N1["ProjectInstaller"]
 
-PhaseInstaller
+N2["PhaseInstaller"]
 
-↓
+N3["ServiceInstaller"]
 
-ServiceInstaller
+N1 --> N2
+
+N2 --> N3
 ```
 
 Каждый Installer отвечает только за свою область.
@@ -152,16 +156,18 @@ ServiceInstaller
 
 Например:
 
-```
-GamePhase
+```mermaid
+flowchart TD
 
-↓
+N1["GamePhase"]
 
-AutoBinder
+N2["AutoBinder"]
 
-↓
+N3["Container.Bind()"]
 
-Container.Bind()
+N1 --> N2
+
+N2 --> N3
 ```
 
 Это позволяет избежать ручной регистрации каждой новой фазы.
@@ -256,22 +262,24 @@ Composition Root — единственная архитектурная обл�
 
 В текущем проекте Composition Root состоит из:
 
-```
-ProjectContext
+```mermaid
+flowchart TD
 
-↓
+N1["ProjectContext"]
 
-ProjectInstaller
+N2["ProjectInstaller"]
 
-↓
+N3["Global Installers"]
 
-Global Installers
+N4["SceneContext"]
 
-SceneContext
+N5["Scene MonoInstallers"]
 
-↓
+N1 --> N2
 
-Scene MonoInstallers
+N2 --> N3
+
+N4 --> N5
 ```
 
 Все регистрации находятся в `Application/Installers`. `ProjectContext` создаёт глобальный graph, а `SceneContext` добавляет зависимости и adapters конкретной сцены.
@@ -318,12 +326,14 @@ Scene MonoInstallers
 
 Например:
 
-```
-ISceneLoader
+```mermaid
+flowchart TD
 
-↓
+N1["ISceneLoader"]
 
-SceneLoader
+N2["SceneLoader"]
+
+N1 --> N2
 ```
 
 В дальнейшем реализацию можно заменить без изменения игрового кода.

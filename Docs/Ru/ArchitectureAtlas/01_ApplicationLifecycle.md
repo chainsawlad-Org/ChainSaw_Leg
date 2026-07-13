@@ -69,32 +69,18 @@ GameStateMachine --> Phase
 
 Жизненный цикл приложения состоит из семи этапов.
 
-```
-1. Unity Initialization
 
-↓
+```mermaid
+flowchart TD
+    A[1. Unity Initialization]
+    B[2. Dependency Injection]
+    C[3. Bootstrap]
+    D[4. Persistent Scene]
+    E[5. Startup Resolution]
+    F[6. Game State Machine]
+    G[7. First Main Phase]
 
-2. Dependency Injection
-
-↓
-
-3. Bootstrap
-
-↓
-
-4. Persistent Scene
-
-↓
-
-5. Startup Resolution
-
-↓
-
-6. Game State Machine
-
-↓
-
-7. First Main Phase
+    A --> B --> C --> D --> E --> F --> G
 ```
 
 Каждый этап подробно описан ниже.
@@ -206,7 +192,7 @@ Bootstrap ничего не знает об этих правилах.
 
 # Stage 6 — Game State Machine
 
-После определения стартовой фазы управление передаётся Game State Machine.
+После определения стартовой фазы управление передаётся Game State Machine (Finite-State Machine, FSM).
 
 FSM становится главным координатором игровых режимов.
 
@@ -222,7 +208,7 @@ Bootstrap завершает свою работу.
 
 ---
 
-# Stage 7 — First Main Phase
+# Stage 7 — First Game Phase
 
 GameStateMachine активирует первую Main Phase.
 

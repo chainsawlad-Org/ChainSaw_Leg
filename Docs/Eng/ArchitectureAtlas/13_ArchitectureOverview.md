@@ -24,9 +24,13 @@ Startup
 
 GameStateMachine
 
+GamePhases["Game Phases"]
+
 ApplicationCoordination
 
 SceneManagement
+
+SaveSystem
 
 Features
 
@@ -36,22 +40,26 @@ Bootstrap --> Startup
 
 Startup --> GameStateMachine
 
-GameStateMachine --> MainPhase
+GameStateMachine --> GamePhases
 
-MainPhase --> SceneManagement
+GamePhases --> SceneManagement
 
 ApplicationCoordination --> GameStateMachine
+
+ApplicationCoordination --> SaveSystem
 
 ApplicationCoordination --> Features
 
 ApplicationCoordination --> UI
+
+SaveSystem --> Features
 ```
 
 ---
 
 # System Overview
 
-The project consists of seven primary architectural subsystems.
+The project consists of several primary architectural subsystems.
 
 | System | Responsibility |
 |----------|----------------|
@@ -71,28 +79,30 @@ Each subsystem has a clearly defined area of responsibility.
 
 After the application starts, control passes through several sequential stages.
 
-```text
-Application Start
+```mermaid
+flowchart TD
 
-↓
+N1["Application Start"]
 
-Bootstrap
+N2["Bootstrap"]
 
-↓
+N3["Startup"]
 
-Startup
+N4["Game State Machine"]
 
-↓
+N5["Game Phases"]
 
-Game State Machine
+N6["Gameplay"]
 
-↓
+N1 --> N2
 
-Main Phase
+N2 --> N3
 
-↓
+N3 --> N4
 
-Gameplay
+N4 --> N5
+
+N5 --> N6
 ```
 
 Once Bootstrap is complete, control is fully transferred to the Game State Machine.
@@ -120,17 +130,23 @@ OverlayPhase
 
 SceneLoader
 
+SaveSystem
+
 Player --> UI
 
 UI --> ApplicationCoordination
 
 ApplicationCoordination --> GameStateMachine
 
+ApplicationCoordination --> SaveSystem
+
 GameStateMachine --> OverlayPhase
 
 GameStateMachine --> MainPhase
 
 MainPhase --> SceneLoader
+
+SaveSystem --> Features
 ```
 
 ---

@@ -133,40 +133,44 @@ await gameStateMachine.ReplaceMain<BattlePhase>();
 
 ### ✔ Разрешено
 
-```
-Dialogue
+```mermaid
+flowchart TD
 
-↓
+N1["Dialogue"]
 
-shared contract / C# event
+N2["shared contract / C# event"]
 
-↓
+N3["Application coordinator"]
 
-Application coordinator
+N4["Quest"]
 
-↓
+N1 --> N2
 
-Quest
+N2 --> N3
+
+N3 --> N4
 ```
 
 ---
 
 ### ❌ Запрещено
 
-```
-Dialogue
+```mermaid
+flowchart TD
 
-↓
+N1["Dialogue"]
 
-QuestController
+N2["QuestController"]
 
-↓
+N3["QuestDatabase"]
 
-QuestDatabase
+N4["QuestInternalClass"]
 
-↓
+N1 --> N2
 
-QuestInternalClass
+N2 --> N3
+
+N3 --> N4
 ```
 
 Использовать внутренние классы и services других Feature запрещено.

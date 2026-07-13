@@ -69,32 +69,17 @@ Each component performs only one task and, after completing it, passes control t
 
 The application lifecycle consists of seven stages.
 
-```text
-1. Unity Initialization
+```mermaid
+flowchart TD
+    A[1. Unity Initialization]
+    B[2. Dependency Injection]
+    C[3. Bootstrap]
+    D[4. Persistent Scene]
+    E[5. Startup Resolution]
+    F[6. Game State Machine]
+    G[7. First Main Phase]
 
-↓
-
-2. Dependency Injection
-
-↓
-
-3. Bootstrap
-
-↓
-
-4. Persistent Scene
-
-↓
-
-5. Startup Resolution
-
-↓
-
-6. Game State Machine
-
-↓
-
-7. First Main Phase
+    A --> B --> C --> D --> E --> F --> G
 ```
 
 Each stage is described in detail below.

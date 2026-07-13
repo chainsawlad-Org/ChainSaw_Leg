@@ -24,32 +24,34 @@
 
 Практически любая новая задача проходит следующие этапы.
 
-```
-Идея
+```mermaid
+flowchart TD
 
-↓
+N1["Идея"]
 
-Определение ответственности
+N2["Определение ответственности"]
 
-↓
+N3["Выбор слоя архитектуры"]
 
-Выбор слоя архитектуры
+N4["Создание Feature / Service / UI"]
 
-↓
+N5["Регистрация в DI"]
 
-Создание Feature / Service / UI
+N6["Тестирование"]
 
-↓
+N7["Code Review"]
 
-Регистрация в DI
+N1 --> N2
 
-↓
+N2 --> N3
 
-Тестирование
+N3 --> N4
 
-↓
+N4 --> N5
 
-Code Review
+N5 --> N6
+
+N6 --> N7
 ```
 
 Перед написанием кода необходимо определить:
@@ -324,16 +326,18 @@ Feature Installer располагается в `Application/Installers`, а н�
 
 Правильно:
 
-```
-GameStateMachine
+```mermaid
+flowchart TD
 
-↓
+N1["GameStateMachine"]
 
-SceneGamePhase
+N2["SceneGamePhase"]
 
-↓
+N3["SceneLoader"]
 
-SceneLoader
+N1 --> N2
+
+N2 --> N3
 ```
 
 ---
@@ -384,34 +388,38 @@ Feature не должна обращаться напрямую к внутре�
 
 Правильно:
 
-```
-Dialogue
+```mermaid
+flowchart TD
 
-↓
+N1["Dialogue"]
 
-public event / shared contract
+N2["public event / shared contract"]
 
-↓
+N3["Application coordinator"]
 
-Application coordinator
+N4["Quest"]
 
-↓
+N1 --> N2
 
-Quest
+N2 --> N3
+
+N3 --> N4
 ```
 
 Неправильно:
 
-```
-DialogueController
+```mermaid
+flowchart TD
 
-↓
+N1["DialogueController"]
 
-QuestDatabase
+N2["QuestDatabase"]
 
-↓
+N3["QuestInternalManager"]
 
-QuestInternalManager
+N1 --> N2
+
+N2 --> N3
 ```
 
 Общение между Feature происходит через shared contracts, C# события и Application coordinators.
@@ -422,28 +430,30 @@ QuestInternalManager
 
 Правильная последовательность перехода между игровыми режимами.
 
-```
-Player Action
+```mermaid
+flowchart TD
 
-↓
+N1["Player Action"]
 
-Controller
+N2["Controller"]
 
-↓
+N3["GameStateMachine"]
 
-GameStateMachine
+N4["SceneGamePhase"]
 
-↓
+N5["SceneLoader"]
 
-SceneGamePhase
+N6["Unity SceneManager"]
 
-↓
+N1 --> N2
 
-SceneLoader
+N2 --> N3
 
-↓
+N3 --> N4
 
-Unity SceneManager
+N4 --> N5
+
+N5 --> N6
 ```
 
 Любое отклонение от этой схемы требует отдельного архитектурного обсуждения.
@@ -458,20 +468,22 @@ Unity SceneManager
 
 Правильная последовательность:
 
-```text
-Runtime Model
+```mermaid
+flowchart TD
 
-↓
+N1["Runtime Model"]
 
-IGameSaveContributor
+N2["IGameSaveContributor"]
 
-↓
+N3["Save DTO"]
 
-Save DTO
+N4["GameSaveCoordinator"]
 
-↓
+N1 --> N2
 
-GameSaveCoordinator
+N2 --> N3
+
+N3 --> N4
 ```
 
 DTO не содержит `MonoBehaviour`, `Transform`, `GameObject`, `Component` или другие ссылки на `UnityEngine.Object`.

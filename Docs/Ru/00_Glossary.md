@@ -281,16 +281,18 @@ Factory скрывает детали создания объектов.
 
 Например:
 
-```
-GameSaveCoordinator
+```mermaid
+flowchart TD
 
-↓
+N1["GameSaveCoordinator"]
 
-IGameSaveSerializer
+N2["IGameSaveSerializer"]
 
-↓
+N3["IGameSaveStorageProvider"]
 
-IGameSaveStorageProvider
+N1 --> N2
+
+N2 --> N3
 ```
 
 IGameSaveSerializer и IGameSaveStorageProvider являются зависимостями GameSaveCoordinator.
@@ -350,20 +352,22 @@ SC_Battle
 
 Стандартная схема:
 
-```
-GameStateMachine
+```mermaid
+flowchart TD
 
-↓
+N1["GameStateMachine"]
 
-SceneGamePhase
+N2["SceneGamePhase"]
 
-↓
+N3["SceneLoader"]
 
-SceneLoader
+N4["Unity SceneManager"]
 
-↓
+N1 --> N2
 
-Unity SceneManager
+N2 --> N3
+
+N3 --> N4
 ```
 
 ---

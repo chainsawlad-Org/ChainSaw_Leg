@@ -62,20 +62,22 @@ SceneLoader --> UnitySceneManager
 
 Подсистема состоит из следующих компонентов.
 
-```
-ISceneLoader
+```mermaid
+flowchart TD
 
-↓
+N1["ISceneLoader"]
 
-SceneLoader
+N2["SceneLoader"]
 
-↓
+N3["SceneGamePhase"]
 
-SceneGamePhase
+N4["SceneNames"]
 
-↓
+N1 --> N2
 
-SceneNames
+N2 --> N3
+
+N3 --> N4
 ```
 
 ---
@@ -225,20 +227,22 @@ SceneLoader->>Unity: Unload Previous Scene
 
 Переключение игровых сцен всегда происходит одинаково.
 
-```
-GameStateMachine
+```mermaid
+flowchart TD
 
-↓
+N1["GameStateMachine"]
 
-SceneGamePhase
+N2["SceneGamePhase"]
 
-↓
+N3["SceneLoader"]
 
-SceneLoader
+N4["Unity SceneManager"]
 
-↓
+N1 --> N2
 
-Unity SceneManager
+N2 --> N3
+
+N3 --> N4
 ```
 
 Обход этой последовательности запрещён.

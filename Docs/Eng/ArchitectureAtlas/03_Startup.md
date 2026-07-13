@@ -89,28 +89,34 @@ StartupPhaseRegistry stores the mapping between Unity Scenes and game phases.
 
 For example:
 
-```text
-SC_MainMenu
+```mermaid
+flowchart TD
 
-↓
+N1["SC_MainMenu"]
 
-MainMenuPhase
+N2["MainMenuPhase"]
+
+N1 --> N2
 ```
 
-```text
-SC_World
+```mermaid
+flowchart TD
 
-↓
+N1["SC_World"]
 
-ExplorationPhase
+N2["ExplorationPhase"]
+
+N1 --> N2
 ```
 
-```text
-SC_Battle
+```mermaid
+flowchart TD
 
-↓
+N1["SC_Battle"]
 
-BattlePhase
+N2["BattlePhase"]
+
+N1 --> N2
 ```
 
 The Registry contains no decision-making logic.
@@ -137,12 +143,14 @@ If the scene is registered in StartupPhaseRegistry, the corresponding Main Phase
 
 For example:
 
-```text
-SC_World
+```mermaid
+flowchart TD
 
-↓
+N1["SC_World"]
 
-ExplorationPhase
+N2["ExplorationPhase"]
+
+N1 --> N2
 ```
 
 This allows individual gameplay scenes to be launched directly without having to go through the main menu every time.

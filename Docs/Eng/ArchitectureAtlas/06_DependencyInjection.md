@@ -73,24 +73,26 @@ After registration, the container can create the regular C# service graph and in
 
 The subsystem consists of the following components.
 
-```text
-ProjectContext
+```mermaid
+flowchart TD
 
-↓
+N1["ProjectContext"]
 
-ProjectInstaller
+N2["ProjectInstaller"]
 
-↓
+N3["Installers"]
 
-Installers
+N4["DiContainer"]
 
-↓
+N5["Application"]
 
-DiContainer
+N1 --> N2
 
-↓
+N2 --> N3
 
-Application
+N3 --> N4
+
+N4 --> N5
 ```
 
 ---
@@ -130,16 +132,18 @@ Installers are used to group registrations by responsibility.
 
 For example:
 
-```text
-ProjectInstaller
+```mermaid
+flowchart TD
 
-↓
+N1["ProjectInstaller"]
 
-PhaseInstaller
+N2["PhaseInstaller"]
 
-↓
+N3["ServiceInstaller"]
 
-ServiceInstaller
+N1 --> N2
+
+N2 --> N3
 ```
 
 Each Installer is responsible only for its own area.
@@ -152,16 +156,18 @@ The project uses automatic registration for certain types.
 
 For example:
 
-```text
-GamePhase
+```mermaid
+flowchart TD
 
-↓
+N1["GamePhase"]
 
-AutoBinder
+N2["AutoBinder"]
 
-↓
+N3["Container.Bind()"]
 
-Container.Bind()
+N1 --> N2
+
+N2 --> N3
 ```
 
 This eliminates the need to manually register every new phase.
@@ -256,22 +262,24 @@ The Composition Root is the only architectural area where dependencies are wired
 
 In the current project, the Composition Root consists of:
 
-```text
-ProjectContext
+```mermaid
+flowchart TD
 
-↓
+N1["ProjectContext"]
 
-ProjectInstaller
+N2["ProjectInstaller"]
 
-↓
+N3["Global Installers"]
 
-Global Installers
+N4["SceneContext"]
 
-SceneContext
+N5["Scene MonoInstallers"]
 
-↓
+N1 --> N2
 
-Scene MonoInstallers
+N2 --> N3
+
+N4 --> N5
 ```
 
 All registrations live under `Application/Installers`. `ProjectContext` creates the global graph, while `SceneContext` adds dependencies and adapters for a specific scene.
@@ -318,12 +326,14 @@ At subsystem boundaries, classes depend on interfaces. A concrete type is allowe
 
 For example:
 
-```text
-ISceneLoader
+```mermaid
+flowchart TD
 
-↓
+N1["ISceneLoader"]
 
-SceneLoader
+N2["SceneLoader"]
+
+N1 --> N2
 ```
 
 This allows implementations to be replaced in the future without changing gameplay code.

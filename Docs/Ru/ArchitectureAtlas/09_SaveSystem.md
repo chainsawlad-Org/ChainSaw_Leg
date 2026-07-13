@@ -62,24 +62,26 @@ Storage --> File
 
 Обязательное направление данных:
 
-```text
-Runtime Model
+```mermaid
+flowchart TD
 
-↓
+N1["Runtime Model"]
 
-Mapper / Contributor
+N2["Mapper / Contributor"]
 
-↓
+N3["Save DTO"]
 
-Save DTO
+N4["Serializer"]
 
-↓
+N5["Storage Provider"]
 
-Serializer
+N1 --> N2
 
-↓
+N2 --> N3
 
-Storage Provider
+N3 --> N4
+
+N4 --> N5
 ```
 
 Runtime Model и сценовые объекты не сериализуются напрямую.
@@ -269,28 +271,30 @@ Coordinator->>Storage: WriteAsync
 
 Checkpoint запускается через `ExplorationCheckpointTrigger`.
 
-```text
-Player Interaction
+```mermaid
+flowchart TD
 
-↓
+N1["Player Interaction"]
 
-ExplorationCheckpointTrigger
+N2["ExplorationCheckpointTrigger"]
 
-↓
+N3["CheckpointSaveRequestBroker"]
 
-CheckpointSaveRequestBroker
+N4["CheckpointSaveMenuCoordinator"]
 
-↓
+N5["ExplorationCheckpointSaveService"]
 
-CheckpointSaveMenuCoordinator
+N6["GameSaveCoordinator"]
 
-↓
+N1 --> N2
 
-ExplorationCheckpointSaveService
+N2 --> N3
 
-↓
+N3 --> N4
 
-GameSaveCoordinator
+N4 --> N5
+
+N5 --> N6
 ```
 
 Trigger:
@@ -388,16 +392,18 @@ LoadService->>Pending: Clear
 
 Переход выполняется через:
 
-```text
-ExplorationSceneTransitionService
+```mermaid
+flowchart TD
 
-↓
+N1["ExplorationSceneTransitionService"]
 
-GameStateMachine.ReloadMainAsync<ExplorationPhase>
+N2["GameStateMachine.ReloadMainAsync<ExplorationPhase>"]
 
-↓
+N3["SceneLoader"]
 
-SceneLoader
+N1 --> N2
+
+N2 --> N3
 ```
 
 UI не вызывает `SceneManager` и не знает имя сцены.
@@ -469,24 +475,26 @@ GameSaveData.CurrentFormatVersion
 
 Порядок чтения:
 
-```text
-Read bytes
+```mermaid
+flowchart TD
 
-↓
+N1["Read bytes"]
 
-Deserialize
+N2["Deserialize"]
 
-↓
+N3["Migrate"]
 
-Migrate
+N4["Validate current version"]
 
-↓
+N5["Restore"]
 
-Validate current version
+N1 --> N2
 
-↓
+N2 --> N3
 
-Restore
+N3 --> N4
+
+N4 --> N5
 ```
 
 При изменении формата нельзя просто переписать старый DTO. Необходимо:
@@ -506,20 +514,22 @@ UI не читает директорию самостоятельно.
 
 `ExplorationSaveCatalogService` преобразует storage slots в `GameSaveCatalogEntry`. Application coordinators передают готовые данные пассивным View.
 
-```text
-SaveBrowserView
+```mermaid
+flowchart TD
 
-↓ user request
+N1["SaveBrowserView"]
 
-PauseMenuCoordinator или MainMenuSaveBrowserCoordinator
+N2["PauseMenuCoordinator или MainMenuSaveBrowserCoordinator"]
 
-↓
+N3["ExplorationSaveCatalogService"]
 
-ExplorationSaveCatalogService
+N4["IGameSaveStorageProvider + GameSaveCoordinator"]
 
-↓
+N1 -->|user request| N2
 
-IGameSaveStorageProvider + GameSaveCoordinator
+N2 --> N3
+
+N3 --> N4
 ```
 
 Повторные клики блокируются coordinator-ом UI на время асинхронной операции. При ошибке меню остаётся открытым и показывает безопасное сообщение.

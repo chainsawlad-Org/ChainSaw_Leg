@@ -62,20 +62,22 @@ All scene operations go through SceneLoader.
 
 The subsystem consists of the following components.
 
-```text
-ISceneLoader
+```mermaid
+flowchart TD
 
-↓
+N1["ISceneLoader"]
 
-SceneLoader
+N2["SceneLoader"]
 
-↓
+N3["SceneGamePhase"]
 
-SceneGamePhase
+N4["SceneNames"]
 
-↓
+N1 --> N2
 
-SceneNames
+N2 --> N3
+
+N3 --> N4
 ```
 
 ---
@@ -225,20 +227,22 @@ After `SwitchTo()` completes, the new gameplay scene becomes the current scene.
 
 Gameplay scene transitions always follow the same sequence.
 
-```text
-GameStateMachine
+```mermaid
+flowchart TD
 
-↓
+N1["GameStateMachine"]
 
-SceneGamePhase
+N2["SceneGamePhase"]
 
-↓
+N3["SceneLoader"]
 
-SceneLoader
+N4["Unity SceneManager"]
 
-↓
+N1 --> N2
 
-Unity SceneManager
+N2 --> N3
+
+N3 --> N4
 ```
 
 Bypassing this sequence is prohibited.

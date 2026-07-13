@@ -62,24 +62,26 @@ Storage --> File
 
 Required data direction:
 
-```text
-Runtime Model
+```mermaid
+flowchart TD
 
-↓
+N1["Runtime Model"]
 
-Mapper / Contributor
+N2["Mapper / Contributor"]
 
-↓
+N3["Save DTO"]
 
-Save DTO
+N4["Serializer"]
 
-↓
+N5["Storage Provider"]
 
-Serializer
+N1 --> N2
 
-↓
+N2 --> N3
 
-Storage Provider
+N3 --> N4
+
+N4 --> N5
 ```
 
 Runtime models and scene objects are never serialized directly.
@@ -269,28 +271,30 @@ Concurrent checkpoint writes are blocked by a `SemaphoreSlim` inside `Exploratio
 
 A checkpoint is initiated through `ExplorationCheckpointTrigger`.
 
-```text
-Player Interaction
+```mermaid
+flowchart TD
 
-↓
+N1["Player Interaction"]
 
-ExplorationCheckpointTrigger
+N2["ExplorationCheckpointTrigger"]
 
-↓
+N3["CheckpointSaveRequestBroker"]
 
-CheckpointSaveRequestBroker
+N4["CheckpointSaveMenuCoordinator"]
 
-↓
+N5["ExplorationCheckpointSaveService"]
 
-CheckpointSaveMenuCoordinator
+N6["GameSaveCoordinator"]
 
-↓
+N1 --> N2
 
-ExplorationCheckpointSaveService
+N2 --> N3
 
-↓
+N3 --> N4
 
-GameSaveCoordinator
+N4 --> N5
+
+N5 --> N6
 ```
 
 The trigger:
@@ -388,16 +392,18 @@ The file stores a stable `SceneId`, not a UI decision about a concrete scene.
 
 The transition follows:
 
-```text
-ExplorationSceneTransitionService
+```mermaid
+flowchart TD
 
-↓
+N1["ExplorationSceneTransitionService"]
 
-GameStateMachine.ReloadMainAsync<ExplorationPhase>
+N2["GameStateMachine.ReloadMainAsync<ExplorationPhase>"]
 
-↓
+N3["SceneLoader"]
 
-SceneLoader
+N1 --> N2
+
+N2 --> N3
 ```
 
 UI does not call `SceneManager` and does not know the scene name.
@@ -469,24 +475,26 @@ GameSaveData.CurrentFormatVersion
 
 Read order:
 
-```text
-Read bytes
+```mermaid
+flowchart TD
 
-↓
+N1["Read bytes"]
 
-Deserialize
+N2["Deserialize"]
 
-↓
+N3["Migrate"]
 
-Migrate
+N4["Validate current version"]
 
-↓
+N5["Restore"]
 
-Validate current version
+N1 --> N2
 
-↓
+N2 --> N3
 
-Restore
+N3 --> N4
+
+N4 --> N5
 ```
 
 When the format changes, an old DTO must not simply be overwritten. Instead:
@@ -506,20 +514,22 @@ UI never reads the directory itself.
 
 `ExplorationSaveCatalogService` converts storage slots into `GameSaveCatalogEntry` objects. Application coordinators pass ready view data to passive Views.
 
-```text
-SaveBrowserView
+```mermaid
+flowchart TD
 
-↓ user request
+N1["SaveBrowserView"]
 
-PauseMenuCoordinator or MainMenuSaveBrowserCoordinator
+N2["PauseMenuCoordinator or MainMenuSaveBrowserCoordinator"]
 
-↓
+N3["ExplorationSaveCatalogService"]
 
-ExplorationSaveCatalogService
+N4["IGameSaveStorageProvider + GameSaveCoordinator"]
 
-↓
+N1 -->|user request| N2
 
-IGameSaveStorageProvider + GameSaveCoordinator
+N2 --> N3
+
+N3 --> N4
 ```
 
 Application UI coordinators block repeated clicks while an asynchronous operation is running. On failure, the menu remains open and displays a safe error message.

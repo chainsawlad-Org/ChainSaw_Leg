@@ -70,7 +70,7 @@ Application не содержит игровой логики.
 
 ## Infrastructure
 
-Изолирует проект от Unity API и внешних библиотек.
+Изолирует глобальные технические интеграции с Unity API и внешними библиотеками.
 
 Примеры:
 
@@ -80,7 +80,7 @@ Application не содержит игровой логики.
 - Input
 - Addressables
 
-Infrastructure предоставляет сервисы другим слоям.
+Infrastructure предоставляет технические сервисы другим слоям. Feature-local View, UI View и scene adapter могут использовать Unity API вне Infrastructure, если они остаются узкими адаптерами и не содержат игровых правил.
 
 Save System не принадлежит Infrastructure целиком. Это сквозная подсистема: общие контракты и DTO находятся в Game Shared, игровые mapper'ы находятся в соответствующей Feature, сценарии координируются в Application, а serializer и storage provider находятся в Infrastructure.
 

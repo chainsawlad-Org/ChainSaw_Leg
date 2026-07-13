@@ -70,7 +70,7 @@ The Application layer does not contain game logic.
 
 ## Infrastructure
 
-Isolates the project from the Unity API and external libraries.
+Isolates global technical integrations with the Unity API and external libraries.
 
 Examples:
 
@@ -80,7 +80,7 @@ Examples:
 - Input
 - Addressables
 
-Infrastructure provides services to other layers.
+Infrastructure provides technical services to other layers. Feature-local Views, UI Views, and scene adapters may use the Unity API outside Infrastructure when they remain narrow adapters and do not contain game rules.
 
 Save System does not belong entirely to Infrastructure. It is a cross-cutting subsystem: shared contracts and DTOs live in Game Shared, gameplay mappers live in the corresponding Feature, use cases are coordinated in Application, and the serializer and storage provider live in Infrastructure.
 

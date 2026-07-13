@@ -24,32 +24,34 @@ Before starting development, it is recommended to read:
 
 Almost every new task follows these steps.
 
-```text
-Idea
+```mermaid
+flowchart TD
 
-↓
+N1["Idea"]
 
-Define Responsibility
+N2["Define Responsibility"]
 
-↓
+N3["Choose the Architectural Layer"]
 
-Choose the Architectural Layer
+N4["Create a Feature / Service / UI"]
 
-↓
+N5["Register in DI"]
 
-Create a Feature / Service / UI
+N6["Testing"]
 
-↓
+N7["Code Review"]
 
-Register in DI
+N1 --> N2
 
-↓
+N2 --> N3
 
-Testing
+N3 --> N4
 
-↓
+N4 --> N5
 
-Code Review
+N5 --> N6
+
+N6 --> N7
 ```
 
 Before writing code, determine:
@@ -324,16 +326,18 @@ Never use SceneManager directly.
 
 Correct:
 
-```text
-GameStateMachine
+```mermaid
+flowchart TD
 
-↓
+N1["GameStateMachine"]
 
-SceneGamePhase
+N2["SceneGamePhase"]
 
-↓
+N3["SceneLoader"]
 
-SceneLoader
+N1 --> N2
+
+N2 --> N3
 ```
 
 ---
@@ -384,34 +388,38 @@ A Feature must not access the internal classes of another Feature directly.
 
 Correct:
 
-```text
-Dialogue
+```mermaid
+flowchart TD
 
-↓
+N1["Dialogue"]
 
-public event / shared contract
+N2["public event / shared contract"]
 
-↓
+N3["Application coordinator"]
 
-Application coordinator
+N4["Quest"]
 
-↓
+N1 --> N2
 
-Quest
+N2 --> N3
+
+N3 --> N4
 ```
 
 Incorrect:
 
-```text
-DialogueController
+```mermaid
+flowchart TD
 
-↓
+N1["DialogueController"]
 
-QuestDatabase
+N2["QuestDatabase"]
 
-↓
+N3["QuestInternalManager"]
 
-QuestInternalManager
+N1 --> N2
+
+N2 --> N3
 ```
 
 Features communicate through shared contracts, C# events, and Application coordinators.
@@ -422,28 +430,30 @@ Features communicate through shared contracts, C# events, and Application coordi
 
 The correct sequence for switching between game modes.
 
-```text
-Player Action
+```mermaid
+flowchart TD
 
-↓
+N1["Player Action"]
 
-Controller
+N2["Controller"]
 
-↓
+N3["GameStateMachine"]
 
-GameStateMachine
+N4["SceneGamePhase"]
 
-↓
+N5["SceneLoader"]
 
-SceneGamePhase
+N6["Unity SceneManager"]
 
-↓
+N1 --> N2
 
-SceneLoader
+N2 --> N3
 
-↓
+N3 --> N4
 
-Unity SceneManager
+N4 --> N5
+
+N5 --> N6
 ```
 
 Any deviation from this flow requires a separate architectural discussion.
@@ -458,20 +468,22 @@ If the data must be restored, the Feature also provides a restorer with the same
 
 Correct flow:
 
-```text
-Runtime Model
+```mermaid
+flowchart TD
 
-↓
+N1["Runtime Model"]
 
-IGameSaveContributor
+N2["IGameSaveContributor"]
 
-↓
+N3["Save DTO"]
 
-Save DTO
+N4["GameSaveCoordinator"]
 
-↓
+N1 --> N2
 
-GameSaveCoordinator
+N2 --> N3
+
+N3 --> N4
 ```
 
 The DTO contains no `MonoBehaviour`, `Transform`, `GameObject`, `Component`, or other `UnityEngine.Object` reference.

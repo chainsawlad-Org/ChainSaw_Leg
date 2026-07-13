@@ -109,16 +109,18 @@ This is where the main startup sequence is executed.
 
 Typical lifecycle:
 
-```text
-Load Persistent Scene
+```mermaid
+flowchart TD
 
-↓
+N1["Load Persistent Scene"]
 
-Resolve Startup Phase
+N2["Resolve Startup Phase"]
 
-↓
+N3["GameStateMachine.ReplaceMain(...)"]
 
-GameStateMachine.ReplaceMain(...)
+N1 --> N2
+
+N2 --> N3
 ```
 
 BootstrapRunner does not know which game scene should be opened.
@@ -271,32 +273,34 @@ Bootstrap can be extended without modifying the existing logic.
 
 For example:
 
-```text
-BootstrapRunner
+```mermaid
+flowchart TD
 
-↓
+N1["BootstrapRunner"]
 
-Load Persistent
+N2["Load Persistent"]
 
-↓
+N3["Load Addressables"]
 
-Load Addressables
+N4["Initialize Analytics"]
 
-↓
+N5["Check Save Data"]
 
-Initialize Analytics
+N6["Resolve Startup"]
 
-↓
+N7["Enter Phase"]
 
-Check Save Data
+N1 --> N2
 
-↓
+N2 --> N3
 
-Resolve Startup
+N3 --> N4
 
-↓
+N4 --> N5
 
-Enter Phase
+N5 --> N6
+
+N6 --> N7
 ```
 
 New stages should be added to BootstrapRunner.
