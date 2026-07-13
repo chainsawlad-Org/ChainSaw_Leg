@@ -1,7 +1,7 @@
 # Glossary
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -39,7 +39,7 @@ Application не содержит игровой логики.
 Примеры:
 
 - SceneLoader
-- SaveService
+- GameSaveCoordinator
 - AudioService
 - InputService
 
@@ -225,7 +225,7 @@ Service не содержит игровых правил.
 Примеры:
 
 - SceneLoader
-- SaveService
+- GameSaveCoordinator
 - AudioService
 - InputService
 
@@ -272,18 +272,18 @@ Factory скрывает детали создания объектов.
 Например:
 
 ```
-BattleController
+GameSaveCoordinator
 
 ↓
 
-AudioService
+IGameSaveSerializer
 
 ↓
 
-SaveService
+IGameSaveStorageProvider
 ```
 
-AudioService и SaveService являются зависимостями BattleController.
+IGameSaveSerializer и IGameSaveStorageProvider являются зависимостями GameSaveCoordinator.
 
 ---
 
@@ -410,13 +410,15 @@ BattleStarted
 
 ---
 
-# Save System *(будущее)*
+# Save System
 
 Подсистема сохранения и загрузки игрового состояния.
 
 Игровые системы не работают напрямую с файлами.
 
-Все операции проходят через SaveService.
+Общий pipeline координирует GameSaveCoordinator.
+
+Игровые Feature подключаются через Save DTO, contributor и restorer.
 
 ---
 

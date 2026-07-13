@@ -1,7 +1,7 @@
 # Architecture Overview
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -45,7 +45,7 @@ Features --> UI
 
 # System Overview
 
-The project consists of six primary architectural subsystems.
+The project consists of seven primary architectural subsystems.
 
 | System | Responsibility |
 |----------|----------------|
@@ -55,6 +55,7 @@ The project consists of six primary architectural subsystems.
 | Scene Management | Loading and switching game scenes |
 | Features | Gameplay logic |
 | UI | Displaying information to the player |
+| Save System | Saving and restoring game state |
 
 Each subsystem has a clearly defined area of responsibility.
 
@@ -369,6 +370,7 @@ Each subsystem is documented in detail in its own Architecture Atlas document.
 | 06_DependencyInjection | Dependency Injection |
 | 07_Features | Gameplay Feature architecture |
 | 08_UI | User Interface architecture |
+| 09_SaveSystem | Saving and restoring game state |
 
 ---
 

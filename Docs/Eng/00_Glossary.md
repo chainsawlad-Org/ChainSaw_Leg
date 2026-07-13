@@ -1,7 +1,7 @@
 # Glossary
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -39,7 +39,7 @@ The layer that isolates game code from the Unity API and external libraries.
 Examples:
 
 - SceneLoader
-- SaveService
+- GameSaveCoordinator
 - AudioService
 - InputService
 
@@ -225,7 +225,7 @@ A Service does not contain game rules.
 Examples:
 
 - SceneLoader
-- SaveService
+- GameSaveCoordinator
 - AudioService
 - InputService
 
@@ -272,18 +272,18 @@ An object required for another object to function.
 For example:
 
 ```
-BattleController
+GameSaveCoordinator
 
 ↓
 
-AudioService
+IGameSaveSerializer
 
 ↓
 
-SaveService
+IGameSaveStorageProvider
 ```
 
-AudioService and SaveService are dependencies of BattleController.
+IGameSaveSerializer and IGameSaveStorageProvider are dependencies of GameSaveCoordinator.
 
 ---
 
@@ -410,13 +410,15 @@ BattleStarted
 
 ---
 
-# Save System *(Future)*
+# Save System
 
 A subsystem responsible for saving and loading the game state.
 
 Gameplay systems do not work with files directly.
 
-All operations go through SaveService.
+The common pipeline is coordinated by GameSaveCoordinator.
+
+Gameplay Features participate through Save DTOs, contributors, and restorers.
 
 ---
 

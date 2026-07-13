@@ -1,7 +1,7 @@
 # Code Rules
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -70,9 +70,9 @@ Lower layers must not know about higher layers.
 Use Dependency Injection.
 
 ```csharp
-public PlayerController(
-    AudioService audioService,
-    SaveService saveService)
+public ExplorationSaveCatalogService(
+    IGameSaveStorageProvider storageProvider,
+    GameSaveCoordinator saveCoordinator)
 {
 }
 ```
@@ -84,9 +84,9 @@ public PlayerController(
 Creating services manually.
 
 ```csharp
-new AudioService();
+new FileGameSaveStorageProvider(...);
 
-new SaveService();
+new GameSaveCoordinator(...);
 ```
 
 ---
@@ -292,7 +292,7 @@ IAudioService
 
 ISceneLoader
 
-ISaveService
+IGameSaveSerializer
 ```
 
 ---
@@ -472,7 +472,9 @@ Every subscription must have an obvious resource cleanup point.
 
 Gameplay systems must not work with files directly.
 
-All save operations go through SaveService.
+The common save pipeline goes through GameSaveCoordinator.
+
+Only Save DTOs with no UnityEngine.Object references are serialized.
 
 ---
 

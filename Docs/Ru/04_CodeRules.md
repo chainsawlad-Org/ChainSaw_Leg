@@ -1,7 +1,7 @@
 # Code Rules
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -70,9 +70,9 @@ UI
 Использовать Dependency Injection.
 
 ```csharp
-public PlayerController(
-    AudioService audioService,
-    SaveService saveService)
+public ExplorationSaveCatalogService(
+    IGameSaveStorageProvider storageProvider,
+    GameSaveCoordinator saveCoordinator)
 {
 }
 ```
@@ -84,9 +84,9 @@ public PlayerController(
 Создавать сервисы самостоятельно.
 
 ```csharp
-new AudioService();
+new FileGameSaveStorageProvider(...);
 
-new SaveService();
+new GameSaveCoordinator(...);
 ```
 
 ---
@@ -292,7 +292,7 @@ IAudioService
 
 ISceneLoader
 
-ISaveService
+IGameSaveSerializer
 ```
 
 ---
@@ -472,7 +472,9 @@ Static допускается только для:
 
 Игровые системы не работают напрямую с файлами.
 
-Все операции сохранения проходят через SaveService.
+Общий pipeline сохранения проходит через GameSaveCoordinator.
+
+Сериализуются только Save DTO без ссылок на UnityEngine.Object.
 
 ---
 

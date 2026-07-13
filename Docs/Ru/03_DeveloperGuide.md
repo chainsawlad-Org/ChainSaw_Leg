@@ -1,7 +1,7 @@
 # Developer Guide
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -231,7 +231,7 @@ Service создаётся тогда, когда функциональност
 Примеры:
 
 - AudioService
-- SaveService
+- GamePauseService
 - InputService
 
 Создать сервис.
@@ -437,27 +437,35 @@ Unity SceneManager
 
 ---
 
-# Adding Save Support *(будет реализовано позже)*
+# Adding Save Support
 
-После появления Save System каждая система, данные которой должны сохраняться, должна реализовать интерфейс сохранения.
+Каждая Feature, данные которой должны сохраняться, предоставляет отдельный Save DTO и contributor.
 
-Пример:
+Если данные нужно восстанавливать, Feature также предоставляет restorer с тем же стабильным contributor ID.
 
+Правильная последовательность:
+
+```text
+Runtime Model
+
+↓
+
+IGameSaveContributor
+
+↓
+
+Save DTO
+
+↓
+
+GameSaveCoordinator
 ```
-Player
 
-Inventory
+DTO не содержит `MonoBehaviour`, `Transform`, `GameObject`, `Component` или другие ссылки на `UnityEngine.Object`.
 
-Quest
+Contributor и restorer регистрируются через соответствующий installer. Игровые системы и UI не работают с serializer, файлами или полным путём напрямую.
 
-World
-
-Settings
-```
-
-Все сохранения выполняются централизованно через SaveService.
-
-Игровые системы не должны самостоятельно работать с файлами.
+Полный pipeline и правила миграции описаны в `ArchitectureAtlas/09_SaveSystem.md`.
 
 ---
 

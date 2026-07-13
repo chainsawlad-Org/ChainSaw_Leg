@@ -1,7 +1,7 @@
 # Developer Guide
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -231,7 +231,7 @@ A Service should be created when its functionality is shared by multiple systems
 Examples:
 
 - AudioService
-- SaveService
+- GamePauseService
 - InputService
 
 Create the service.
@@ -437,27 +437,35 @@ Any deviation from this flow requires a separate architectural discussion.
 
 ---
 
-# Adding Save Support *(To Be Implemented Later)*
+# Adding Save Support
 
-Once the Save System is introduced, every system whose data needs to be saved must implement the save interface.
+Every Feature whose data must be saved provides a dedicated Save DTO and contributor.
 
-For example:
+If the data must be restored, the Feature also provides a restorer with the same stable contributor ID.
+
+Correct flow:
 
 ```text
-Player
+Runtime Model
 
-Inventory
+↓
 
-Quest
+IGameSaveContributor
 
-World
+↓
 
-Settings
+Save DTO
+
+↓
+
+GameSaveCoordinator
 ```
 
-All save operations are performed centrally through SaveService.
+The DTO contains no `MonoBehaviour`, `Transform`, `GameObject`, `Component`, or other `UnityEngine.Object` reference.
 
-Gameplay systems must not work with files directly.
+Contributor and restorer are registered through the corresponding installer. Gameplay systems and UI never access the serializer, files, or full path directly.
+
+The complete pipeline and migration rules are documented in `ArchitectureAtlas/09_SaveSystem.md`.
 
 ---
 
