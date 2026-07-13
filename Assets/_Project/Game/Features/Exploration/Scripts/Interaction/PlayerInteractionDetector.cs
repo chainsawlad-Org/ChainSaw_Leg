@@ -40,7 +40,9 @@ public class PlayerInteractionDetector : MonoBehaviour
 
         contactFilter = new ContactFilter2D();
         contactFilter.useLayerMask = true;
-        contactFilter.layerMask = interactionConfig != null ? interactionConfig.InteractionLayerMask : Physics2D.AllLayers;
+        contactFilter.layerMask = interactionConfig != null
+            ? interactionConfig.InteractionLayerMask
+            : (LayerMask)Physics2D.AllLayers;
         contactFilter.useTriggers = true;
     }
 

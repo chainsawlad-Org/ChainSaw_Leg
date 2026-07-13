@@ -1,15 +1,14 @@
 using System;
-using UnityEngine;
 
-public class Unit
+public sealed class Unit
 {
-    public string Id;
-    public int MaxHP;
-    public int CurrentHP;
+    public string Id { get; }
+    public int MaxHP { get; }
+    public int CurrentHP { get; private set; }
 
     public bool IsAlive => CurrentHP > 0;
 
-    public event Action<int, int> OnHPChanged;
+    public event Action<int, int> HpChanged;
 
     public Unit(string id, int hp)
     {
@@ -23,7 +22,7 @@ public class Unit
         CurrentHP -= amount;
         CurrentHP = Math.Max(CurrentHP, 0);
 
-        OnHPChanged?.Invoke(CurrentHP, MaxHP);
+        HpChanged?.Invoke(CurrentHP, MaxHP);
     }
 
     public void Heal(int amount)
@@ -31,6 +30,6 @@ public class Unit
         CurrentHP += amount;
         CurrentHP = Math.Min(CurrentHP, MaxHP);
 
-        OnHPChanged?.Invoke(CurrentHP, MaxHP);
+        HpChanged?.Invoke(CurrentHP, MaxHP);
     }
 }

@@ -11,33 +11,35 @@ public class DialogueUI_Bubble : MonoBehaviour
 
     private void Awake()
     {
-        root.SetActive(false);
+        if (root != null)
+            root.SetActive(false);
     }
 
     public void SetTarget(Transform t)
     {
         target = t;
-        Debug.Log("Bubble target: " + t.name);
-        Debug.Log("Bubble position: " + t.position);
-        Debug.Log("Bubble position: " + root.name);
     }
 
     public void ShowRoot()
     {
-        root.SetActive(true);
+        if (root != null)
+            root.SetActive(true);
     }
 
     public void ShowText(string message)
     {
-        text.text = message;
-        root.SetActive(true);
+        if (text != null)
+            text.text = message;
+
+        if (root != null)
+            root.SetActive(true);
 
         // Invoke(nameof(Hide), 3f);
     }
 
     private void LateUpdate()
     {
-        if (target != null && root.activeSelf)
+        if (target != null && root != null && root.activeSelf)
         {
             root.transform.position = target.position + offset;
 
@@ -47,13 +49,19 @@ public class DialogueUI_Bubble : MonoBehaviour
     public void Show(string message, Transform targetTransform)
     {
         target = targetTransform;
-        text.text = message;
-        root.SetActive(true);
+
+        if (text != null)
+            text.text = message;
+
+        if (root != null)
+            root.SetActive(true);
     }
 
     public void Hide()
     {
-        root.SetActive(false);
+        if (root != null)
+            root.SetActive(false);
+
         target = null;
     }
 }

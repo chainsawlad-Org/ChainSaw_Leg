@@ -8,6 +8,7 @@ public class BattleManager
     private readonly PlayerActionController playerController;
 
     public bool IsBattleOver { get; private set; }
+    public bool IsPlayerVictory => IsBattleOver && turnSystem.IsPlayerVictory();
 
     public BattleManager(
         TurnSystem turnSystem,
@@ -54,12 +55,6 @@ public class BattleManager
 
     private void CheckBattleEnd()
     {
-        // Пока 1x1
-        if (!turnSystem.GetCurrentUnit().IsAlive)
-        {
-            Debug.Log("Battle Ended");
-
-            IsBattleOver = true;
-        }
+        IsBattleOver = turnSystem.IsBattleOver();
     }
 }

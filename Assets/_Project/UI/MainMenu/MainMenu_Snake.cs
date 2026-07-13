@@ -1,19 +1,18 @@
+using System;
 using UnityEngine;
 
 public class MainMenu_Snake : MonoBehaviour
 {
+    public event Action StartRequested;
+    public event Action ExitRequested;
+
     public void StartGame()
     {
-        Debug.Log("Start Snake");
+        StartRequested?.Invoke();
     }
 
     public void EndGame()
     {
-        Debug.Log("Snake ended");
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
+        ExitRequested?.Invoke();
     }
 }

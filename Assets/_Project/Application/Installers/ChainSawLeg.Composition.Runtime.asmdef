@@ -1,0 +1,27 @@
+{
+    "name": "ChainSawLeg.Composition.Runtime",
+    "rootNamespace": "ChainSawLeg.Composition",
+    "references": [
+        "ChainSawLeg.Application.Runtime",
+        "ChainSawLeg.Infrastructure.Runtime",
+        "ChainSawLeg.Coordination.Runtime",
+        "ChainSawLeg.Game.Shared.Runtime",
+        "ChainSawLeg.Features.Combat.Runtime",
+        "ChainSawLeg.Features.Dialogue.Runtime",
+        "ChainSawLeg.Features.Exploration.Runtime",
+        "ChainSawLeg.UI.Runtime",
+        "Zenject",
+        "UniTask",
+        "UnityEngine.UI",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

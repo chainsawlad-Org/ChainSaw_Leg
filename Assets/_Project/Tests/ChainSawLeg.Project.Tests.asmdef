@@ -1,0 +1,29 @@
+{
+    "name": "ChainSawLeg.Project.Tests",
+    "rootNamespace": "",
+    "references": [
+        "ChainSawLeg.Application.Runtime",
+        "ChainSawLeg.Coordination.Runtime",
+        "ChainSawLeg.Infrastructure.Runtime",
+        "ChainSawLeg.Game.Shared.Runtime",
+        "ChainSawLeg.Features.Combat.Runtime",
+        "ChainSawLeg.Features.Dialogue.Runtime",
+        "ChainSawLeg.Features.Exploration.Runtime",
+        "Zenject",
+        "UniTask"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false,
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ]
+}

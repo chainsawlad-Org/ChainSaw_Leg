@@ -1,4 +1,3 @@
-
 public class SceneNames
 {
     public const string Persistent = "SC_Persistent";

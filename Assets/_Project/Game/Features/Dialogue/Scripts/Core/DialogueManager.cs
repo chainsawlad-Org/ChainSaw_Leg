@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class DialogueManager : MonoBehaviour
+public class DialogueManager : MonoBehaviour, IDialogueRuntime
 {
-    public static DialogueManager Instance;
-
     public event Action DialogueFinished;
 
     [Header("UI")]
@@ -19,6 +17,7 @@ public class DialogueManager : MonoBehaviour
     private Transform currentSpeaker;
     private Coroutine typingCoroutine;
     private bool isTyping;
+    private IDialogueRuntimeRegistry runtimeRegistry;
 
     public DialogueState State { get; private set; } = DialogueState.Idle;
     public bool IsActive => State != DialogueState.Idle;
@@ -28,12 +27,19 @@ public class DialogueManager : MonoBehaviour
         State != DialogueState.Idle &&
         (currentType == DialogueType.RPG || currentType == DialogueType.Cutscene);
 
-    private void Awake()
+    public void Initialize(IDialogueRuntimeRegistry runtimeRegistry)
     {
-        Instance = this;
+        this.runtimeRegistry = runtimeRegistry;
+        rpgUI.SetDialogueManager(this);
+        runtimeRegistry.Register(this);
     }
 
-    public void StartDialogue(List<IDialogueEvent> events, DialogueType type, Transform speaker = null)
+    private void OnDestroy()
+    {
+        runtimeRegistry?.Unregister(this);
+    }
+
+    public void StartDialogue(IReadOnlyList<IDialogueEvent> events, DialogueType type, Transform speaker = null)
     {
         eventQueue.Clear();
 
@@ -92,10 +98,32 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
+        if (State == DialogueState.Choosing)
+        {
+            rpgUI.SubmitCurrentChoice();
+            return;
+        }
+
         if (State == DialogueState.WaitingInput)
         {
             ProcessNextEvent();
         }
+    }
+
+    public void SelectPreviousChoice()
+    {
+        if (currentType != DialogueType.RPG || State != DialogueState.Choosing)
+            return;
+
+        rpgUI.SelectPreviousChoice();
+    }
+
+    public void SelectNextChoice()
+    {
+        if (currentType != DialogueType.RPG || State != DialogueState.Choosing)
+            return;
+
+        rpgUI.SelectNextChoice();
     }
 
     public void Choose(int index, List<DialogueChoice> choices)

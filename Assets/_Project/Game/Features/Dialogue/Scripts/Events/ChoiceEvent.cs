@@ -10,7 +10,6 @@ public class ChoiceEvent : IDialogueEvent
     {
         if (manager.CurrentType != DialogueType.RPG)
         {
-            Debug.LogWarning("ChoiceEvent вызван вне RPG диалога");
             manager.ProcessNextEvent();
             return;
         }

@@ -1,9 +1,6 @@
-
 using System;
-using Zenject;
 using System.Linq;
-
-using System.Reflection;
+using Zenject;
 
 public static class AutoBinder
 {
@@ -11,8 +8,8 @@ public static class AutoBinder
     {
         Type baseType = typeof(TBase);
 
-        var types = Assembly
-            .GetExecutingAssembly()
+        var types = baseType
+            .Assembly
             .GetTypes()
             .Where(type => type.IsClass && !type.IsAbstract && baseType.IsAssignableFrom(type));
 

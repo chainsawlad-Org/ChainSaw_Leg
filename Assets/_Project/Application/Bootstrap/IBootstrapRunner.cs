@@ -1,6 +1,7 @@
+using System.Threading;
 using Cysharp.Threading.Tasks;
 
 public interface IBootstrapRunner
 {
-    UniTask Run();
+    UniTask Run(CancellationToken cancellationToken);
 }

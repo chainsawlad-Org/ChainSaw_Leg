@@ -4,12 +4,15 @@ public class ProjectInstaller : MonoInstaller
 {
     public override void InstallBindings()
     {
-        UnityEngine.Debug.Log("ProjectInstaller");
         Container.Bind<GameStateMachine>()
             .AsSingle();
 
         Container.Bind<ISceneLoader>()
             .To<SceneLoader>()
+            .AsSingle();
+
+        Container.Bind<IActiveSceneProvider>()
+            .To<UnityActiveSceneProvider>()
             .AsSingle();
 
         Container.Bind<IPhaseFactory>()
@@ -18,10 +21,8 @@ public class ProjectInstaller : MonoInstaller
 
         PhaseInstaller.Install(Container);
         ServiceInstaller.Install(Container);
-
-        Container.BindInterfacesAndSelfTo<BootstrapStartup>()
-            .AsSingle()
-            .NonLazy();
+        DialogueInstaller.Install(Container);
+        ExplorationInstaller.Install(Container);
 
         Container.Bind<IBootstrapRunner>()
             .To<BootstrapRunner>()
@@ -33,5 +34,17 @@ public class ProjectInstaller : MonoInstaller
         Container.Bind<IStartupResolver>()
             .To<StartupResolver>()
             .AsSingle();
+
+        Container.BindInterfacesAndSelfTo<StartupRegistryInstaller>()
+            .AsSingle()
+            .NonLazy();
+
+        Container.BindExecutionOrder<StartupRegistryInstaller>(-100);
+
+        Container.BindInterfacesAndSelfTo<BootstrapStartup>()
+            .AsSingle()
+            .NonLazy();
+
+        Container.BindExecutionOrder<BootstrapStartup>(100);
     }
 }
