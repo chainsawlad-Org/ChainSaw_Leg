@@ -1,7 +1,7 @@
 # Architecture
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -75,12 +75,16 @@ Isolates the project from the Unity API and external libraries.
 Examples:
 
 - Scene Management
-- Save System
+- Save System serialization and file storage
 - Audio
 - Input
 - Addressables
 
 Infrastructure provides services to other layers.
+
+Save System does not belong entirely to Infrastructure. It is a cross-cutting subsystem: shared contracts and DTOs live in Game Shared, gameplay mappers live in the corresponding Feature, use cases are coordinated in Application, and the serializer and storage provider live in Infrastructure.
+
+Detailed placement is documented in `ArchitectureAtlas/09_SaveSystem.md`.
 
 ---
 

@@ -88,6 +88,8 @@ Runtime Model и сценовые объекты не сериализуются
 
 # Layers And Placement
 
+Save System является сквозной подсистемой и не помещается целиком в один архитектурный слой.
+
 | Layer | Location | Responsibility |
 |------|----------|----------------|
 | Game Shared | `Game/Shared/SaveSystem` | Общие контракты, metadata, запросы и корневые DTO |

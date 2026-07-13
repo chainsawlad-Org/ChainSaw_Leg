@@ -1,7 +1,7 @@
 # Project Structure
 
 > Version: 1.0  
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -183,6 +183,7 @@ Infrastructure
 ├── SceneManagement
 ├── Audio
 ├── Input
+├── SaveSystem
 ├── Reflection
 ├── Rendering
 ```
@@ -232,6 +233,28 @@ InputActions
 
 InputMapper
 ```
+
+---
+
+## SaveSystem
+
+Содержит техническую часть pipeline сохранений.
+
+Например:
+
+```text
+GameSaveCoordinator
+
+GameSaveValidationService
+
+GameSaveMigrationService
+
+OdinGameSaveSerializer
+
+FileGameSaveStorageProvider
+```
+
+Feature DTO, contributors и restorers не переносятся в Infrastructure. Их размещение описано в `ArchitectureAtlas/09_SaveSystem.md`.
 
 ---
 

@@ -88,6 +88,8 @@ Runtime models and scene objects are never serialized directly.
 
 # Layers And Placement
 
+Save System is a cross-cutting subsystem and does not belong entirely to a single architectural layer.
+
 | Layer | Location | Responsibility |
 |------|----------|----------------|
 | Game Shared | `Game/Shared/SaveSystem` | Shared contracts, metadata, requests, and root DTOs |

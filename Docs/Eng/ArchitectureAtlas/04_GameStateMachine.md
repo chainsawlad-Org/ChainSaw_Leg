@@ -1,7 +1,7 @@
 # Game State Machine
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -202,11 +202,11 @@ Overlay-->>FSM: Completed
 
 # Public API
 
-The GameStateMachine provides four primary methods.
+The GameStateMachine provides several method groups for managing Main Phases and Overlay Phases.
 
 ---
 
-## ReplaceMain()
+## ReplaceMain() / ReplaceMainAsync()
 
 Replaces the current Main Phase.
 
@@ -247,6 +247,16 @@ Battle
 
 Minigame
 ```
+
+---
+
+## ReloadMainAsync()
+
+Creates and loads a Main Phase again even when a phase of the same type is already active.
+
+This method is used when context must be prepared before new scene objects are created. For example, Save System calls `ReloadMainAsync<ExplorationPhase>()`, loads the saved exploration scene, and applies the pending restore only after the new player has registered.
+
+The asynchronous overload accepts a `CancellationToken`.
 
 ---
 
@@ -405,20 +415,26 @@ CutscenePhase
 
 # Current Overlay Phases
 
-At the moment, OverlayPhase is used as the base type.
-
-Planned implementations include:
+The current project uses:
 
 ```text
-PauseOverlay
+PauseMenuPhase
 
-DialogueOverlay
+DialoguePhase
 
-InventoryOverlay
+SaveBrowserPhase
 
-MapOverlay
+CheckpointSavePhase
+```
 
-SettingsOverlay
+The list may be extended in the future:
+
+```text
+InventoryPhase
+
+MapPhase
+
+SettingsPhase
 ```
 
 ---

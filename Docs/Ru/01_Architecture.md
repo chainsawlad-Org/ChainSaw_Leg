@@ -1,7 +1,7 @@
 # Architecture
 
 > Version: 1.0
-> Last Updated: 12-07-2026
+> Last Updated: 13-07-2026
 
 ---
 
@@ -75,12 +75,16 @@ Application не содержит игровой логики.
 Примеры:
 
 - Scene Management
-- Save System
+- сериализация и файловое хранилище Save System
 - Audio
 - Input
 - Addressables
 
 Infrastructure предоставляет сервисы другим слоям.
+
+Save System не принадлежит Infrastructure целиком. Это сквозная подсистема: общие контракты и DTO находятся в Game Shared, игровые mapper'ы находятся в соответствующей Feature, сценарии координируются в Application, а serializer и storage provider находятся в Infrastructure.
+
+Подробное размещение описано в `ArchitectureAtlas/09_SaveSystem.md`.
 
 ---
 
