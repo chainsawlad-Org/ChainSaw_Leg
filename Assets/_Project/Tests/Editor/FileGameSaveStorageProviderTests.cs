@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using ChainSawLeg.Core.SaveSystem;
 using Cysharp.Threading.Tasks;
 using NUnit.Framework;
+using UnityEngine;
+using UnityEngine.TestTools;
 
 public class FileGameSaveStorageProviderTests
 {
@@ -94,8 +96,18 @@ public class FileGameSaveStorageProviderTests
         await storageProvider.DeleteSlotAsync(request, CancellationToken.None);
 
         Assert.That(await storageProvider.SlotExistsAsync(request, CancellationToken.None), Is.False);
-        Assert.ThrowsAsync<GameSaveStorageException>(async () =>
-            await storageProvider.ReadAsync(request, CancellationToken.None).AsTask());
+        GameSaveStorageException exception = null;
+
+        try
+        {
+            await storageProvider.ReadAsync(request, CancellationToken.None);
+        }
+        catch (GameSaveStorageException caughtException)
+        {
+            exception = caughtException;
+        }
+
+        Assert.That(exception, Is.Not.Null);
     }
 
     [Test]
@@ -104,13 +116,25 @@ public class FileGameSaveStorageProviderTests
         Directory.CreateDirectory(temporaryDirectory);
         File.WriteAllBytes(Path.Combine(temporaryDirectory, "manual_0.save"), new byte[] { 1, 2, 3 });
         GameSaveRequest request = CreateRequest(GameSaveKind.Manual, "manual_0");
+        LogAssert.Expect(LogType.Error, "Failed to enter node ''.");
 
-        Assert.ThrowsAsync<CorruptedGameSaveException>(async () =>
-            await storageProvider.ReadAsync(request, CancellationToken.None).AsTask());
+        CorruptedGameSaveException exception = null;
 
+        try
+        {
+            await storageProvider.ReadAsync(request, CancellationToken.None);
+        }
+        catch (CorruptedGameSaveException caughtException)
+        {
+            exception = caughtException;
+        }
+
+        Assert.That(exception, Is.Not.Null);
+
+        LogAssert.Expect(LogType.Error, "Failed to enter node ''.");
         var slots = await storageProvider.ListSlotsAsync(CancellationToken.None);
 
-        Assert.That(slots, Has.Count.EqualTo(1));
+        Assert.That(slots.Count, Is.EqualTo(1));
         Assert.That(slots[0].SlotId, Is.EqualTo("manual_0"));
         Assert.That(slots[0].IsCorrupted, Is.True);
         Assert.That(slots[0].Metadata, Is.Null);
@@ -165,6 +189,17 @@ public class FileGameSaveStorageProviderTests
             Is.EqualTo("checkpoint_2"));
 
         await WriteSaveAsync(CreateRequest(GameSaveKind.Checkpoint, "checkpoint_2"), Utc(11));
+        Assert.That(
+            await rotationService.GetNextSlotIdAsync(CancellationToken.None),
+            Is.EqualTo("checkpoint_3"));
+
+        for (int index = 3; index < GameSaveSlotCatalog.CheckpointSlotIds.Count; index++)
+        {
+            await WriteSaveAsync(
+                CreateRequest(GameSaveKind.Checkpoint, $"checkpoint_{index}"),
+                Utc(13 + index));
+        }
+
         Assert.That(
             await rotationService.GetNextSlotIdAsync(CancellationToken.None),
             Is.EqualTo("checkpoint_0"));
