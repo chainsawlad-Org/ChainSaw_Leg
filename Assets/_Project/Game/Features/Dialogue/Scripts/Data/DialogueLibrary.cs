@@ -62,6 +62,24 @@ public static class DialogueLibrary
         return ConvertToEvents(startNode);
     }
 
+    public static List<IDialogueEvent> TVDialogue()
+    {
+        var startNode = new DialogueNode
+        {
+            text = "Включенный телевизор. Опять идет какая-то скучная теле-передача."
+        };
+        return ConvertToEvents(startNode);
+    }
+    
+    public static List<IDialogueEvent> BedDialogue()
+    {
+        var startNode = new DialogueNode
+        {
+            text = "Не заправленная кровать. Сегодня было тяжело уснуть."
+        };
+        return ConvertToEvents(startNode);
+    }
+
     private static List<IDialogueEvent> ConvertToEvents(DialogueNode start)
     {
         var events = new List<IDialogueEvent>();
