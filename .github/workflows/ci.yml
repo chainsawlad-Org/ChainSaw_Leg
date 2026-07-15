@@ -95,6 +95,9 @@ jobs:
           test -d Assets/_Project/Game
           test -d Assets/_Project/UI
 
+      - name: Validate Unity metadata and settings
+        run: python3 .github/scripts/validate-unity-project.py
+
       - name: Check Git LFS integrity
         run: git lfs fsck
 
@@ -143,5 +146,18 @@ jobs:
           name: unity-editmode-test-results
           path: unity-test-artifacts
 
+      - name: Verify Unity import consistency
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          git diff --exit-code -- Assets Packages ProjectSettings
+
+          untracked_files="$(git ls-files --others --exclude-standard -- Assets Packages ProjectSettings)"
+          if [ -n "$untracked_files" ]; then
+            echo "Unity generated untracked project files during import:"
+            echo "$untracked_files"
+            exit 1
+          fi
+
       - name: CI completed
-        run: echo "Basic CI validation completed successfully."
+        run: echo "Unity project validation completed successfully."
