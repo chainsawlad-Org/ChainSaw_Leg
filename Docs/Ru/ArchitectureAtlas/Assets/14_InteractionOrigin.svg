@@ -41,7 +41,7 @@
     <line x1="275" y1="250" x2="315" y2="250" stroke="#ffffff" stroke-width="3"/>
     <line x1="295" y1="230" x2="295" y2="270" stroke="#ffffff" stroke-width="3"/>
     <rect class="collider" x="220" y="342" width="150" height="64" rx="30" stroke-width="3"/>
-    <text class="muted" x="255" y="438" font-size="15">вид сверху</text>
+    
   </g>
 
   <path class="line" d="M320 247 C405 220, 430 190, 500 184" fill="none" stroke-width="2" marker-end="url(#arrow)"/>
@@ -49,7 +49,7 @@
 
   <g aria-label="InteractionOrigin">
     <rect class="panel" x="515" y="130" width="505" height="125" rx="14"/>
-    <circle class="origin" cx="552" cy="170" r="8"/>
+    <circle class="origin" cx="552" cy="170"  r="8"/>
     <text x="575" y="177" font-size="21" font-weight="500">InteractionOrigin — середина тела</text>
     <text x="548" y="210" font-size="16">Центр <tspan font-family="monospace">Physics2D.OverlapCircle</tspan> и угловых расчётов</text>
     <text class="muted" x="548" y="235" font-size="15">Пустой Transform: без Collider2D и trigger-логики</text>
@@ -57,7 +57,7 @@
 
   <g aria-label="Физический collider">
     <rect class="panel" x="515" y="320" width="505" height="125" rx="14"/>
-    <rect class="collider" x="543" y="348" width="20" height="20" rx="8"/>
+    <circle class="collider" cx="552" cy="360"  r="8"/>
     <text x="575" y="366" font-size="21" font-weight="500">Collider2D — ноги</text>
     <text x="548" y="401" font-size="16">Столкновения игрока с геометрией мира</text>
     <text class="muted" x="548" y="426" font-size="15">Не определяет радиус или направление взаимодействия</text>

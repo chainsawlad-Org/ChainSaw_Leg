@@ -74,7 +74,7 @@ Config --> Detector
 Physics --> Detector
 Detector --> Candidates
 Candidates --> Policy
-Policy -->|Selected candidate| Detector
+Policy -->|Выбранный кандидат| Detector
 Detector --> Current
 Current --> Presenters
 Current --> Executor
@@ -126,15 +126,15 @@ Executor --> Interactable
 Направление приводится к одному из восьми значений с шагом `45°`.
 
 ```text
-                  Up
-          UpLeft  ↑  UpRight
-                ↖   ↗
+            Up
+             ↑
+UpLeft   ↖       ↗   UpRight
 
-          Left  ←  •  →  Right
+Left     ←   •   →     Right
 
-                ↙   ↘
-        DownLeft  ↓  DownRight
-                 Down
+DownLeft ↙       ↘ DownRight
+             ↓
+           Down
 ```
 
 К восьми направлениям приводится только направление игрока.
