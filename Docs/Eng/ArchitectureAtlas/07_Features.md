@@ -218,3 +218,4 @@ Gameplay rules should remain as independent from Unity as possible.
 - 02_ProjectStructure.md
 - 03_DeveloperGuide.md
 - 04_CodeRules.md
+- 14_ExplorationInteraction.md

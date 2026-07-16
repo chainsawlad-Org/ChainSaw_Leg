@@ -4990,7 +4990,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractionPromptPresenter
   interactionDetector: {fileID: 1157121969}
-  interactionConfig: {fileID: 11400000, guid: 574aa07b3ec964e179d67a5c8cbe32a1, type: 2}
+  interactionConfig: {fileID: 11400000, guid: 11637cc13f47c488ab687767031f085b, type: 2}
   promptRoot: {fileID: 838012494}
   promptText: {fileID: 1239357070}
 --- !u!1 &1454925635

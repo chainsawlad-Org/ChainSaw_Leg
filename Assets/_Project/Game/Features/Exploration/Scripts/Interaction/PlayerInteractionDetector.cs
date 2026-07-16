@@ -247,7 +247,7 @@ public class PlayerInteractionDetector : MonoBehaviour
         return playerRigidbody != null ? playerRigidbody.position : (Vector2)transform.position;
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         if (interactionConfig == null)
         {
@@ -260,13 +260,30 @@ public class PlayerInteractionDetector : MonoBehaviour
             : Direction8.Up;
         Vector2 facingVector = Direction8Utility.ToVector(facingDirection);
 
-        Gizmos.color = Color.yellow;
+        Gizmos.color = new Color(1f, 0.85f, 0.1f, 0.95f);
         Gizmos.DrawWireSphere(origin, interactionConfig.InteractionRadius);
+        Gizmos.DrawSphere(origin, 0.06f);
 
-        Gizmos.color = Color.cyan;
-        float halfAngle = interactionConfig.InteractionHalfAngleDegrees;
-        Gizmos.DrawRay(origin, Rotate(facingVector, -halfAngle) * interactionConfig.InteractionRadius);
-        Gizmos.DrawRay(origin, Rotate(facingVector, halfAngle) * interactionConfig.InteractionRadius);
+        float radius = interactionConfig.InteractionRadius;
+        float interactionHalfAngle = interactionConfig.InteractionHalfAngleDegrees;
+        float directPriorityHalfAngle = interactionConfig.DirectPriorityHalfAngleDegrees;
+
+        Gizmos.color = new Color(1f, 0.5f, 0.05f, 1f);
+        Gizmos.DrawRay(origin, Rotate(facingVector, -interactionHalfAngle) * radius);
+        Gizmos.DrawRay(origin, Rotate(facingVector, interactionHalfAngle) * radius);
+
+        Gizmos.color = new Color(0.2f, 1f, 0.45f, 1f);
+        Gizmos.DrawRay(origin, Rotate(facingVector, -directPriorityHalfAngle) * radius);
+        Gizmos.DrawRay(origin, Rotate(facingVector, directPriorityHalfAngle) * radius);
+
+        Gizmos.color = new Color(0.1f, 0.85f, 1f, 1f);
+        Gizmos.DrawRay(origin, facingVector * radius);
+
+        if (currentTargetCollider != null)
+        {
+            Gizmos.color = new Color(1f, 0.2f, 0.8f, 1f);
+            Gizmos.DrawLine(origin, currentTargetCollider.ClosestPoint(origin));
+        }
     }
 
     private static Vector2 Rotate(Vector2 direction, float angleDegrees)

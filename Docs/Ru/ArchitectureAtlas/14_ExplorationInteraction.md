@@ -1,6 +1,6 @@
 # Exploration Interaction
 
-> Version: 1.1
+> Version: 1.2
 > Last Updated: 16-07-2026
 
 ---
@@ -344,14 +344,23 @@ Presenters не выполняют Physics2D-запросы и не ранжир
 
 # Debug Visualization
 
-Постоянная визуализация collider и trigger отключена.
+Редакторская визуализация включена для всех Collider2D и области взаимодействия игрока.
 
-При выборе объекта игрока `PlayerInteractionDetector.OnDrawGizmosSelected()` показывает:
+Цвета collider:
 
-- окружность текущего радиуса;
-- границы общего сектора на углах `-45°` и `+45°`.
+- голубой — обычный физический collider;
+- оранжевый — collider на слое `Interaction`;
+- розовый — trigger collider.
 
-Gizmo не является Collider2D или trigger и существует только для editor-отладки.
+`PlayerInteractionDetector.OnDrawGizmos()` показывает:
+
+- текущий радиус взаимодействия и origin;
+- внешние границы на углах `-45°` и `+45°`;
+- границы priority `0` на углах `-22.5°` и `+22.5°`;
+- текущее восьминаправленное направление игрока;
+- линию до выбранного collider, если цель существует.
+
+Эти gizmo существуют только для editor-отладки. Они не являются collider или trigger и не влияют на runtime-физику или player build.
 
 ---
 
