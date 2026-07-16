@@ -87,3 +87,6 @@ InitTestScene*.unity*
 
 # TextMesh Pro resources are imported locally by the editor bootstrapper.
 /[Aa]ssets/TextMesh Pro/
+
+# Excel-files
+*.xlsx
