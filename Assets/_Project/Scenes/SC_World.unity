@@ -691,7 +691,7 @@ GameObject:
   - component: {fileID: 398489279}
   - component: {fileID: 398489278}
   - component: {fileID: 398489281}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Door_3x5 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3140,7 +3140,7 @@ GameObject:
   - component: {fileID: 1079672769}
   - component: {fileID: 1079672768}
   - component: {fileID: 1079672767}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Door_3x5 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3546,6 +3546,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogueUI_Cutscene
   root: {fileID: 1143255627}
   text: {fileID: 1805570453}
+--- !u!1 &2100000001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2100000002}
+  m_Layer: 0
+  m_Name: InteractionOrigin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2100000002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2100000001}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.2609644, y: 1.94523, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1157121962}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1157121958
 GameObject:
   m_ObjectHideFlags: 0
@@ -3663,6 +3694,7 @@ Transform:
   - {fileID: 1138676961}
   - {fileID: 565493824}
   - {fileID: 1766003554}
+  - {fileID: 2100000002}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1157121964
@@ -3747,7 +3779,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a980c3980bc3431fb0f3d14e920491b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractionDetector
-  interactionOrigin: {fileID: 1603141790}
+  interactionOrigin: {fileID: 2100000002}
+  playerRigidbody: {fileID: 1157121961}
   playerMovement: {fileID: 1157121966}
   interactionConfig: {fileID: 11400000, guid: 11637cc13f47c488ab687767031f085b, type: 2}
 --- !u!114 &1157121970
@@ -4624,7 +4657,7 @@ GameObject:
   - component: {fileID: 1315441370}
   - component: {fileID: 1315441369}
   - component: {fileID: 1315441372}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Door_3x5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9293,7 +9326,7 @@ GameObject:
   - component: {fileID: 1743172124}
   - component: {fileID: 1743172123}
   - component: {fileID: 1743172125}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Trader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9992,7 +10025,7 @@ GameObject:
   - component: {fileID: 1908745103}
   - component: {fileID: 1908745104}
   - component: {fileID: 1908745105}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TestCheckpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

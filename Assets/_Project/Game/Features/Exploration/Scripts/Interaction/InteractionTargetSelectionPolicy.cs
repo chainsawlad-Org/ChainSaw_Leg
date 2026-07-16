@@ -1,10 +1,45 @@
+using System;
 using System.Collections.Generic;
 
-public class InteractionTargetSelectionPolicy
+public readonly struct InteractionTargetSelectionRules
 {
-    public bool TrySelectBestCandidate(
+    private const double DegreesToRadians = Math.PI / 180d;
+
+    public InteractionTargetSelectionRules(
+        float directPriorityHalfAngleDegrees,
+        float maximumAcceptedHalfAngleDegrees)
+    {
+        if (directPriorityHalfAngleDegrees < 0f)
+        {
+            throw new ArgumentOutOfRangeException(nameof(directPriorityHalfAngleDegrees));
+        }
+
+        if (maximumAcceptedHalfAngleDegrees < directPriorityHalfAngleDegrees ||
+            maximumAcceptedHalfAngleDegrees > 180f)
+        {
+            throw new ArgumentOutOfRangeException(nameof(maximumAcceptedHalfAngleDegrees));
+        }
+
+        DirectPriorityDotThreshold = CalculateDotThreshold(directPriorityHalfAngleDegrees);
+        MaximumAcceptedDotThreshold = CalculateDotThreshold(maximumAcceptedHalfAngleDegrees);
+    }
+
+    public float DirectPriorityDotThreshold { get; }
+    public float MaximumAcceptedDotThreshold { get; }
+
+    private static float CalculateDotThreshold(float halfAngleDegrees)
+    {
+        return (float)Math.Cos(halfAngleDegrees * DegreesToRadians);
+    }
+}
+
+public static class InteractionTargetSelectionPolicy
+{
+    private const float FloatingPointTolerance = 0.000001f;
+
+    public static bool TrySelectBestCandidate(
         IReadOnlyList<InteractionTargetCandidate> candidates,
-        IInteractable currentTarget,
+        InteractionTargetSelectionRules rules,
         out InteractionTargetCandidate bestCandidate)
     {
         bestCandidate = null;
@@ -14,17 +49,24 @@ public class InteractionTargetSelectionPolicy
             return false;
         }
 
-        float bestScore = float.MinValue;
-
         for (int index = 0; index < candidates.Count; index++)
         {
             InteractionTargetCandidate candidate = candidates[index];
 
-            float score = CalculateScore(candidate, currentTarget);
-
-            if (score > bestScore)
+            if (candidate == null)
             {
-                bestScore = score;
+                continue;
+            }
+
+            int directionPriority = GetDirectionPriority(candidate, rules);
+
+            if (directionPriority < 0)
+            {
+                continue;
+            }
+
+            if (bestCandidate == null || IsPreferred(candidate, directionPriority, bestCandidate, rules))
+            {
                 bestCandidate = candidate;
             }
         }
@@ -32,12 +74,43 @@ public class InteractionTargetSelectionPolicy
         return bestCandidate != null;
     }
 
-    private float CalculateScore(InteractionTargetCandidate candidate, IInteractable currentTarget)
+    private static bool IsPreferred(
+        InteractionTargetCandidate candidate,
+        int candidateDirectionPriority,
+        InteractionTargetCandidate currentBest,
+        InteractionTargetSelectionRules rules)
     {
-        float distanceScore = -candidate.SqrDistance;
-        float facingScore = candidate.FacingDot * 2f;
-        float currentTargetBias = ReferenceEquals(candidate.Interactable, currentTarget) ? 0.25f : 0f;
+        int currentBestDirectionPriority = GetDirectionPriority(currentBest, rules);
 
-        return distanceScore + facingScore + currentTargetBias;
+        if (candidateDirectionPriority != currentBestDirectionPriority)
+        {
+            return candidateDirectionPriority < currentBestDirectionPriority;
+        }
+
+        int distanceComparison = candidate.SqrDistance.CompareTo(currentBest.SqrDistance);
+
+        if (distanceComparison != 0)
+        {
+            return distanceComparison < 0;
+        }
+
+        return candidate.StableId < currentBest.StableId;
+    }
+
+    private static int GetDirectionPriority(
+        InteractionTargetCandidate candidate,
+        InteractionTargetSelectionRules rules)
+    {
+        if (candidate.FacingDot + FloatingPointTolerance >= rules.DirectPriorityDotThreshold)
+        {
+            return 0;
+        }
+
+        if (candidate.FacingDot + FloatingPointTolerance >= rules.MaximumAcceptedDotThreshold)
+        {
+            return 1;
+        }
+
+        return -1;
     }
 }
