@@ -1,7 +1,7 @@
 # Game State Machine
 
-> Version: 1.0
-> Last Updated: 13-07-2026
+> Version: 1.1
+> Last Updated: 16-07-2026
 
 ---
 
@@ -126,19 +126,7 @@ Overlays are stored in a stack.
 
 The Overlay stack follows the Last In – First Out (LIFO) principle.
 
-```mermaid
-flowchart TD
-
-Pause
-
-Inventory
-
-Dialogue
-
-Dialogue --> Inventory
-
-Inventory --> Pause
-```
+![Main Phase and the Overlay stack](Assets/04_OverlayStack.svg)
 
 The most recently opened Overlay is always the first one to be closed.
 

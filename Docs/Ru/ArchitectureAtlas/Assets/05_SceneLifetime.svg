@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 650" role="img" aria-labelledby="title description">
+  <title id="title">Жизненный цикл Persistent и Gameplay Scene во время управляемого перехода</title>
+  <desc id="description">Persistent Scene остается загруженной все время работы приложения. Во время SwitchTo новая Gameplay Scene загружается до выгрузки предыдущей, поэтому возникает краткое техническое перекрытие.</desc>
+  <defs>
+    <style>
+      text { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #182230; }
+      .muted { fill: #667085; }
+      .panel { fill: #f8fafc; stroke: #d0d5dd; }
+      .persistent { fill: #ecfdf3; stroke: #079455; }
+      .old { fill: #e9efff; stroke: #3159a7; }
+      .new { fill: #f4f3ff; stroke: #6938ef; }
+      .overlap { fill: #fff7e8; stroke: #dc6803; }
+      .guide { stroke: #98a2b3; }
+      @media (prefers-color-scheme: dark) {
+        text { fill: #f2f4f7; }
+        .muted { fill: #98a2b3; }
+        .panel { fill: #182230; stroke: #475467; }
+        .persistent { fill: #073d2a; stroke: #6ce9a6; }
+        .old { fill: #21386f; stroke: #84adff; }
+        .new { fill: #2f246b; stroke: #bdb4fe; }
+        .overlap { fill: #4e2d0a; stroke: #fec84b; }
+        .guide { stroke: #667085; }
+      }
+    </style>
+  </defs>
+
+  <rect class="panel" x="20" y="20" width="1060" height="610" rx="18"/>
+  <text x="60" y="68" font-size="24" font-weight="500">Жизненный цикл сцен во время SwitchTo()</text>
+  <text class="muted" x="60" y="98" font-size="16">Persistent Scene остается загруженной, пока текущая Gameplay Scene меняется</text>
+
+  <g aria-label="Этапы перехода">
+    <text x="292" y="151" text-anchor="middle" font-size="17" font-weight="600">До перехода</text>
+    <text x="620" y="151" text-anchor="middle" font-size="17" font-weight="600">Управляемый переход</text>
+    <text x="900" y="151" text-anchor="middle" font-size="17" font-weight="600">После перехода</text>
+    <line class="guide" x1="470" y1="125" x2="470" y2="540" stroke-width="1.5" stroke-dasharray="7 7"/>
+    <line class="guide" x1="770" y1="125" x2="770" y2="540" stroke-width="1.5" stroke-dasharray="7 7"/>
+  </g>
+
+  <g aria-label="Жизненный цикл Persistent Scene">
+    <text x="60" y="223" font-size="16" font-weight="600">Persistent</text>
+    <rect class="persistent" x="170" y="185" width="840" height="72" rx="14" stroke-width="2"/>
+    <text x="590" y="216" text-anchor="middle" font-size="18" font-weight="600">SC_Persistent</text>
+    <text x="590" y="240" text-anchor="middle" font-size="14">Global UI · сервисы · постоянные объекты</text>
+  </g>
+
+  <g aria-label="Переход Gameplay Scene">
+    <text x="60" y="344" font-size="16" font-weight="600">Gameplay</text>
+    <rect class="old" x="170" y="292" width="505" height="90" rx="14" stroke-width="2"/>
+    <text x="215" y="328" font-size="18" font-weight="600">Старая сцена — SC_World</text>
+    <text class="muted" x="215" y="355" font-size="14">Текущая до SwitchTo()</text>
+
+    <rect class="new" x="565" y="405" width="445" height="90" rx="14" stroke-width="2"/>
+    <text x="700" y="441" font-size="18" font-weight="600">Новая сцена — SC_Battle</text>
+    <text class="muted" x="700" y="468" font-size="14">Текущая после завершения SwitchTo()</text>
+
+    <rect class="overlap" x="565" y="292" width="110" height="203" rx="12" stroke-width="2" stroke-dasharray="7 5"/>
+    <text x="620" y="335" text-anchor="middle" font-size="15" font-weight="600">Обе</text>
+    <text x="620" y="357" text-anchor="middle" font-size="15" font-weight="600">загружены</text>
+    <text class="muted" x="620" y="385" text-anchor="middle" font-size="12">техническое</text>
+    <text class="muted" x="620" y="403" text-anchor="middle" font-size="12">перекрытие</text>
+  </g>
+
+  <g aria-label="События перехода">
+    <circle cx="565" cy="548" r="6" fill="#6938ef"/>
+    <text x="548" y="579" text-anchor="end" font-size="14">Загрузить новую сцену</text>
+    <circle cx="675" cy="548" r="6" fill="#3159a7"/>
+    <text x="692" y="579" font-size="14">Выгрузить предыдущую сцену</text>
+    <line class="guide" x1="170" y1="548" x2="1010" y2="548" stroke-width="2"/>
+  </g>
+
+  <text class="muted" x="1040" y="608" text-anchor="end" font-size="14">Перекрытие не означает наличие двух активных Main Phase</text>
+</svg>

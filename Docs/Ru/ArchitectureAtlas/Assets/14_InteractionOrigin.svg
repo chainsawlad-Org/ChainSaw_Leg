@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 520" role="img" aria-labelledby="title description">
   <title id="title">Разделение физического collider игрока и точки InteractionOrigin</title>
-  <desc id="description">InteractionOrigin расположен в центре тела и задаёт центр поиска целей. Физический collider расположен у ног и используется только для столкновений.</desc>
+  <desc id="description">InteractionOrigin расположен в центре тела и задает центр поиска целей. Физический collider расположен у ног и используется только для столкновений.</desc>
   <defs>
     <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
       <path d="M0,0 L0,6 L9,3 z" fill="#667085"/>
@@ -51,7 +51,7 @@
     <rect class="panel" x="515" y="130" width="505" height="125" rx="14"/>
     <circle class="origin" cx="552" cy="170"  r="8"/>
     <text x="575" y="177" font-size="21" font-weight="500">InteractionOrigin — середина тела</text>
-    <text x="548" y="210" font-size="16">Центр <tspan font-family="monospace">Physics2D.OverlapCircle</tspan> и угловых расчётов</text>
+    <text x="548" y="210" font-size="16">Центр <tspan font-family="monospace">Physics2D.OverlapCircle</tspan> и угловых расчетов</text>
     <text class="muted" x="548" y="235" font-size="15">Пустой Transform: без Collider2D и trigger-логики</text>
   </g>
 

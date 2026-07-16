@@ -1,7 +1,7 @@
 # Dependency Injection
 
-> Version: 1.0
-> Last Updated: 13-07-2026
+> Version: 1.1
+> Last Updated: 16-07-2026
 
 ---
 
@@ -262,25 +262,7 @@ The Composition Root is the only architectural area where dependencies are wired
 
 In the current project, the Composition Root consists of:
 
-```mermaid
-flowchart TD
-
-N1["ProjectContext"]
-
-N2["ProjectInstaller"]
-
-N3["Global Installers"]
-
-N4["SceneContext"]
-
-N5["Scene MonoInstallers"]
-
-N1 --> N2
-
-N2 --> N3
-
-N4 --> N5
-```
+![ProjectContext and SceneContext dependency injection scopes](Assets/06_DIContexts.svg)
 
 All registrations live under `Application/Installers`. `ProjectContext` creates the global graph, while `SceneContext` adds dependencies and adapters for a specific scene.
 

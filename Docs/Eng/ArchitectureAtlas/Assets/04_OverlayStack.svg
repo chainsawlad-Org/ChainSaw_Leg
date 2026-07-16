@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 650" role="img" aria-labelledby="title description">
+  <title id="title">Overlay stack after three PushOverlay calls</title>
+  <desc id="description">The Main Phase continues to exist outside the Overlay stack. The first pushed Overlay is at the bottom, the last pushed Overlay is the current top, and Pop removes the top Overlay first. Concrete phase types depend on runtime calls.</desc>
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3159a7"/>
+    </marker>
+    <marker id="arrow-orange" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#dc6803"/>
+    </marker>
+    <style>
+      text { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #182230; }
+      .muted { fill: #667085; }
+      .panel { fill: #f8fafc; stroke: #d0d5dd; }
+      .main { fill: #e9efff; stroke: #3159a7; }
+      .overlay { fill: #f4f3ff; stroke: #6938ef; }
+      .active { fill: #ecfdf3; stroke: #079455; }
+      .push { fill: none; stroke: #3159a7; }
+      .pop { fill: none; stroke: #dc6803; }
+      @media (prefers-color-scheme: dark) {
+        text { fill: #f2f4f7; }
+        .muted { fill: #98a2b3; }
+        .panel { fill: #182230; stroke: #475467; }
+        .main { fill: #21386f; stroke: #84adff; }
+        .overlay { fill: #2f246b; stroke: #bdb4fe; }
+        .active { fill: #073d2a; stroke: #6ce9a6; }
+        .push { stroke: #84adff; }
+        .pop { stroke: #fec84b; }
+      }
+    </style>
+  </defs>
+
+  <rect class="panel" x="20" y="20" width="1060" height="610" rx="18"/>
+  <text x="60" y="68" font-size="24" font-weight="500">Overlay stack</text>
+  <text class="muted" x="60" y="98" font-size="16">Phase types and their order depend on runtime calls</text>
+
+  <g aria-label="Phase stack">
+    <text x="470" y="139" font-size="14" font-weight="600">TOP</text>
+    <line x1="240" y1="149" x2="740" y2="149" stroke="#079455" stroke-width="3"/>
+
+    <rect class="active" x="240" y="165" width="500" height="75" rx="15" stroke-width="2.5"/>
+    <circle cx="704" cy="194" r="7" fill="#079455"/>
+    <text x="275" y="196" font-size="19" font-weight="600">3 · Last pushed Overlay</text>
+    <text class="muted" x="275" y="220" font-size="14">Pushed last · current TOP · popped first</text>
+
+    <rect class="overlay" x="190" y="255" width="550" height="75" rx="15" stroke-width="2"/>
+    <text x="225" y="286" font-size="19" font-weight="600">2 · Next pushed Overlay</text>
+    <text class="muted" x="225" y="310" font-size="14">Remains below the current TOP</text>
+
+    <rect class="overlay" x="140" y="345" width="600" height="75" rx="15" stroke-width="2"/>
+    <text x="175" y="376" font-size="19" font-weight="600">1 · First pushed Overlay</text>
+    <text class="muted" x="175" y="400" font-size="14">Pushed first · bottom of overlayStack</text>
+
+    <rect class="main" x="90" y="455" width="650" height="92" rx="16" stroke-width="2.5"/>
+    <text x="125" y="491" font-size="21" font-weight="600">Main Phase — Exploration</text>
+    <text class="muted" x="125" y="520" font-size="15">Exists before the stack and is not stored in overlayStack</text>
+  </g>
+
+  <g aria-label="Stack operations">
+    <rect class="panel" x="765" y="120" width="120" height="42" rx="10" stroke-dasharray="6 5"/>
+    <text x="825" y="146" text-anchor="middle" font-size="13">addition</text>
+    <path class="push" d="M825 220 L825 169" stroke-width="3" marker-end="url(#arrow-blue)"/>
+    <text x="825" y="264" text-anchor="middle" font-size="15" font-weight="600">Push()</text>
+    <text class="muted" x="825" y="287" text-anchor="middle" font-size="13">into TOP</text>
+
+    <rect class="panel" x="920" y="120" width="120" height="42" rx="10" stroke-dasharray="6 5"/>
+    <text x="980" y="146" text-anchor="middle" font-size="13">removal</text>
+    <path class="pop" d="M980 169 L980 220" stroke-width="3" marker-end="url(#arrow-orange)"/>
+    <text x="980" y="264" text-anchor="middle" font-size="15" font-weight="600">Pop()</text>
+    <text class="muted" x="980" y="287" text-anchor="middle" font-size="13">from TOP</text>
+  </g>
+
+  <text x="90" y="598" font-size="14">LIFO: Last In → First Out</text>
+</svg>

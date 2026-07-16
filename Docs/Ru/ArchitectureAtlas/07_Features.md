@@ -162,7 +162,7 @@ Feature не должны обращаться к внутренним клас�
 
 # Lifecycle
 
-Жизненный цикл каждого компонента Feature задаётся явно через DI context. Runtime scene adapters живут вместе со сценой, phase-specific компоненты — вместе с фазой, а явно зарегистрированные project services могут жить всё приложение.
+Жизненный цикл каждого компонента Feature задается явно через DI context. Runtime scene adapters живут вместе со сценой, phase-specific компоненты — вместе с фазой, а явно зарегистрированные project services могут жить все приложение.
 
 ---
 

@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 720" role="img" aria-labelledby="title description">
+  <title id="title">Контексты Dependency Injection: ProjectContext и SceneContext</title>
+  <desc id="description">ProjectContext владеет object graph уровня приложения. SceneContext является дочерним scope, добавляет scene services и инжектит scene objects и MonoBehaviour, созданные Unity.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#667085"/>
+    </marker>
+    <style>
+      text { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #182230; }
+      .muted { fill: #667085; }
+      .panel { fill: #f8fafc; stroke: #d0d5dd; }
+      .project { fill: #e9efff; fill-opacity: .55; stroke: #3159a7; }
+      .scene { fill: #f4f3ff; fill-opacity: .7; stroke: #6938ef; }
+      .container-object { fill: #ecfdf3; stroke: #079455; }
+      .unity-object { fill: #fff7e8; stroke: #dc6803; }
+      .installer { fill: #ffffff; stroke: #667085; }
+      .line { fill: none; stroke: #667085; }
+      @media (prefers-color-scheme: dark) {
+        text { fill: #f2f4f7; }
+        .muted { fill: #98a2b3; }
+        .panel { fill: #182230; stroke: #475467; }
+        .project { fill: #21386f; fill-opacity: .7; stroke: #84adff; }
+        .scene { fill: #2f246b; fill-opacity: .75; stroke: #bdb4fe; }
+        .container-object { fill: #073d2a; stroke: #6ce9a6; }
+        .unity-object { fill: #4e2d0a; stroke: #fec84b; }
+        .installer { fill: #182230; stroke: #98a2b3; }
+        .line { stroke: #98a2b3; }
+      }
+    </style>
+  </defs>
+
+  <rect class="panel" x="20" y="20" width="1060" height="680" rx="18"/>
+  <text x="60" y="68" font-size="24" font-weight="500">Контексты Dependency Injection</text>
+  <text class="muted" x="60" y="98" font-size="16">Каждый контекст владеет object graph и задает lifetime своих AsSingle() регистраций</text>
+
+  <g aria-label="ProjectContext уровня приложения">
+    <rect class="project" x="60" y="130" width="980" height="500" rx="18" stroke-width="2.5"/>
+    <text x="90" y="169" font-size="21" font-weight="600">ProjectContext</text>
+    <text class="muted" x="90" y="195" font-size="14">Lifetime приложения · родительский контейнер</text>
+
+    <rect class="installer" x="95" y="230" width="350" height="74" rx="12" stroke-width="2"/>
+    <text x="125" y="260" font-size="17" font-weight="600">ProjectInstaller + global Installers</text>
+    <text class="muted" x="125" y="281" font-size="12">Регистрируют contracts, factories, phases и services</text>
+
+    <rect class="container-object" x="95" y="345" width="165" height="78" rx="12" stroke-width="2"/>
+    <text x="177" y="377" text-anchor="middle" font-size="16" font-weight="600">GameStateMachine</text>
+    <text class="muted" x="177" y="401" text-anchor="middle" font-size="13">создан контейнером</text>
+
+    <rect class="container-object" x="280" y="345" width="165" height="78" rx="12" stroke-width="2"/>
+    <text x="362" y="377" text-anchor="middle" font-size="16" font-weight="600">SceneLoader</text>
+    <text class="muted" x="362" y="401" text-anchor="middle" font-size="13">создан контейнером</text>
+
+    <rect class="container-object" x="95" y="445" width="165" height="78" rx="12" stroke-width="2"/>
+    <text x="177" y="477" text-anchor="middle" font-size="16" font-weight="600">PhaseFactory</text>
+    <text class="muted" x="177" y="501" text-anchor="middle" font-size="13">создан контейнером</text>
+
+    <rect class="container-object" x="280" y="445" width="165" height="78" rx="12" stroke-width="2"/>
+    <text x="362" y="477" text-anchor="middle" font-size="16" font-weight="600">StartupResolver</text>
+    <text class="muted" x="362" y="501" text-anchor="middle" font-size="13">создан контейнером</text>
+  </g>
+
+  <g aria-label="Дочерний scope SceneContext">
+    <rect class="scene" x="500" y="230" width="495" height="350" rx="18" stroke-width="2.5"/>
+    <text x="530" y="269" font-size="21" font-weight="600">SceneContext</text>
+    <text class="muted" x="530" y="295" font-size="14">Lifetime сцены · дочерний контейнер · видит contracts родителя</text>
+
+    <rect class="installer" x="535" y="315" width="425" height="62" rx="12" stroke-width="2"/>
+    <text x="565" y="342" font-size="17" font-weight="600">Scene MonoInstallers</text>
+    <text class="muted" x="565" y="364" font-size="13">Регистрируют scene-specific bindings и adapters</text>
+
+    <rect class="installer" x="660" y="400" width="175" height="50" rx="12" stroke-width="2"/>
+    <text x="747" y="431" text-anchor="middle" font-size="16" font-weight="600">Scene DiContainer</text>
+
+    <rect class="container-object" x="535" y="485" width="190" height="70" rx="12" stroke-width="2"/>
+    <text x="630" y="514" text-anchor="middle" font-size="16" font-weight="600">Scene service</text>
+    <text class="muted" x="630" y="538" text-anchor="middle" font-size="13">создан контейнером</text>
+
+    <rect class="unity-object" x="750" y="485" width="210" height="70" rx="12" stroke-width="2"/>
+    <text x="855" y="514" text-anchor="middle" font-size="16" font-weight="600">MonoBehaviour / View</text>
+    <text class="muted" x="855" y="538" text-anchor="middle" font-size="13">создан Unity · инжектирован</text>
+  </g>
+
+  <path class="line" d="M747 377 L747 398" stroke-width="2" marker-end="url(#arrow)"/>
+  <path class="line" d="M715 450 C700 467, 660 468, 635 483" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="muted" x="674" y="469" text-anchor="middle" font-size="12">создает</text>
+  <path class="line" d="M780 450 C795 467, 830 468, 850 483" stroke-width="2" marker-end="url(#arrow)"/>
+  <text class="muted" x="817" y="469" text-anchor="middle" font-size="12">инжектит</text>
+
+  <g aria-label="Легенда">
+    <rect class="container-object" x="90" y="660" width="18" height="18" rx="4"/>
+    <text x="118" y="674" font-size="14">Создан контейнером</text>
+    <rect class="unity-object" x="315" y="660" width="18" height="18" rx="4"/>
+    <text x="343" y="674" font-size="14">Создан Unity, инжектирован контейнером</text>
+    <text class="muted" x="1010" y="674" text-anchor="end" font-size="14">AsSingle() — один instance на контекст-владелец</text>
+  </g>
+</svg>
