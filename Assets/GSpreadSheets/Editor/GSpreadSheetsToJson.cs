@@ -481,11 +481,11 @@ public class GSpreadSheetsToJson : EditorWindow {
 		if(!outputDirectory.EndsWith("/"))
 			outputDirectory += "/";
 		Directory.CreateDirectory(outputDirectory);
-		StreamWriter strmWriter = new StreamWriter(outputDirectory + fileName + ".txt", false, System.Text.Encoding.UTF8);
+		StreamWriter strmWriter = new StreamWriter(outputDirectory + fileName + ".JSON", false, System.Text.Encoding.UTF8);
 		strmWriter.Write(jsonText);
 		strmWriter.Close();
 
-		Debug.Log ("Created: " + fileName + ".txt");
+		Debug.Log ("Created: " + fileName + ".JSON");
 	}
 
 	UserCredential GetCredential()
