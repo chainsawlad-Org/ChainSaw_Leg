@@ -576,7 +576,6 @@ GameObject:
   m_Component:
   - component: {fileID: 253174528}
   - component: {fileID: 253174529}
-  - component: {fileID: 253174530}
   m_Layer: 0
   m_Name: Collider (1)
   m_TagString: Untagged
@@ -645,18 +644,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 4.6141915, y: 1}
   m_EdgeRadius: 0
---- !u!114 &253174530
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 253174527}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bc54f21eea8c1e4d8db01f53fcbc2e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::BedDialogue
 --- !u!1 &258412759
 GameObject:
   m_ObjectHideFlags: 0
@@ -1998,7 +1985,6 @@ GameObject:
   m_Component:
   - component: {fileID: 866883009}
   - component: {fileID: 866883010}
-  - component: {fileID: 866883011}
   m_Layer: 0
   m_Name: Collider (3)
   m_TagString: Untagged
@@ -2067,18 +2053,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.7305286, y: 1.4858776}
   m_EdgeRadius: 0
---- !u!114 &866883011
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 866883008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c70f87fd9fbff5488229a621647ba6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::TVDialogue
 --- !u!1 &913292793
 GameObject:
   m_ObjectHideFlags: 0
