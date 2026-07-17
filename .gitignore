@@ -90,3 +90,4 @@ InitTestScene*.unity*
 
 # Excel-files
 *.xlsx
+*.Response.TokenResponse-user
