@@ -612,8 +612,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFlow
   target: {fileID: 1425624349}
-  smoothTime: 0.15
-  deadZoneRadius: 1.5
+  smoothTime: 0.1
 --- !u!1 &236909281
 GameObject:
   m_ObjectHideFlags: 0
