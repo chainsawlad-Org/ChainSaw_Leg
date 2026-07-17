@@ -8,7 +8,7 @@ on:
     branches:
       - auto-release
     types:
-      - opened
+      - synchronize
 
   workflow_dispatch:
     inputs:
@@ -106,10 +106,10 @@ jobs:
             displayName: Windows x64
             artifactName: windows-x64
             archiveFormat: zip
-          - targetPlatform: StandaloneLinux64
-            displayName: Linux x64
-            artifactName: linux-x64
-            archiveFormat: tar
+#          - targetPlatform: StandaloneLinux64
+#            displayName: Linux x64
+#            artifactName: linux-x64
+#            archiveFormat: tar
           - targetPlatform: StandaloneOSX
             displayName: macOS
             artifactName: macos
