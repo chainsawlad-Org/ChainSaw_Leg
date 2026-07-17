@@ -119,3 +119,24 @@ Features/
 - **UI** → `Assets/_Project/UI/`
 - **Аудио** → `Assets/_Project/Audio/`
 - **Тесты** → `Assets/_Project/Tests/`
+
+## Автоматические сборки
+
+После каждого push/merge в `main` workflow **Build and release**:
+
+- увеличивает patch последнего release-тега (`v0.0.0` → `v0.0.1`);
+- собирает Windows x64, Linux x64 и macOS версии;
+- создаёт GitHub Release с тремя архивами.
+
+Версию можно задать вручную: откройте **Actions → Build and release → Run
+workflow**, укажите версию в формате `X.Y.Z` и запускайте workflow только из
+ветки `main`. Если поле версии оставить пустым, patch будет увеличен
+автоматически. Поскольку default branch репозитория — `develop`, кнопка ручного
+запуска появится после добавления workflow в `develop`; в списке **Branch**
+нужно выбрать `main`.
+
+Для сборки настройте Unity license secrets в
+**Settings → Secrets and variables → Actions**:
+
+- Personal license: `UNITY_LICENSE`, `UNITY_EMAIL`, `UNITY_PASSWORD`;
+- Pro/Plus license: `UNITY_SERIAL`, `UNITY_EMAIL`, `UNITY_PASSWORD`.

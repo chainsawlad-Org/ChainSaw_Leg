@@ -1,0 +1,212 @@
+name: Build and release
+
+run-name: >-
+  Build ${{ github.event_name == 'workflow_dispatch' && inputs.version != '' && inputs.version || 'next patch version' }}
+
+on:
+  pull_request:
+    branches:
+      - auto-release
+    types:
+      - opened
+
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (X.Y.Z). Leave empty to increment patch."
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: chainsaw-leg-release
+  cancel-in-progress: false
+  queue: max
+
+jobs:
+  version:
+    name: Determine release version
+    runs-on: ubuntu-latest
+    outputs:
+      number: ${{ steps.version.outputs.number }}
+
+    steps:
+      - name: Validate workflow source
+        shell: bash
+        run: |
+          if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
+            if [[ "${{ github.event.pull_request.base.ref }}" != "auto-release" ]]; then
+              echo "::error::The pull request must target the auto-release branch."
+              exit 1
+            fi
+          elif [[ "$GITHUB_REF" != "refs/heads/main" ]]; then
+            echo "::error::Run this workflow from the main branch."
+            exit 1
+          fi
+
+      - name: Checkout repository and tags
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          lfs: false
+
+      - name: Select version
+        id: version
+        shell: bash
+        env:
+          REQUESTED_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+
+          requested="${REQUESTED_VERSION:-}"
+          if [[ -n "$requested" ]]; then
+            if [[ ! "$requested" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo "::error::Version must have the X.Y.Z format, for example 1.4.0."
+              exit 1
+            fi
+            version="$requested"
+          else
+            latest="$(
+              git tag --list |
+                sed -nE 's/^v?([0-9]+\.[0-9]+\.[0-9]+)$/\1/p' |
+                sort -V |
+                tail -n 1
+            )"
+            latest="${latest:-0.0.0}"
+
+            IFS=. read -r major minor patch <<< "$latest"
+            version="${major}.${minor}.$((patch + 1))"
+          fi
+
+          if git rev-parse --quiet --verify "refs/tags/v${version}" >/dev/null ||
+             git rev-parse --quiet --verify "refs/tags/${version}" >/dev/null; then
+            echo "::error::Release tag for version ${version} already exists."
+            exit 1
+          fi
+
+          echo "number=$version" >> "$GITHUB_OUTPUT"
+          echo "Building release v${version}"
+
+  build:
+    name: Build ${{ matrix.displayName }}
+    needs: version
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - targetPlatform: StandaloneWindows64
+            displayName: Windows x64
+            artifactName: windows-x64
+            archiveFormat: zip
+          - targetPlatform: StandaloneLinux64
+            displayName: Linux x64
+            artifactName: linux-x64
+            archiveFormat: tar
+          - targetPlatform: StandaloneOSX
+            displayName: macOS
+            artifactName: macos
+            archiveFormat: tar
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          lfs: true
+
+      - name: Cache Unity Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-Unity-6000.3.9f1-${{ matrix.targetPlatform }}-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-Unity-6000.3.9f1-${{ matrix.targetPlatform }}-
+            Library-Unity-6000.3.9f1-
+
+      - name: Build ${{ matrix.displayName }}
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
+        with:
+          projectPath: .
+          unityVersion: 6000.3.9f1
+          targetPlatform: ${{ matrix.targetPlatform }}
+          buildsPath: build
+          buildName: ChainsawLeg
+          versioning: Custom
+          version: ${{ needs.version.outputs.number }}
+
+      - name: Package build
+        shell: bash
+        env:
+          VERSION: ${{ needs.version.outputs.number }}
+          TARGET_PLATFORM: ${{ matrix.targetPlatform }}
+          ARTIFACT_NAME: ${{ matrix.artifactName }}
+          ARCHIVE_FORMAT: ${{ matrix.archiveFormat }}
+        run: |
+          set -euo pipefail
+
+          build_dir="build/${TARGET_PLATFORM}"
+          archive_base="ChainsawLeg-${VERSION}-${ARTIFACT_NAME}"
+          mkdir -p dist
+
+          if [[ "$ARCHIVE_FORMAT" == "zip" ]]; then
+            (
+              cd "$build_dir"
+              zip -r "../../dist/${archive_base}.zip" .
+            )
+          else
+            tar -C "$build_dir" -czf "dist/${archive_base}.tar.gz" .
+          fi
+
+      - name: Upload packaged build
+        uses: actions/upload-artifact@v4
+        with:
+          name: ChainsawLeg-${{ needs.version.outputs.number }}-${{ matrix.artifactName }}
+          path: dist/*
+          if-no-files-found: error
+          retention-days: 30
+
+  release:
+    name: Publish v${{ needs.version.outputs.number }}
+    needs:
+      - version
+      - build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download packaged builds
+        uses: actions/download-artifact@v4
+        with:
+          pattern: ChainsawLeg-${{ needs.version.outputs.number }}-*
+          path: dist
+          merge-multiple: true
+
+      - name: Create GitHub release and version tag
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.version.outputs.number }}
+          TARGET_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+
+          gh release create "v${VERSION}" dist/* \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$TARGET_SHA" \
+            --title "Chainsaw Leg v${VERSION}" \
+            --generate-notes
