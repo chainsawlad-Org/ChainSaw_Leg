@@ -12,14 +12,10 @@ public class CameraFlow : MonoBehaviour
     private ExplorationPlayerRegistry playerRegistry;
     private bool offsetInitialized;
 
-    public Transform Target => target;
-    public float SmoothTime => smoothTime;
-    public Vector3 FollowVelocity => velocity;
-    public Vector3 DesiredPosition =>
+    private Vector3 DesiredPosition =>
         target != null && offsetInitialized
             ? target.position + offset
             : transform.position;
-    public float FollowError => Vector3.Distance(transform.position, DesiredPosition);
 
     private void Awake()
     {
