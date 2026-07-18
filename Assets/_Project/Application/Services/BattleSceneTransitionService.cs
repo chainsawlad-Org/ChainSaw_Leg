@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 public sealed class BattleSceneTransitionService : IBattleSceneTransitionService, IDisposable
 {
     private readonly GameStateMachine gameStateMachine;
+    private readonly BattleSessionService battleSessionService;
     private readonly IRuntimeErrorLogger runtimeErrorLogger;
     private readonly CancellationTokenSource lifetimeCancellation = new();
 
@@ -13,9 +14,11 @@ public sealed class BattleSceneTransitionService : IBattleSceneTransitionService
 
     public BattleSceneTransitionService(
         GameStateMachine gameStateMachine,
+        BattleSessionService battleSessionService,
         IRuntimeErrorLogger runtimeErrorLogger)
     {
         this.gameStateMachine = gameStateMachine;
+        this.battleSessionService = battleSessionService;
         this.runtimeErrorLogger = runtimeErrorLogger;
     }
 
@@ -26,7 +29,14 @@ public sealed class BattleSceneTransitionService : IBattleSceneTransitionService
 
     public void RequestReturnToExploration()
     {
-        RequestTransition<ExplorationPhase>();
+        string returnSceneName = battleSessionService.TryConsumeReturnSceneName(out string sceneName)
+            ? sceneName
+            : SceneNames.World;
+
+        RequestTransition(cancellationToken =>
+            gameStateMachine.ReloadMainAsync<ExplorationPhase>(
+                phase => phase.SetTargetScene(returnSceneName),
+                cancellationToken));
     }
 
     public void Dispose()
@@ -40,21 +50,28 @@ public sealed class BattleSceneTransitionService : IBattleSceneTransitionService
 
     private void RequestTransition<TPhase>() where TPhase : SceneGamePhase
     {
+        RequestTransition(cancellationToken =>
+            gameStateMachine.ReplaceMainAsync<TPhase>(cancellationToken));
+    }
+
+    private void RequestTransition(Func<CancellationToken, UniTask> transition)
+    {
         if (Volatile.Read(ref disposeState) != 0)
             return;
 
         if (Interlocked.CompareExchange(ref transitionState, 1, 0) != 0)
             return;
 
-        TransitionAsync<TPhase>(lifetimeCancellation.Token).Forget();
+        TransitionAsync(transition, lifetimeCancellation.Token).Forget();
     }
 
-    private async UniTask TransitionAsync<TPhase>(CancellationToken cancellationToken)
-        where TPhase : SceneGamePhase
+    private async UniTask TransitionAsync(
+        Func<CancellationToken, UniTask> transition,
+        CancellationToken cancellationToken)
     {
         try
         {
-            await gameStateMachine.ReplaceMainAsync<TPhase>(cancellationToken);
+            await transition(cancellationToken);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {

@@ -13,6 +13,7 @@ public class StartupRegistryInstaller : IInitializable
     {
         registry.Register<MainMenuPhase>(SceneNames.MainMenu);
         registry.Register<ExplorationPhase>(SceneNames.World);
+        registry.Register<WorldOldExplorationPhase>(SceneNames.WorldOld);
         registry.Register<BattlePhase>(SceneNames.Battle);
     }
 }

@@ -135,7 +135,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &11534855
 Transform:
   m_ObjectHideFlags: 0
@@ -691,7 +691,7 @@ GameObject:
   - component: {fileID: 398489279}
   - component: {fileID: 398489278}
   - component: {fileID: 398489281}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Door_3x5 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3140,7 +3140,7 @@ GameObject:
   - component: {fileID: 1079672769}
   - component: {fileID: 1079672768}
   - component: {fileID: 1079672767}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Door_3x5 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3704,6 +3704,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   moveSpeed: 5
   snapTo8Directions: 1
+  sprite: {fileID: 0}
+  flipSprite: 0
 --- !u!114 &1157121967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3748,6 +3750,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractionDetector
   interactionOrigin: {fileID: 1603141790}
+  playerRigidbody: {fileID: 0}
   playerMovement: {fileID: 1157121966}
   interactionConfig: {fileID: 11400000, guid: 11637cc13f47c488ab687767031f085b, type: 2}
 --- !u!114 &1157121970
@@ -4624,7 +4627,7 @@ GameObject:
   - component: {fileID: 1315441370}
   - component: {fileID: 1315441369}
   - component: {fileID: 1315441372}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Door_3x5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4957,7 +4960,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractionPromptPresenter
   interactionDetector: {fileID: 1157121969}
-  interactionConfig: {fileID: 11400000, guid: 574aa07b3ec964e179d67a5c8cbe32a1, type: 2}
+  interactionConfig: {fileID: 11400000, guid: 11637cc13f47c488ab687767031f085b, type: 2}
   promptRoot: {fileID: 838012494}
   promptText: {fileID: 1239357070}
 --- !u!1 &1454925635
@@ -9293,7 +9296,7 @@ GameObject:
   - component: {fileID: 1743172124}
   - component: {fileID: 1743172123}
   - component: {fileID: 1743172125}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Trader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9992,7 +9995,7 @@ GameObject:
   - component: {fileID: 1908745103}
   - component: {fileID: 1908745104}
   - component: {fileID: 1908745105}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TestCheckpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

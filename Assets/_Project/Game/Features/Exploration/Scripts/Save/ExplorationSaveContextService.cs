@@ -1,10 +1,37 @@
 using ChainSawLeg.Core.SaveSystem;
+using Zenject;
 
 namespace ChainSawLeg.Features.Exploration.Save
 {
     public sealed class ExplorationSaveContextService : IExplorationSaveContextProvider
     {
-        public string SceneId { get; private set; } = ExplorationSceneIds.World;
+        private readonly ISceneLoader sceneLoader;
+        private string sceneId = ExplorationSceneIds.World;
+
+        public ExplorationSaveContextService()
+        {
+        }
+
+        [Inject]
+        public ExplorationSaveContextService(ISceneLoader sceneLoader)
+        {
+            this.sceneLoader = sceneLoader;
+        }
+
+        public string SceneId
+        {
+            get
+            {
+                string loadedScene = sceneLoader?.LoadedGameplayScene;
+
+                if (loadedScene == SceneNames.World ||
+                    loadedScene == SceneNames.WorldOld)
+                    return loadedScene;
+
+                return sceneId;
+            }
+        }
+
         public string CheckpointId { get; private set; }
 
         public void SetContext(string sceneId, string checkpointId)
@@ -12,7 +39,7 @@ namespace ChainSawLeg.Features.Exploration.Save
             if (string.IsNullOrWhiteSpace(sceneId))
                 throw new GameSaveValidationException("Exploration scene ID is required.");
 
-            SceneId = sceneId;
+            this.sceneId = sceneId;
             CheckpointId = checkpointId;
         }
     }
