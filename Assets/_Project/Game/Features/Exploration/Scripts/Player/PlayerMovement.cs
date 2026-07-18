@@ -52,8 +52,8 @@ public class PlayerMovement : MonoBehaviour
     private void FlipSprite()
     {
         if (!flipSprite) return;
-        if (LastMoveDir.x > 0f) sprite.flipX = false;
-        else sprite.flipX = true;
+        if (LastMoveDir.x > 0f && sprite.flipX) sprite.flipX = false;
+        else if (LastMoveDir.x < 0f && !sprite.flipX) sprite.flipX = true;
     }
 
     public void SetSpeed(float value)
