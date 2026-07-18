@@ -6,7 +6,7 @@ run-name: >-
 on:
   pull_request:
     branches:
-      - auto-release
+      - main
     types:
       - synchronize
 
@@ -37,8 +37,8 @@ jobs:
         shell: bash
         run: |
           if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
-            if [[ "${{ github.event.pull_request.base.ref }}" != "auto-release" ]]; then
-              echo "::error::The pull request must target the auto-release branch."
+            if [[ "${{ github.event.pull_request.base.ref }}" != "main" ]]; then
+              echo "::error::The pull request must target the main branch."
               exit 1
             fi
           elif [[ "$GITHUB_REF" != "refs/heads/main" ]]; then
