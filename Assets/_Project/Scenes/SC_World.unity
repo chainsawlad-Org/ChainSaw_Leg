@@ -4587,6 +4587,7 @@ MonoBehaviour:
   collidersObject: {fileID: 1882877085}
   roomSprites:
   - {fileID: 2021508404}
+  targetCamera: {fileID: 519420031}
 --- !u!1 &2037345002
 GameObject:
   m_ObjectHideFlags: 0
@@ -5214,6 +5215,7 @@ MonoBehaviour:
   collidersObject: {fileID: 1387854045}
   roomSprites:
   - {fileID: 1537888021}
+  targetCamera: {fileID: 519420031}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

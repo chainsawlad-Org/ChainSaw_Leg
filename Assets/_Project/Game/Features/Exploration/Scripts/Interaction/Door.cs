@@ -13,18 +13,13 @@ public class Door : MonoBehaviour, IInteractable
     
     public string GetInteractionPrompt() => "Press [E] to talk";
 
-    public bool CanInteract()
-    {
-        return true;
-    }
+    public bool CanInteract() => true;
 
     public void Interact()
     {
         if (!CanInteract())
             return;
 
-        prevRoom.CloseRoom(() => nextRoom.OpenRoom());
-        Vector3 target = new Vector3(nextRoom.transform.position.x, nextRoom.transform.position.y, Camera.main.transform.position.z);
-        Camera.main.transform.DOMove(target, 1f).SetEase(Ease.InOutQuart);
+        prevRoom.CloseRoom(nextRoom.transform.position, () => nextRoom.OpenRoom());
     }
 }
