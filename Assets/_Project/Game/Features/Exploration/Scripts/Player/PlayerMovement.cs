@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        rb.interpolation = RigidbodyInterpolation2D.Interpolate;
         inputHandler = GetComponent<PlayerInputHandler>();
         dash = GetComponent<PlayerDash>();
         currentSpeed = moveSpeed;

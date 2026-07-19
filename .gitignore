@@ -85,8 +85,9 @@ InitTestScene*.unity*
 /[Aa]ssets/Unity.VisualScripting.Generated/VisualScripting.Core/Property Providers
 /[Aa]ssets/Unity.VisualScripting.Generated/VisualScripting.Core/Property Providers.meta
 
-# TextMesh Pro resources are imported locally by the editor bootstrapper.
-/[Aa]ssets/TextMesh Pro/
+# Keep TextMesh Pro Essential Resources in Git; ignore optional sample content.
+/[Aa]ssets/TextMesh Pro/Examples & Extras/
+/[Aa]ssets/TextMesh Pro/Examples & Extras.meta
 
 # Excel-files
 *.xlsx

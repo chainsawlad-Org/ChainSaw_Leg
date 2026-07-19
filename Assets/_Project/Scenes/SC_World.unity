@@ -1302,8 +1302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::CameraFlow
   target: {fileID: 1157121962}
-  smoothTime: 0.15
-  deadZoneRadius: 1.5
+  smoothTime: 0.1
 --- !u!1 &524943439
 GameObject:
   m_ObjectHideFlags: 0
