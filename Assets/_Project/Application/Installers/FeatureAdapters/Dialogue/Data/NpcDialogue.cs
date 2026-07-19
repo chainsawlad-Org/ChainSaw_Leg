@@ -5,6 +5,16 @@ using Zenject;
 
 public class NpcDialogue : MonoBehaviour, IInteractable
 {
+    private enum DialogueContent
+    {
+        Test,
+        TV,
+        Bed
+    }
+
+    [SerializeField] private DialogueContent dialogueContent;
+    [SerializeField] private string interactionPrompt = "Press E to talk";
+
     private GameStateMachine gameStateMachine;
     private DialogueRuntimeRegistry runtimeRegistry;
     private IRuntimeErrorLogger errorLogger;
@@ -20,7 +30,7 @@ public class NpcDialogue : MonoBehaviour, IInteractable
         this.errorLogger = errorLogger;
     }
 
-    public string GetInteractionPrompt() => "Press [E] to talk";
+    public string GetInteractionPrompt() => interactionPrompt;
 
     public bool CanInteract()
     {
@@ -40,7 +50,12 @@ public class NpcDialogue : MonoBehaviour, IInteractable
     {
         try
         {
-            var events = DialogueLibrary.TestDialogue();
+            var events = dialogueContent switch
+            {
+                DialogueContent.TV => DialogueLibrary.TVDialogue(),
+                DialogueContent.Bed => DialogueLibrary.BedDialogue(),
+                _ => DialogueLibrary.TestDialogue()
+            };
 
             await gameStateMachine.PushOverlay<DialoguePhase>(phase =>
             {

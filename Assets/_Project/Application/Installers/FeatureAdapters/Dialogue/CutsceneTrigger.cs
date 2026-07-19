@@ -11,6 +11,7 @@ public class CutsceneTrigger : MonoBehaviour
     [SerializeField] private GameObject defeatedObject;
 
     private GameStateMachine gameStateMachine;
+    private ISceneLoader sceneLoader;
     private IBattleSceneTransitionService battleSceneTransitionService;
     private BattleSessionService battleSessionService;
     private IRuntimeErrorLogger errorLogger;
@@ -20,11 +21,13 @@ public class CutsceneTrigger : MonoBehaviour
     [Inject]
     public void Construct(
         GameStateMachine gameStateMachine,
+        ISceneLoader sceneLoader,
         IBattleSceneTransitionService battleSceneTransitionService,
         BattleSessionService battleSessionService,
         IRuntimeErrorLogger errorLogger)
     {
         this.gameStateMachine = gameStateMachine;
+        this.sceneLoader = sceneLoader;
         this.battleSceneTransitionService = battleSceneTransitionService;
         this.battleSessionService = battleSessionService;
         this.errorLogger = errorLogger;
@@ -60,7 +63,11 @@ public class CutsceneTrigger : MonoBehaviour
         Vector2 returnPosition = playerBody != null
             ? playerBody.position
             : (Vector2)other.transform.position;
-        battleSessionService.BeginEncounter(encounterId, returnPosition.x, returnPosition.y);
+        battleSessionService.BeginEncounter(
+            encounterId,
+            returnPosition.x,
+            returnPosition.y,
+            sceneLoader.LoadedGameplayScene);
         RunCutsceneAsync(destroyCancellationToken).Forget();
     }
 

@@ -1,7 +1,7 @@
 # Game State Machine
 
-> Version: 1.0
-> Last Updated: 13-07-2026
+> Version: 1.1
+> Last Updated: 16-07-2026
 
 ---
 
@@ -126,19 +126,7 @@ Overlay хранятся в стеке.
 
 Стек Overlay работает по принципу Last In — First Out (LIFO).
 
-```mermaid
-flowchart TD
-
-Pause
-
-Inventory
-
-Dialogue
-
-Dialogue --> Inventory
-
-Inventory --> Pause
-```
+![Main Phase и стек Overlay](Assets/04_OverlayStack.svg)
 
 Последний открытый Overlay закрывается первым.
 
@@ -258,9 +246,9 @@ N3 --> N4
 
 ## ReloadMainAsync()
 
-Повторно создаёт и загружает Main Phase, даже если активна фаза того же типа.
+Повторно создает и загружает Main Phase, даже если активна фаза того же типа.
 
-Метод используется, когда нужно сначала подготовить контекст, а затем получить новые сценовые объекты. Например, Save System вызывает `ReloadMainAsync<ExplorationPhase>()`, загружает сохранённую exploration-сцену и только после регистрации нового игрока применяет pending restore.
+Метод используется, когда нужно сначала подготовить контекст, а затем получить новые сценовые объекты. Например, Save System вызывает `ReloadMainAsync<ExplorationPhase>()`, загружает сохраненную exploration-сцену и только после регистрации нового игрока применяет pending restore.
 
 Асинхронная версия принимает `CancellationToken`.
 
@@ -268,7 +256,7 @@ N3 --> N4
 
 ## PushOverlay()
 
-Создаёт новый Overlay.
+Создает новый Overlay.
 
 Новый Overlay помещается на вершину стека.
 
@@ -365,7 +353,7 @@ SceneLoader --> Unity
 
 Overlay не заменяют Main Phase.
 
-Они работают поверх неё.
+Они работают поверх нее.
 
 ---
 
@@ -486,7 +474,7 @@ Main Phase всегда только одна.
 
 # Extension Points
 
-Game State Machine может быть расширена без изменения её основных принципов.
+Game State Machine может быть расширена без изменения ее основных принципов.
 
 Например:
 

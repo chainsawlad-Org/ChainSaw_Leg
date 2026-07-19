@@ -24,3 +24,11 @@ public class ExplorationPhase : SceneGamePhase
         return base.Exit();
     }
 }
+
+public sealed class WorldOldExplorationPhase : ExplorationPhase
+{
+    protected override string SceneName => SceneNames.WorldOld;
+
+    public WorldOldExplorationPhase(ISceneLoader sceneLoader) : base(sceneLoader)
+    { }
+}

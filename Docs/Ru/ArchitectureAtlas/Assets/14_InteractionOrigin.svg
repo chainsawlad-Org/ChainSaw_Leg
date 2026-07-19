@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 520" role="img" aria-labelledby="title description">
+  <title id="title">Разделение физического collider игрока и точки InteractionOrigin</title>
+  <desc id="description">InteractionOrigin расположен в центре тела и задает центр поиска целей. Физический collider расположен у ног и используется только для столкновений.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#667085"/>
+    </marker>
+    <style>
+      text { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #182230; }
+      .muted { fill: #667085; }
+      .line { stroke: #667085; }
+      .panel { fill: #f8fafc; stroke: #d0d5dd; }
+      .body { fill: #e9efff; stroke: #3159a7; }
+      .origin { fill: #12b76a; stroke: #067647; }
+      .sensor { fill: #12b76a; fill-opacity: .08; stroke: #12b76a; }
+      .collider { fill: #f79009; fill-opacity: .18; stroke: #dc6803; }
+      .accent { fill: #3159a7; }
+      @media (prefers-color-scheme: dark) {
+        text { fill: #f2f4f7; }
+        .muted { fill: #98a2b3; }
+        .line { stroke: #98a2b3; }
+        .panel { fill: #182230; stroke: #475467; }
+        .body { fill: #21386f; stroke: #84adff; }
+        .origin { fill: #32d583; stroke: #6ce9a6; }
+        .sensor { fill: #32d583; fill-opacity: .1; stroke: #32d583; }
+        .collider { fill: #fdb022; fill-opacity: .2; stroke: #fec84b; }
+        .accent { fill: #84adff; }
+      }
+    </style>
+  </defs>
+
+  <rect class="panel" x="20" y="20" width="1060" height="480" rx="18"/>
+
+  <text x="60" y="66" font-size="24" font-weight="500">Игрок: две независимые области ответственности</text>
+  <text class="muted" x="60" y="96" font-size="16">Сенсор взаимодействия не является частью физической формы игрока</text>
+
+  <g aria-label="Схема игрока">
+    <circle class="sensor" cx="295" cy="270" r="150" stroke-width="2" stroke-dasharray="8 8"/>
+    <rect class="body" x="235" y="130" width="120" height="250" rx="58" stroke-width="3"/>
+    <circle class="origin" cx="295" cy="250" r="11" stroke-width="4"/>
+    <line x1="275" y1="250" x2="315" y2="250" stroke="#ffffff" stroke-width="3"/>
+    <line x1="295" y1="230" x2="295" y2="270" stroke="#ffffff" stroke-width="3"/>
+    <rect class="collider" x="220" y="342" width="150" height="64" rx="30" stroke-width="3"/>
+    
+  </g>
+
+  <path class="line" d="M320 247 C405 220, 430 190, 500 184" fill="none" stroke-width="2" marker-end="url(#arrow)"/>
+  <path class="line" d="M370 375 C430 375, 458 385, 500 385" fill="none" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <g aria-label="InteractionOrigin">
+    <rect class="panel" x="515" y="130" width="505" height="125" rx="14"/>
+    <circle class="origin" cx="552" cy="170"  r="8"/>
+    <text x="575" y="177" font-size="21" font-weight="500">InteractionOrigin — середина тела</text>
+    <text x="548" y="210" font-size="16">Центр <tspan font-family="monospace">Physics2D.OverlapCircle</tspan> и угловых расчетов</text>
+    <text class="muted" x="548" y="235" font-size="15">Пустой Transform: без Collider2D и trigger-логики</text>
+  </g>
+
+  <g aria-label="Физический collider">
+    <rect class="panel" x="515" y="320" width="505" height="125" rx="14"/>
+    <circle class="collider" cx="552" cy="360"  r="8"/>
+    <text x="575" y="366" font-size="21" font-weight="500">Collider2D — ноги</text>
+    <text x="548" y="401" font-size="16">Столкновения игрока с геометрией мира</text>
+    <text class="muted" x="548" y="426" font-size="15">Не определяет радиус или направление взаимодействия</text>
+  </g>
+</svg>

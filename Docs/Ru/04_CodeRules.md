@@ -35,7 +35,7 @@
 
 Каждый класс должен иметь одну ответственность.
 
-Если класс выполняет две независимые задачи — он должен быть разделён.
+Если класс выполняет две независимые задачи — он должен быть разделен.
 
 ---
 
@@ -105,7 +105,7 @@ SceneManager.LoadScene(...);
 SceneManager.UnloadScene(...);
 ```
 
-Прямой доступ к SceneManager разрешён только реализации SceneLoader в Infrastructure.
+Прямой доступ к SceneManager разрешен только реализации SceneLoader в Infrastructure.
 
 ---
 
@@ -460,11 +460,11 @@ Reflection допускается только внутри Infrastructure.
 
 # Singletons
 
-Статический Singleton pattern с глобальным `Instance` запрещён.
+Статический Singleton pattern с глобальным `Instance` запрещен.
 
 Все глобальные зависимости предоставляются через Dependency Injection.
 
-Регистрация `AsSingle()` задаёт lifetime внутри DI context и разрешена.
+Регистрация `AsSingle()` задает lifetime внутри DI context и разрешена.
 
 ---
 

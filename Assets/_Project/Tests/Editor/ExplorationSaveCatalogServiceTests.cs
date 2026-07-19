@@ -34,7 +34,7 @@ public sealed class ExplorationSaveCatalogServiceTests
         Assert.That(entries.Count, Is.EqualTo(3));
         Assert.That(entries[0].SlotId, Is.EqualTo("checkpoint_0"));
         Assert.That(entries[0].CheckpointId, Is.EqualTo("checkpoint_old"));
-        Assert.That(entries[0].SceneName, Is.EqualTo(SceneNames.World));
+        Assert.That(entries[0].SceneName, Is.EqualTo(SceneNames.WorldOld));
         Assert.That(entries[1].SlotId, Is.EqualTo("checkpoint_1"));
         Assert.That(entries[1].CheckpointId, Is.EqualTo("checkpoint_new"));
         Assert.That(entries[2].SlotId, Is.EqualTo("checkpoint_2"));

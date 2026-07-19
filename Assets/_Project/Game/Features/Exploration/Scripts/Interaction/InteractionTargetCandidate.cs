@@ -1,24 +1,19 @@
-using UnityEngine;
-
 public class InteractionTargetCandidate
 {
     public InteractionTargetCandidate(
-        IInteractable interactable,
-        Collider2D sourceCollider,
+        int sourceIndex,
         float sqrDistance,
         float facingDot,
-        Vector2 worldPoint)
+        int stableId)
     {
-        Interactable = interactable;
-        SourceCollider = sourceCollider;
+        SourceIndex = sourceIndex;
         SqrDistance = sqrDistance;
         FacingDot = facingDot;
-        WorldPoint = worldPoint;
+        StableId = stableId;
     }
 
-    public IInteractable Interactable { get; }
-    public Collider2D SourceCollider { get; }
+    public int SourceIndex { get; }
     public float SqrDistance { get; }
     public float FacingDot { get; }
-    public Vector2 WorldPoint { get; }
+    public int StableId { get; }
 }

@@ -16,6 +16,7 @@ MonoBehaviour:
   scanIntervalSeconds: 0.05
   interactionLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
-  facingDotThreshold: 0.7
+    m_Bits: 64
+  directPriorityHalfAngleDegrees: 22.5
+  interactionHalfAngleDegrees: 45
   defaultPromptText: Press E to interact
