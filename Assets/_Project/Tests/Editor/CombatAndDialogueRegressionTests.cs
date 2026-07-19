@@ -43,7 +43,11 @@ public sealed class CombatAndDialogueRegressionTests
     public void BattleSessionRestoresOriginAndMarksDefeatedEncounterAfterVictory()
     {
         var session = new BattleSessionService();
-        session.BeginEncounter("world_enemy_2", 3.5f, -7.25f);
+        session.BeginEncounter(
+            "world_enemy_2",
+            3.5f,
+            -7.25f,
+            SceneNames.WorldOld);
 
         session.CompleteCurrentEncounter(playerWon: true);
 
@@ -52,6 +56,9 @@ public sealed class CombatAndDialogueRegressionTests
         Assert.That(positionX, Is.EqualTo(3.5f));
         Assert.That(positionY, Is.EqualTo(-7.25f));
         Assert.That(session.TryConsumeReturnPosition(out _, out _), Is.False);
+        Assert.That(session.TryConsumeReturnSceneName(out string sceneName), Is.True);
+        Assert.That(sceneName, Is.EqualTo(SceneNames.WorldOld));
+        Assert.That(session.TryConsumeReturnSceneName(out _), Is.False);
     }
 
     [Test]

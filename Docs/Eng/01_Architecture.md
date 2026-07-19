@@ -1,7 +1,7 @@
 # Architecture
 
-> Version: 1.0
-> Last Updated: 13-07-2026
+> Version: 1.1
+> Last Updated: 16-07-2026
 
 ---
 
@@ -39,15 +39,7 @@ The primary goal of the architecture is to make the project scalable and maintai
 
 The project is divided into four layers with different responsibilities.
 
-```text
-Application
-
-Infrastructure
-
-Game
-
-UI
-```
+![Architectural layers and dependency direction](ArchitectureAtlas/Assets/01_ArchitectureLayers.svg)
 
 Each layer has its own area of responsibility.
 

@@ -88,3 +88,7 @@ InitTestScene*.unity*
 # Keep TextMesh Pro Essential Resources in Git; ignore optional sample content.
 /[Aa]ssets/TextMesh Pro/Examples & Extras/
 /[Aa]ssets/TextMesh Pro/Examples & Extras.meta
+
+# Excel-files
+*.xlsx
+*.Response.TokenResponse-user

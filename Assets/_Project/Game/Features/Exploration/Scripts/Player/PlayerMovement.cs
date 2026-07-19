@@ -5,10 +5,13 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private bool snapTo8Directions = true;
+    [SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private bool flipSprite;
 
     private Rigidbody2D rb;
     private PlayerInputHandler inputHandler;
     private PlayerDash dash;
+    private float currentSpeed;
 
     public Vector2 LastMoveDir { get; private set; } = Vector2.up;
 
@@ -18,11 +21,13 @@ public class PlayerMovement : MonoBehaviour
         rb.interpolation = RigidbodyInterpolation2D.Interpolate;
         inputHandler = GetComponent<PlayerInputHandler>();
         dash = GetComponent<PlayerDash>();
+        currentSpeed = moveSpeed;
     }
 
     private void FixedUpdate()
     {
         Move();
+        FlipSprite();
     }
 
     private void Move()
@@ -42,7 +47,24 @@ public class PlayerMovement : MonoBehaviour
             LastMoveDir = moveDir;
         }
 
-        rb.linearVelocity = moveDir * moveSpeed;
+        rb.linearVelocity = moveDir * currentSpeed;
+    }
+
+    private void FlipSprite()
+    {
+        if (!flipSprite) return;
+        if (LastMoveDir.x > 0f && sprite.flipX) sprite.flipX = false;
+        else if (LastMoveDir.x < 0f && !sprite.flipX) sprite.flipX = true;
+    }
+
+    public void SetSpeed(float value)
+    {
+        currentSpeed = value;
+    }
+
+    public void SetDefaultSpeed()
+    {
+        currentSpeed = moveSpeed;
     }
 
     private Vector2 SnapTo8(Vector2 dir)

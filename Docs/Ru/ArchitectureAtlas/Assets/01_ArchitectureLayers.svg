@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 700" role="img" aria-labelledby="title description">
+  <title id="title">Архитектурные слои и направления compile-time зависимостей</title>
+  <desc id="description">Application и Composition связывают Game, Infrastructure и UI. Infrastructure может зависеть от стабильных контрактов Game Shared. Game и UI не зависят от Application.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#667085"/>
+    </marker>
+    <style>
+      text { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #182230; }
+      .muted { fill: #667085; }
+      .panel { fill: #f8fafc; stroke: #d0d5dd; }
+      .application { fill: #e9efff; stroke: #3159a7; }
+      .game { fill: #ecfdf3; stroke: #079455; }
+      .infrastructure { fill: #fff7e8; stroke: #dc6803; }
+      .ui { fill: #f4f3ff; stroke: #6938ef; }
+      .contract { fill: #ffffff; stroke: #079455; }
+      .line { fill: none; stroke: #667085; }
+      @media (prefers-color-scheme: dark) {
+        text { fill: #f2f4f7; }
+        .muted { fill: #98a2b3; }
+        .panel { fill: #182230; stroke: #475467; }
+        .application { fill: #21386f; stroke: #84adff; }
+        .game { fill: #073d2a; stroke: #6ce9a6; }
+        .infrastructure { fill: #4e2d0a; stroke: #fec84b; }
+        .ui { fill: #2f246b; stroke: #bdb4fe; }
+        .contract { fill: #182230; stroke: #6ce9a6; }
+        .line { stroke: #98a2b3; }
+      }
+    </style>
+  </defs>
+
+  <rect class="panel" x="20" y="20" width="1060" height="660" rx="18"/>
+  <text x="60" y="68" font-size="24" font-weight="500">Архитектурные слои</text>
+  <text class="muted" x="60" y="98" font-size="16">Compile-time зависимости направлены к стабильным контрактам и не образуют циклов</text>
+
+  <g aria-label="Application и Composition">
+    <rect class="application" x="240" y="135" width="620" height="120" rx="16" stroke-width="2"/>
+    <text x="550" y="178" text-anchor="middle" font-size="22" font-weight="600">Application / Composition</text>
+    <text x="550" y="210" text-anchor="middle" font-size="16">Жизненный цикл · сценарии · связывание зависимостей</text>
+    <text class="muted" x="550" y="235" text-anchor="middle" font-size="14">Связывает слои, не владея игровыми правилами</text>
+  </g>
+
+  <path class="line" d="M390 255 L240 342" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <path class="line" d="M550 255 L550 342" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <path class="line" d="M710 255 L860 342" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <g aria-label="Слой Game">
+    <rect class="game" x="60" y="355" width="300" height="245" rx="16" stroke-width="2"/>
+    <text x="90" y="397" font-size="22" font-weight="600">Game</text>
+    <text x="90" y="428" font-size="16">Игровые правила и Feature</text>
+    <text class="muted" x="90" y="456" font-size="14">Нет зависимостей от Application,</text>
+    <text class="muted" x="90" y="477" font-size="14">Infrastructure, UI, Unity API и Zenject</text>
+    <rect class="contract" x="88" y="510" width="244" height="64" rx="12" stroke-width="2" stroke-dasharray="7 5"/>
+    <text x="210" y="537" text-anchor="middle" font-size="16" font-weight="600">Game Shared contracts</text>
+    <text class="muted" x="210" y="559" text-anchor="middle" font-size="13">Стабильные интерфейсы и DTO</text>
+  </g>
+
+  <g aria-label="Слой Infrastructure">
+    <rect class="infrastructure" x="400" y="355" width="300" height="245" rx="16" stroke-width="2"/>
+    <text x="430" y="397" font-size="22" font-weight="600">Infrastructure</text>
+    <text x="430" y="428" font-size="16">Технические адаптеры</text>
+    <text class="muted" x="430" y="456" font-size="14">Сцены · файлы · сериализация</text>
+    <text class="muted" x="430" y="477" font-size="14">аудио · ввод · внешние библиотеки</text>
+    <text class="muted" x="550" y="560" text-anchor="middle" font-size="13">Зависит только от стабильных контрактов</text>
+  </g>
+
+  <g aria-label="Слой UI">
+    <rect class="ui" x="740" y="355" width="300" height="245" rx="16" stroke-width="2"/>
+    <text x="770" y="397" font-size="22" font-weight="600">UI</text>
+    <text x="770" y="428" font-size="16">Пассивное представление</text>
+    <text class="muted" x="770" y="456" font-size="14">Показывает готовое состояние</text>
+    <text class="muted" x="770" y="477" font-size="14">и создает View events</text>
+    <text class="muted" x="770" y="498" font-size="14">Игровых правил не содержит</text>
+  </g>
+
+  <path class="line" d="M400 528 C370 528, 365 542, 334 542" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <g aria-label="Правило зависимостей">
+    <circle cx="82" cy="641" r="7" fill="#079455"/>
+    <text x="99" y="647" font-size="14">Стрелки показывают разрешенные compile-time зависимости</text>
+  </g>
+</svg>

@@ -5,7 +5,8 @@
         "ChainSawLeg.Game.Shared.Runtime",
         "UniTask",
         "UnityEngine.UI",
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "ChainSawLeg.Infrastructure.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

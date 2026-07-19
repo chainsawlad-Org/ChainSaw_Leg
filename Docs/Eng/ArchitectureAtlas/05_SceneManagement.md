@@ -1,7 +1,7 @@
 # Scene Management
 
-> Version: 1.0
-> Last Updated: 13-07-2026
+> Version: 1.1
+> Last Updated: 16-07-2026
 
 ---
 
@@ -158,6 +158,8 @@ SC_Persistent
 # Scene Types
 
 The project uses two types of scenes.
+
+![Persistent and gameplay scene lifetimes](Assets/05_SceneLifetime.svg)
 
 ## Persistent Scene
 

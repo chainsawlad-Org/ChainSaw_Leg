@@ -67,11 +67,33 @@ public sealed class ExplorationSaveTests
     }
 
     [Test]
-    public void WorldSceneIdResolvesToWorldSceneName()
+    public void LegacyWorldSceneIdResolvesToOldWorldSceneName()
     {
         Assert.That(
             ExplorationSceneResolver.ResolveSceneName(ExplorationSceneIds.World),
+            Is.EqualTo(SceneNames.WorldOld));
+    }
+
+    [Test]
+    public void ExplicitNewWorldSceneIdResolvesToNewWorldSceneName()
+    {
+        Assert.That(
+            ExplorationSceneResolver.ResolveSceneName(SceneNames.World),
             Is.EqualTo(SceneNames.World));
+    }
+
+    [Test]
+    public void SaveContextUsesActuallyLoadedExplorationScene()
+    {
+        var sceneLoader = new SceneLoader();
+        sceneLoader.SetCurrentScene(SceneNames.WorldOld);
+        var context = new ExplorationSaveContextService(sceneLoader);
+
+        Assert.That(context.SceneId, Is.EqualTo(SceneNames.WorldOld));
+
+        sceneLoader.SetCurrentScene(SceneNames.World);
+
+        Assert.That(context.SceneId, Is.EqualTo(SceneNames.World));
     }
 
     [Test]

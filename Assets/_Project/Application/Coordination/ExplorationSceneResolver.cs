@@ -9,7 +9,7 @@ public static class ExplorationSceneResolver
         ExplorationSceneIds.Validate(sceneId);
 
         if (sceneId == ExplorationSceneIds.World)
-            return SceneNames.World;
+            return SceneNames.WorldOld;
 
         if (!sceneId.StartsWith("SC_", StringComparison.Ordinal) ||
             sceneId == SceneNames.Persistent ||

@@ -5,13 +5,13 @@ using UnityEngine;
 public class PlayerInteractionDetector : MonoBehaviour
 {
     [SerializeField] private Transform interactionOrigin;
+    [SerializeField] private Rigidbody2D playerRigidbody;
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private ExplorationInteractionConfig interactionConfig;
 
-    private readonly Collider2D[] overlapResults = new Collider2D[32];
+    private readonly Collider2D[] overlapResults = new Collider2D[64];
     private readonly List<InteractionTargetCandidate> candidates = new List<InteractionTargetCandidate>(16);
-    private readonly HashSet<IInteractable> uniqueInteractables = new HashSet<IInteractable>();
-    private readonly InteractionTargetSelectionPolicy targetSelectionPolicy = new InteractionTargetSelectionPolicy();
+    private readonly List<DetectedInteractionTarget> detectedTargets = new List<DetectedInteractionTarget>(16);
 
     private ContactFilter2D contactFilter;
     private float scanTimer;
@@ -24,6 +24,7 @@ public class PlayerInteractionDetector : MonoBehaviour
     public Collider2D CurrentTargetCollider => currentTargetCollider;
     public bool HasTarget => currentTarget != null;
     public Transform InteractionOrigin => interactionOrigin;
+    public Vector2 InteractionOriginPosition => GetInteractionOriginPosition();
     public ExplorationInteractionConfig InteractionConfig => interactionConfig;
 
     private void Awake()
@@ -36,6 +37,11 @@ public class PlayerInteractionDetector : MonoBehaviour
         if (playerMovement == null)
         {
             playerMovement = GetComponent<PlayerMovement>();
+        }
+
+        if (playerRigidbody == null)
+        {
+            playerRigidbody = GetComponent<Rigidbody2D>();
         }
 
         contactFilter = new ContactFilter2D();
@@ -53,7 +59,7 @@ public class PlayerInteractionDetector : MonoBehaviour
 
     public void Tick(float deltaTime)
     {
-        if (interactionConfig == null || interactionOrigin == null || playerMovement == null)
+        if (interactionConfig == null || playerMovement == null)
         {
             return;
         }
@@ -77,28 +83,39 @@ public class PlayerInteractionDetector : MonoBehaviour
     private void ScanForTargets()
     {
         candidates.Clear();
-        uniqueInteractables.Clear();
+        detectedTargets.Clear();
 
         contactFilter.layerMask = interactionConfig.InteractionLayerMask;
+        Vector2 origin = GetInteractionOriginPosition();
 
         int overlapCount = Physics2D.OverlapCircle(
-            interactionOrigin.position,
+            origin,
             interactionConfig.InteractionRadius,
             contactFilter,
             overlapResults);
 
-        BuildCandidates(overlapCount);
+        Direction8 facingDirection = Direction8Utility.FromVector(playerMovement.LastMoveDir);
+        Vector2 facingVector = Direction8Utility.ToVector(facingDirection);
+        BuildCandidates(overlapCount, origin, facingVector);
 
-        if (targetSelectionPolicy.TrySelectBestCandidate(candidates, currentTarget, out InteractionTargetCandidate bestCandidate))
+        var selectionRules = new InteractionTargetSelectionRules(
+            interactionConfig.DirectPriorityHalfAngleDegrees,
+            interactionConfig.InteractionHalfAngleDegrees);
+
+        if (InteractionTargetSelectionPolicy.TrySelectBestCandidate(
+                candidates,
+                selectionRules,
+                out InteractionTargetCandidate bestCandidate))
         {
-            ApplyBestTarget(bestCandidate.Interactable, bestCandidate.SourceCollider);
+            DetectedInteractionTarget bestTarget = detectedTargets[bestCandidate.SourceIndex];
+            ApplyBestTarget(bestTarget.Interactable, bestTarget.SourceCollider);
             return;
         }
 
         ClearTarget();
     }
 
-    private void BuildCandidates(int overlapCount)
+    private void BuildCandidates(int overlapCount, Vector2 origin, Vector2 facingVector)
     {
         for (int index = 0; index < overlapCount; index++)
         {
@@ -109,23 +126,32 @@ public class PlayerInteractionDetector : MonoBehaviour
                 continue;
             }
 
-            if (!TryBuildCandidate(sourceCollider, out InteractionTargetCandidate candidate))
-            {
-                continue;
-            }
-
-            if (!uniqueInteractables.Add(candidate.Interactable))
+            if (!TryBuildCandidate(
+                    sourceCollider,
+                    origin,
+                    facingVector,
+                    detectedTargets.Count,
+                    out InteractionTargetCandidate candidate,
+                    out DetectedInteractionTarget detectedTarget))
             {
                 continue;
             }
 
             candidates.Add(candidate);
+            detectedTargets.Add(detectedTarget);
         }
     }
 
-    private bool TryBuildCandidate(Collider2D sourceCollider, out InteractionTargetCandidate candidate)
+    private bool TryBuildCandidate(
+        Collider2D sourceCollider,
+        Vector2 origin,
+        Vector2 facingVector,
+        int sourceIndex,
+        out InteractionTargetCandidate candidate,
+        out DetectedInteractionTarget detectedTarget)
     {
         candidate = null;
+        detectedTarget = default;
 
         IInteractable interactable = ResolveInteractable(sourceCollider);
 
@@ -134,40 +160,38 @@ public class PlayerInteractionDetector : MonoBehaviour
             return false;
         }
 
-        Vector2 origin = interactionOrigin.position;
-        Vector2 targetPoint = sourceCollider.bounds.center;
+        Vector2 targetPoint = sourceCollider.ClosestPoint(origin);
         Vector2 toTarget = targetPoint - origin;
 
         float sqrDistance = toTarget.sqrMagnitude;
 
-        if (sqrDistance <= 0.0001f)
+        float interactionRadius = interactionConfig.InteractionRadius;
+
+        if (sqrDistance > interactionRadius * interactionRadius)
         {
             return false;
         }
 
-        Vector2 facingDirection = playerMovement.LastMoveDir;
+        Vector2 directionToTarget = toTarget;
 
-        if (facingDirection.sqrMagnitude <= 0.0001f)
+        if (directionToTarget.sqrMagnitude <= 0.0001f)
         {
-            facingDirection = Vector2.up;
+            directionToTarget = (Vector2)sourceCollider.bounds.center - origin;
         }
 
-        facingDirection.Normalize();
-
-        Vector2 directionToTarget = toTarget.normalized;
-        float facingDot = Vector2.Dot(facingDirection, directionToTarget);
-
-        if (facingDot < interactionConfig.FacingDotThreshold)
+        if (directionToTarget.sqrMagnitude <= 0.0001f)
         {
-            return false;
+            directionToTarget = playerMovement.LastMoveDir;
         }
+
+        float facingDot = Vector2.Dot(facingVector, directionToTarget.normalized);
 
         candidate = new InteractionTargetCandidate(
-            interactable,
-            sourceCollider,
+            sourceIndex,
             sqrDistance,
             facingDot,
-            targetPoint);
+            sourceCollider.GetInstanceID());
+        detectedTarget = new DetectedInteractionTarget(interactable, sourceCollider);
 
         return true;
     }
@@ -198,5 +222,90 @@ public class PlayerInteractionDetector : MonoBehaviour
         }
 
         return null;
+    }
+
+    private Vector2 GetInteractionOriginPosition()
+    {
+        if (interactionOrigin != null && playerRigidbody != null)
+        {
+            if (interactionOrigin.parent == playerRigidbody.transform)
+            {
+                return playerRigidbody.GetRelativePoint(interactionOrigin.localPosition);
+            }
+
+            Vector2 localOrigin = playerRigidbody.transform.InverseTransformPoint(
+                interactionOrigin.position);
+
+            return playerRigidbody.GetRelativePoint(localOrigin);
+        }
+
+        if (interactionOrigin != null)
+        {
+            return interactionOrigin.position;
+        }
+
+        return playerRigidbody != null ? playerRigidbody.position : (Vector2)transform.position;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (interactionConfig == null)
+        {
+            return;
+        }
+
+        Vector3 origin = GetInteractionOriginPosition();
+        Direction8 facingDirection = playerMovement != null
+            ? Direction8Utility.FromVector(playerMovement.LastMoveDir)
+            : Direction8.Up;
+        Vector2 facingVector = Direction8Utility.ToVector(facingDirection);
+
+        Gizmos.color = new Color(1f, 0.85f, 0.1f, 0.95f);
+        Gizmos.DrawWireSphere(origin, interactionConfig.InteractionRadius);
+        Gizmos.DrawSphere(origin, 0.06f);
+
+        float radius = interactionConfig.InteractionRadius;
+        float interactionHalfAngle = interactionConfig.InteractionHalfAngleDegrees;
+        float directPriorityHalfAngle = interactionConfig.DirectPriorityHalfAngleDegrees;
+
+        Gizmos.color = new Color(1f, 0.5f, 0.05f, 1f);
+        Gizmos.DrawRay(origin, Rotate(facingVector, -interactionHalfAngle) * radius);
+        Gizmos.DrawRay(origin, Rotate(facingVector, interactionHalfAngle) * radius);
+
+        Gizmos.color = new Color(0.2f, 1f, 0.45f, 1f);
+        Gizmos.DrawRay(origin, Rotate(facingVector, -directPriorityHalfAngle) * radius);
+        Gizmos.DrawRay(origin, Rotate(facingVector, directPriorityHalfAngle) * radius);
+
+        Gizmos.color = new Color(0.1f, 0.85f, 1f, 1f);
+        Gizmos.DrawRay(origin, facingVector * radius);
+
+        if (currentTargetCollider != null)
+        {
+            Gizmos.color = new Color(1f, 0.2f, 0.8f, 1f);
+            Gizmos.DrawLine(origin, currentTargetCollider.ClosestPoint(origin));
+        }
+    }
+
+    private static Vector2 Rotate(Vector2 direction, float angleDegrees)
+    {
+        float angleRadians = angleDegrees * Mathf.Deg2Rad;
+        float cosine = Mathf.Cos(angleRadians);
+        float sine = Mathf.Sin(angleRadians);
+
+        return new Vector2(
+            direction.x * cosine - direction.y * sine,
+            direction.x * sine + direction.y * cosine);
+    }
+
+    private readonly struct DetectedInteractionTarget
+    {
+        public DetectedInteractionTarget(IInteractable interactable, Collider2D sourceCollider)
+        {
+            Interactable = interactable;
+            SourceCollider = sourceCollider;
+        }
+
+        public IInteractable Interactable { get; }
+        public Collider2D SourceCollider { get; }
     }
 }
