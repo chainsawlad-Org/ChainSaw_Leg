@@ -27,5 +27,6 @@ EditorBuildSettings:
     path: Assets/_Project/Scenes/SC_World.unity
     guid: 805a27dfb28981d49aac48d63582a23a
   m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 4c4ee10778b72d6498562761b6de7bc8, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
