@@ -9,14 +9,14 @@ using UnityEditor;
 public class InputService : IGameInputService, IInitializable, IDisposable
 {
     private readonly IPauseRequestHandler pauseRequestHandler;
-    private readonly GameplayInputBlockService gameplayInputBlockService;
+    private readonly IGameplayInputBlockService gameplayInputBlockService;
     private readonly PlayerInputActions input;
     private readonly InputActionMap systemInputMap;
     private readonly InputAction pauseAction;
 
     public InputService(
         IPauseRequestHandler pauseRequestHandler,
-        GameplayInputBlockService gameplayInputBlockService)
+        IGameplayInputBlockService gameplayInputBlockService)
     {
         this.pauseRequestHandler = pauseRequestHandler;
         this.gameplayInputBlockService = gameplayInputBlockService;

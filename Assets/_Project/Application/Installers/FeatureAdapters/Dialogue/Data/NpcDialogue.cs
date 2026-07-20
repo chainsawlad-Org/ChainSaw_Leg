@@ -69,8 +69,9 @@ public class NpcDialogue : MonoBehaviour, IInteractable
             if (gameStateMachine.IsTopOverlay<DialoguePhase>())
                 await gameStateMachine.PopOverlay();
         }
-        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        catch (OperationCanceledException)
         {
+            // A main phase transition closes DialoguePhase before Unity destroys this scene object.
         }
         catch (Exception exception)
         {

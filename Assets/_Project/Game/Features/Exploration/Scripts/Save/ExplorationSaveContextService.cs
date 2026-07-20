@@ -1,5 +1,4 @@
 using ChainSawLeg.Core.SaveSystem;
-using Zenject;
 
 namespace ChainSawLeg.Features.Exploration.Save
 {
@@ -8,12 +7,7 @@ namespace ChainSawLeg.Features.Exploration.Save
         private readonly ISceneLoader sceneLoader;
         private string sceneId = ExplorationSceneIds.World;
 
-        public ExplorationSaveContextService()
-        {
-        }
-
-        [Inject]
-        public ExplorationSaveContextService(ISceneLoader sceneLoader)
+        public ExplorationSaveContextService(ISceneLoader sceneLoader = null)
         {
             this.sceneLoader = sceneLoader;
         }

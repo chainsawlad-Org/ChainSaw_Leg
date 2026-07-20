@@ -66,11 +66,6 @@ public class GSpreadSheetsToJson : EditorWindow {
 	private string appName = "Unity";
 
 	/// <summary>
-	/// The root of spreadsheet's url.
-	/// </summary>
-	private string urlRoot = "https://spreadsheets.google.com/feeds/spreadsheets/";
-
-	/// <summary>
 	/// The directory which contain json files.
 	/// </summary>
 	[SerializeField]
@@ -170,7 +165,7 @@ public class GSpreadSheetsToJson : EditorWindow {
 			GUILayout.EndVertical();
 			EditorGUILayout.EndScrollView();
 		}
-		catch (Exception ex) {
+		catch (Exception) {
 			//Sometimes, Unity fire a "InvalidOperationException: Stack empty." bug when Editor want to end a group layout
 		}
 	}

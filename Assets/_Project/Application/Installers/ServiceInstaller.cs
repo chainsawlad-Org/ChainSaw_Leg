@@ -11,7 +11,8 @@ public class ServiceInstaller : Installer<ServiceInstaller>
             .AsSingle();
         Container.Bind<GamePauseService>()
             .AsSingle();
-        Container.Bind<GameplayInputBlockService>()
+        Container.Bind<IGameplayInputBlockService>()
+            .To<GameplayInputBlockService>()
             .AsSingle();
         Container.Bind<IRuntimeErrorLogger>()
             .To<UnityRuntimeErrorLogger>()

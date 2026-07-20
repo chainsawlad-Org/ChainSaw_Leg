@@ -1,6 +1,6 @@
 using System;
 
-public class GameplayInputBlockService
+public class GameplayInputBlockService : IGameplayInputBlockService
 {
     private int moveBlockCount;
     private int dashBlockCount;
