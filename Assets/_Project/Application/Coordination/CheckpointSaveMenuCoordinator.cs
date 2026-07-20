@@ -175,13 +175,15 @@ public sealed class CheckpointSaveMenuCoordinator : IInitializable, IDisposable
 
     private void OnStateChanged()
     {
-        if (pendingResult == null)
+        UniTaskCompletionSource<bool> resultSource = pendingResult;
+
+        if (resultSource == null)
             return;
 
         if (!gameStateMachine.IsTopOverlay<CheckpointSavePhase>())
         {
             activeRequestCancellation?.Cancel();
-            pendingResult.TrySetResult(false);
+            resultSource.TrySetResult(false);
         }
     }
 }

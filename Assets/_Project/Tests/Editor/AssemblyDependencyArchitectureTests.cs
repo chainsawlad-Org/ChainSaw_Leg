@@ -8,16 +8,6 @@ using UnityEngine;
 
 public sealed class AssemblyDependencyArchitectureTests
 {
-    [Test]
-    public void PlaceholderAlwaysPasses()
-    {
-        Assert.Pass("Assembly dependency architecture tests are temporarily disabled.");
-    }
-}
-
-#if false
-public sealed class DisabledAssemblyDependencyArchitectureTests
-{
     private const string ProjectAssemblyPrefix = "ChainSawLeg.";
     private const string ProjectAssetsRoot = "Assets/_Project";
 
@@ -355,4 +345,3 @@ public sealed class DisabledAssemblyDependencyArchitectureTests
         Visited
     }
 }
-#endif

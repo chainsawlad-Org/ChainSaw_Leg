@@ -7,7 +7,7 @@ public class GameStateMachine
 {
     private readonly IPhaseFactory phaseFactory;
     private readonly GamePauseService gamePauseService;
-    private readonly GameplayInputBlockService gameplayInputBlockService;
+    private readonly IGameplayInputBlockService gameplayInputBlockService;
     private readonly Stack<OverlayPhase> overlayStack = new();
 
     private SceneGamePhase currentPhase;
@@ -19,7 +19,7 @@ public class GameStateMachine
     public GameStateMachine(
         IPhaseFactory phaseFactory,
         GamePauseService gamePauseService,
-        GameplayInputBlockService gameplayInputBlockService)
+        IGameplayInputBlockService gameplayInputBlockService)
     {
         this.phaseFactory = phaseFactory;
         this.gamePauseService = gamePauseService;

@@ -97,8 +97,9 @@ public class CutsceneTrigger : MonoBehaviour
 
             battleSceneTransitionService.RequestEnterBattle();
         }
-        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        catch (OperationCanceledException)
         {
+            // A main phase transition closes DialoguePhase before Unity destroys this scene object.
         }
         catch (Exception exception)
         {
