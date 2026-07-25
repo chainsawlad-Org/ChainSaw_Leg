@@ -1,13 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using Newtonsoft.Json;
 using System.IO;
+using Newtonsoft.Json.Linq;
 
-public class DialogueImporter
+public static class DialogueImporter
 {
-    public string nameJson = "replicas.JSON";
-    public string pathToJson = "_Project/Game/Features/Dialogue/Scripts/Data/";
-    public string Load()
+    public static string Load(string nameJson, string pathToJson)
     {
         string pathToFile = Path.Combine(Application.dataPath, pathToJson, nameJson);
         string jsonData = null;
@@ -18,18 +18,19 @@ public class DialogueImporter
         }
         else
         {
-            Debug.LogError(nameJson + "does not exist");
+            Debug.LogError(nameJson + " does not exist");
         }
 
         return jsonData;
     }
 
-    public void Parse()
+    public static JArray Parse(string JsonData)
     {
-
+        JArray array = JArray.Parse(JsonData);
+        return array;
     }
 
-    public void Validate()
+    public static void Validate()
     {
 
     }
