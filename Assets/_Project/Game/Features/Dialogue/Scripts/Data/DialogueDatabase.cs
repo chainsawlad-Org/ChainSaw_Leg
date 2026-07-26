@@ -11,6 +11,8 @@ public class DialogueDatabase
     public List<DialogueNode> nodes = new List<DialogueNode>();
     public Dictionary<string, DialogueNode> nodesDatabase = new Dictionary<string, DialogueNode>();
 
+    public bool isBuilt = false;
+
     public void Build()
     {
         string jsonData = DialogueImporter.Load(nameJson, pathToJson);
@@ -25,6 +27,12 @@ public class DialogueDatabase
 
                 string id = obj["id"].Value<string>();
 
+                if (Contains(id))
+                {
+                    Debug.LogError("id " + id + " already exists");
+                    break;
+                }
+
                 DialogueNode node = new DialogueNode
                 {
                     speaker = obj["speaker"].Value<string>(),
@@ -35,27 +43,44 @@ public class DialogueDatabase
                 nodesDatabase.Add(id, node);
                 nodes.Add(node);
             }
+            isBuilt = true;
         }
     }
 
-    public void GetNode(int id)
+    public DialogueNode GetNode(string id)
     {
+        DialogueNode node = nodesDatabase[id];
 
+        if (node == null)
+        {
+            Debug.LogError("id " + id + " not found");
+        }
+
+        return node;
     }
 
-    public void TryGetNode(int id)
+    public DialogueNode TryGetNode(string id)
     {
-
+        DialogueNode node = null;
+        try
+        {
+            node = nodesDatabase[id];
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
+        return node;
     }
 
-    public void Contains(int id)
+    public bool Contains(string id)
     {
-
+        return nodesDatabase.ContainsKey(id);
     }
 
-    public void GetAll()
+    public List<DialogueNode> GetAll()
     {
-
+        return nodes;
     }
 }
 
