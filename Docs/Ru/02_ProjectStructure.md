@@ -1,64 +1,103 @@
-# Project Structure
+# Структура проекта
 
-> Version: 1.0  
-> Last Updated: 13-07-2026
+> Версия: **2.0**  
+> Последнее обновление: **27-07-2026**
 
 ---
 
-# Purpose
+# Назначение
 
-Данный документ описывает структуру проекта и назначение каждой директории.
+Данный документ определяет физическую структуру проекта и ответственность каждой крупной директории.
 
-Его цель — помочь разработчикам быстро понять, **где должен находиться новый код**, а также избежать хаотичного роста проекта.
+Его цель — помочь каждому разработчику сразу понять, где должен располагаться новый код, и сохранить проект поддерживаемым по мере его роста.
 
 Главное правило:
 
-> **Каждый класс должен лежать там, где находится его ответственность, а не там, где его удобно положить.**
+> **Код организуется по ответственности, а не по удобству размещения.**
 
 ---
 
-# Root Structure
+# Корневая структура
 
-Проект разделен на несколько крупных модулей.
-
-```
+```text
 Assets
 │
-├── Application
-├── Infrastructure
-├── Game
-├── UI
-├── Configs
-├── Content
-├── Scenes
-├── Plugins
+└── _Project
+    │
+    ├── Application
+    ├── Infrastructure
+    ├── Game
+    ├── UI
+    ├── Configs
+    ├── Content
+    ├── Scenes
+    └── Tests
 ```
 
-Каждая директория имеет собственную область ответственности.
+Каждый модуль верхнего уровня имеет единственную область ответственности.
+
+---
+
+# Структура Assembly
+
+Каждый крупный модуль содержит собственную Assembly Definition.
+
+Например:
+
+```text
+ChainSawLeg.Application.Runtime
+
+ChainSawLeg.Infrastructure.Runtime
+
+ChainSawLeg.Game.Shared.Runtime
+
+ChainSawLeg.UI.Runtime
+```
+
+Код редактора всегда должен находиться в отдельной Editor Assembly.
+
+Runtime Assembly никогда не должны зависеть от Editor Assembly.
+
+---
+
+# Соглашение Runtime
+
+Каждая Assembly придерживается одинаковой физической структуры.
+
+```text
+Runtime
+│
+├── Bootstrap
+├── Coordination
+├── Factories
+├── Installers
+├── Services
+├── Signals
+├── Startup
+└── StateMachine
+```
+
+Создаются только те директории, которые действительно необходимы.
 
 ---
 
 # Application
 
-Application содержит код, управляющий жизненным циклом приложения.
+Application содержит жизненный цикл приложения.
 
-Он не содержит игровой логики.
+Он координирует различные системы.
 
-Типичная структура:
+Он никогда не содержит игровых правил.
 
-```
-Application
-│
-├── Bootstrap
-├── Startup
-├── StateMachine
-├── Coordination
-├── Services
-├── Installers
-├── Factories
-├── Signals
-└── Editor
-```
+Типичные области ответственности:
+
+- Bootstrap
+- Startup
+- State Machine
+- Coordinators
+- Application Services
+- Installers
+- Factories
 
 ---
 
@@ -68,43 +107,41 @@ Application
 
 Содержит:
 
-```
-BootstrapStartup
-
+```text
 BootstrapRunner
+
+BootstrapStartup
 ```
 
-Bootstrap ничего не знает об игровых механиках.
+Bootstrap ничего не знает об игровой логике.
 
-Его задача — подготовить приложение к работе.
+Его единственная задача — подготовить приложение к работе.
 
 ---
 
 ## Startup
 
-Определяет стартовое состояние игры.
+Определяет начальную фазу игры.
 
-Например:
+Содержит:
 
-```
+```text
 StartupResolver
 
 StartupPhaseRegistry
 ```
 
-Добавление новой стартовой сцены производится здесь.
-
-Bootstrap при этом изменять не требуется.
+Добавление нового сценария запуска не должно требовать изменения BootstrapRunner.
 
 ---
 
 ## StateMachine
 
-Содержит систему управления игровыми режимами.
+Содержит жизненный цикл игровых фаз.
 
 Например:
 
-```
+```text
 GameStateMachine
 
 GamePhase
@@ -114,164 +151,202 @@ SceneGamePhase
 OverlayPhase
 ```
 
-Никакой игровой логики здесь быть не должно.
-
-StateMachine знает только о жизненном цикле фаз.
-
----
-
-## Installers
-
-Содержит все Installer'ы Zenject.
-
-Например:
-
-```
-ProjectInstaller
-
-PhaseInstaller
-
-ServiceInstaller
-```
-
-Installer отвечает только за регистрацию зависимостей.
-
-Любая бизнес-логика внутри Installer запрещена.
-
----
-
-## Factories
-
-Factory отвечает за создание объектов через Dependency Injection.
-
-Например:
-
-```
-PhaseFactory
-```
-
-Factory не содержит логики игры.
+StateMachine не содержит игровых правил.
 
 ---
 
 ## Coordination
 
-Содержит application use cases, связывающие несколько подсистем.
+Содержит application use cases, объединяющие несколько систем.
 
 Например:
 
 ```text
+MainMenuCoordinator
+
 PauseMenuCoordinator
 
-ExplorationGameSaveLoadService
+CheckpointSaveMenuCoordinator
 
-MainMenuCoordinator
+ExplorationGameSaveLoadService
 ```
 
-Coordinator не содержит игровых правил и не реализует Unity View.
+Coordinator занимается оркестрацией систем.
+
+Он не реализует игровую логику.
 
 ---
 
 ## Services
 
-Содержит application commands, registries и brokers, необходимые нескольким сценариям Application.
+Application Services — это переиспользуемые сервисы, используемые в нескольких сценариях приложения.
+
+Текущая организация:
+
+```text
+Services
+│
+├── Commands
+├── Brokers
+├── Registries
+└── Runtime Services
+```
+
+Примеры:
+
+```text
+MainMenuStartCommandService
+
+DialogueService
+
+DialogueRuntimeRegistry
+
+MainMenuSaveBrowserRequestBroker
+```
 
 ---
 
-## Signals *(будущее)*
+## Installers
 
-Содержит события приложения.
+Содержит регистрацию зависимостей Zenject.
+
+Структура:
+
+```text
+Installers
+│
+├── Core
+└── Features
+```
+
+Core Installers регистрируют глобальные системы.
+
+Feature Installers регистрируют игровые механики.
+
+Installer никогда не должен содержать бизнес-логику.
+
+---
+
+## FeatureAdapters
+
+Содержит Unity-адаптеры, связывающие объекты сцены с системами Application.
 
 Например:
 
+```text
+FeatureAdapters
+│
+├── Combat
+├── Dialogue
+└── Exploration
 ```
-PlayerDiedSignal
+
+FeatureAdapters могут использовать Unity API.
+
+Они не должны содержать игровые правила.
+
+---
+
+## Factories
+
+Отвечают за создание runtime-объектов через Dependency Injection.
+
+Например:
+
+```text
+PhaseFactory
+```
+
+Factory никогда не содержит бизнес-логику.
+
+---
+
+## Signals *(Будущее)*
+
+Содержит события уровня приложения.
+
+Например:
+
+```text
+DialogueStartedSignal
 
 SceneLoadedSignal
 
-DialogueStartedSignal
+PlayerDiedSignal
 ```
 
-Signals используются для связи между независимыми системами.
+Signals обеспечивают слабую связанность между независимыми системами.
 
 ---
 
 ## Editor
 
-Содержит editor-only инструменты Application. Runtime-код не должен зависеть от этой директории.
+Содержит инструменты, работающие только в редакторе.
+
+Runtime-код никогда не должен зависеть от этой директории.
 
 ---
 
 # Infrastructure
 
-Infrastructure содержит глобальные технические адаптеры к Unity API, файловой системе и внешним библиотекам.
+Infrastructure содержит технические интеграции.
 
-Feature-local MonoBehaviour, UI View и scene adapter могут использовать Unity API вне Infrastructure, но не содержат игровой бизнес-логики.
+Он отвечает за взаимодействие с Unity API, операционной системой и сторонними библиотеками.
 
 Типичная структура:
 
-```
+```text
 Infrastructure
 │
-├── SceneManagement
 ├── Audio
 ├── Input
-├── SaveSystem
 ├── Reflection
 ├── Rendering
+├── SaveSystem
+└── SceneManagement
 ```
+
+Infrastructure не содержит игровых правил.
 
 ---
 
 ## SceneManagement
 
-Содержит управление сценами.
+Отвечает за управление сценами.
 
 Например:
 
-```
+```text
 SceneLoader
+
+SceneNames
+
+UnityActiveSceneProvider
 ```
 
-Никакой другой код проекта не должен использовать Unity SceneManager напрямую.
-
----
-
-## Audio
-
-Будущая аудиосистема проекта.
-
-Например:
-
-```
-AudioService
-
-MusicPlayer
-
-SoundPlayer
-```
+Только SceneLoader имеет право напрямую взаимодействовать с Unity SceneManager.
 
 ---
 
 ## Input
 
-Система пользовательского ввода.
+Содержит глобальную систему ввода.
 
 Например:
 
-```
+```text
 InputService
 
-InputActions
+PlayerInputActions
 
-InputMapper
+GameplayInputBlockService
 ```
 
 ---
 
 ## SaveSystem
 
-Содержит техническую часть pipeline сохранений.
+Содержит техническую часть системы сохранений.
 
 Например:
 
@@ -287,52 +362,90 @@ OdinGameSaveSerializer
 FileGameSaveStorageProvider
 ```
 
-Feature DTO, contributors и restorers не переносятся в Infrastructure. Их размещение описано в `ArchitectureAtlas/09_SaveSystem.md`.
+Игровые участники системы сохранений относятся к Feature, а не к Infrastructure.
 
 ---
 
+## Reflection
 
+Содержит утилиты, использующие Reflection.
+
+Например:
+
+```text
+AutoBinder
+```
+
+---
+
+## Rendering
+
+Содержит инфраструктуру, связанную с рендерингом.
+
+Например:
+
+```text
+Renderer2D
+
+URP Settings
+```
+
+---
+
+## Audio *(Будущее)*
+
+Содержит глобальную аудиосистему.
+
+Например:
+
+```text
+AudioService
+
+MusicPlayer
+
+SoundPlayer
+```
+
+---
 
 # Game
 
-Game содержит всю игровую логику проекта.
+Game содержит все игровые правила.
 
-Любое игровое правило должно находиться здесь.
+Любая игровая механика относится именно сюда.
 
-Типичная структура:
+Структура:
 
-```
+```text
 Game
 │
 ├── Features
-├── Common
-├── Shared
-└── Gameplay
+└── Shared
 ```
 
 ---
 
 # Features
 
-Каждая игровая механика представляет отдельную Feature.
+Каждая игровая механика реализуется как отдельная Feature.
 
-Пример:
+Например:
 
-```
+```text
 Dialogue
 
 Combat
+
+Exploration
 
 Inventory
 
 Quest
 
-Exploration
-
 Minigames
 ```
 
-Feature должна быть максимально независимой.
+Каждая Feature должна быть максимально независимой.
 
 ---
 
@@ -340,29 +453,27 @@ Feature должна быть максимально независимой.
 
 Рекомендуемая структура:
 
-```
-Dialogue
+```text
+Feature
 │
 ├── Controllers
 ├── Models
 ├── Views
 ├── Services
+├── Runtime
 ├── Configs
-├── Prefabs
-└── Runtime
+└── Prefabs
 ```
 
-Если Feature небольшая, допускается упрощенная структура.
+Небольшие Feature могут не создавать лишние директории.
 
 ---
 
 ## Controllers
 
-Содержат игровую логику Feature.
+Содержат игровое поведение.
 
-Контроллер управляет поведением системы.
-
-Он не должен заниматься отображением.
+Controllers реализуют игровые правила.
 
 ---
 
@@ -370,77 +481,109 @@ Dialogue
 
 Содержат игровые данные.
 
-Model не зависит от Unity.
+Models не должны зависеть от Unity.
 
 ---
 
 ## Views
 
-Отображают данные и отправляют события представления.
+Отображают игровую информацию.
 
-View ничего не знает о внутренней логике Feature.
+Views генерируют события пользовательского интерфейса.
 
-View, используемый только одной Feature, может оставаться внутри нее. Глобальные экраны, общие виджеты и меню приложения находятся в отдельном слое UI.
+Views не принимают игровых решений.
 
 ---
 
 ## Services
 
-Локальные сервисы Feature.
+Содержат локальные сервисы Feature.
 
 Например:
 
-```
+```text
 DialogueHistoryService
 ```
 
-Эти сервисы используются только внутри конкретной Feature.
+Эти сервисы используются только внутри соответствующей Feature.
+
+---
+
+## Runtime
+
+Содержит runtime-объекты, которые не подходят ни под одну другую категорию.
+
+Например:
+
+```text
+Runtime Registries
+
+Runtime Context
+
+Runtime Cache
+```
 
 ---
 
 ## Configs
 
-Содержит ScriptableObject и другие настройки Feature.
+Содержит настройки Feature.
+
+Обычно это ScriptableObject.
+
+---
+
+## Prefabs
+
+Содержит Prefab'ы, используемые только данной Feature.
 
 ---
 
 ## Registration
 
-Game Feature не содержит Zenject Installer и не зависит от DI-контейнера.
+Игровые Feature не содержат Zenject Installer.
 
-Ее зависимости регистрирует соответствующий installer в `Application/Installers`, например `DialogueInstaller` или `ExplorationInstaller`.
+Регистрация зависимостей выполняется внутри:
+
+```text
+Application
+    Installers
+        Features
+```
 
 ---
 
 # Shared
 
-Содержит общий код, используемый несколькими Feature.
+Содержит переиспользуемый игровой код, используемый несколькими Feature.
 
 Например:
 
-```
+```text
 Health
 
 Damage
 
 Stats
 
-CommonInterfaces
+Interactable
+
+SaveSystem
 ```
 
-Shared не должен превращаться в "свалку" общего кода.
-
-Если код относится только к одной Feature — он должен оставаться внутри нее.
+Shared никогда не должен превращаться в папку «разное».
 
 ---
 
 # UI
 
-UI содержит пассивные представления, UI-события и переиспользуемые элементы интерфейса.
+UI содержит исключительно отображение.
 
-Текущая физическая структура организована по UI-системам:
+UI показывает информацию и передает пользовательские события.
 
-```
+Типичная структура:
+
+```text
 UI
 │
 ├── MainMenu
@@ -450,72 +593,14 @@ UI
 └── Services
 ```
 
-HUD, Popups и Widgets могут добавляться отдельными папками, когда появятся соответствующие системы.
+В будущем могут быть добавлены:
 
----
+```text
+HUD
 
-## Screens And Menus
+Widgets
 
-Полноэкранные окна.
-
-Например:
-
-```
-MainMenu
-
-Settings
-
-Inventory
-```
-
----
-
-## HUD
-
-Постоянно отображаемый интерфейс.
-
-Например:
-
-```
-HealthBar
-
-MiniMap
-
-QuestTracker
-```
-
----
-
-## Popups
-
-Временные окна.
-
-Например:
-
-```
-Confirmation
-
-Warning
-
-MessageBox
-```
-
----
-
-## Widgets
-
-Переиспользуемые элементы интерфейса.
-
-Например:
-
-```
-Button
-
-Slider
-
-InventorySlot
-
-CharacterCard
+Popups
 ```
 
 ---
@@ -526,15 +611,15 @@ CharacterCard
 
 Например:
 
-```
+```text
 GameConfig
 
-BalanceConfig
-
 LocalizationConfig
+
+BalanceConfig
 ```
 
-Любая конфигурация должна находиться здесь или внутри соответствующей Feature.
+Настройки, относящиеся только к одной Feature, должны располагаться внутри соответствующей Feature.
 
 ---
 
@@ -544,14 +629,14 @@ LocalizationConfig
 
 Например:
 
-```
+```text
 Sprites
 
-Audio
+Fonts
 
 Animations
 
-Fonts
+Audio
 
 Materials
 ```
@@ -562,11 +647,11 @@ Materials
 
 # Scenes
 
-Содержит все игровые сцены.
+Содержит Unity-сцены.
 
 Рекомендуемая структура:
 
-```
+```text
 Scenes
 │
 ├── Core
@@ -584,57 +669,89 @@ Scenes
 └── Minigames
 ```
 
-Все игровые сцены должны иметь префикс:
+Все сцены должны использовать префикс:
 
-```
+```text
 SC_
 ```
 
 ---
 
-# Plugins
+# Tests
 
-Содержит сторонние плагины.
+Содержит тесты проекта.
 
 Например:
 
-```
-Zenject
+```text
+Editor
 
-DOTween
-
-UniTask
+PlayMode
 ```
 
-Код проекта изменять внутри Plugins запрещено.
+Тесты должны ссылаться только на Runtime Assembly.
 
 ---
 
+# Assembly Definition Files
+
+Каждый Runtime-модуль содержит ровно одну Assembly Definition.
+
+Каждый Editor-модуль содержит ровно одну Editor Assembly.
+
+Зависимости между Assembly всегда должны быть направлены вниз.
+
+```text
+Application
+        ↓
+Game
+        ↓
+Infrastructure
+```
+
+Циклические зависимости запрещены.
+
+---
+
+# PLACEMENT.md
+
+Каждая крупная директория должна содержать файл `PLACEMENT.md`.
+
+Его задача — объяснить:
+
+- что должно находиться в этой папке;
+- что не должно находиться в этой папке;
+- типичные примеры;
+- распространенные ошибки.
+
+Разработчик должен понимать назначение директории, не открывая исходный код.
+
+---
 
 # Где создавать новый класс?
-
-Перед созданием класса необходимо определить его ответственность.
 
 | Если класс... | Размещается в... |
 |----------------|------------------|
 | Запускает приложение | Application |
-| Интегрирует глобальную техническую систему с Unity или внешней библиотекой | Infrastructure |
-| Содержит игровые правила | Game |
-| Отображает информацию и отправляет UI-события | UI |
-| Адаптирует сценовый объект конкретной Feature | Feature или Application/Installers/FeatureAdapters |
+| Координирует несколько систем | Application/Coordination |
+| Выполняет команду уровня приложения | Application/Services |
+| Интегрирует Unity или сторонние библиотеки | Infrastructure |
+| Реализует игровые правила | Game |
+| Отображает пользовательский интерфейс | UI |
+| Адаптирует Unity-объекты сцены | FeatureAdapters |
 | Хранит настройки | Configs |
 
-Если возникает сомнение между двумя папками, вероятнее всего ответственность класса определена неправильно.
+Если возникает сомнение между двумя папками, скорее всего ответственность класса определена неверно.
 
 ---
 
 # Правило Feature First
 
-Новая самостоятельная игровая механика создается как Feature. Расширение уже существующей механики остается внутри ее Feature.
+Каждая новая игровая механика создается как отдельная Feature.
 
 Неправильно:
 
-```
+```text
 Controllers
 
 Models
@@ -646,51 +763,56 @@ Services
 
 Правильно:
 
-```
+```text
 Features
-
-    Fishing
-
-    Craft
 
     Dialogue
 
+    Combat
+
+    Exploration
+
     Inventory
+
+    Quest
 ```
 
-Каждая Feature должна быть максимально автономной.
+Каждая Feature должна оставаться максимально независимой.
 
 ---
 
 # Naming Convention
 
-Используются следующие соглашения.
-
 | Тип | Пример |
 |------|---------|
 | Сцена | SC_MainMenu |
-| Phase | MainMenuPhase |
-| Service | AudioService |
-| Interface | IAudioService |
-| Installer | BattleInstaller |
-| Factory | EnemyFactory |
+| Phase | ExplorationPhase |
+| Service | DialogueService |
+| Interface | IDialogueService |
+| Installer | DialogueInstaller |
+| Factory | PhaseFactory |
 | Coordinator | PauseMenuCoordinator |
 | Loader | SceneLoader |
-| Config | BattleConfig |
-| View | InventoryView |
+| Registry | DialogueRuntimeRegistry |
+| Command | MainMenuStartCommandService |
+| Broker | MainMenuSaveBrowserRequestBroker |
 | Controller | DialogueController |
+| View | DialogueView |
+| Config | DialogueConfig |
 
 ---
 
 # Summary
 
-Основные правила структуры проекта:
+Архитектура проекта основана на следующих принципах:
 
-- Код организуется по ответственности, а не по типам файлов.
-- Игровая логика находится только в слое Game.
-- Глобальные технические интеграции находятся в Infrastructure.
-- Feature-local Unity adapters и UI View не содержат игровых правил.
-- UI отображает данные и отправляет события, но не принимает игровые решения.
-- Новые игровые механики создаются как отдельные Feature.
-- Каждая Feature максимально независима.
-- Структура проекта должна упрощать поиск кода и масштабирование проекта.
+- Организовывать код по ответственности.
+- Хранить игровые правила только в слое Game.
+- Размещать интеграции с Unity и сторонними библиотеками только в Infrastructure.
+- Использовать Application для координации систем, но не для реализации игровой логики.
+- Делать Feature максимально независимыми.
+- Сохранять UI пассивным.
+- Каждый Runtime-модуль должен иметь собственную Assembly Definition.
+- Каждая крупная директория должна содержать файл PLACEMENT.md.
+- Структура проекта должна масштабироваться до сотен классов без потери читаемости и удобства навигации.
+```
