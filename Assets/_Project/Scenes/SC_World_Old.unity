@@ -1191,7 +1191,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
   target: {fileID: 1157121962}
   smoothTime: 0.15
-  deadZoneRadius: 1.5
 --- !u!1 &524943439
 GameObject:
   m_ObjectHideFlags: 0
@@ -9375,11 +9374,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1743172122}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0c851dac357842daa0ca637d2971197, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NpcDialogue
+  dialogueContent: 0
+  interactionPrompt: Press E to talk
 --- !u!1 &1766003553
 GameObject:
   m_ObjectHideFlags: 0
