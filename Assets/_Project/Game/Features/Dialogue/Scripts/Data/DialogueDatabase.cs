@@ -23,7 +23,6 @@ public class DialogueDatabase
 
             foreach (JObject obj in array)
             {
-                //JArray arrayobj = JArray.Parse(line);
 
                 string id = obj["id"].Value<string>();
 
@@ -43,7 +42,20 @@ public class DialogueDatabase
                 nodesDatabase.Add(id, node);
                 nodes.Add(node);
             }
-            isBuilt = true;
+
+            if (DialogueImporter.Validate(nodesDatabase))
+            {
+                Debug.Log("Dialogue database is importing");
+                isBuilt = true;
+            }
+            else
+            {
+                Debug.LogError("Dialogue database is not importing");
+            }
+        }
+        else
+        {
+            Debug.LogError("File " + nameJson + " is null");
         }
     }
 
