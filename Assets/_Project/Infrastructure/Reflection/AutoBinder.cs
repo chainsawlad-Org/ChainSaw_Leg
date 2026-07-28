@@ -23,4 +23,22 @@ public static class AutoBinder
                 binder.AsTransient();
         }
     }
+
+    public static void BindAssignableTo<TInterface>(DiContainer container, bool asSingle = true)
+    {
+        Type interfaceType = typeof(TInterface);
+        var types = interfaceType.Assembly
+            .GetTypes()
+            .Where(type => type.IsClass && !type.IsAbstract && interfaceType.IsAssignableFrom(type));
+
+        foreach (Type type in types)
+        {
+            var binder = container.BindInterfacesAndSelfTo(type);
+
+            if (asSingle)
+                binder.AsSingle();
+            else
+                binder.AsTransient();
+        }
+    }
 }
