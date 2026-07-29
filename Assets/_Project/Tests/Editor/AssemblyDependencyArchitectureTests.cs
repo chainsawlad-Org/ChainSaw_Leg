@@ -179,6 +179,11 @@ public sealed class AssemblyDependencyArchitectureTests
 
     private static AssemblyLayer GetLayer(string assemblyName)
     {
+        if (assemblyName.EndsWith(".Editor", StringComparison.Ordinal))
+        {
+            return AssemblyLayer.Editor;
+        }
+
         if (assemblyName.StartsWith("ChainSawLeg.Project.Tests", StringComparison.Ordinal))
         {
             return AssemblyLayer.Tests;
@@ -244,6 +249,14 @@ public sealed class AssemblyDependencyArchitectureTests
             case AssemblyLayer.Tests:
                 return target != AssemblyLayer.Tests
                     && target != AssemblyLayer.Unknown;
+
+            case AssemblyLayer.Editor:
+                return target == AssemblyLayer.Application
+                    || target == AssemblyLayer.Infrastructure
+                    || target == AssemblyLayer.GameShared
+                    || target == AssemblyLayer.Feature
+                    || target == AssemblyLayer.UI
+                    || target == AssemblyLayer.Editor;
 
             default:
                 return false;
@@ -336,7 +349,8 @@ public sealed class AssemblyDependencyArchitectureTests
         GameShared,
         Feature,
         UI,
-        Tests
+        Tests,
+        Editor
     }
 
     private enum VisitState
