@@ -184,23 +184,23 @@ public sealed class AssemblyDependencyArchitectureTests
             return AssemblyLayer.Tests;
         }
 
-        if (assemblyName.StartsWith("ChainSawLeg.Composition.", StringComparison.Ordinal))
+        if (assemblyName.StartsWith("ChainSawLeg.Composition.Runtime", StringComparison.Ordinal))
         {
             return AssemblyLayer.Composition;
         }
 
-        if (assemblyName.StartsWith("ChainSawLeg.Application.", StringComparison.Ordinal)
-            || assemblyName.StartsWith("ChainSawLeg.Coordination.", StringComparison.Ordinal))
+        if (assemblyName.StartsWith("ChainSawLeg.Application.Runtime", StringComparison.Ordinal)
+            || assemblyName.StartsWith("ChainSawLeg.Coordination.Runtime", StringComparison.Ordinal))
         {
             return AssemblyLayer.Application;
         }
 
-        if (assemblyName.StartsWith("ChainSawLeg.Infrastructure.", StringComparison.Ordinal))
+        if (assemblyName.StartsWith("ChainSawLeg.Infrastructure.Runtime", StringComparison.Ordinal))
         {
             return AssemblyLayer.Infrastructure;
         }
 
-        if (assemblyName.StartsWith("ChainSawLeg.Game.Shared.", StringComparison.Ordinal))
+        if (assemblyName.StartsWith("ChainSawLeg.Game.Shared.Runtime", StringComparison.Ordinal))
         {
             return AssemblyLayer.GameShared;
         }
@@ -210,7 +210,7 @@ public sealed class AssemblyDependencyArchitectureTests
             return AssemblyLayer.Feature;
         }
 
-        if (assemblyName.StartsWith("ChainSawLeg.UI.", StringComparison.Ordinal))
+        if (assemblyName.StartsWith("ChainSawLeg.UI.Runtime", StringComparison.Ordinal))
         {
             return AssemblyLayer.UI;
         }
