@@ -49,7 +49,7 @@ public sealed class MainMenuStartCommandService : IDisposable
     {
         try
         {
-            await gameStateMachine.ReplaceMainAsync<WorldOldExplorationPhase>(cancellationToken);
+            await gameStateMachine.ReplaceMainAsync<ExplorationPhase>(cancellationToken);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {

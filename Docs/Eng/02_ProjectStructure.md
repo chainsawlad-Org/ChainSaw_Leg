@@ -1,64 +1,103 @@
 # Project Structure
 
-> Version: 1.0  
-> Last Updated: 13-07-2026
+> Version: **2.0**  
+> Last Updated: **27-07-2026**
 
 ---
 
 # Purpose
 
-This document describes the project structure and the purpose of each directory.
+This document defines the physical structure of the project and the responsibility of every major directory.
 
-Its goal is to help developers quickly understand **where new code should be placed** and to prevent the project from growing in a chaotic manner.
+Its goal is to help every developer immediately understand where new code belongs and keep the project maintainable as it grows.
 
-The main rule:
+The primary rule is:
 
-> **Every class should be located where its responsibility belongs, not where it is most convenient to place it.**
+> **Code is organized by responsibility, never by convenience.**
 
 ---
 
 # Root Structure
 
-The project is divided into several major modules.
-
 ```text
 Assets
 │
-├── Application
-├── Infrastructure
-├── Game
-├── UI
-├── Configs
-├── Content
-├── Scenes
-├── Plugins
+└── _Project
+    │
+    ├── Application
+    ├── Infrastructure
+    ├── Game
+    ├── UI
+    ├── Configs
+    ├── Content
+    ├── Scenes
+    └── Tests
 ```
 
-Each directory has its own area of responsibility.
+Each top-level module has a single responsibility.
+
+---
+
+# Assembly Structure
+
+Every major module owns its own Assembly Definition.
+
+Example:
+
+```text
+ChainSawLeg.Application.Runtime
+
+ChainSawLeg.Infrastructure.Runtime
+
+ChainSawLeg.Game.Shared.Runtime
+
+ChainSawLeg.UI.Runtime
+```
+
+Editor code must always live inside a separate Editor assembly.
+
+Runtime assemblies must never reference Editor assemblies.
+
+---
+
+# Runtime Convention
+
+Every assembly follows the same physical convention.
+
+```text
+Runtime
+│
+├── Bootstrap
+├── Coordination
+├── Factories
+├── Installers
+├── Services
+├── Signals
+├── Startup
+└── StateMachine
+```
+
+Only folders that are actually needed should exist.
 
 ---
 
 # Application
 
-Application contains the code responsible for managing the application lifecycle.
+Application contains application flow.
 
-It does not contain game logic.
+It coordinates systems.
 
-Typical structure:
+It never contains gameplay rules.
 
-```text
-Application
-│
-├── Bootstrap
-├── Startup
-├── StateMachine
-├── Coordination
-├── Services
-├── Installers
-├── Factories
-├── Signals
-└── Editor
-```
+Typical responsibilities include:
+
+- Bootstrap
+- Startup
+- State Machine
+- Coordinators
+- Application Services
+- Installers
+- Factories
 
 ---
 
@@ -69,22 +108,22 @@ Responsible for starting the application.
 Contains:
 
 ```text
-BootstrapStartup
-
 BootstrapRunner
+
+BootstrapStartup
 ```
 
-Bootstrap knows nothing about gameplay mechanics.
+Bootstrap knows nothing about gameplay.
 
-Its purpose is to prepare the application for execution.
+Its only responsibility is to prepare the application.
 
 ---
 
 ## Startup
 
-Determines the initial state of the game.
+Determines the initial game phase.
 
-For example:
+Contains:
 
 ```text
 StartupResolver
@@ -92,17 +131,15 @@ StartupResolver
 StartupPhaseRegistry
 ```
 
-Adding a new startup scene is done here.
-
-Bootstrap itself does not need to be modified.
+Adding a new startup flow should never require modifying BootstrapRunner.
 
 ---
 
 ## StateMachine
 
-Contains the game mode management system.
+Contains the lifecycle of game phases.
 
-For example:
+Example:
 
 ```text
 GameStateMachine
@@ -114,166 +151,204 @@ SceneGamePhase
 OverlayPhase
 ```
 
-There should be no game logic here.
-
-The StateMachine is only aware of the lifecycle of phases.
-
----
-
-## Installers
-
-Contains all Zenject Installers.
-
-For example:
-
-```text
-ProjectInstaller
-
-PhaseInstaller
-
-ServiceInstaller
-```
-
-An Installer is responsible only for registering dependencies.
-
-Any business logic inside an Installer is prohibited.
-
----
-
-## Factories
-
-A Factory is responsible for creating objects through Dependency Injection.
-
-For example:
-
-```text
-PhaseFactory
-```
-
-A Factory does not contain game logic.
+The StateMachine contains no gameplay rules.
 
 ---
 
 ## Coordination
 
-Contains application use cases that connect multiple subsystems.
+Contains application use cases that connect multiple systems.
 
-For example:
+Example:
 
 ```text
+MainMenuCoordinator
+
 PauseMenuCoordinator
 
-ExplorationGameSaveLoadService
+CheckpointSaveMenuCoordinator
 
-MainMenuCoordinator
+ExplorationGameSaveLoadService
 ```
 
-A Coordinator does not contain gameplay rules and does not implement a Unity View.
+Coordinator orchestrates systems.
+
+It does not implement gameplay logic.
 
 ---
 
 ## Services
 
-Contains application commands, registries, and brokers required by several Application scenarios.
+Application Services are reusable services shared across multiple application scenarios.
+
+Current organization:
+
+```text
+Services
+│
+├── Commands
+├── Brokers
+├── Registries
+└── Runtime Services
+```
+
+Examples:
+
+```text
+MainMenuStartCommandService
+
+DialogueService
+
+DialogueRuntimeRegistry
+
+MainMenuSaveBrowserRequestBroker
+```
+
+---
+
+## Installers
+
+Contains Zenject registrations.
+
+Structure:
+
+```text
+Installers
+│
+├── Core
+└── Features
+```
+
+Core installers register global systems.
+
+Feature installers register gameplay features.
+
+Installers must never contain business logic.
+
+---
+
+## FeatureAdapters
+
+Contains Unity adapters connecting scene objects with Application systems.
+
+Example:
+
+```text
+FeatureAdapters
+│
+├── Combat
+├── Dialogue
+└── Exploration
+```
+
+FeatureAdapters may know Unity.
+
+They must not contain gameplay rules.
+
+---
+
+## Factories
+
+Responsible for creating runtime objects through Dependency Injection.
+
+Example:
+
+```text
+PhaseFactory
+```
+
+Factories never contain business logic.
 
 ---
 
 ## Signals *(Future)*
 
-Contains application events.
+Contains application-wide events.
 
-For example:
+Example:
 
 ```text
-PlayerDiedSignal
+DialogueStartedSignal
 
 SceneLoadedSignal
 
-DialogueStartedSignal
+PlayerDiedSignal
 ```
 
-Signals are used for communication between independent systems.
+Signals provide loose coupling between independent systems.
 
 ---
 
 ## Editor
 
-Contains editor-only Application tooling. Runtime code must not depend on this directory.
+Contains editor-only tooling.
+
+Runtime code must never depend on this directory.
 
 ---
 
 # Infrastructure
 
-Infrastructure contains global technical adapters for Unity API, the file system, and external libraries.
+Infrastructure contains technical integrations.
 
-Feature-local MonoBehaviours, UI Views, and scene adapters may use Unity API outside Infrastructure, but they do not contain gameplay business logic.
+It is responsible for communication with Unity APIs, the operating system, and third-party libraries.
 
 Typical structure:
 
 ```text
 Infrastructure
 │
-├── SceneManagement
 ├── Audio
 ├── Input
-├── SaveSystem
 ├── Reflection
 ├── Rendering
+├── SaveSystem
+└── SceneManagement
 ```
+
+Infrastructure contains no gameplay rules.
 
 ---
 
 ## SceneManagement
 
-Contains scene management functionality.
+Responsible for scene loading.
 
-For example:
+Example:
 
 ```text
 SceneLoader
+
+SceneNames
+
+UnityActiveSceneProvider
 ```
 
-No other code in the project should use the Unity SceneManager directly.
-
----
-
-## Audio
-
-The project's future audio system.
-
-For example:
-
-```text
-AudioService
-
-MusicPlayer
-
-SoundPlayer
-```
+Only SceneLoader may communicate directly with Unity SceneManager.
 
 ---
 
 ## Input
 
-The user input system.
+Contains the global input system.
 
-For example:
+Example:
 
 ```text
 InputService
 
-InputActions
+PlayerInputActions
 
-InputMapper
+GameplayInputBlockService
 ```
 
 ---
 
 ## SaveSystem
 
-Contains the technical part of the save pipeline.
+Contains the technical save pipeline.
 
-For example:
+Example:
 
 ```text
 GameSaveCoordinator
@@ -287,32 +362,72 @@ OdinGameSaveSerializer
 FileGameSaveStorageProvider
 ```
 
-Feature DTOs, contributors, and restorers are not moved into Infrastructure. Their placement is documented in `ArchitectureAtlas/09_SaveSystem.md`.
+Gameplay save contributors belong to Features, not Infrastructure.
+
+---
+
+## Reflection
+
+Contains reflection utilities.
+
+Example:
+
+```text
+AutoBinder
+```
+
+---
+
+## Rendering
+
+Contains rendering-related infrastructure.
+
+Examples:
+
+```text
+Renderer2D
+
+URP Settings
+```
+
+---
+
+## Audio *(Future)*
+
+Contains global audio systems.
+
+Example:
+
+```text
+AudioService
+
+MusicPlayer
+
+SoundPlayer
+```
 
 ---
 
 # Game
 
-Game contains all gameplay logic in the project.
+Game contains all gameplay rules.
 
-Every game rule must be implemented here.
+Every gameplay mechanic belongs here.
 
-Typical structure:
+Structure:
 
 ```text
 Game
 │
 ├── Features
-├── Common
-├── Shared
-└── Gameplay
+└── Shared
 ```
 
 ---
 
 # Features
 
-Each gameplay mechanic is implemented as a separate Feature.
+Every gameplay mechanic is implemented as an independent Feature.
 
 Example:
 
@@ -321,46 +436,44 @@ Dialogue
 
 Combat
 
+Exploration
+
 Inventory
 
 Quest
 
-Exploration
-
 Minigames
 ```
 
-A Feature should be as independent as possible.
+A Feature should be as self-contained as possible.
 
 ---
 
 ## Internal Feature Structure
 
-Recommended structure:
+Recommended layout:
 
 ```text
-Dialogue
+Feature
 │
 ├── Controllers
 ├── Models
 ├── Views
 ├── Services
+├── Runtime
 ├── Configs
-├── Prefabs
-└── Runtime
+└── Prefabs
 ```
 
-If a Feature is small, a simplified structure is acceptable.
+Small Features may omit unnecessary folders.
 
 ---
 
 ## Controllers
 
-Contain the Feature's gameplay logic.
+Contain gameplay behavior.
 
-A Controller manages the system's behavior.
-
-It should not be responsible for presentation.
+Controllers implement game rules.
 
 ---
 
@@ -368,53 +481,83 @@ It should not be responsible for presentation.
 
 Contain gameplay data.
 
-A Model does not depend on Unity.
+Models should not depend on Unity.
 
 ---
 
 ## Views
 
-Display data and emit view events.
+Display gameplay information.
 
-A View knows nothing about the internal logic of the Feature.
+Views emit user interaction events.
 
-A View used by only one Feature may remain inside it. Global screens, shared widgets, and application menus belong to the separate UI layer.
+Views do not make gameplay decisions.
 
 ---
 
 ## Services
 
-Local services of the Feature.
+Contain Feature-local services.
 
-For example:
+Example:
 
 ```text
 DialogueHistoryService
 ```
 
-These services are used only within the corresponding Feature.
+These services are used only inside the Feature.
+
+---
+
+## Runtime
+
+Contains runtime objects that do not fit into other categories.
+
+Examples:
+
+```text
+Runtime Registries
+
+Runtime Context
+
+Runtime Cache
+```
 
 ---
 
 ## Configs
 
-Contains ScriptableObjects and other Feature configuration.
+Contains Feature-specific configuration.
+
+Usually ScriptableObjects.
+
+---
+
+## Prefabs
+
+Contains prefabs used only by the Feature.
 
 ---
 
 ## Registration
 
-A Game Feature does not contain a Zenject Installer and does not depend on the DI container.
+Gameplay Features do not contain Zenject Installers.
 
-Its dependencies are registered by the corresponding installer under `Application/Installers`, such as `DialogueInstaller` or `ExplorationInstaller`.
+Registration happens inside:
+
+```text
+Application
+    Installers
+        Features
+```
 
 ---
 
 # Shared
 
-Contains common code shared between multiple Features.
+Contains reusable gameplay code shared between multiple Features.
 
-For example:
+Example:
 
 ```text
 Health
@@ -423,20 +566,22 @@ Damage
 
 Stats
 
-CommonInterfaces
+Interactable
+
+SaveSystem
 ```
 
-Shared must not become a dumping ground for common code.
-
-If code belongs to only one Feature, it should remain inside that Feature.
+Shared must never become a miscellaneous folder.
 
 ---
 
 # UI
 
-UI contains passive views, UI events, and reusable interface elements.
+Contains presentation only.
 
-The current physical structure is organized by UI system:
+UI displays information and forwards user interaction.
+
+Typical structure:
 
 ```text
 UI
@@ -448,72 +593,14 @@ UI
 └── Services
 ```
 
-HUD, Popups, and Widgets may be added as separate folders when those systems appear.
-
----
-
-## Screens And Menus
-
-Full-screen windows.
-
-For example:
+Future additions may include:
 
 ```text
-MainMenu
+HUD
 
-Settings
+Widgets
 
-Inventory
-```
-
----
-
-## HUD
-
-The permanently visible interface.
-
-For example:
-
-```text
-HealthBar
-
-MiniMap
-
-QuestTracker
-```
-
----
-
-## Popups
-
-Temporary windows.
-
-For example:
-
-```text
-Confirmation
-
-Warning
-
-MessageBox
-```
-
----
-
-## Widgets
-
-Reusable UI elements.
-
-For example:
-
-```text
-Button
-
-Slider
-
-InventorySlot
-
-CharacterCard
+Popups
 ```
 
 ---
@@ -522,17 +609,17 @@ CharacterCard
 
 Contains global project configuration.
 
-For example:
+Example:
 
 ```text
 GameConfig
 
-BalanceConfig
-
 LocalizationConfig
+
+BalanceConfig
 ```
 
-Any configuration should be placed here or inside the corresponding Feature.
+Feature-specific configuration belongs inside the corresponding Feature.
 
 ---
 
@@ -540,27 +627,27 @@ Any configuration should be placed here or inside the corresponding Feature.
 
 Contains game assets.
 
-For example:
+Example:
 
 ```text
 Sprites
 
-Audio
+Fonts
 
 Animations
 
-Fonts
+Audio
 
 Materials
 ```
 
-There is no game code here.
+No gameplay code belongs here.
 
 ---
 
 # Scenes
 
-Contains all game scenes.
+Contains Unity scenes.
 
 Recommended structure:
 
@@ -582,7 +669,7 @@ Scenes
 └── Minigames
 ```
 
-All game scenes must use the following prefix:
+All scenes must use the prefix:
 
 ```text
 SC_
@@ -590,44 +677,77 @@ SC_
 
 ---
 
-# Plugins
+# Tests
 
-Contains third-party plugins.
+Contains project tests.
 
-For example:
+Example:
 
 ```text
-Zenject
+Editor
 
-DOTween
-
-UniTask
+PlayMode
 ```
 
-Modifying project code inside the Plugins directory is prohibited.
+Tests should reference Runtime assemblies only.
 
 ---
 
-# Where should a new class be created?
+# Assembly Definition Files
 
-Before creating a class, its responsibility must be identified.
+Every Runtime module owns exactly one Assembly Definition.
+
+Every Editor module owns exactly one Editor Assembly.
+
+Assembly dependencies should always point downward.
+
+```text
+Application
+        ↓
+Game
+        ↓
+Infrastructure
+```
+
+Circular references are prohibited.
+
+---
+
+# PLACEMENT.md
+
+Every major directory should contain a `PLACEMENT.md` file.
+
+Its purpose is to explain:
+
+- what belongs in the folder;
+- what must not be placed there;
+- typical examples;
+- common mistakes.
+
+A developer should understand the folder without opening any source code.
+
+---
+
+# Where Should a New Class Be Created?
 
 | If the class... | Place it in... |
 |-----------------|----------------|
 | Starts the application | Application |
-| Integrates a global technical system with Unity or an external library | Infrastructure |
-| Contains game rules | Game |
-| Displays information and emits UI events | UI |
-| Adapts a scene object for a specific Feature | Feature or Application/Installers/FeatureAdapters |
+| Coordinates multiple systems | Application/Coordination |
+| Executes an application command | Application/Services |
+| Integrates Unity or external libraries | Infrastructure |
+| Implements gameplay rules | Game |
+| Displays UI | UI |
+| Adapts Unity scene objects | FeatureAdapters |
 | Stores configuration | Configs |
 
-If there is uncertainty between two folders, the class responsibility has most likely been defined incorrectly.
+If there is uncertainty between two folders, the responsibility of the class is probably incorrect.
 
 ---
 
 # Feature First Rule
 
-A new independent gameplay mechanic is created as a Feature. An extension of an existing mechanic remains inside that Feature.
+Every new gameplay mechanic is created as an independent Feature.
 
 Incorrect:
 
@@ -646,48 +766,52 @@ Correct:
 ```text
 Features
 
-    Fishing
-
-    Craft
-
     Dialogue
 
+    Combat
+
+    Exploration
+
     Inventory
+
+    Quest
 ```
 
-Each Feature should be as autonomous as possible.
+Features should remain independent whenever possible.
 
 ---
 
 # Naming Convention
 
-The following naming conventions are used.
-
 | Type | Example |
 |------|---------|
 | Scene | SC_MainMenu |
-| Phase | MainMenuPhase |
-| Service | AudioService |
-| Interface | IAudioService |
-| Installer | BattleInstaller |
-| Factory | EnemyFactory |
+| Phase | ExplorationPhase |
+| Service | DialogueService |
+| Interface | IDialogueService |
+| Installer | DialogueInstaller |
+| Factory | PhaseFactory |
 | Coordinator | PauseMenuCoordinator |
 | Loader | SceneLoader |
-| Config | BattleConfig |
-| View | InventoryView |
+| Registry | DialogueRuntimeRegistry |
+| Command | MainMenuStartCommandService |
+| Broker | MainMenuSaveBrowserRequestBroker |
 | Controller | DialogueController |
+| View | DialogueView |
+| Config | DialogueConfig |
 
 ---
 
 # Summary
 
-The main project structure rules are:
+The architecture follows these principles:
 
-- Organize code by responsibility, not by file type.
-- Gameplay logic belongs only in the Game layer.
-- Global technical integrations live in Infrastructure.
-- Feature-local Unity adapters and UI Views contain no gameplay rules.
-- UI displays data and emits events but makes no gameplay decisions.
-- New gameplay mechanics are created as separate Features.
-- Each Feature should be as independent as possible.
-- The project structure should make code easy to find and the project easy to scale.
+- Organize code by responsibility.
+- Keep gameplay rules inside the Game layer.
+- Keep Unity and third-party integrations inside Infrastructure.
+- Use Application to orchestrate systems, never to implement gameplay.
+- Keep Features independent.
+- Keep UI passive.
+- Every Runtime module owns its own Assembly Definition.
+- Every major folder should contain a PLACEMENT.md.
+- The project structure must scale to hundreds of classes without becoming difficult to navigate.
