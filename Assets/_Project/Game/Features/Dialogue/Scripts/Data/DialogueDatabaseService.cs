@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using Newtonsoft.Json.Linq;
 
-public class DialogueDatabase
+public class DialogueDatabaseService
 {
     public string nameJson = "replicas.JSON";
     public string pathToJson = "_Project/Game/Features/Dialogue/Scripts/Data";
@@ -15,7 +15,7 @@ public class DialogueDatabase
 
     public void Build()
     {
-        string jsonData = DialogueImporter.Load(nameJson, pathToJson);
+        /*string jsonData = DialogueImporter.Load(nameJson, pathToJson);
 
         if (jsonData != null)
         {
@@ -56,7 +56,7 @@ public class DialogueDatabase
         else
         {
             Debug.LogError("File " + nameJson + " is null");
-        }
+        }*/
     }
 
     public DialogueNode GetNode(string id)

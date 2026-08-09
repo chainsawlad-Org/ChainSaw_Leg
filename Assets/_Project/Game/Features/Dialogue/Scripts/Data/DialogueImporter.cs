@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public static class DialogueImporter
+public class DialogueImporter
 {
-    public static string Load(string nameJson, string pathToJson)
+    public string Load(string nameJson, string pathToJson)
     {
         string pathToFile = Path.Combine(Application.dataPath, pathToJson, nameJson);
         string jsonData = null;
@@ -22,13 +22,13 @@ public static class DialogueImporter
         return jsonData;
     }
 
-    public static JArray Parse(string JsonData)
+    public JArray Parse(string JsonData)
     {
         JArray array = JArray.Parse(JsonData);
         return array;
     }
 
-    public static bool Validate(Dictionary<string, DialogueNode> nodesDatabase)
+    public bool Validate(Dictionary<string, DialogueNode> nodesDatabase)
     {
         if (nodesDatabase == null)
         {
