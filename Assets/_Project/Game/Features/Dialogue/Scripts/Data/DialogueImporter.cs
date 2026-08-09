@@ -5,6 +5,18 @@ using UnityEngine;
 
 public class DialogueImporter
 {
+    public string nameJson = "replicas.JSON";
+    public string pathToJson = "_Project/Game/Features/Dialogue/Scripts/Data";
+    public List<DialogueNode> Import()
+    {
+        List<DialogueNode> nodes = new List<DialogueNode>();
+        string jsonData = Load(nameJson, pathToJson);
+        nodes = Parse(jsonData);
+
+
+        return nodes;
+    }
+
     public string Load(string nameJson, string pathToJson)
     {
         string pathToFile = Path.Combine(Application.dataPath, pathToJson, nameJson);
@@ -22,10 +34,26 @@ public class DialogueImporter
         return jsonData;
     }
 
-    public JArray Parse(string JsonData)
+    public List<DialogueNode> Parse(string JsonData)
     {
+        List<DialogueNode> nodes = new List<DialogueNode>();
         JArray array = JArray.Parse(JsonData);
-        return array;
+        
+        foreach (JObject obj in array)
+        {
+
+            DialogueNode node = new DialogueNode
+            {
+                id = obj["id"].Value<string>(),
+                speaker = obj["speaker"].Value<string>(),
+                text = obj["text"].Value<string>(),
+                nextId = obj["next_id"].Value<string>(),
+            };
+
+            nodes.Add(node);
+        }
+
+        return nodes;
     }
 
     public bool Validate(Dictionary<string, DialogueNode> nodesDatabase)

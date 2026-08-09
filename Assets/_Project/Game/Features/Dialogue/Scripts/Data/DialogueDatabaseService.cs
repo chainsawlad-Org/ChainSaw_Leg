@@ -5,9 +5,6 @@ using Newtonsoft.Json.Linq;
 
 public class DialogueDatabaseService
 {
-    public string nameJson = "replicas.JSON";
-    public string pathToJson = "_Project/Game/Features/Dialogue/Scripts/Data";
-
     public List<DialogueNode> nodes = new List<DialogueNode>();
     public Dictionary<string, DialogueNode> nodesDatabase = new Dictionary<string, DialogueNode>();
 
