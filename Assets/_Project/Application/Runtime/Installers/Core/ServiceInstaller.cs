@@ -5,7 +5,9 @@ public class ServiceInstaller : Installer<ServiceInstaller>
 {
     public override void InstallBindings()
     {
-        AutoBinder.BindDerivedTypes<SceneService>(Container);
+        AutoBinder.BindDerivedTypes<ApplicationServiceBase>(Container);
+        AutoBinder.BindAssignableTo<IApplicationService>(Container);
+
         Container.Bind<ITimeScaleController>()
             .To<UnityTimeScaleController>()
             .AsSingle();

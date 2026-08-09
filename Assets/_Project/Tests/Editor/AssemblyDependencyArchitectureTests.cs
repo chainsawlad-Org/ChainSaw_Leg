@@ -179,28 +179,33 @@ public sealed class AssemblyDependencyArchitectureTests
 
     private static AssemblyLayer GetLayer(string assemblyName)
     {
+        if (assemblyName.EndsWith(".Editor", StringComparison.Ordinal))
+        {
+            return AssemblyLayer.Editor;
+        }
+
         if (assemblyName.StartsWith("ChainSawLeg.Project.Tests", StringComparison.Ordinal))
         {
             return AssemblyLayer.Tests;
         }
 
-        if (assemblyName.StartsWith("ChainSawLeg.Composition.", StringComparison.Ordinal))
+        if (assemblyName.StartsWith("ChainSawLeg.Composition.Runtime", StringComparison.Ordinal))
         {
             return AssemblyLayer.Composition;
         }
 
-        if (assemblyName.StartsWith("ChainSawLeg.Application.", StringComparison.Ordinal)
-            || assemblyName.StartsWith("ChainSawLeg.Coordination.", StringComparison.Ordinal))
+        if (assemblyName.StartsWith("ChainSawLeg.Application.Runtime", StringComparison.Ordinal)
+            || assemblyName.StartsWith("ChainSawLeg.Coordination.Runtime", StringComparison.Ordinal))
         {
             return AssemblyLayer.Application;
         }
 
-        if (assemblyName.StartsWith("ChainSawLeg.Infrastructure.", StringComparison.Ordinal))
+        if (assemblyName.StartsWith("ChainSawLeg.Infrastructure.Runtime", StringComparison.Ordinal))
         {
             return AssemblyLayer.Infrastructure;
         }
 
-        if (assemblyName.StartsWith("ChainSawLeg.Game.Shared.", StringComparison.Ordinal))
+        if (assemblyName.StartsWith("ChainSawLeg.Game.Shared.Runtime", StringComparison.Ordinal))
         {
             return AssemblyLayer.GameShared;
         }
@@ -210,7 +215,7 @@ public sealed class AssemblyDependencyArchitectureTests
             return AssemblyLayer.Feature;
         }
 
-        if (assemblyName.StartsWith("ChainSawLeg.UI.", StringComparison.Ordinal))
+        if (assemblyName.StartsWith("ChainSawLeg.UI.Runtime", StringComparison.Ordinal))
         {
             return AssemblyLayer.UI;
         }
@@ -244,6 +249,14 @@ public sealed class AssemblyDependencyArchitectureTests
             case AssemblyLayer.Tests:
                 return target != AssemblyLayer.Tests
                     && target != AssemblyLayer.Unknown;
+
+            case AssemblyLayer.Editor:
+                return target == AssemblyLayer.Application
+                    || target == AssemblyLayer.Infrastructure
+                    || target == AssemblyLayer.GameShared
+                    || target == AssemblyLayer.Feature
+                    || target == AssemblyLayer.UI
+                    || target == AssemblyLayer.Editor;
 
             default:
                 return false;
@@ -336,7 +349,8 @@ public sealed class AssemblyDependencyArchitectureTests
         GameShared,
         Feature,
         UI,
-        Tests
+        Tests,
+        Editor
     }
 
     private enum VisitState

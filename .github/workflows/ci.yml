@@ -111,6 +111,13 @@ jobs:
             echo "$pointer_files"
             exit 1
           fi
+          
+      - name: Clean Unity cache
+        run: |
+          rm -rf ~/.cache/unity3d
+          rm -rf Library
+          rm -rf Temp
+          echo "Unity cache cleaned"
 
       - name: Cache Unity Library
         uses: actions/cache@v4

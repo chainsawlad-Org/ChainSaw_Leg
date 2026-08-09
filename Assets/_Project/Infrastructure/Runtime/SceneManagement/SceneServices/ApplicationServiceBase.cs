@@ -1,6 +1,6 @@
 using Cysharp.Threading.Tasks;
 
-public abstract class SceneService : ISceneService
+public abstract class ApplicationServiceBase : IApplicationService
 {
     public virtual UniTask Initialize()
     {

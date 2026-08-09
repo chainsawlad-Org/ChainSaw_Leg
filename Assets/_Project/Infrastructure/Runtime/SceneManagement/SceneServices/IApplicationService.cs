@@ -1,6 +1,6 @@
 using Cysharp.Threading.Tasks;
 
-public interface ISceneService
+public interface IApplicationService
 {
     UniTask Initialize();
     UniTask Dispose();
