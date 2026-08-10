@@ -20,6 +20,6 @@ public class Door : MonoBehaviour, IInteractable
         if (!CanInteract())
             return;
 
-        prevRoom.CloseRoom(nextRoom.transform.position, () => nextRoom.OpenRoom());
+        prevRoom.CloseRoom(nextRoom, () => nextRoom.OpenRoom());
     }
 }
