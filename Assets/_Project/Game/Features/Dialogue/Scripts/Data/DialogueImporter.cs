@@ -1,4 +1,5 @@
 using Newtonsoft.Json.Linq;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -53,40 +54,43 @@ public class DialogueImporter
             nodes.Add(node);
         }
 
+        Validate(nodes);
+
         return nodes;
     }
 
-    public bool Validate(Dictionary<string, DialogueNode> nodesDatabase)
+    public bool Validate(List<DialogueNode> nodes)
     {
-        if (nodesDatabase == null)
+        if (nodes == null)
         {
-            Debug.LogError("Dialogue database is null");
+            Debug.LogError("Dialogue node is null");
             return false;
         }
 
-        foreach (KeyValuePair<string, DialogueNode> dict in nodesDatabase)
+        foreach (DialogueNode node in nodes)
         {
-            if (string.IsNullOrEmpty(dict.Key))
+
+            if (string.IsNullOrEmpty(node.id))
             {
-                Debug.LogError("Key is null");
+                Debug.LogError("ID is null");
                 return false;
             }
 
-            if (string.IsNullOrEmpty(dict.Value.text))
+            if (string.IsNullOrEmpty(node.text))
             {
-                Debug.LogError("Node " + dict.Key + " has null text");
+                Debug.LogError("Node " + node.id + " has null text");
                 return false;
             }
 
-            if (string.IsNullOrEmpty(dict.Value.speaker))
+            if (string.IsNullOrEmpty(node.speaker))
             {
-                Debug.LogError("Node " + dict.Key + " has null speaker");
+                Debug.LogError("Node " + node.id + " has null speaker");
                 return false;
             }
 
-            if (!nodesDatabase.ContainsKey(dict.Value.nextId) && dict.Value.nextId != " ")
+            if (!nodes.Any(n => n.id == node.nextId) && !string.IsNullOrEmpty(node.nextId))
             {
-                Debug.LogError("Node " + dict.Key + " has non-existent nextId");
+                Debug.LogError("Node " + node.id + " has non-existent nextId");
                 return false;
             }
 
