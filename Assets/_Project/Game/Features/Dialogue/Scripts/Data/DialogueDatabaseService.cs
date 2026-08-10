@@ -1,22 +1,27 @@
-using UnityEngine;
-using System.Collections.Generic;
-using System;
 using Cysharp.Threading.Tasks;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class DialogueDatabaseService : ApplicationServiceBase
 {
-    public List<DialogueNode> nodes = new List<DialogueNode>();
-    public Dictionary<string, DialogueNode> nodesDatabase = new Dictionary<string, DialogueNode>();
+    private readonly List<DialogueNode> nodes = new();
+    private readonly Dictionary<string, DialogueNode> nodesDatabase = new();
+    private readonly DialogueImporter importer;
+
+    public IReadOnlyList<DialogueNode> Nodes => nodes;
+    public IReadOnlyDictionary<string, DialogueNode> NodesDatabase => nodesDatabase;
     public bool IsBuilt { get; private set; }
 
-    private readonly DialogueImporter importer;
     public DialogueDatabaseService(DialogueImporter importer)
     {
         this.importer = importer;
     }
     public override UniTask Initialize()
     {
-        nodes = importer.Import();
+        Build(importer.Import());
+
         if (nodes != null)
         {
             Build(nodes);
@@ -36,6 +41,7 @@ public class DialogueDatabaseService : ApplicationServiceBase
     {
         foreach (DialogueNode node in nodes)
         {
+            nodes.Add(node);
             nodesDatabase.Add(node.id, node);
         }
     }
@@ -64,7 +70,7 @@ public class DialogueDatabaseService : ApplicationServiceBase
         return nodesDatabase.ContainsKey(id);
     }
 
-    public List<DialogueNode> GetAll()
+    public IReadOnlyList<DialogueNode> GetAll()
     {
         return nodes;
     }
