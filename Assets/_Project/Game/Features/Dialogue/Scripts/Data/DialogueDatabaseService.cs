@@ -54,15 +54,8 @@ public class DialogueDatabaseService : ApplicationServiceBase
 
     public DialogueNode TryGetNode(string id)
     {
-        DialogueNode node = null;
-        try
-        {
-            node = nodesDatabase[id];
-        }
-        catch (Exception e)
-        {
-            Debug.LogError(e);
-        }
+        nodesDatabase.TryGetValue(id, out DialogueNode node);
+        
         return node;
     }
 
