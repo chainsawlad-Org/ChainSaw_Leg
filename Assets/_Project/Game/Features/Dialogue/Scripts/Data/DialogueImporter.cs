@@ -12,8 +12,10 @@ public class DialogueImporter
     {
         List<DialogueNode> nodes = new List<DialogueNode>();
         string jsonData = Load(nameJson, pathToJson);
-        nodes = Parse(jsonData);
-
+        if(jsonData != null)
+        {
+            nodes = Parse(jsonData);
+        }
 
         return nodes;
     }
@@ -54,7 +56,10 @@ public class DialogueImporter
             nodes.Add(node);
         }
 
-        Validate(nodes);
+        if (!Validate(nodes))
+        {
+            return null;
+        }
 
         return nodes;
     }
@@ -73,6 +78,12 @@ public class DialogueImporter
             if (string.IsNullOrEmpty(node.id))
             {
                 Debug.LogError("ID is null");
+                return false;
+            }
+
+            if(nodes.Any(n => n.id == node.id))
+            {
+                Debug.LogError("ID " + node.id + " already exists");
                 return false;
             }
 
