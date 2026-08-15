@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Events;
 using UnityEngine.Rendering;
 using Zenject;
 
@@ -12,13 +14,16 @@ namespace ChainSawLeg.Features.Exploration
         [SerializeField] private GameObject collidersObject;
         [SerializeField] private SpriteRenderer[] roomSprites;
         [SerializeField] private SortingGroup sortingGroup;
+        [SerializeField] private Color onCloseColor = new Color(0.2f, 0.2f, 0.2f, 1f);
         [SerializeField] private Transform leftUpperBound;
         [SerializeField] private Transform rightLowerBound;
         [SerializeField] private bool isStartRoom;
+        [SerializeField] private UnityEvent onOpen;
+        [SerializeField] private UnityEvent onClose;
         private GameplayInputBlockService gameplayInputBlockService;
         [HideInInspector] public Bounds roomBounds;
         private CameraFlow cameraFlow;
-
+        private Dictionary<SpriteRenderer, Color> baseSpriteColors = new Dictionary<SpriteRenderer, Color>();
         private float transitionDuration = 1f;
 
         [Inject]
@@ -27,6 +32,7 @@ namespace ChainSawLeg.Features.Exploration
             this.gameplayInputBlockService = gameplayInputBlockService;
             roomBounds = CreateBoundsFromTransforms(leftUpperBound.position, rightLowerBound.position);
             this.cameraFlow = cameraFlow;
+            foreach (var sprite in roomSprites) baseSpriteColors.Add(sprite, sprite.color);
         }
 
         private void Start()
@@ -38,7 +44,7 @@ namespace ChainSawLeg.Features.Exploration
             }
             else
             {
-                foreach (var sprite in roomSprites) sprite.color = new Color(0.2f, 0.2f, 0.2f, 1f);
+                foreach (var sprite in roomSprites) sprite.color = onCloseColor;
                 sortingGroup.sortingOrder--;
                 collidersObject.SetActive(false);
             }
@@ -49,32 +55,32 @@ namespace ChainSawLeg.Features.Exploration
             collidersObject.SetActive(true);
             foreach (var sprite in roomSprites)
             {
-                DOVirtual.Color(new Color(0.2f, 0.2f, 0.2f, 1f), Color.white, transitionDuration * 0.5f, (Color color) => sprite.color = color);
+                DOVirtual.Color(onCloseColor, baseSpriteColors[sprite], transitionDuration * 0.5f, (Color color) => sprite.color = color);
                 sortingGroup.sortingOrder++;
             }
             DOVirtual.DelayedCall(transitionDuration * 0.5f, () => gameplayInputBlockService.ReleaseBlock(InputBlockChannels.Gameplay));
             cameraFlow.bounds = roomBounds;
             sortingGroup.enabled = false;
+            onOpen?.Invoke();
         }
 
         public void CloseRoom(RoomManager nextRoom, Action onClose)
         {
-            //Vector3 target = new Vector3(nextRoomPosition.x, nextRoomPosition.y, targetCamera.transform.position.z);
-            //targetCamera.transform.DOMove(target, transitionDuration).SetEase(Ease.InOutQuart);
             cameraFlow.TransitToRoom(nextRoom.roomBounds, transitionDuration);
 
             gameplayInputBlockService.AcquireBlock(InputBlockChannels.Gameplay);
-            collidersObject.SetActive(false);
             
             foreach (var sprite in roomSprites)
             {
-                DOVirtual.Color(Color.white, new Color(0.2f, 0.2f, 0.2f, 1f), transitionDuration, (Color color) => sprite.color = color);
+                DOVirtual.Color(baseSpriteColors[sprite], onCloseColor, transitionDuration, (Color color) => sprite.color = color);
                 DOVirtual.DelayedCall(transitionDuration * 0.5f, () => { sortingGroup.sortingOrder--; });
             }
             DOVirtual.DelayedCall(transitionDuration * 0.5f, () =>
             {
+                collidersObject.SetActive(false);
                 sortingGroup.enabled = true;
                 onClose?.Invoke();
+                this.onClose?.Invoke();
             });
         }
         

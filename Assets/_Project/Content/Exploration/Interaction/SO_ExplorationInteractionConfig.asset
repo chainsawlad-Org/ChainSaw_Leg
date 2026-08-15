@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afca137c8a22e4b9f990608ace6a7e64, type: 3}
   m_Name: SO_ExplorationInteractionConfig
   m_EditorClassIdentifier: Assembly-CSharp::ExplorationInteractionConfig
-  interactionRadius: 2
+  interactionRadius: 1.5
   scanIntervalSeconds: 0.05
   interactionLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  facingDotThreshold: 0.7
+  facingDotThreshold: 0.3
   defaultPromptText: Press E to interact
