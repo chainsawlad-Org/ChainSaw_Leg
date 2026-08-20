@@ -1,0 +1,1352 @@
+fileFormatVersion: 2
+guid: 074abef47ed33fa45bbae415a6199012
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1867969545956099711
+    second: 11VisZal_0
+  - first:
+      213: -8592196540008483675
+    second: 11VisZal_1
+  - first:
+      213: -867692585920237261
+    second: 11VisZal_2
+  - first:
+      213: 229798273899297363
+    second: 11VisZal_3
+  - first:
+      213: 687090067713206521
+    second: 11VisZal_4
+  - first:
+      213: -6371595013206574677
+    second: 11VisZal_5
+  - first:
+      213: -6420654625717201942
+    second: 11VisZal_6
+  - first:
+      213: 5835280717133782233
+    second: 11VisZal_7
+  - first:
+      213: 9050919543202397366
+    second: 11VisZal_8
+  - first:
+      213: -2615142536155905727
+    second: 11VisZal_9
+  - first:
+      213: -9161183167744857204
+    second: 11VisZal_10
+  - first:
+      213: -2438285965917323813
+    second: 11VisZal_11
+  - first:
+      213: -7718998096219069919
+    second: 11VisZal_12
+  - first:
+      213: -1048934295395949756
+    second: 11VisZal_13
+  - first:
+      213: -1011538435642892797
+    second: 11VisZal_14
+  - first:
+      213: 5871374734825919490
+    second: 11VisZal_15
+  - first:
+      213: 5048107771698041604
+    second: 11VisZal_16
+  - first:
+      213: -5183426649287824670
+    second: 11VisZal_17
+  - first:
+      213: 9022064371064590305
+    second: 11VisZal_18
+  - first:
+      213: -2772028322122005283
+    second: 11VisZal_19
+  - first:
+      213: 4864627334879747898
+    second: 11VisZal_20
+  - first:
+      213: 5058092697218975972
+    second: 11VisZal_21
+  - first:
+      213: 2096977880403267049
+    second: 11VisZal_22
+  - first:
+      213: -5598867564741295380
+    second: 11VisZal_23
+  - first:
+      213: -4137402216843717526
+    second: 11VisZal_24
+  - first:
+      213: -7304918350165432852
+    second: 11VisZal_25
+  - first:
+      213: -1547438080073222799
+    second: 11VisZal_26
+  - first:
+      213: -7900272206953250047
+    second: 11VisZal_27
+  - first:
+      213: -6871530450147518260
+    second: 11VisZal_28
+  - first:
+      213: -4748453004058000166
+    second: 11VisZal_29
+  - first:
+      213: -9002252027625103652
+    second: 11VisZal_30
+  - first:
+      213: 8841643172469816530
+    second: 11VisZal_31
+  - first:
+      213: 1194205852972782639
+    second: 11VisZal_32
+  - first:
+      213: -2655657436027003726
+    second: 11VisZal_33
+  - first:
+      213: -2412113695405759866
+    second: 11VisZal_34
+  - first:
+      213: -5131689960279316714
+    second: 11VisZal_35
+  - first:
+      213: -2400676314616997600
+    second: 11VisZal_36
+  - first:
+      213: 9049471923624589834
+    second: 11VisZal_37
+  - first:
+      213: -3500314596471577785
+    second: 11VisZal_38
+  - first:
+      213: -5065724498316655443
+    second: 11VisZal_39
+  - first:
+      213: 5673843919693620083
+    second: 11VisZal_40
+  - first:
+      213: 8113549033021111674
+    second: 11VisZal_41
+  - first:
+      213: 3126467609686429774
+    second: 11VisZal_42
+  - first:
+      213: 5032955654424595667
+    second: 11VisZal_43
+  - first:
+      213: -1407509715296333761
+    second: 11VisZal_44
+  - first:
+      213: -6473739979847532922
+    second: 11VisZal_45
+  - first:
+      213: 4674258133296320394
+    second: 11VisZal_46
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: 11VisZal_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 13613
+        height: 4938
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7606f5b76c5ce910800000000000000
+      internalID: 1867969545956099711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_1
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 4936
+        width: 11
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a4347035c262c880800000000000000
+      internalID: -8592196540008483675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_2
+      rect:
+        serializedVersion: 2
+        x: 429
+        y: 4936
+        width: 11
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 331fbf9b03655f3f0800000000000000
+      internalID: -867692585920237261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_3
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 4936
+        width: 12
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35af3c50058603300800000000000000
+      internalID: 229798273899297363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_4
+      rect:
+        serializedVersion: 2
+        x: 1012
+        y: 4936
+        width: 13
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f8aeb6b6c8098900800000000000000
+      internalID: 687090067713206521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_5
+      rect:
+        serializedVersion: 2
+        x: 1305
+        y: 4936
+        width: 12
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba9fb29f71c8397a0800000000000000
+      internalID: -6371595013206574677
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_6
+      rect:
+        serializedVersion: 2
+        x: 1597
+        y: 4936
+        width: 11
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae358a0d2a045e6a0800000000000000
+      internalID: -6420654625717201942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_7
+      rect:
+        serializedVersion: 2
+        x: 1889
+        y: 4936
+        width: 11
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9dc127545e41bf050800000000000000
+      internalID: 5835280717133782233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_8
+      rect:
+        serializedVersion: 2
+        x: 2181
+        y: 4936
+        width: 11
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6bc3837ee535b9d70800000000000000
+      internalID: 9050919543202397366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_9
+      rect:
+        serializedVersion: 2
+        x: 2472
+        y: 4936
+        width: 12
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 141c96f08b525bbd0800000000000000
+      internalID: -2615142536155905727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_10
+      rect:
+        serializedVersion: 2
+        x: 2764
+        y: 4936
+        width: 13
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8ba74c6270fcd080800000000000000
+      internalID: -9161183167744857204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_11
+      rect:
+        serializedVersion: 2
+        x: 3057
+        y: 4936
+        width: 12
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bdd7da425d7792ed0800000000000000
+      internalID: -2438285965917323813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_12
+      rect:
+        serializedVersion: 2
+        x: 3349
+        y: 4936
+        width: 12
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12222f4e02c90e490800000000000000
+      internalID: -7718998096219069919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_13
+      rect:
+        serializedVersion: 2
+        x: 3641
+        y: 4936
+        width: 11
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 443233ad0df6171f0800000000000000
+      internalID: -1048934295395949756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_14
+      rect:
+        serializedVersion: 2
+        x: 3932
+        y: 4936
+        width: 13
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30ed9d2f62b46f1f0800000000000000
+      internalID: -1011538435642892797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_15
+      rect:
+        serializedVersion: 2
+        x: 4224
+        y: 4936
+        width: 13
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2049084a6305b7150800000000000000
+      internalID: 5871374734825919490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_16
+      rect:
+        serializedVersion: 2
+        x: 4516
+        y: 4936
+        width: 14
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40353f7b54b7e0640800000000000000
+      internalID: 5048107771698041604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_17
+      rect:
+        serializedVersion: 2
+        x: 4810
+        y: 4936
+        width: 12
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2eae7e9ece4c018b0800000000000000
+      internalID: -5183426649287824670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_18
+      rect:
+        serializedVersion: 2
+        x: 5102
+        y: 4936
+        width: 11
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ef430a9ebfc43d70800000000000000
+      internalID: 9022064371064590305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_19
+      rect:
+        serializedVersion: 2
+        x: 5394
+        y: 4936
+        width: 11
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd488988de6c789d0800000000000000
+      internalID: -2772028322122005283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_20
+      rect:
+        serializedVersion: 2
+        x: 5685
+        y: 4936
+        width: 12
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3f992489c0a28340800000000000000
+      internalID: 4864627334879747898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_21
+      rect:
+        serializedVersion: 2
+        x: 5977
+        y: 4936
+        width: 12
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e80cba5284f13640800000000000000
+      internalID: 5058092697218975972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_22
+      rect:
+        serializedVersion: 2
+        x: 6270
+        y: 4936
+        width: 12
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9edc94f9546f91d10800000000000000
+      internalID: 2096977880403267049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_23
+      rect:
+        serializedVersion: 2
+        x: 6562
+        y: 4936
+        width: 11
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce2832b2d93dc42b0800000000000000
+      internalID: -5598867564741295380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_24
+      rect:
+        serializedVersion: 2
+        x: 6854
+        y: 4936
+        width: 11
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a64dd1cca9ef496c0800000000000000
+      internalID: -4137402216843717526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_25
+      rect:
+        serializedVersion: 2
+        x: 7146
+        y: 4936
+        width: 11
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce52821b677bf9a90800000000000000
+      internalID: -7304918350165432852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_26
+      rect:
+        serializedVersion: 2
+        x: 7437
+        y: 4936
+        width: 12
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 175b25dc345668ae0800000000000000
+      internalID: -1547438080073222799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_27
+      rect:
+        serializedVersion: 2
+        x: 7729
+        y: 4936
+        width: 13
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 10309a309489c5290800000000000000
+      internalID: -7900272206953250047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_28
+      rect:
+        serializedVersion: 2
+        x: 8022
+        y: 4936
+        width: 12
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc85da7667b63a0a0800000000000000
+      internalID: -6871530450147518260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_29
+      rect:
+        serializedVersion: 2
+        x: 8314
+        y: 4936
+        width: 11
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad48c74b62b1a1eb0800000000000000
+      internalID: -4748453004058000166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_30
+      rect:
+        serializedVersion: 2
+        x: 8606
+        y: 4936
+        width: 11
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cde9dd21a73911380800000000000000
+      internalID: -9002252027625103652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_31
+      rect:
+        serializedVersion: 2
+        x: 8898
+        y: 4936
+        width: 11
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2dc32ddce93d3ba70800000000000000
+      internalID: 8841643172469816530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_32
+      rect:
+        serializedVersion: 2
+        x: 9189
+        y: 4936
+        width: 12
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f24922765eba29010800000000000000
+      internalID: 1194205852972782639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_33
+      rect:
+        serializedVersion: 2
+        x: 9481
+        y: 4936
+        width: 14
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2bc5c78d1a5352bd0800000000000000
+      internalID: -2655657436027003726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_34
+      rect:
+        serializedVersion: 2
+        x: 9774
+        y: 4936
+        width: 13
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6822c7bbf53768ed0800000000000000
+      internalID: -2412113695405759866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_35
+      rect:
+        serializedVersion: 2
+        x: 10066
+        y: 4936
+        width: 12
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 617ec148b2398c8b0800000000000000
+      internalID: -5131689960279316714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_36
+      rect:
+        serializedVersion: 2
+        x: 10358
+        y: 4936
+        width: 12
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0295f867c951faed0800000000000000
+      internalID: -2400676314616997600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_37
+      rect:
+        serializedVersion: 2
+        x: 10649
+        y: 4936
+        width: 13
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0ab384b4ce269d70800000000000000
+      internalID: 9049471923624589834
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_38
+      rect:
+        serializedVersion: 2
+        x: 10941
+        y: 4936
+        width: 13
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74362338b626c6fc0800000000000000
+      internalID: -3500314596471577785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_39
+      rect:
+        serializedVersion: 2
+        x: 11234
+        y: 4936
+        width: 13
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da487db786ee2b9b0800000000000000
+      internalID: -5065724498316655443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_40
+      rect:
+        serializedVersion: 2
+        x: 11527
+        y: 4936
+        width: 11
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3732950dbfa8dbe40800000000000000
+      internalID: 5673843919693620083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_41
+      rect:
+        serializedVersion: 2
+        x: 11819
+        y: 4936
+        width: 11
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7dffecabdd199070800000000000000
+      internalID: 8113549033021111674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_42
+      rect:
+        serializedVersion: 2
+        x: 12111
+        y: 4936
+        width: 11
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e40df1de9b1736b20800000000000000
+      internalID: 3126467609686429774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_43
+      rect:
+        serializedVersion: 2
+        x: 12402
+        y: 4936
+        width: 12
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3dc85408086a8d540800000000000000
+      internalID: 5032955654424595667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_44
+      rect:
+        serializedVersion: 2
+        x: 12694
+        y: 4936
+        width: 13
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f30d9d90f55877ce0800000000000000
+      internalID: -1407509715296333761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_45
+      rect:
+        serializedVersion: 2
+        x: 12986
+        y: 4936
+        width: 13
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68e71f4a9c7a826a0800000000000000
+      internalID: -6473739979847532922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11VisZal_46
+      rect:
+        serializedVersion: 2
+        x: 13279
+        y: 4936
+        width: 11
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8f8b97c10d4ed040800000000000000
+      internalID: 4674258133296320394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      11VisZal_0: 1867969545956099711
+      11VisZal_1: -8592196540008483675
+      11VisZal_10: -9161183167744857204
+      11VisZal_11: -2438285965917323813
+      11VisZal_12: -7718998096219069919
+      11VisZal_13: -1048934295395949756
+      11VisZal_14: -1011538435642892797
+      11VisZal_15: 5871374734825919490
+      11VisZal_16: 5048107771698041604
+      11VisZal_17: -5183426649287824670
+      11VisZal_18: 9022064371064590305
+      11VisZal_19: -2772028322122005283
+      11VisZal_2: -867692585920237261
+      11VisZal_20: 4864627334879747898
+      11VisZal_21: 5058092697218975972
+      11VisZal_22: 2096977880403267049
+      11VisZal_23: -5598867564741295380
+      11VisZal_24: -4137402216843717526
+      11VisZal_25: -7304918350165432852
+      11VisZal_26: -1547438080073222799
+      11VisZal_27: -7900272206953250047
+      11VisZal_28: -6871530450147518260
+      11VisZal_29: -4748453004058000166
+      11VisZal_3: 229798273899297363
+      11VisZal_30: -9002252027625103652
+      11VisZal_31: 8841643172469816530
+      11VisZal_32: 1194205852972782639
+      11VisZal_33: -2655657436027003726
+      11VisZal_34: -2412113695405759866
+      11VisZal_35: -5131689960279316714
+      11VisZal_36: -2400676314616997600
+      11VisZal_37: 9049471923624589834
+      11VisZal_38: -3500314596471577785
+      11VisZal_39: -5065724498316655443
+      11VisZal_4: 687090067713206521
+      11VisZal_40: 5673843919693620083
+      11VisZal_41: 8113549033021111674
+      11VisZal_42: 3126467609686429774
+      11VisZal_43: 5032955654424595667
+      11VisZal_44: -1407509715296333761
+      11VisZal_45: -6473739979847532922
+      11VisZal_46: 4674258133296320394
+      11VisZal_5: -6371595013206574677
+      11VisZal_6: -6420654625717201942
+      11VisZal_7: 5835280717133782233
+      11VisZal_8: 9050919543202397366
+      11VisZal_9: -2615142536155905727
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
