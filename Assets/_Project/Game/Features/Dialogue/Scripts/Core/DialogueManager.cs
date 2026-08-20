@@ -157,7 +157,7 @@ public class DialogueManager : MonoBehaviour, IDialogueRuntime
 
         while (current != null)
         {
-            events.Add(new TypewriterEvent { text = current.text, speed = 0.05f });
+            /*events.Add(new TypewriterEvent { text = current.text, speed = 0.05f });
 
             if (current.choices != null && current.choices.Count > 0)
 
@@ -165,7 +165,7 @@ public class DialogueManager : MonoBehaviour, IDialogueRuntime
                 events.Add(new ChoiceEvent { choices = current.choices });
                 break;
             }
-            current = current.nextNode;
+            current = current.nextNode;*/
         }
         return events;
     }

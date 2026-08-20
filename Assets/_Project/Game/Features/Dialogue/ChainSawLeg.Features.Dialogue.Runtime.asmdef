@@ -4,7 +4,8 @@
     "references": [
         "UniTask",
         "UnityEngine.UI",
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "ChainSawLeg.Game.Shared.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

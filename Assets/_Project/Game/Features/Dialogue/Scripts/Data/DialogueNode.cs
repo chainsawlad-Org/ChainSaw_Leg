@@ -5,7 +5,8 @@ using System;
 public class DialogueNode
 {
     [TextArea(2, 5)]
+    public string id;
+    public string speaker;
     public string text;
-    public List<DialogueChoice> choices;
-    public DialogueNode nextNode;
+    public string nextId;
 }
