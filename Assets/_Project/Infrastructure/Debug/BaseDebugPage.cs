@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityDebugSheet;
 using System.Collections;
-using ChainSawLeg.Features.Exploration.Save;
-using Zenject;
 
 public sealed class BaseDebugPage : DefaultDebugPageBase
 {
