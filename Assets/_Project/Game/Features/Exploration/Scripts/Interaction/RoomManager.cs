@@ -24,7 +24,7 @@ namespace ChainSawLeg.Features.Exploration
         [HideInInspector] public Bounds roomBounds;
         private CameraFlow cameraFlow;
         private Dictionary<SpriteRenderer, Color> baseSpriteColors = new Dictionary<SpriteRenderer, Color>();
-        private float transitionDuration = 1f;
+        public readonly float transitionDuration = 1f;
 
         [Inject]
         public void Construct(GameplayInputBlockService gameplayInputBlockService, CameraFlow cameraFlow)
@@ -64,9 +64,9 @@ namespace ChainSawLeg.Features.Exploration
             onOpen?.Invoke();
         }
 
-        public void CloseRoom(RoomManager nextRoom, Action onClose)
+        public void CloseRoom(RoomManager nextRoom, Action onClose, Vector2 nextPlayerPosition)
         {
-            cameraFlow.TransitToRoom(nextRoom.roomBounds, transitionDuration);
+            cameraFlow.TransitToRoom(nextRoom.roomBounds, transitionDuration, nextPlayerPosition);
 
             gameplayInputBlockService.AcquireBlock(InputBlockChannels.Gameplay);
             
@@ -82,6 +82,8 @@ namespace ChainSawLeg.Features.Exploration
                 onClose?.Invoke();
                 this.onClose?.Invoke();
             });
+            
+            
         }
         
         private Bounds CreateBoundsFromTransforms(Vector3 leftUpperBound, Vector3 rightLowerBound)

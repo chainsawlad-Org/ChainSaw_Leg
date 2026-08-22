@@ -55,7 +55,7 @@ namespace ChainSawLeg.Composition
             return DialogueLibrary.ConvertToEvents(startNode);
         }
         
-        public override void Interact()
+        public override void Interact(GameObject player)
         {
             if (!CanInteract())
                 return;

@@ -50,7 +50,7 @@ namespace ChainSawLeg.Features.Exploration.Save
             return isConfigurationValid && !isSaveInProgress;
         }
 
-        public void Interact()
+        public void Interact(GameObject player)
         {
             if (!CanInteract())
                 return;

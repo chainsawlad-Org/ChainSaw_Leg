@@ -44,11 +44,11 @@ public class CameraFlow : MonoBehaviour
             transform.position = player.position + offset;
     }
 
-    public void TransitToRoom(Bounds bounds, float duration)
+    public void TransitToRoom(Bounds bounds, float duration, Vector2 position)
     {
         inTransition = true;
         velocity = Vector3.zero;
-        Vector3 target = GetClampedPosition(GetDesiredPosition(player.position), bounds);
+        Vector3 target = GetClampedPosition(GetPositionWithOffset(position), bounds);
         transform.DOMove(target, duration).SetEase(Ease.InOutQuart).OnComplete(() => inTransition = false);
     }
     
@@ -79,6 +79,11 @@ public class CameraFlow : MonoBehaviour
             desiredPosition.z = player.position.z + offset.z;
         
         return desiredPosition;
+    }
+
+    private Vector3 GetPositionWithOffset(Vector3 position)
+    {
+        return position + offset;
     }
     
     private Vector3 GetClampedPosition(Vector3 position, Bounds bounds)

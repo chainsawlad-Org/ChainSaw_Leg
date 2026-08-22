@@ -275,6 +275,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::Door
   nextRoom: {fileID: 1416860746}
   prevRoom: {fileID: 1114578763}
+  nextPlayerOffset: {x: 0, y: 5}
 --- !u!61 &18991976
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -368,6 +369,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::Door
   nextRoom: {fileID: 1114578763}
   prevRoom: {fileID: 1345156035}
+  nextPlayerOffset: {x: -5, y: 0}
 --- !u!61 &20433091
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -509,7 +511,7 @@ Transform:
   m_GameObject: {fileID: 30522795}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 186, y: -83.5, z: 0}
+  m_LocalPosition: {x: 188.86, y: -83.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -572,7 +574,7 @@ Transform:
   m_GameObject: {fileID: 46451509}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 128, y: -71.5, z: 0}
+  m_LocalPosition: {x: 130.2, y: -71.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -752,6 +754,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::Door
   nextRoom: {fileID: 1114578763}
   prevRoom: {fileID: 1416860746}
+  nextPlayerOffset: {x: 0, y: -3}
 --- !u!61 &82100919
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1045,6 +1048,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::Door
   nextRoom: {fileID: 1667534140}
   prevRoom: {fileID: 1114578763}
+  nextPlayerOffset: {x: 0, y: 5}
 --- !u!61 &107884783
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1946,7 +1950,7 @@ Transform:
   m_GameObject: {fileID: 252980581}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 72, y: -70.63, z: 0}
+  m_LocalPosition: {x: 69.4, y: -71.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2639,6 +2643,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::Door
   nextRoom: {fileID: 1813713043}
   prevRoom: {fileID: 1114578763}
+  nextPlayerOffset: {x: -5, y: 0}
 --- !u!61 &389071626
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2928,7 +2933,7 @@ Transform:
   m_GameObject: {fileID: 418222736}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 56.31, y: -21.3, z: 0}
+  m_LocalPosition: {x: 56.31, y: -17.97, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3913,7 +3918,7 @@ Transform:
   m_GameObject: {fileID: 526049198}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -56.75, y: -3.46, z: 0}
+  m_LocalPosition: {x: -57.15, y: -3.46, z: 0}
   m_LocalScale: {x: 1, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5399,6 +5404,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::Door
   nextRoom: {fileID: 1114578763}
   prevRoom: {fileID: 2055909247}
+  nextPlayerOffset: {x: 3, y: -17}
 --- !u!1 &742364028
 GameObject:
   m_ObjectHideFlags: 0
@@ -5924,7 +5930,7 @@ Transform:
   m_GameObject: {fileID: 849967930}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26.91, y: -70, z: 0}
+  m_LocalPosition: {x: 23.61, y: -70, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5966,6 +5972,7 @@ Transform:
   - {fileID: 1353498850}
   - {fileID: 207011234}
   - {fileID: 106953383}
+  - {fileID: 1823775417}
   m_Father: {fileID: 46451511}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!210 &866911906
@@ -6636,6 +6643,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::Door
   nextRoom: {fileID: 1345156035}
   prevRoom: {fileID: 1114578763}
+  nextPlayerOffset: {x: 5, y: 0}
 --- !u!61 &978780032
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7010,7 +7018,7 @@ Transform:
   m_GameObject: {fileID: 1044196470}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26.91, y: -51.6, z: 0}
+  m_LocalPosition: {x: 23.7, y: -51.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8097,7 +8105,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1157121962}
   - component: {fileID: 1157121961}
-  - component: {fileID: 1157121960}
   - component: {fileID: 1157121964}
   - component: {fileID: 1157121965}
   - component: {fileID: 1157121966}
@@ -8106,6 +8113,7 @@ GameObject:
   - component: {fileID: 1157121970}
   - component: {fileID: 1157121972}
   - component: {fileID: 1157121971}
+  - component: {fileID: 1157121973}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -8113,52 +8121,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!61 &1157121960
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1157121958}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0.16227978, y: -1.8137484}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1.0127627, y: 0.3026371}
-  m_EdgeRadius: 0
 --- !u!50 &1157121961
 Rigidbody2D:
   serializedVersion: 5
@@ -8195,7 +8157,7 @@ Transform:
   m_GameObject: {fileID: 1157121958}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 45.4, y: -92.2, z: 0}
+  m_LocalPosition: {x: 44.2, y: -93.6, z: 0}
   m_LocalScale: {x: -1.2, y: 1.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8315,6 +8277,73 @@ MonoBehaviour:
   dashDuration: 0.2
   dashCooldown: 2
   isDashing: 0
+--- !u!58 &1157121973
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1157121958}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: -1.5}
+  m_Radius: 1
+--- !u!1 &1185787355
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1185787356}
+  m_Layer: 0
+  m_Name: NextPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1185787356
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1185787355}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.95, y: 0.65, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1187606134}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1187606133
 GameObject:
   m_ObjectHideFlags: 0
@@ -8345,7 +8374,8 @@ Transform:
   m_LocalPosition: {x: -18.2, y: -2.27, z: 0}
   m_LocalScale: {x: 1, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1185787356}
   m_Father: {fileID: 978880475}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1187606135
@@ -8362,6 +8392,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::Door
   nextRoom: {fileID: 1114578763}
   prevRoom: {fileID: 46451510}
+  nextPlayerOffset: {x: -5, y: 0}
 --- !u!61 &1187606136
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8455,6 +8486,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::Door
   nextRoom: {fileID: 1114578763}
   prevRoom: {fileID: 418222737}
+  nextPlayerOffset: {x: 0, y: -3}
 --- !u!61 &1188518286
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9482,6 +9514,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::Door
   nextRoom: {fileID: 2055909247}
   prevRoom: {fileID: 30522796}
+  nextPlayerOffset: {x: -5, y: 0}
 --- !u!61 &1278495603
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9744,6 +9777,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::Door
   nextRoom: {fileID: 1114578763}
   prevRoom: {fileID: 1813713043}
+  nextPlayerOffset: {x: 5, y: 0}
 --- !u!61 &1306312072
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9974,6 +10008,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::Door
   nextRoom: {fileID: 1114578763}
   prevRoom: {fileID: 1044196471}
+  nextPlayerOffset: {x: 5, y: 0}
 --- !u!61 &1316753895
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10067,6 +10102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::Door
   nextRoom: {fileID: 1491136692}
   prevRoom: {fileID: 1114578763}
+  nextPlayerOffset: {x: 5, y: 0}
 --- !u!61 &1329674490
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10247,7 +10283,7 @@ Transform:
   m_GameObject: {fileID: 1345156034}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 192.9, y: -40.9, z: 0}
+  m_LocalPosition: {x: 195.8, y: -40.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10610,6 +10646,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::Door
   nextRoom: {fileID: 1044196471}
   prevRoom: {fileID: 1114578763}
+  nextPlayerOffset: {x: -5, y: 0}
 --- !u!61 &1384181464
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11023,7 +11060,7 @@ Transform:
   m_GameObject: {fileID: 1416860745}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 132.6, y: -21.3, z: 0}
+  m_LocalPosition: {x: 133.37, y: -18.26, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11077,6 +11114,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::Door
   nextRoom: {fileID: 2055909247}
   prevRoom: {fileID: 1114578763}
+  nextPlayerOffset: {x: 3, y: 20}
 --- !u!61 &1420034502
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11491,7 +11529,7 @@ Transform:
   m_GameObject: {fileID: 1491136691}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 192.9, y: -79.3, z: 0}
+  m_LocalPosition: {x: 195.95, y: -79.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11545,6 +11583,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::Door
   nextRoom: {fileID: 1114578763}
   prevRoom: {fileID: 1667534140}
+  nextPlayerOffset: {x: 0, y: -3}
 --- !u!61 &1497923183
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11988,6 +12027,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::Door
   nextRoom: {fileID: 1114578763}
   prevRoom: {fileID: 849967931}
+  nextPlayerOffset: {x: 5, y: 0}
 --- !u!61 &1611222376
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12432,7 +12472,7 @@ Transform:
   m_GameObject: {fileID: 1667534139}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20, y: -28, z: 0}
+  m_LocalPosition: {x: 20, y: -25.29, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12902,6 +12942,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::Door
   nextRoom: {fileID: 252980582}
   prevRoom: {fileID: 1114578763}
+  nextPlayerOffset: {x: -5, y: 0}
 --- !u!61 &1776503526
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13483,12 +13524,43 @@ Transform:
   m_GameObject: {fileID: 1813713042}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 72, y: -95.74, z: 0}
+  m_LocalPosition: {x: 69.6, y: -95.74, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1248270166}
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1823775416
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1823775417}
+  m_Layer: 0
+  m_Name: PlayerStart
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1823775417
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823775416}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -15.59, y: -2.65, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 866911905}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1824916999
 GameObject:
@@ -13815,6 +13887,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::Door
   nextRoom: {fileID: 849967931}
   prevRoom: {fileID: 1114578763}
+  nextPlayerOffset: {x: -5, y: 0}
 --- !u!61 &1897256114
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -14243,6 +14316,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::Door
   nextRoom: {fileID: 418222737}
   prevRoom: {fileID: 1114578763}
+  nextPlayerOffset: {x: 0, y: 5}
 --- !u!61 &1947893425
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -14523,6 +14597,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::Door
   nextRoom: {fileID: 1114578763}
   prevRoom: {fileID: 252980582}
+  nextPlayerOffset: {x: 5, y: 0}
 --- !u!61 &1964585760
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -15134,6 +15209,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::Door
   nextRoom: {fileID: 46451510}
   prevRoom: {fileID: 1114578763}
+  nextPlayerOffset: {x: 5, y: 0}
 --- !u!61 &2025428009
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -15227,6 +15303,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::Door
   nextRoom: {fileID: 30522796}
   prevRoom: {fileID: 2055909247}
+  nextPlayerOffset: {x: 5, y: 0}
 --- !u!61 &2046392438
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -16331,6 +16408,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::Door
   nextRoom: {fileID: 1114578763}
   prevRoom: {fileID: 1491136692}
+  nextPlayerOffset: {x: -5, y: 0}
 --- !u!61 &2119019381
 BoxCollider2D:
   m_ObjectHideFlags: 0
