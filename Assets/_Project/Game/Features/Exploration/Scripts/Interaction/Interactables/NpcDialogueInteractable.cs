@@ -36,7 +36,7 @@ public class NpcDialogueInteractable : MonoBehaviour, IInteractable
         return true;
     }
 
-    public void Interact(GameObject player)
+    public void Interact()
     {
         if (!CanInteract())
         {

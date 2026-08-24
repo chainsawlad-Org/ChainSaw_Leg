@@ -29,7 +29,7 @@ public class DoorInteractable : MonoBehaviour, IInteractable
         return true;
     }
 
-    public void Interact(GameObject player)
+    public void Interact()
     {
         if (isLocked)
         {

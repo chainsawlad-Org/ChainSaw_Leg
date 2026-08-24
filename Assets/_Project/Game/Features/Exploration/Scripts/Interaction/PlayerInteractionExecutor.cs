@@ -40,7 +40,7 @@ public class PlayerInteractionExecutor : MonoBehaviour
             return;
         }
 
-        target.Interact(gameObject);
+        target.Interact();
     }
 
     public void SetInteractionEnabled(bool value)

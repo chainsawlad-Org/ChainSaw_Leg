@@ -29,7 +29,7 @@ public class NpcDialogue : MonoBehaviour, IInteractable
         return dialogueManager != null && !dialogueManager.IsActive;
     }
 
-    public virtual void Interact(GameObject player)
+    public virtual void Interact()
     {
         if (!CanInteract())
             return;

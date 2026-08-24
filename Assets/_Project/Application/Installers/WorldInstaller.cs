@@ -7,6 +7,7 @@ public class WorldInstaller : MonoInstaller
 {
     [SerializeField] private CameraFlow cameraFlow;
     [SerializeField] private ExplorationPlayerStateAdapter playerStateAdapter;
+    [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private DialogueInputRouter dialogueInputRouter;
     [SerializeField] private ExplorationCheckpointTrigger[] checkpointTriggers;
 
@@ -31,6 +32,13 @@ public class WorldInstaller : MonoInstaller
 
         Container.Bind<DialogueInputRouter>()
             .FromInstance(dialogueInputRouter)
+            .AsSingle();
+        
+        if (playerMovement == null)
+            throw new InvalidOperationException("World player movement is not assigned.");
+        
+        Container.Bind<PlayerMovement>()
+            .FromInstance(playerMovement)
             .AsSingle();
 
         Container.Bind<PlayerInputHandler>()
