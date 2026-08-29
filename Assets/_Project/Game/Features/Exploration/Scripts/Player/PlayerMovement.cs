@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -65,6 +66,11 @@ public class PlayerMovement : MonoBehaviour
     public void SetDefaultSpeed()
     {
         currentSpeed = moveSpeed;
+    }
+
+    public void TransitToPosition(Vector2 position, float duration)
+    {
+        transform.DOMove(position, duration).SetEase(Ease.OutQuart);
     }
 
     private Vector2 SnapTo8(Vector2 dir)

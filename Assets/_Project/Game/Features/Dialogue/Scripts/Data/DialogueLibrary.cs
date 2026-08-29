@@ -80,7 +80,7 @@ public static class DialogueLibrary
         return ConvertToEvents(startNode);
     }
 
-    private static List<IDialogueEvent> ConvertToEvents(DialogueNode start)
+    public static List<IDialogueEvent> ConvertToEvents(DialogueNode start)
     {
         var events = new List<IDialogueEvent>();
 

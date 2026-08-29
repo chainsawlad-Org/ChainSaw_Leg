@@ -1,0 +1,19 @@
+{
+  "name": "ChainSawLeg.Infrastructure.Debug.Runtime",
+  "references": [
+    "ChainSawLeg.Features.Exploration.Runtime",
+    "ChainSawLeg.Infrastructure.Runtime",
+    "UnityDebugSheet.Runtime",
+    "Zenject",
+    "UnityDebugSheet"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

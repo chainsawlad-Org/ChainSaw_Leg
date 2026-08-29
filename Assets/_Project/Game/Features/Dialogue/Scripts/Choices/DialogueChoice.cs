@@ -6,4 +6,5 @@ public class DialogueChoice
 {
     public string text;
     public DialogueNode nextNode;
+    public Action command;
 }
