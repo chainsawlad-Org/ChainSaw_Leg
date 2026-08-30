@@ -465,6 +465,7 @@ GameObject:
   m_Component:
   - component: {fileID: 30522797}
   - component: {fileID: 30522796}
+  - component: {fileID: 30522798}
   m_Layer: 0
   m_Name: MiniHall
   m_TagString: Untagged
@@ -518,6 +519,18 @@ Transform:
   - {fileID: 163778453}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &30522798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 30522795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00fd6639b8614687a7c708f04b7a3035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::RoomManagerInputBlockAdapter
 --- !u!1 &46451509
 GameObject:
   m_ObjectHideFlags: 0
@@ -528,6 +541,7 @@ GameObject:
   m_Component:
   - component: {fileID: 46451511}
   - component: {fileID: 46451510}
+  - component: {fileID: 46451512}
   m_Layer: 0
   m_Name: Class2
   m_TagString: Untagged
@@ -581,6 +595,18 @@ Transform:
   - {fileID: 866911905}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &46451512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 46451509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00fd6639b8614687a7c708f04b7a3035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::RoomManagerInputBlockAdapter
 --- !u!1 &69277966
 GameObject:
   m_ObjectHideFlags: 0
@@ -1757,6 +1783,7 @@ GameObject:
   m_Component:
   - component: {fileID: 252980583}
   - component: {fileID: 252980582}
+  - component: {fileID: 252980584}
   m_Layer: 0
   m_Name: Class
   m_TagString: Untagged
@@ -1810,6 +1837,18 @@ Transform:
   - {fileID: 4049576}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &252980584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252980581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00fd6639b8614687a7c708f04b7a3035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::RoomManagerInputBlockAdapter
 --- !u!1 &253963806
 GameObject:
   m_ObjectHideFlags: 0
@@ -2722,6 +2761,7 @@ GameObject:
   m_Component:
   - component: {fileID: 418222738}
   - component: {fileID: 418222737}
+  - component: {fileID: 418222739}
   m_Layer: 0
   m_Name: Office3
   m_TagString: Untagged
@@ -2775,6 +2815,18 @@ Transform:
   - {fileID: 542458993}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &418222739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418222736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00fd6639b8614687a7c708f04b7a3035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::RoomManagerInputBlockAdapter
 --- !u!1 &421504099
 GameObject:
   m_ObjectHideFlags: 0
@@ -5764,6 +5816,7 @@ GameObject:
   m_Component:
   - component: {fileID: 849967932}
   - component: {fileID: 849967931}
+  - component: {fileID: 849967933}
   m_Layer: 0
   m_Name: Toilet2
   m_TagString: Untagged
@@ -5817,6 +5870,18 @@ Transform:
   - {fileID: 523354174}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &849967933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849967930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00fd6639b8614687a7c708f04b7a3035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::RoomManagerInputBlockAdapter
 --- !u!1 &866911904
 GameObject:
   m_ObjectHideFlags: 0
@@ -6852,6 +6917,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1044196472}
   - component: {fileID: 1044196471}
+  - component: {fileID: 1044196473}
   m_Layer: 0
   m_Name: Toilet1
   m_TagString: Untagged
@@ -6905,6 +6971,18 @@ Transform:
   - {fileID: 1968594020}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1044196473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1044196470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00fd6639b8614687a7c708f04b7a3035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::RoomManagerInputBlockAdapter
 --- !u!1 &1045861871
 GameObject:
   m_ObjectHideFlags: 0
@@ -7505,6 +7583,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1114578764}
   - component: {fileID: 1114578763}
+  - component: {fileID: 1114578765}
   m_Layer: 0
   m_Name: Coridor
   m_TagString: Untagged
@@ -7568,6 +7647,18 @@ Transform:
   - {fileID: 2017850807}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1114578765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114578762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00fd6639b8614687a7c708f04b7a3035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::RoomManagerInputBlockAdapter
 --- !u!1 &1124752582
 GameObject:
   m_ObjectHideFlags: 0
@@ -8115,6 +8206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractionDetector
   interactionOrigin: {fileID: 1766003554}
+  playerRigidbody: {fileID: 0}
   playerMovement: {fileID: 1157121966}
   interactionConfig: {fileID: 11400000, guid: 11637cc13f47c488ab687767031f085b, type: 2}
 --- !u!114 &1157121970
@@ -10117,6 +10209,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1345156036}
   - component: {fileID: 1345156035}
+  - component: {fileID: 1345156037}
   m_Layer: 0
   m_Name: Office
   m_TagString: Untagged
@@ -10170,6 +10263,18 @@ Transform:
   - {fileID: 83720972}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1345156037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1345156034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00fd6639b8614687a7c708f04b7a3035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::RoomManagerInputBlockAdapter
 --- !u!1 &1347719313
 GameObject:
   m_ObjectHideFlags: 0
@@ -10894,6 +10999,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1416860747}
   - component: {fileID: 1416860746}
+  - component: {fileID: 1416860748}
   m_Layer: 0
   m_Name: Office2
   m_TagString: Untagged
@@ -10947,6 +11053,18 @@ Transform:
   - {fileID: 2079648824}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1416860748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1416860745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00fd6639b8614687a7c708f04b7a3035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::RoomManagerInputBlockAdapter
 --- !u!1 &1420034499
 GameObject:
   m_ObjectHideFlags: 0
@@ -11363,6 +11481,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1491136693}
   - component: {fileID: 1491136692}
+  - component: {fileID: 1491136694}
   m_Layer: 0
   m_Name: DiningRoom
   m_TagString: Untagged
@@ -11416,6 +11535,18 @@ Transform:
   - {fileID: 1347719314}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1491136694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1491136691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00fd6639b8614687a7c708f04b7a3035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::RoomManagerInputBlockAdapter
 --- !u!1 &1497923180
 GameObject:
   m_ObjectHideFlags: 0
@@ -12306,6 +12437,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1667534141}
   - component: {fileID: 1667534140}
+  - component: {fileID: 1667534142}
   m_Layer: 0
   m_Name: StoreRoom
   m_TagString: Untagged
@@ -12359,6 +12491,18 @@ Transform:
   - {fileID: 1259854693}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1667534142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1667534139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00fd6639b8614687a7c708f04b7a3035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::RoomManagerInputBlockAdapter
 --- !u!1 &1724473802
 GameObject:
   m_ObjectHideFlags: 0
@@ -13358,6 +13502,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1813713044}
   - component: {fileID: 1813713043}
+  - component: {fileID: 1813713045}
   m_Layer: 0
   m_Name: SecurityRoom
   m_TagString: Untagged
@@ -13411,6 +13556,18 @@ Transform:
   - {fileID: 1248270166}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1813713045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1813713042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00fd6639b8614687a7c708f04b7a3035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::RoomManagerInputBlockAdapter
 --- !u!1 &1823775416
 GameObject:
   m_ObjectHideFlags: 0
@@ -15240,6 +15397,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2055909248}
   - component: {fileID: 2055909247}
+  - component: {fileID: 2055909249}
   m_Layer: 0
   m_Name: Hall
   m_TagString: Untagged
@@ -15341,6 +15499,18 @@ Transform:
   - {fileID: 677279542}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2055909249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2055909246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00fd6639b8614687a7c708f04b7a3035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::RoomManagerInputBlockAdapter
 --- !u!1 &2057442604
 GameObject:
   m_ObjectHideFlags: 0

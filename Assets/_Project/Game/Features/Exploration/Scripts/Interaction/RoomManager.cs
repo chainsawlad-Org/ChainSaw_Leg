@@ -21,18 +21,16 @@ namespace ChainSawLeg.Features.Exploration
         [SerializeField] private bool isStartRoom;
         [SerializeField] private UnityEvent onOpen;
         [SerializeField] private UnityEvent onClose;
-        private GameplayInputBlockService gameplayInputBlockService;
+        private IGameplayInputBlockService gameplayInputBlockService;
         [HideInInspector] public Bounds roomBounds;
         private CameraFlow cameraFlow;
         private Dictionary<SpriteRenderer, Color> baseSpriteColors = new Dictionary<SpriteRenderer, Color>();
-        private IGameplayInputBlockService gameplayInputBlockService;
-        private readonly float transitionDuration = 1f;
+        public readonly float transitionDuration = 1f;
 
         public void ConfigureInputBlocking(IGameplayInputBlockService inputBlockService, CameraFlow cameraFlow)
         {
             gameplayInputBlockService = inputBlockService
                 ?? throw new ArgumentNullException(nameof(inputBlockService));
-            this.gameplayInputBlockService = gameplayInputBlockService;
             roomBounds = CreateBoundsFromTransforms(leftUpperBound.position, rightLowerBound.position);
             this.cameraFlow = cameraFlow;
             foreach (var sprite in roomSprites) baseSpriteColors.Add(sprite, sprite.color);
