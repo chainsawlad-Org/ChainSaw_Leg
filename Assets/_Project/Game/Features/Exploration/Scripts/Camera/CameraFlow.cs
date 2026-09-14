@@ -59,12 +59,12 @@ public class CameraFlow : MonoBehaviour
         
         Vector3 smoothedPosition = Vector3.SmoothDamp(
             transform.position,
-            GetDesiredPosition(transform.position),
+            GetClampedPosition(GetDesiredPosition(transform.position), bounds),
             ref velocity,
             smoothSpeed
         );
         
-        transform.position = GetClampedPosition(smoothedPosition, bounds);
+        transform.position = smoothedPosition;
     }
 
     private Vector3 GetDesiredPosition(Vector3 position)
