@@ -46,10 +46,11 @@ public class DialogueUI_RPG : MonoBehaviour
         root.SetActive(true);
     }
 
-    public void ShowText(string t)
+    public void ShowText(string t, float visibility)
     {
         root.SetActive(true);
         dialogueText.text = t;
+        dialogueText.maxVisibleCharacters = (int)Mathf.Lerp(t.Length, 0, visibility);
         ClearChoices();
         continueHint.SetActive(true);
     }
