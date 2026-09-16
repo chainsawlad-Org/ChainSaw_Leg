@@ -8,11 +8,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool snapTo8Directions = true;
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private bool flipSprite;
+    [SerializeField] private Transform interactionIcon;
 
     private Rigidbody2D rb;
     private PlayerInputHandler inputHandler;
     private PlayerDash dash;
     private float currentSpeed;
+    private float interactionIconOffsetX;
 
     public Vector2 LastMoveDir { get; private set; } = Vector2.up;
 
@@ -23,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
         inputHandler = GetComponent<PlayerInputHandler>();
         dash = GetComponent<PlayerDash>();
         currentSpeed = moveSpeed;
+        interactionIconOffsetX = interactionIcon.localPosition.x;
     }
 
     private void FixedUpdate()
@@ -54,8 +57,16 @@ public class PlayerMovement : MonoBehaviour
     private void FlipSprite()
     {
         if (!flipSprite) return;
-        if (LastMoveDir.x > 0f && sprite.flipX) sprite.flipX = false;
-        else if (LastMoveDir.x < 0f && !sprite.flipX) sprite.flipX = true;
+        if (LastMoveDir.x > 0f && sprite.flipX)
+        {
+            sprite.flipX = false;
+            interactionIcon.localPosition = new Vector2(-interactionIconOffsetX, interactionIcon.localPosition.y);
+        }
+        else if (LastMoveDir.x < 0f && !sprite.flipX)
+        {
+            sprite.flipX = true;
+            interactionIcon.localPosition = new Vector2(interactionIconOffsetX, interactionIcon.localPosition.y);
+        }
     }
 
     public void SetSpeed(float value)
