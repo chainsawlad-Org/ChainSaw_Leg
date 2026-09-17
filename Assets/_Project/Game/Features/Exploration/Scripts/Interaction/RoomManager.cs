@@ -1,12 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
-using Zenject;
-using UnityEngine;
 
 namespace ChainSawLeg.Features.Exploration
 {
@@ -51,14 +48,27 @@ namespace ChainSawLeg.Features.Exploration
             }
         }
 
+        public void ChangeLevel(bool state, float duration)
+        {
+            foreach (SpriteRenderer sprite in roomSprites)
+            {
+                Color transparentColor = sprite.color;
+                transparentColor.a = 0;
+                
+                if (state) DOVirtual.Color(sprite.color, onCloseColor, duration, (Color color) => sprite.color = color);
+                else DOVirtual.Color(sprite.color, transparentColor, duration, (Color color) => sprite.color = color);
+            }
+        }
+
         public void OpenRoom()
         {
             collidersObject.SetActive(true);
             foreach (SpriteRenderer sprite in roomSprites)
             {
                 DOVirtual.Color(onCloseColor, baseSpriteColors[sprite], transitionDuration * 0.5f, (Color color) => sprite.color = color);
-                sortingGroup.sortingOrder++;
             }
+            
+            sortingGroup.sortingOrder++;
             DOVirtual.DelayedCall(transitionDuration * 0.5f, () => gameplayInputBlockService.ReleaseBlock(InputBlockChannels.Gameplay));
             cameraFlow.bounds = roomBounds;
             sortingGroup.enabled = false;
@@ -74,17 +84,15 @@ namespace ChainSawLeg.Features.Exploration
             foreach (var sprite in roomSprites)
             {
                 DOVirtual.Color(baseSpriteColors[sprite], onCloseColor, transitionDuration, (Color color) => sprite.color = color);
-                DOVirtual.DelayedCall(transitionDuration * 0.5f, () => { sortingGroup.sortingOrder--; });
             }
             DOVirtual.DelayedCall(transitionDuration * 0.5f, () =>
             {
+                sortingGroup.sortingOrder--;
                 collidersObject.SetActive(false);
                 sortingGroup.enabled = true;
                 onClose?.Invoke();
                 this.onClose?.Invoke();
             });
-            
-            
         }
         
         private Bounds CreateBoundsFromTransforms(Vector3 leftUpperBound, Vector3 rightLowerBound)

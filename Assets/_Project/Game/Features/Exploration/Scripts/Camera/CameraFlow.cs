@@ -6,6 +6,8 @@ public class CameraFlow : MonoBehaviour
     [Header("Target Settings")]
     [Tooltip("The player object to follow")]
     public Transform player;
+
+    public new Camera camera;
     
     [Header("Movement Settings")]
     [Tooltip("How smoothly the camera follows the player")]
@@ -28,6 +30,7 @@ public class CameraFlow : MonoBehaviour
     
     private Vector3 velocity = Vector3.zero;
     private bool inTransition;
+    private Tweener shakeTweener;
     
     private void Start()
     {
@@ -42,6 +45,19 @@ public class CameraFlow : MonoBehaviour
         
         if (player != null)
             transform.position = player.position + offset;
+    }
+
+    public void AddShakeEffect(float strength, int vibrato)
+    {
+        if (shakeTweener != null) return;
+        
+        shakeTweener = camera.transform.DOShakePosition(1, strength, vibrato, 90F, false, false).SetLoops(-1);
+    }
+
+    public void RemoveShakeEffect()
+    {
+        shakeTweener.Kill();
+        shakeTweener = null;
     }
 
     public void TransitToRoom(Bounds bounds, float duration, Vector2 position)
@@ -88,10 +104,9 @@ public class CameraFlow : MonoBehaviour
     
     private Vector3 GetClampedPosition(Vector3 position, Bounds bounds)
     {
-        if (!TryGetComponent(out Camera cam)) return position;
         
-        float vertExtent = cam.orthographicSize;
-        float horzExtent = vertExtent * cam.aspect;
+        float vertExtent = camera.orthographicSize;
+        float horzExtent = vertExtent * camera.aspect;
 
         if (bounds.size.x <= horzExtent && bounds.size.y <= vertExtent)
         {
