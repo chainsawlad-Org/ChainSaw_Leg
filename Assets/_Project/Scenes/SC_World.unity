@@ -15781,7 +15781,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1000078621}
-  - component: {fileID: 1000078622}
   - component: {fileID: 1000078623}
   m_Layer: 0
   m_Name: FirstFloor
@@ -15816,19 +15815,6 @@ Transform:
   - {fileID: 1667534141}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!210 &1000078622
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000078620}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 1
-  m_SortAtRoot: 0
-  m_Sort3DAs2D: 0
 --- !u!114 &1000078623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15841,7 +15827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d010fc0102416aa4c9f872b9f9ba4a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.FloorManager
-  sortingGroup: {fileID: 1000078622}
+  sortingGroup: {fileID: 0}
   rooms:
   - {fileID: 1114578763}
   - {fileID: 1044196471}
@@ -23264,7 +23250,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1426748141}
-  - component: {fileID: 1426748142}
   - component: {fileID: 1426748143}
   m_Layer: 0
   m_Name: SecondFloor
@@ -23290,19 +23275,6 @@ Transform:
   - {fileID: 30522797}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!210 &1426748142
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1426748140}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_SortAtRoot: 0
-  m_Sort3DAs2D: 0
 --- !u!114 &1426748143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23315,7 +23287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d010fc0102416aa4c9f872b9f9ba4a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.FloorManager
-  sortingGroup: {fileID: 1426748142}
+  sortingGroup: {fileID: 0}
   rooms:
   - {fileID: 2055909247}
   - {fileID: 30522796}
