@@ -10,7 +10,7 @@ public class DialoguePhase : OverlayPhase
     private CancellationTokenSource activeCancellation;
 
     public override InputBlockChannels BlockedInputChannels =>
-        InputBlockChannels.Move | InputBlockChannels.Dash | InputBlockChannels.Interact;
+        InputBlockChannels.Move | InputBlockChannels.Dash | InputBlockChannels.Interact | InputBlockChannels.Kick;
 
     public DialoguePhase(DialogueService dialogueService)
     {

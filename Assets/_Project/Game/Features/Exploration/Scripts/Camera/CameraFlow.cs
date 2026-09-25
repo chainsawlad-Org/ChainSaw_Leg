@@ -49,7 +49,7 @@ public class CameraFlow : MonoBehaviour
 
     public void AddShakeEffect(float strength, int vibrato)
     {
-        if (shakeTweener != null) return;
+        if (shakeTweener.IsActive()) return;
         
         shakeTweener = camera.transform.DOShakePosition(1, strength, vibrato, 90F, false, false).SetLoops(-1);
     }
@@ -57,7 +57,13 @@ public class CameraFlow : MonoBehaviour
     public void RemoveShakeEffect()
     {
         shakeTweener.Kill();
-        shakeTweener = null;
+    }
+
+    public void ShakeEffect(float strength, int vibrato, float duration)
+    {
+        if (shakeTweener.IsActive()) return;
+        
+        shakeTweener = camera.transform.DOShakePosition(duration, strength, vibrato, 90F, false, true).SetAutoKill(true);
     }
 
     public void TransitToRoom(Bounds bounds, float duration, Vector2 position)

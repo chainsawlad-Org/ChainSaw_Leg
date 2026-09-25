@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerDash dash;
     private float currentSpeed;
     private float interactionIconOffsetX;
+    private int stunCount;
 
     public Vector2 LastMoveDir { get; private set; } = Vector2.up;
 
@@ -38,6 +39,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (dash != null && dash.IsDashing)
             return;
+
+        if (stunCount > 0) return;
 
         Vector2 move = inputHandler.MoveInput;
 
@@ -77,6 +80,16 @@ public class PlayerMovement : MonoBehaviour
     public void SetDefaultSpeed()
     {
         currentSpeed = moveSpeed;
+    }
+
+    public void StunPlayer()
+    {
+        stunCount++;
+    }
+
+    public void UnstunPlayer()
+    {
+        stunCount--;
     }
 
     public void TransitToPosition(Vector2 position, float duration)

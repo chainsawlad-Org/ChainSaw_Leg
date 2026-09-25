@@ -7,6 +7,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     public bool DashPressed => inputService != null && inputService.DashPressed;
     public bool InteractPressed => inputService != null && inputService.InteractPressed;
+    public bool KickPressed => inputService != null && inputService.KickPressed;
     public Vector2 MoveInput => inputService != null ? inputService.MoveInput : Vector2.zero;
     public bool SubmitPressed => inputService != null && inputService.SubmitPressed;
     public bool PreviousPressed => inputService != null && inputService.PreviousPressed;
@@ -25,6 +26,11 @@ public class PlayerInputHandler : MonoBehaviour
     public void ConsumeInteract()
     {
         inputService?.ConsumeInteract();
+    }
+
+    public void ConsumeKick()
+    {
+        inputService?.ConsumeKick();
     }
 
     public void ConsumeSubmit()
