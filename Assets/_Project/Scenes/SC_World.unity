@@ -1398,9 +1398,9 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 52.45906, y: 4.3315735}
-      - {x: -15.733649, y: 3.6918676}
-      - {x: -14.984711, y: -1.9521828}
+    - - {x: 52.255356, y: 17.503626}
+      - {x: -15.63816, y: 15.102755}
+      - {x: -25.99031, y: -2.3778152}
       - {x: -9.205017, y: -4.1517067}
       - {x: 5.1488647, y: -7.513153}
       - {x: 9.440582, y: -7.558563}
@@ -1411,7 +1411,7 @@ PolygonCollider2D:
       - {x: 30.811615, y: -4.945011}
       - {x: 35.88324, y: -7.049469}
       - {x: 40.623154, y: -4.632927}
-      - {x: 52.564003, y: -1.9120331}
+      - {x: 63.545692, y: 0.94148254}
   m_UseDelaunayMesh: 1
 --- !u!1 &139785339
 GameObject:
@@ -10873,7 +10873,6 @@ GameObject:
   - component: {fileID: 566828218}
   - component: {fileID: 566828217}
   - component: {fileID: 566828220}
-  - component: {fileID: 566828215}
   m_Layer: 0
   m_Name: Triangle (6)
   m_TagString: Untagged
@@ -10897,18 +10896,6 @@ Transform:
   - {fileID: 1943620452}
   m_Father: {fileID: 83720972}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 13.79}
---- !u!114 &566828215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 566828213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08b8c50d82a28284791c53932d3ad714, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.Garbage
 --- !u!50 &566828217
 Rigidbody2D:
   serializedVersion: 5
@@ -11044,6 +11031,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.GarbageTrigger
   massMultiplier: 1
+  isFreezed: 1
+  targetDeltaPoint: {x: 0, y: 0}
+  jumpPower: 0
+  animationDuration: 0
   dustParticle: {fileID: 379329846}
   enemySpawner: {fileID: 1200896332}
 --- !u!1 &579907142
@@ -16342,7 +16333,6 @@ GameObject:
   - component: {fileID: 1025717060}
   - component: {fileID: 1025717059}
   - component: {fileID: 1025717062}
-  - component: {fileID: 1025717061}
   - component: {fileID: 1025717063}
   m_Layer: 0
   m_Name: Triangle
@@ -16360,7 +16350,7 @@ Transform:
   m_GameObject: {fileID: 1025717057}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.14746411, w: 0.9890675}
-  m_LocalPosition: {x: -27.43, y: -1.25, z: 0}
+  m_LocalPosition: {x: -29.06, y: 5.76, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -16462,19 +16452,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &1025717061
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1025717057}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 953f5d855d2f5e540818e1f0147fce4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.KickableItem
-  massMultiplier: 1
 --- !u!50 &1025717062
 Rigidbody2D:
   serializedVersion: 5
@@ -16514,6 +16491,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08b8c50d82a28284791c53932d3ad714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.Garbage
+  massMultiplier: 1
+  isFreezed: 1
+  targetDeltaPoint: {x: 5, y: -8}
+  jumpPower: 10
+  animationDuration: 0.5
 --- !u!1 &1032373112
 GameObject:
   m_ObjectHideFlags: 0
@@ -18176,7 +18158,6 @@ GameObject:
   - component: {fileID: 1145625366}
   - component: {fileID: 1145625365}
   - component: {fileID: 1145625364}
-  - component: {fileID: 1145625363}
   - component: {fileID: 1145625367}
   m_Layer: 0
   m_Name: Triangle (1)
@@ -18201,19 +18182,6 @@ Transform:
   - {fileID: 969891720}
   m_Father: {fileID: 83720972}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 61.24}
---- !u!114 &1145625363
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1145625361}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 953f5d855d2f5e540818e1f0147fce4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.KickableItem
-  massMultiplier: 1
 --- !u!50 &1145625364
 Rigidbody2D:
   serializedVersion: 5
@@ -18348,6 +18316,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08b8c50d82a28284791c53932d3ad714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.Garbage
+  massMultiplier: 1
+  isFreezed: 0
+  targetDeltaPoint: {x: 0, y: 0}
+  jumpPower: 0
+  animationDuration: 0
 --- !u!1 &1145770798
 GameObject:
   m_ObjectHideFlags: 0
@@ -25839,8 +25812,8 @@ PolygonCollider2D:
       - {x: -16.452316, y: 1.3915749}
       - {x: -20.549362, y: 4.0804405}
       - {x: -35.634857, y: 4.1008797}
-      - {x: -35.39212, y: -2.5024414}
-      - {x: 32.50629, y: -2.6080625}
+      - {x: -35.095535, y: -9.916985}
+      - {x: 32.580418, y: -10.39333}
       - {x: 32.445366, y: 2.3761444}
   m_UseDelaunayMesh: 1
 --- !u!1 &1691823251
@@ -27659,7 +27632,6 @@ GameObject:
   - component: {fileID: 1827232892}
   - component: {fileID: 1827232891}
   - component: {fileID: 1827232890}
-  - component: {fileID: 1827232889}
   - component: {fileID: 1827232893}
   m_Layer: 0
   m_Name: Triangle (4)
@@ -27677,26 +27649,13 @@ Transform:
   m_GameObject: {fileID: 1827232887}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.638029, w: 0.7700123}
-  m_LocalPosition: {x: 6.66, y: -0.82, z: 0}
+  m_LocalPosition: {x: 0.72, y: 4.44, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 377899958}
   m_Father: {fileID: 83720972}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 79.29}
---- !u!114 &1827232889
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1827232887}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 953f5d855d2f5e540818e1f0147fce4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.KickableItem
-  massMultiplier: 1
 --- !u!50 &1827232890
 Rigidbody2D:
   serializedVersion: 5
@@ -27831,6 +27790,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08b8c50d82a28284791c53932d3ad714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.Garbage
+  massMultiplier: 1
+  isFreezed: 1
+  targetDeltaPoint: {x: 6, y: -6}
+  jumpPower: 6
+  animationDuration: 0.5
 --- !u!1 &1837357872
 GameObject:
   m_ObjectHideFlags: 0
@@ -31327,7 +31291,6 @@ GameObject:
   - component: {fileID: 2036534049}
   - component: {fileID: 2036534048}
   - component: {fileID: 2036534047}
-  - component: {fileID: 2036534046}
   - component: {fileID: 2036534050}
   m_Layer: 0
   m_Name: Triangle (2)
@@ -31345,26 +31308,13 @@ Transform:
   m_GameObject: {fileID: 2036534044}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.43428805, w: 0.90077406}
-  m_LocalPosition: {x: -6.47, y: -8.31, z: 0}
+  m_LocalPosition: {x: -8.22, y: -4.51, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1599073895}
   m_Father: {fileID: 83720972}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -51.48}
---- !u!114 &2036534046
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2036534044}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 953f5d855d2f5e540818e1f0147fce4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.KickableItem
-  massMultiplier: 1
 --- !u!50 &2036534047
 Rigidbody2D:
   serializedVersion: 5
@@ -31499,6 +31449,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08b8c50d82a28284791c53932d3ad714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.Garbage
+  massMultiplier: 1
+  isFreezed: 0
+  targetDeltaPoint: {x: 0, y: 0}
+  jumpPower: 0
+  animationDuration: 0
 --- !u!1 &2036910561
 GameObject:
   m_ObjectHideFlags: 0
@@ -32616,7 +32571,6 @@ GameObject:
   - component: {fileID: 2075187531}
   - component: {fileID: 2075187530}
   - component: {fileID: 2075187529}
-  - component: {fileID: 2075187528}
   - component: {fileID: 2075187532}
   m_Layer: 0
   m_Name: Triangle (3)
@@ -32634,26 +32588,13 @@ Transform:
   m_GameObject: {fileID: 2075187526}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.39810866, w: 0.91733825}
-  m_LocalPosition: {x: -17.39, y: -6.06, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalPosition: {x: -18.71, y: -10.1, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1104164737}
   m_Father: {fileID: 83720972}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 46.92}
---- !u!114 &2075187528
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2075187526}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 953f5d855d2f5e540818e1f0147fce4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.KickableItem
-  massMultiplier: 1
 --- !u!50 &2075187529
 Rigidbody2D:
   serializedVersion: 5
@@ -32788,6 +32729,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08b8c50d82a28284791c53932d3ad714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.Garbage
+  massMultiplier: 1
+  isFreezed: 1
+  targetDeltaPoint: {x: 5, y: 5}
+  jumpPower: 5
+  animationDuration: 0.5
 --- !u!1 &2079648823
 GameObject:
   m_ObjectHideFlags: 0
@@ -33710,7 +33656,6 @@ GameObject:
   - component: {fileID: 2142813253}
   - component: {fileID: 2142813252}
   - component: {fileID: 2142813251}
-  - component: {fileID: 2142813250}
   - component: {fileID: 2142813254}
   m_Layer: 0
   m_Name: Triangle (5)
@@ -33735,19 +33680,6 @@ Transform:
   - {fileID: 142914073}
   m_Father: {fileID: 83720972}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 31.94}
---- !u!114 &2142813250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2142813248}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 953f5d855d2f5e540818e1f0147fce4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.KickableItem
-  massMultiplier: 1
 --- !u!50 &2142813251
 Rigidbody2D:
   serializedVersion: 5
@@ -33882,6 +33814,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08b8c50d82a28284791c53932d3ad714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.Garbage
+  massMultiplier: 1
+  isFreezed: 0
+  targetDeltaPoint: {x: 0, y: 0}
+  jumpPower: 0
+  animationDuration: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

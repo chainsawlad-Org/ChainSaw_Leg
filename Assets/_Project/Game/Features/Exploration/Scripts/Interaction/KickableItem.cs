@@ -6,7 +6,7 @@ namespace ChainSawLeg.Features.Exploration
     {
         [Tooltip("setting how much item will be independent for kicking of his rigidbody mass")]
         [SerializeField] private float massMultiplier = 1f;
-        private Rigidbody2D rb;
+        protected Rigidbody2D rb;
 
         private void Awake()
         {

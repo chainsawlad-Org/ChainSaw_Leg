@@ -1,10 +1,11 @@
+using ChainSawLeg.Features.Minigames;
 using DG.Tweening;
 using UnityEngine;
 using Zenject;
 
 namespace ChainSawLeg.Features.Exploration
 {
-    public class GarbageTrigger : KickableItem
+    public class GarbageTrigger : Garbage
     {
         [SerializeField] private ParticleSystem dustParticle;
         [SerializeField] private EnemyFlySpawner enemySpawner;
