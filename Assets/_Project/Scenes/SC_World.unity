@@ -15827,7 +15827,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d010fc0102416aa4c9f872b9f9ba4a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.FloorManager
-  sortingGroup: {fileID: 0}
   rooms:
   - {fileID: 1114578763}
   - {fileID: 1044196471}
@@ -18615,7 +18614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63424b21c27d84a5b863ff04a44fdde3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  moveSpeed: 9
+  moveSpeed: 12
   snapTo8Directions: 1
   sprite: {fileID: 2105037964}
   flipSprite: 1
@@ -23287,7 +23286,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d010fc0102416aa4c9f872b9f9ba4a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.FloorManager
-  sortingGroup: {fileID: 0}
   rooms:
   - {fileID: 2055909247}
   - {fileID: 30522796}
