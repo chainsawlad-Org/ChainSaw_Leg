@@ -11,7 +11,7 @@ namespace ChainSawLeg.Features.Exploration
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private Sprite kickSprite;
         [SerializeField] private Transform kickOrigin;
-        [SerializeField] private float kickForcePower = 30f;
+        [field: SerializeField] public float kickForcePower { get; private set; } = 40f;
         [SerializeField] private float kickDuration = 0.5f;
         [SerializeField] private float kickCooldown = 1.5f;
         [SerializeField] private float kickRadius = 5f;
@@ -85,6 +85,11 @@ namespace ChainSawLeg.Features.Exploration
             }
             
             cameraFlow.ShakeEffect(hitTarget ? 0.2f : 0.075f, 100, 0.5f);
+        }
+
+        public void SetKickPowerForce(float forcePower)
+        {
+            kickForcePower = forcePower;
         }
 
         private void OnDrawGizmos()

@@ -13061,6 +13061,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebugSheetController
   player: {fileID: 1157121962}
+  playerKick: {fileID: 1157121974}
 --- !u!4 &749931758
 Transform:
   m_ObjectHideFlags: 0
@@ -18714,7 +18715,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 2105037964}
   kickSprite: {fileID: 21300000, guid: b62afc0b438fb41438fbbcf05e56d276, type: 3}
   kickOrigin: {fileID: 1766003554}
-  kickForcePower: 40
+  <kickForcePower>k__BackingField: 40
   kickDuration: 0.5
   kickCooldown: 1
   kickRadius: 4
