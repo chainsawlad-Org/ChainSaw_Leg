@@ -2401,6 +2401,7 @@ GameObject:
   - component: {fileID: 254607658}
   - component: {fileID: 254607657}
   - component: {fileID: 254607656}
+  - component: {fileID: 254607660}
   m_Layer: 0
   m_Name: Desk (3)
   m_TagString: Untagged
@@ -2457,7 +2458,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 3.4301543, y: 0}
+  m_Offset: {x: 3.4301543, y: -0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2467,7 +2468,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.4996903, y: 4.29}
+  m_Size: {x: 1.4996903, y: 3}
   m_EdgeRadius: 0
 --- !u!61 &254607657
 BoxCollider2D:
@@ -2503,7 +2504,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -3.3842087, y: 0}
+  m_Offset: {x: -3.3842087, y: -0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2513,7 +2514,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.5915811, y: 4.29}
+  m_Size: {x: 1.5915811, y: 3}
   m_EdgeRadius: 0
 --- !u!61 &254607658
 BoxCollider2D:
@@ -2549,7 +2550,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.7656585}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2559,7 +2560,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 8.36, y: 2.758683}
+  m_Size: {x: 8.36, y: 2}
   m_EdgeRadius: 0
 --- !u!212 &254607659
 SpriteRenderer:
@@ -2620,6 +2621,25 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &254607660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 254607654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 1
 --- !u!1 &255152124
 GameObject:
   m_ObjectHideFlags: 0
@@ -2633,6 +2653,7 @@ GameObject:
   - component: {fileID: 255152128}
   - component: {fileID: 255152127}
   - component: {fileID: 255152126}
+  - component: {fileID: 255152130}
   m_Layer: 0
   m_Name: Desk (2)
   m_TagString: Untagged
@@ -2689,7 +2710,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 3.4301543, y: 0}
+  m_Offset: {x: 3.4301543, y: -0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2699,7 +2720,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.4996903, y: 4.29}
+  m_Size: {x: 1.4996903, y: 3}
   m_EdgeRadius: 0
 --- !u!61 &255152127
 BoxCollider2D:
@@ -2735,7 +2756,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -3.3842087, y: 0}
+  m_Offset: {x: -3.3842087, y: -0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2745,7 +2766,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.5915811, y: 4.29}
+  m_Size: {x: 1.5915811, y: 3}
   m_EdgeRadius: 0
 --- !u!61 &255152128
 BoxCollider2D:
@@ -2781,7 +2802,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.7656585}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2791,7 +2812,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 8.36, y: 2.758683}
+  m_Size: {x: 8.36, y: 2}
   m_EdgeRadius: 0
 --- !u!212 &255152129
 SpriteRenderer:
@@ -2852,6 +2873,25 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &255152130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255152124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 1
 --- !u!1 &257340067
 GameObject:
   m_ObjectHideFlags: 0
@@ -3018,6 +3058,7 @@ GameObject:
   - component: {fileID: 273214429}
   - component: {fileID: 273214428}
   - component: {fileID: 273214431}
+  - component: {fileID: 273214432}
   m_Layer: 0
   m_Name: Sit (3)
   m_TagString: Untagged
@@ -3175,6 +3216,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.KickableItem
   massMultiplier: 1
+--- !u!114 &273214432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 273214426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &274662682
 GameObject:
   m_ObjectHideFlags: 0
@@ -3302,6 +3362,7 @@ GameObject:
   - component: {fileID: 284548973}
   - component: {fileID: 284548972}
   - component: {fileID: 284548975}
+  - component: {fileID: 284548976}
   m_Layer: 0
   m_Name: Sit (9)
   m_TagString: Untagged
@@ -3459,6 +3520,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.KickableItem
   massMultiplier: 1
+--- !u!114 &284548976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284548970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &297253705
 GameObject:
   m_ObjectHideFlags: 0
@@ -3638,6 +3718,7 @@ GameObject:
   m_Component:
   - component: {fileID: 313133444}
   - component: {fileID: 313133445}
+  - component: {fileID: 313133446}
   m_Layer: 0
   m_Name: Sit (18)
   m_TagString: Untagged
@@ -3719,6 +3800,25 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &313133446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313133443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &321380987
 GameObject:
   m_ObjectHideFlags: 0
@@ -4057,8 +4157,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1255685537
+  m_SortingLayer: 6
   m_SortingOrder: 100
   m_MaskInteraction: 0
   m_RenderMode: 0
@@ -8883,6 +8983,7 @@ GameObject:
   m_Component:
   - component: {fileID: 382780111}
   - component: {fileID: 382780114}
+  - component: {fileID: 382780115}
   m_Layer: 0
   m_Name: Sit (13)
   m_TagString: Untagged
@@ -8964,6 +9065,25 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &382780115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 382780110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &388245155
 GameObject:
   m_ObjectHideFlags: 0
@@ -10873,6 +10993,7 @@ GameObject:
   - component: {fileID: 566828218}
   - component: {fileID: 566828217}
   - component: {fileID: 566828220}
+  - component: {fileID: 566828221}
   m_Layer: 0
   m_Name: Triangle (6)
   m_TagString: Untagged
@@ -11037,6 +11158,25 @@ MonoBehaviour:
   animationDuration: 0
   dustParticle: {fileID: 379329846}
   enemySpawner: {fileID: 1200896332}
+--- !u!114 &566828221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 566828213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &579907142
 GameObject:
   m_ObjectHideFlags: 0
@@ -11461,7 +11601,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 0000000075da2e033fe495b24fc8677661ff5fb2cfc8412f
+  m_ApplyToSortingLayers: 0000000075da2e033fe495b24fc8677661ff5fb2cfc8412f67373348a13dd84a
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -11693,6 +11833,7 @@ GameObject:
   - component: {fileID: 652693318}
   - component: {fileID: 652693320}
   - component: {fileID: 652693319}
+  - component: {fileID: 652693321}
   m_Layer: 0
   m_Name: Desk
   m_TagString: Untagged
@@ -11808,7 +11949,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.7656585}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -11818,7 +11959,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 8.36, y: 2.758683}
+  m_Size: {x: 8.36, y: 2}
   m_EdgeRadius: 0
 --- !u!61 &652693319
 BoxCollider2D:
@@ -11854,7 +11995,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 3.4301543, y: 0}
+  m_Offset: {x: 3.4301543, y: -0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -11864,7 +12005,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.4996903, y: 4.29}
+  m_Size: {x: 1.4996903, y: 3}
   m_EdgeRadius: 0
 --- !u!61 &652693320
 BoxCollider2D:
@@ -11900,7 +12041,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -3.3842087, y: 0}
+  m_Offset: {x: -3.3842087, y: -0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -11910,8 +12051,27 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.5915811, y: 4.29}
+  m_Size: {x: 1.5915811, y: 3}
   m_EdgeRadius: 0
+--- !u!114 &652693321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 652693315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 1
 --- !u!1 &665818203
 GameObject:
   m_ObjectHideFlags: 0
@@ -12126,6 +12286,7 @@ GameObject:
   - component: {fileID: 699987398}
   - component: {fileID: 699987397}
   - component: {fileID: 699987400}
+  - component: {fileID: 699987401}
   m_Layer: 0
   m_Name: Sit (16)
   m_TagString: Untagged
@@ -12283,6 +12444,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.KickableItem
   massMultiplier: 1
+--- !u!114 &699987401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 699987395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &701289920
 GameObject:
   m_ObjectHideFlags: 0
@@ -13246,6 +13426,7 @@ GameObject:
   - component: {fileID: 785306263}
   - component: {fileID: 785306262}
   - component: {fileID: 785306261}
+  - component: {fileID: 785306265}
   m_Layer: 0
   m_Name: Desk (6)
   m_TagString: Untagged
@@ -13302,7 +13483,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 3.4301543, y: 0}
+  m_Offset: {x: 3.4301543, y: -0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -13312,7 +13493,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.4996903, y: 4.29}
+  m_Size: {x: 1.4996903, y: 3}
   m_EdgeRadius: 0
 --- !u!61 &785306262
 BoxCollider2D:
@@ -13348,7 +13529,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -3.3842087, y: 0}
+  m_Offset: {x: -3.3842087, y: -0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -13358,7 +13539,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.5915811, y: 4.29}
+  m_Size: {x: 1.5915811, y: 3}
   m_EdgeRadius: 0
 --- !u!61 &785306263
 BoxCollider2D:
@@ -13394,7 +13575,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.7656585}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -13404,7 +13585,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 8.36, y: 2.758683}
+  m_Size: {x: 8.36, y: 2}
   m_EdgeRadius: 0
 --- !u!212 &785306264
 SpriteRenderer:
@@ -13465,6 +13646,25 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &785306265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 785306259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 1
 --- !u!1 &794287869
 GameObject:
   m_ObjectHideFlags: 0
@@ -13854,6 +14054,7 @@ GameObject:
   - component: {fileID: 848990680}
   - component: {fileID: 848990679}
   - component: {fileID: 848990682}
+  - component: {fileID: 848990683}
   m_Layer: 0
   m_Name: Sit (2)
   m_TagString: Untagged
@@ -14011,6 +14212,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.KickableItem
   massMultiplier: 1
+--- !u!114 &848990683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848990677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &849967930
 GameObject:
   m_ObjectHideFlags: 0
@@ -15609,8 +15829,9 @@ GameObject:
   m_Component:
   - component: {fileID: 996245857}
   - component: {fileID: 996245860}
-  - component: {fileID: 996245859}
   - component: {fileID: 996245858}
+  - component: {fileID: 996245861}
+  - component: {fileID: 996245862}
   m_Layer: 0
   m_Name: Desk (11)
   m_TagString: Untagged
@@ -15669,42 +15890,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: -0.92498773}
   m_Radius: 1.4000052
---- !u!58 &996245859
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 996245856}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.16445194}
-  m_Radius: 2.1605558
 --- !u!212 &996245860
 SpriteRenderer:
   serializedVersion: 2
@@ -15764,6 +15949,62 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &996245861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 996245856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 1
+--- !u!70 &996245862
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 996245856}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.15}
+  m_Size: {x: 4.45, y: 2.5}
+  m_Direction: 1
 --- !u!1 &1000078620
 GameObject:
   m_ObjectHideFlags: 0
@@ -15956,6 +16197,7 @@ GameObject:
   - component: {fileID: 1011003358}
   - component: {fileID: 1011003361}
   - component: {fileID: 1011003359}
+  - component: {fileID: 1011003362}
   m_Layer: 0
   m_Name: Sit (5)
   m_TagString: Untagged
@@ -16074,6 +16316,25 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1011003362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011003357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &1013388262
 GameObject:
   m_ObjectHideFlags: 0
@@ -16087,6 +16348,7 @@ GameObject:
   - component: {fileID: 1013388265}
   - component: {fileID: 1013388264}
   - component: {fileID: 1013388267}
+  - component: {fileID: 1013388268}
   m_Layer: 0
   m_Name: Sit (11)
   m_TagString: Untagged
@@ -16244,6 +16506,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.KickableItem
   massMultiplier: 1
+--- !u!114 &1013388268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013388262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &1016939141
 GameObject:
   m_ObjectHideFlags: 0
@@ -16335,6 +16616,7 @@ GameObject:
   - component: {fileID: 1025717059}
   - component: {fileID: 1025717062}
   - component: {fileID: 1025717063}
+  - component: {fileID: 1025717064}
   m_Layer: 0
   m_Name: Triangle
   m_TagString: Untagged
@@ -16497,6 +16779,25 @@ MonoBehaviour:
   targetDeltaPoint: {x: 5, y: -8}
   jumpPower: 10
   animationDuration: 0.5
+--- !u!114 &1025717064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1025717057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &1032373112
 GameObject:
   m_ObjectHideFlags: 0
@@ -16632,6 +16933,7 @@ GameObject:
   - component: {fileID: 1042595188}
   - component: {fileID: 1042595187}
   - component: {fileID: 1042595190}
+  - component: {fileID: 1042595191}
   m_Layer: 0
   m_Name: Sit (10)
   m_TagString: Untagged
@@ -16789,6 +17091,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.KickableItem
   massMultiplier: 1
+--- !u!114 &1042595191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042595185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &1044196470
 GameObject:
   m_ObjectHideFlags: 0
@@ -18015,6 +18336,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1133436749}
   - component: {fileID: 1133436750}
+  - component: {fileID: 1133436751}
   m_Layer: 0
   m_Name: Sit (17)
   m_TagString: Untagged
@@ -18096,6 +18418,25 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1133436751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133436748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &1143255627
 GameObject:
   m_ObjectHideFlags: 0
@@ -18160,6 +18501,7 @@ GameObject:
   - component: {fileID: 1145625365}
   - component: {fileID: 1145625364}
   - component: {fileID: 1145625367}
+  - component: {fileID: 1145625368}
   m_Layer: 0
   m_Name: Triangle (1)
   m_TagString: Untagged
@@ -18322,6 +18664,25 @@ MonoBehaviour:
   targetDeltaPoint: {x: 0, y: 0}
   jumpPower: 0
   animationDuration: 0
+--- !u!114 &1145625368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1145625361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &1145770798
 GameObject:
   m_ObjectHideFlags: 0
@@ -18810,6 +19171,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1184585072}
   - component: {fileID: 1184585073}
+  - component: {fileID: 1184585074}
   m_Layer: 0
   m_Name: Sit (15)
   m_TagString: Untagged
@@ -18891,6 +19253,25 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1184585074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184585071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &1185787355
 GameObject:
   m_ObjectHideFlags: 0
@@ -19798,6 +20179,7 @@ GameObject:
   - component: {fileID: 1238548774}
   - component: {fileID: 1238548773}
   - component: {fileID: 1238548776}
+  - component: {fileID: 1238548777}
   m_Layer: 0
   m_Name: Sit (4)
   m_TagString: Untagged
@@ -19955,6 +20337,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.KickableItem
   massMultiplier: 1
+--- !u!114 &1238548777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238548771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &1239357068
 GameObject:
   m_ObjectHideFlags: 0
@@ -20245,6 +20646,7 @@ GameObject:
   - component: {fileID: 1257426619}
   - component: {fileID: 1257426618}
   - component: {fileID: 1257426621}
+  - component: {fileID: 1257426622}
   m_Layer: 0
   m_Name: Sit (6)
   m_TagString: Untagged
@@ -20402,6 +20804,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.KickableItem
   massMultiplier: 1
+--- !u!114 &1257426622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257426616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &1259854692
 GameObject:
   m_ObjectHideFlags: 0
@@ -21286,6 +21707,7 @@ GameObject:
   - component: {fileID: 1311565016}
   - component: {fileID: 1311565015}
   - component: {fileID: 1311565014}
+  - component: {fileID: 1311565018}
   m_Layer: 0
   m_Name: Desk (5)
   m_TagString: Untagged
@@ -21342,7 +21764,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 3.4301543, y: 0}
+  m_Offset: {x: 3.4301543, y: -0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -21352,7 +21774,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.4996903, y: 4.29}
+  m_Size: {x: 1.4996903, y: 3}
   m_EdgeRadius: 0
 --- !u!61 &1311565015
 BoxCollider2D:
@@ -21388,7 +21810,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -3.3842087, y: 0}
+  m_Offset: {x: -3.3842087, y: -0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -21398,7 +21820,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.5915811, y: 4.29}
+  m_Size: {x: 1.5915811, y: 3}
   m_EdgeRadius: 0
 --- !u!61 &1311565016
 BoxCollider2D:
@@ -21434,7 +21856,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.7656585}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -21444,7 +21866,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 8.36, y: 2.758683}
+  m_Size: {x: 8.36, y: 2}
   m_EdgeRadius: 0
 --- !u!212 &1311565017
 SpriteRenderer:
@@ -21505,6 +21927,25 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1311565018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1311565012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 1
 --- !u!1 &1316753892
 GameObject:
   m_ObjectHideFlags: 0
@@ -22525,6 +22966,7 @@ GameObject:
   - component: {fileID: 1392886863}
   - component: {fileID: 1392886862}
   - component: {fileID: 1392886865}
+  - component: {fileID: 1392886866}
   m_Layer: 0
   m_Name: Sit (19)
   m_TagString: Untagged
@@ -22682,6 +23124,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.KickableItem
   massMultiplier: 1
+--- !u!114 &1392886866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392886860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &1401786221
 GameObject:
   m_ObjectHideFlags: 0
@@ -22809,6 +23270,7 @@ GameObject:
   - component: {fileID: 1409763645}
   - component: {fileID: 1409763644}
   - component: {fileID: 1409763647}
+  - component: {fileID: 1409763648}
   m_Layer: 0
   m_Name: Sit (12)
   m_TagString: Untagged
@@ -22966,6 +23428,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.KickableItem
   massMultiplier: 1
+--- !u!114 &1409763648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409763642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &1412216688
 GameObject:
   m_ObjectHideFlags: 0
@@ -24139,6 +24620,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1533618280}
   - component: {fileID: 1533618281}
+  - component: {fileID: 1533618282}
   m_Layer: 0
   m_Name: Sit (14)
   m_TagString: Untagged
@@ -24220,6 +24702,25 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1533618282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533618279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &1541439702
 GameObject:
   m_ObjectHideFlags: 0
@@ -25107,8 +25608,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1634510394}
   - component: {fileID: 1634510396}
-  - component: {fileID: 1634510395}
+  - component: {fileID: 1634510399}
   - component: {fileID: 1634510397}
+  - component: {fileID: 1634510398}
   m_Layer: 0
   m_Name: Desk (9)
   m_TagString: Untagged
@@ -25131,42 +25633,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1347719314}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &1634510395
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1634510393}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.16445194}
-  m_Radius: 2.1605558
 --- !u!212 &1634510396
 SpriteRenderer:
   serializedVersion: 2
@@ -25262,6 +25728,62 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: -0.92498773}
   m_Radius: 1.4000052
+--- !u!114 &1634510398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1634510393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 1
+--- !u!70 &1634510399
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1634510393}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.15}
+  m_Size: {x: 4.45, y: 2.5}
+  m_Direction: 1
 --- !u!1 &1645684783
 GameObject:
   m_ObjectHideFlags: 0
@@ -25353,6 +25875,7 @@ GameObject:
   - component: {fileID: 1654035723}
   - component: {fileID: 1654035722}
   - component: {fileID: 1654035725}
+  - component: {fileID: 1654035726}
   m_Layer: 0
   m_Name: Sit (7)
   m_TagString: Untagged
@@ -25510,6 +26033,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.KickableItem
   massMultiplier: 1
+--- !u!114 &1654035726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654035720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &1663109804
 GameObject:
   m_ObjectHideFlags: 0
@@ -26122,8 +26664,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1211316071
+  m_SortingLayer: 7
   m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2834999693698565719, guid: 1fe6ddc2804c7ec49b080c831aa48626, type: 3}
@@ -27402,6 +27944,7 @@ GameObject:
   - component: {fileID: 1825893450}
   - component: {fileID: 1825893449}
   - component: {fileID: 1825893448}
+  - component: {fileID: 1825893452}
   m_Layer: 0
   m_Name: Desk (4)
   m_TagString: Untagged
@@ -27458,7 +28001,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 3.4301543, y: 0}
+  m_Offset: {x: 3.4301543, y: -0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -27468,7 +28011,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.4996903, y: 4.29}
+  m_Size: {x: 1.4996903, y: 3}
   m_EdgeRadius: 0
 --- !u!61 &1825893449
 BoxCollider2D:
@@ -27504,7 +28047,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -3.3842087, y: 0}
+  m_Offset: {x: -3.3842087, y: -0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -27514,7 +28057,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.5915811, y: 4.29}
+  m_Size: {x: 1.5915811, y: 3}
   m_EdgeRadius: 0
 --- !u!61 &1825893450
 BoxCollider2D:
@@ -27550,7 +28093,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.7656585}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -27560,7 +28103,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 8.36, y: 2.758683}
+  m_Size: {x: 8.36, y: 2}
   m_EdgeRadius: 0
 --- !u!212 &1825893451
 SpriteRenderer:
@@ -27621,6 +28164,25 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1825893452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825893446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 1
 --- !u!1 &1827232887
 GameObject:
   m_ObjectHideFlags: 0
@@ -27634,6 +28196,7 @@ GameObject:
   - component: {fileID: 1827232891}
   - component: {fileID: 1827232890}
   - component: {fileID: 1827232893}
+  - component: {fileID: 1827232894}
   m_Layer: 0
   m_Name: Triangle (4)
   m_TagString: Untagged
@@ -27796,6 +28359,25 @@ MonoBehaviour:
   targetDeltaPoint: {x: 6, y: -6}
   jumpPower: 6
   animationDuration: 0.5
+--- !u!114 &1827232894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827232887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &1837357872
 GameObject:
   m_ObjectHideFlags: 0
@@ -27887,6 +28469,7 @@ GameObject:
   - component: {fileID: 1839969630}
   - component: {fileID: 1839969629}
   - component: {fileID: 1839969628}
+  - component: {fileID: 1839969632}
   m_Layer: 0
   m_Name: Desk (1)
   m_TagString: Untagged
@@ -27943,7 +28526,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 3.4301543, y: 0}
+  m_Offset: {x: 3.4301543, y: -0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -27953,7 +28536,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.4996903, y: 4.29}
+  m_Size: {x: 1.4996903, y: 3}
   m_EdgeRadius: 0
 --- !u!61 &1839969629
 BoxCollider2D:
@@ -27989,7 +28572,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -3.3842087, y: 0}
+  m_Offset: {x: -3.3842087, y: -0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -27999,7 +28582,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.5915811, y: 4.29}
+  m_Size: {x: 1.5915811, y: 3}
   m_EdgeRadius: 0
 --- !u!61 &1839969630
 BoxCollider2D:
@@ -28035,7 +28618,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.7656585}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -28045,7 +28628,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 8.36, y: 2.758683}
+  m_Size: {x: 8.36, y: 2}
   m_EdgeRadius: 0
 --- !u!212 &1839969631
 SpriteRenderer:
@@ -28106,6 +28689,25 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1839969632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839969626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 1
 --- !u!1 &1840344713
 GameObject:
   m_ObjectHideFlags: 0
@@ -28382,6 +28984,7 @@ GameObject:
   - component: {fileID: 1877671749}
   - component: {fileID: 1877671748}
   - component: {fileID: 1877671747}
+  - component: {fileID: 1877671751}
   m_Layer: 0
   m_Name: Desk (8)
   m_TagString: Untagged
@@ -28438,7 +29041,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 3.4301543, y: 0}
+  m_Offset: {x: 3.4301543, y: -0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -28448,7 +29051,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.4996903, y: 4.29}
+  m_Size: {x: 1.4996903, y: 3}
   m_EdgeRadius: 0
 --- !u!61 &1877671748
 BoxCollider2D:
@@ -28484,7 +29087,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -3.3842087, y: 0}
+  m_Offset: {x: -3.3842087, y: -0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -28494,7 +29097,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.5915811, y: 4.29}
+  m_Size: {x: 1.5915811, y: 3}
   m_EdgeRadius: 0
 --- !u!61 &1877671749
 BoxCollider2D:
@@ -28530,7 +29133,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.7656585}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -28540,7 +29143,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 8.36, y: 2.758683}
+  m_Size: {x: 8.36, y: 2}
   m_EdgeRadius: 0
 --- !u!212 &1877671750
 SpriteRenderer:
@@ -28601,6 +29204,25 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1877671751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1877671745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 1
 --- !u!1 &1885223855
 GameObject:
   m_ObjectHideFlags: 0
@@ -28613,6 +29235,7 @@ GameObject:
   - component: {fileID: 1885223857}
   - component: {fileID: 1885223859}
   - component: {fileID: 1885223858}
+  - component: {fileID: 1885223860}
   m_Layer: 0
   m_Name: Ksu
   m_TagString: Untagged
@@ -28856,6 +29479,25 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2.4, y: 3.32}
   m_EdgeRadius: 0
+--- !u!114 &1885223860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1885223855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 1
+  spriteBelow: {fileID: 1825893451}
+  drawGizmos: 0
 --- !u!1 &1894139456
 GameObject:
   m_ObjectHideFlags: 0
@@ -28869,6 +29511,7 @@ GameObject:
   - component: {fileID: 1894139461}
   - component: {fileID: 1894139460}
   - component: {fileID: 1894139463}
+  - component: {fileID: 1894139464}
   m_Layer: 0
   m_Name: Sit (1)
   m_TagString: Untagged
@@ -29026,6 +29669,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.KickableItem
   massMultiplier: 1
+--- !u!114 &1894139464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1894139456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &1897256111
 GameObject:
   m_ObjectHideFlags: 0
@@ -29960,6 +30622,7 @@ GameObject:
   - component: {fileID: 1969894926}
   - component: {fileID: 1969894925}
   - component: {fileID: 1969894924}
+  - component: {fileID: 1969894928}
   m_Layer: 0
   m_Name: Desk (7)
   m_TagString: Untagged
@@ -30016,7 +30679,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 3.4301543, y: 0}
+  m_Offset: {x: 3.4301543, y: -0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -30026,7 +30689,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.4996903, y: 4.29}
+  m_Size: {x: 1.4996903, y: 3}
   m_EdgeRadius: 0
 --- !u!61 &1969894925
 BoxCollider2D:
@@ -30062,7 +30725,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -3.3842087, y: 0}
+  m_Offset: {x: -3.3842087, y: -0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -30072,7 +30735,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.5915811, y: 4.29}
+  m_Size: {x: 1.5915811, y: 3}
   m_EdgeRadius: 0
 --- !u!61 &1969894926
 BoxCollider2D:
@@ -30108,7 +30771,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.7656585}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -30118,7 +30781,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 8.36, y: 2.758683}
+  m_Size: {x: 8.36, y: 2}
   m_EdgeRadius: 0
 --- !u!212 &1969894927
 SpriteRenderer:
@@ -30179,6 +30842,25 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1969894928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969894922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 1
 --- !u!1 &1971219231
 GameObject:
   m_ObjectHideFlags: 0
@@ -31125,8 +31807,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2029653974}
   - component: {fileID: 2029653977}
-  - component: {fileID: 2029653976}
   - component: {fileID: 2029653975}
+  - component: {fileID: 2029653978}
+  - component: {fileID: 2029653979}
   m_Layer: 0
   m_Name: Desk (10)
   m_TagString: Untagged
@@ -31185,42 +31868,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: -0.92498773}
   m_Radius: 1.4000052
---- !u!58 &2029653976
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2029653973}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.16445194}
-  m_Radius: 2.1605558
 --- !u!212 &2029653977
 SpriteRenderer:
   serializedVersion: 2
@@ -31280,6 +31927,62 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &2029653978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2029653973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 1
+--- !u!70 &2029653979
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2029653973}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.15}
+  m_Size: {x: 4.45, y: 2.5}
+  m_Direction: 1
 --- !u!1 &2036534044
 GameObject:
   m_ObjectHideFlags: 0
@@ -31293,6 +31996,7 @@ GameObject:
   - component: {fileID: 2036534048}
   - component: {fileID: 2036534047}
   - component: {fileID: 2036534050}
+  - component: {fileID: 2036534051}
   m_Layer: 0
   m_Name: Triangle (2)
   m_TagString: Untagged
@@ -31455,6 +32159,25 @@ MonoBehaviour:
   targetDeltaPoint: {x: 0, y: 0}
   jumpPower: 0
   animationDuration: 0
+--- !u!114 &2036534051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036534044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &2036910561
 GameObject:
   m_ObjectHideFlags: 0
@@ -31559,6 +32282,7 @@ GameObject:
   - component: {fileID: 2037375868}
   - component: {fileID: 2037375867}
   - component: {fileID: 2037375870}
+  - component: {fileID: 2037375871}
   m_Layer: 0
   m_Name: Sit (8)
   m_TagString: Untagged
@@ -31716,6 +32440,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.KickableItem
   massMultiplier: 1
+--- !u!114 &2037375871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037375865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &2038720205
 GameObject:
   m_ObjectHideFlags: 0
@@ -31980,6 +32723,7 @@ GameObject:
   - component: {fileID: 2048066437}
   - component: {fileID: 2048066438}
   - component: {fileID: 2048066439}
+  - component: {fileID: 2048066440}
   m_Layer: 0
   m_Name: Sit
   m_TagString: Untagged
@@ -32150,6 +32894,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.KickableItem
   massMultiplier: 1
+--- !u!114 &2048066440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2048066433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &2055909246
 GameObject:
   m_ObjectHideFlags: 0
@@ -32573,6 +33336,7 @@ GameObject:
   - component: {fileID: 2075187530}
   - component: {fileID: 2075187529}
   - component: {fileID: 2075187532}
+  - component: {fileID: 2075187533}
   m_Layer: 0
   m_Name: Triangle (3)
   m_TagString: Untagged
@@ -32735,6 +33499,25 @@ MonoBehaviour:
   targetDeltaPoint: {x: 5, y: 5}
   jumpPower: 5
   animationDuration: 0.5
+--- !u!114 &2075187533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2075187526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &2079648823
 GameObject:
   m_ObjectHideFlags: 0
@@ -32932,6 +33715,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2105037963}
   - component: {fileID: 2105037964}
+  - component: {fileID: 2105037965}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -33013,6 +33797,25 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &2105037965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2105037962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: -1.75}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 1
 --- !u!1 &2108225810
 GameObject:
   m_ObjectHideFlags: 0
@@ -33658,6 +34461,7 @@ GameObject:
   - component: {fileID: 2142813252}
   - component: {fileID: 2142813251}
   - component: {fileID: 2142813254}
+  - component: {fileID: 2142813255}
   m_Layer: 0
   m_Name: Triangle (5)
   m_TagString: Untagged
@@ -33820,6 +34624,25 @@ MonoBehaviour:
   targetDeltaPoint: {x: 0, y: 0}
   jumpPower: 0
   animationDuration: 0
+--- !u!114 &2142813255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142813248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: 0, y: 0}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

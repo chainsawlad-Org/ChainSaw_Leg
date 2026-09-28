@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7175249564871933588}
   - component: {fileID: 4908300336683156621}
   - component: {fileID: 2651243508876278042}
+  - component: {fileID: 3788654811085644252}
   m_Layer: 0
   m_Name: muxa
   m_TagString: Untagged
@@ -191,3 +192,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08b8c50d82a28284791c53932d3ad714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.Garbage
+  massMultiplier: 1
+  isFreezed: 0
+  targetDeltaPoint: {x: 0, y: 0}
+  jumpPower: 0
+  animationDuration: 0
+--- !u!114 &3788654811085644252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3393048056476628012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6750e69220c661949aa26d14e8a632a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Game.Shared.Runtime::ChainSawLeg.Game.Shared.SpriteSorter
+  precisionMultiplier: 100
+  useSortTransform: 0
+  sortTransform: {fileID: 0}
+  offset: {x: -0.3, y: -0.75}
+  setAnotherBelowSprite: 0
+  spriteBelow: {fileID: 0}
+  drawGizmos: 1
