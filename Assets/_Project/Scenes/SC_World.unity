@@ -517,9 +517,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.RoomManager
   collidersObject: {fileID: 1813607271}
-  roomSprites:
-  - {fileID: 163778455}
-  - {fileID: 1547655374}
   sortingGroup: {fileID: 163778454}
   onCloseColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   leftUpperBound: {fileID: 1541450507}
@@ -593,9 +590,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.RoomManager
   collidersObject: {fileID: 978880474}
-  roomSprites:
-  - {fileID: 866911907}
-  - {fileID: 106953384}
   sortingGroup: {fileID: 866911906}
   onCloseColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   leftUpperBound: {fileID: 1353498850}
@@ -2264,9 +2258,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.RoomManager
   collidersObject: {fileID: 1574703863}
-  roomSprites:
-  - {fileID: 4049578}
-  - {fileID: 921682969}
   sortingGroup: {fileID: 4049577}
   onCloseColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   leftUpperBound: {fileID: 1963910543}
@@ -9505,9 +9496,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.RoomManager
   collidersObject: {fileID: 1550898567}
-  roomSprites:
-  - {fileID: 542458995}
-  - {fileID: 1724473804}
   sortingGroup: {fileID: 542458994}
   onCloseColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   leftUpperBound: {fileID: 1512334562}
@@ -13952,7 +13940,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.4392157, g: 0.7058824, b: 0.8352941, a: 1}
@@ -14262,9 +14250,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.RoomManager
   collidersObject: {fileID: 274662682}
-  roomSprites:
-  - {fileID: 523354176}
-  - {fileID: 1971219233}
   sortingGroup: {fileID: 523354175}
   onCloseColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   leftUpperBound: {fileID: 476010717}
@@ -15578,9 +15563,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.RoomManager
   collidersObject: {fileID: 946610157}
-  roomSprites:
-  - {fileID: 1682776538}
-  - {fileID: 2025983829}
   sortingGroup: {fileID: 1682776537}
   onCloseColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   leftUpperBound: {fileID: 711340339}
@@ -17141,10 +17123,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.RoomManager
   collidersObject: {fileID: 795525864}
-  roomSprites:
-  - {fileID: 1968594022}
-  - {fileID: 435765226}
-  - {fileID: 665818205}
   sortingGroup: {fileID: 1968594021}
   onCloseColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   leftUpperBound: {fileID: 450739337}
@@ -18070,19 +18048,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.RoomManager
   collidersObject: {fileID: 425258835}
-  roomSprites:
-  - {fileID: 2017850809}
-  - {fileID: 1379040859}
-  - {fileID: 526049200}
-  - {fileID: 1124752584}
-  - {fileID: 2113643970}
-  - {fileID: 321380989}
-  - {fileID: 601830758}
-  - {fileID: 1292202543}
-  - {fileID: 1789080925}
-  - {fileID: 498948440}
-  - {fileID: 297253707}
-  - {fileID: 1056265946}
   sortingGroup: {fileID: 2017850808}
   onCloseColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   leftUpperBound: {fileID: 724852487}
@@ -22243,8 +22208,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.RoomManager
   collidersObject: {fileID: 701289920}
-  roomSprites:
-  - {fileID: 2056365366}
   sortingGroup: {fileID: 83720973}
   onCloseColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   leftUpperBound: {fileID: 1248681841}
@@ -23556,9 +23519,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.RoomManager
   collidersObject: {fileID: 1401786221}
-  roomSprites:
-  - {fileID: 2079648826}
-  - {fileID: 270144829}
   sortingGroup: {fileID: 2079648825}
   onCloseColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   leftUpperBound: {fileID: 539265539}
@@ -24250,42 +24210,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.RoomManager
   collidersObject: {fileID: 837637294}
-  roomSprites:
-  - {fileID: 1347719316}
-  - {fileID: 1199266593}
-  - {fileID: 849985930}
-  - {fileID: 2048066434}
-  - {fileID: 1894139462}
-  - {fileID: 848990681}
-  - {fileID: 273214430}
-  - {fileID: 1238548775}
-  - {fileID: 1011003361}
-  - {fileID: 1257426620}
-  - {fileID: 1654035724}
-  - {fileID: 2037375869}
-  - {fileID: 284548974}
-  - {fileID: 1042595189}
-  - {fileID: 1013388266}
-  - {fileID: 1409763646}
-  - {fileID: 382780114}
-  - {fileID: 1533618281}
-  - {fileID: 1184585073}
-  - {fileID: 699987399}
-  - {fileID: 1133436750}
-  - {fileID: 313133445}
-  - {fileID: 1392886864}
-  - {fileID: 652693316}
-  - {fileID: 1839969631}
-  - {fileID: 255152129}
-  - {fileID: 254607659}
-  - {fileID: 1825893451}
-  - {fileID: 1311565017}
-  - {fileID: 785306264}
-  - {fileID: 1969894927}
-  - {fileID: 1877671750}
-  - {fileID: 1634510396}
-  - {fileID: 2029653977}
-  - {fileID: 996245860}
   sortingGroup: {fileID: 1347719315}
   onCloseColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   leftUpperBound: {fileID: 1032373113}
@@ -26114,9 +26038,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.RoomManager
   collidersObject: {fileID: 1000527353}
-  roomSprites:
-  - {fileID: 1259854695}
-  - {fileID: 1034271580}
   sortingGroup: {fileID: 1259854694}
   onCloseColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   leftUpperBound: {fileID: 595728610}
@@ -26484,7 +26405,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.4392157, g: 0.7058824, b: 0.8352941, a: 1}
@@ -27763,9 +27684,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.RoomManager
   collidersObject: {fileID: 1101055513}
-  roomSprites:
-  - {fileID: 1248270168}
-  - {fileID: 2138287122}
   sortingGroup: {fileID: 1248270167}
   onCloseColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   leftUpperBound: {fileID: 554610655}
@@ -27919,7 +27837,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.4392157, g: 0.7058824, b: 0.8352941, a: 1}
@@ -32944,9 +32862,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.RoomManager
   collidersObject: {fileID: 27233952}
-  roomSprites:
-  - {fileID: 677279544}
-  - {fileID: 1824917001}
   sortingGroup: {fileID: 677279543}
   onCloseColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   leftUpperBound: {fileID: 587095689}
