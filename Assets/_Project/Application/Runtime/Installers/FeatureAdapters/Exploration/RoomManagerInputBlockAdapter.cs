@@ -6,8 +6,8 @@ using Zenject;
 public sealed class RoomManagerInputBlockAdapter : MonoBehaviour
 {
     [Inject]
-    public void Construct(IGameplayInputBlockService inputBlockService)
+    public void Construct(IGameplayInputBlockService inputBlockService, CameraFlow cameraFlow)
     {
-        GetComponent<RoomManager>().ConfigureInputBlocking(inputBlockService);
+        GetComponent<RoomManager>().ConfigureInputBlocking(inputBlockService, cameraFlow);
     }
 }

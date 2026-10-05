@@ -1,20 +1,11 @@
 using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
 public class NpcDialogue : MonoBehaviour, IInteractable
 {
-    private enum DialogueContent
-    {
-        Test,
-        TV,
-        Bed
-    }
-
-    [SerializeField] private DialogueContent dialogueContent;
-    [SerializeField] private string interactionPrompt = "Press E to talk";
-
     private GameStateMachine gameStateMachine;
     private DialogueRuntimeRegistry runtimeRegistry;
     private IRuntimeErrorLogger errorLogger;
@@ -30,7 +21,7 @@ public class NpcDialogue : MonoBehaviour, IInteractable
         this.errorLogger = errorLogger;
     }
 
-    public string GetInteractionPrompt() => interactionPrompt;
+    public string GetInteractionPrompt() => "Press [E] to talk";
 
     public bool CanInteract()
     {
@@ -38,24 +29,20 @@ public class NpcDialogue : MonoBehaviour, IInteractable
         return dialogueManager != null && !dialogueManager.IsActive;
     }
 
-    public void Interact()
+    public virtual void Interact()
     {
         if (!CanInteract())
             return;
 
-        StartDialogue(destroyCancellationToken).Forget();
+        StartDialogue(destroyCancellationToken, DialogueLibrary.TestDialogue()).Forget();
     }
 
-    private async UniTask StartDialogue(System.Threading.CancellationToken cancellationToken)
+    protected async UniTask StartDialogue(System.Threading.CancellationToken cancellationToken, List<IDialogueEvent> dialogue)
     {
         try
         {
-            var events = dialogueContent switch
-            {
-                DialogueContent.TV => DialogueLibrary.TVDialogue(),
-                DialogueContent.Bed => DialogueLibrary.BedDialogue(),
-                _ => DialogueLibrary.TestDialogue()
-            };
+            // var events = DialogueLibrary.TestDialogue();
+            var events = dialogue;
 
             await gameStateMachine.PushOverlay<DialoguePhase>(phase =>
             {
@@ -69,9 +56,8 @@ public class NpcDialogue : MonoBehaviour, IInteractable
             if (gameStateMachine.IsTopOverlay<DialoguePhase>())
                 await gameStateMachine.PopOverlay();
         }
-        catch (OperationCanceledException)
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
-            // A main phase transition closes DialoguePhase before Unity destroys this scene object.
         }
         catch (Exception exception)
         {
