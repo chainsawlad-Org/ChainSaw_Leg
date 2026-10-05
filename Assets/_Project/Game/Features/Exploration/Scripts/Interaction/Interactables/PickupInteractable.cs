@@ -16,6 +16,11 @@ public class PickupInteractable : MonoBehaviour, IInteractable
 
     public bool CanInteract()
     {
+        throw new System.NotImplementedException();
+    }
+
+    public bool CanInteract(GameObject player)
+    {
         return !isCollected;
     }
 

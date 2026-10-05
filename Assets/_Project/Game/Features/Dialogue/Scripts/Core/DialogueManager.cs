@@ -132,6 +132,7 @@ public class DialogueManager : MonoBehaviour, IDialogueRuntime
             return;
 
         var next = choices[index].nextNode;
+        choices[index].command?.Invoke();
 
         if (next == null)
         {

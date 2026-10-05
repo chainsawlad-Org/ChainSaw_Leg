@@ -1189,9 +1189,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96df1959133254b449fe62210578fcba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
-  target: {fileID: 1157121962}
-  smoothTime: 0.15
-  deadZoneRadius: 1.5
+  player: {fileID: 0}
+  smoothSpeed: 0.125
+  offset: {x: 0, y: 0, z: -10}
+  followX: 1
+  followY: 1
+  followZ: 1
+  bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
 --- !u!1 &524943439
 GameObject:
   m_ObjectHideFlags: 0
@@ -2724,6 +2730,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WorldInstaller
   cameraFlow: {fileID: 519420033}
   playerStateAdapter: {fileID: 1157121971}
+  playerMovement: {fileID: 1157121966}
   dialogueInputRouter: {fileID: 1157121970}
   checkpointTriggers:
   - {fileID: 1908745104}
