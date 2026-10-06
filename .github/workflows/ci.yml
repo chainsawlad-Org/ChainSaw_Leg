@@ -5,12 +5,10 @@ on:
     branches:
       - develop
       - main
-
   pull_request:
     branches:
       - develop
       - main
-
   workflow_dispatch:
 
 permissions:
@@ -104,14 +102,14 @@ jobs:
       - name: Check for missing Git LFS content
         shell: bash
         run: |
-          pointer_files="$(grep -RIl '^version https://git-lfs.github.com/spec/v1$' Assets ProjectSettings Packages 2>/dev/null || true)"
+          pointer_files="$(grep -RIl '^version https://github.com' Assets ProjectSettings Packages 2>/dev/null || true)"
 
           if [ -n "$pointer_files" ]; then
             echo "Git LFS pointer files found. Some LFS assets were not pulled correctly:"
             echo "$pointer_files"
             exit 1
           fi
-          
+
       - name: Clean Unity cache
         run: |
           rm -rf ~/.cache/unity3d
@@ -154,36 +152,37 @@ jobs:
           path: unity-test-artifacts
 
       - name: Debug Unity generated changes
-          if: always()
-          shell: bash
-          run: |
-            git status --short
-            git diff --stat -- Assets Packages ProjectSettings
-            git diff -- Assets/TextMesh\ Pro/Resources/Fonts\ \&\ Materials/LiberationSans\ SDF\ -\ Fallback.asset
+        if: always()
+        shell: bash
+        run: |
+          git status --short
+          git diff --stat -- Assets Packages ProjectSettings
+          git diff -- "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset"
 
-            - name: Revert TextMesh Pro dynamic modifications
-              if: ${{ !cancelled() }}
-              shell: bash
-              run: |
-                if [ -f "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset" ]; then
-                  git checkout -- "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset"
-                  echo "TextMesh Pro font modifications reverted successfully."
-                else
-                  echo "Fallback font file not found, skipping revert."
-                fi
+      - name: Revert TextMesh Pro dynamic modifications
+        if: always()
+        shell: bash
+        run: |
+          TARGET_FONT="Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset"
+          if [ -f "$TARGET_FONT" ]; then
+            git checkout -- "$TARGET_FONT"
+            echo "TextMesh Pro font modifications reverted successfully."
+          else
+            echo "Fallback font file not found, skipping revert."
+          fi
 
-            - name: Verify Unity import consistency
-              if: ${{ !cancelled() }}
-              shell: bash
-              run: |
-                git diff --exit-code -- Assets Packages ProjectSettings
-                
-                untracked_files="$(git ls-files --others --exclude-standard -- Assets Packages ProjectSettings)"
-                if [ -n "$untracked_files" ]; then
-                  echo "Unity generated untracked project files during import:"
-                  echo "$untracked_files"
-                  exit 1
-                fi
+      - name: Verify Unity import consistency
+        if: always()
+        shell: bash
+        run: |
+          git diff --exit-code -- Assets Packages ProjectSettings
 
-            - name: CI completed
-              run: echo "Unity project validation completed successfully."
+          untracked_files="$(git ls-files --others --exclude-standard -- Assets Packages ProjectSettings)"
+          if [ -n "$untracked_files" ]; then
+            echo "Unity generated untracked project files during import:"
+            echo "$untracked_files"
+            exit 1
+          fi
+
+      - name: CI completed
+        run: echo "Unity project validation completed successfully."
