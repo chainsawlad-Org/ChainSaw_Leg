@@ -154,25 +154,36 @@ jobs:
           path: unity-test-artifacts
 
       - name: Debug Unity generated changes
-        if: always()
-        shell: bash
-        run: |
-          git status --short
-          git diff --stat -- Assets Packages ProjectSettings
-          git diff -- Assets/TextMesh\ Pro/Resources/Fonts\ \&\ Materials/LiberationSans\ SDF\ -\ Fallback.asset
+          if: always()
+          shell: bash
+          run: |
+            git status --short
+            git diff --stat -- Assets Packages ProjectSettings
+            git diff -- Assets/TextMesh\ Pro/Resources/Fonts\ \&\ Materials/LiberationSans\ SDF\ -\ Fallback.asset
 
-      - name: Verify Unity import consistency
-        if: ${{ !cancelled() }}
-        shell: bash
-        run: |
-          git diff --exit-code -- Assets Packages ProjectSettings
+            - name: Revert TextMesh Pro dynamic modifications
+              if: ${{ !cancelled() }}
+              shell: bash
+              run: |
+                if [ -f "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset" ]; then
+                  git checkout -- "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset"
+                  echo "TextMesh Pro font modifications reverted successfully."
+                else
+                  echo "Fallback font file not found, skipping revert."
+                fi
 
-          untracked_files="$(git ls-files --others --exclude-standard -- Assets Packages ProjectSettings)"
-          if [ -n "$untracked_files" ]; then
-            echo "Unity generated untracked project files during import:"
-            echo "$untracked_files"
-            exit 1
-          fi
+            - name: Verify Unity import consistency
+              if: ${{ !cancelled() }}
+              shell: bash
+              run: |
+                git diff --exit-code -- Assets Packages ProjectSettings
+                
+                untracked_files="$(git ls-files --others --exclude-standard -- Assets Packages ProjectSettings)"
+                if [ -n "$untracked_files" ]; then
+                  echo "Unity generated untracked project files during import:"
+                  echo "$untracked_files"
+                  exit 1
+                fi
 
-      - name: CI completed
-        run: echo "Unity project validation completed successfully."
+            - name: CI completed
+              run: echo "Unity project validation completed successfully."
