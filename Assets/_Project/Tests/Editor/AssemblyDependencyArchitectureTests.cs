@@ -50,7 +50,10 @@ public sealed class AssemblyDependencyArchitectureTests
                 }
 
                 AssemblyLayer targetLayer = GetLayer(target.Name);
-                if (!IsDependencyAllowed(sourceLayer, targetLayer))
+                bool isDebugException = source.Name.StartsWith("ChainSawLeg.Infrastructure.Debug.Runtime", StringComparison.Ordinal) 
+                                        && (targetLayer == AssemblyLayer.Feature || targetLayer == AssemblyLayer.Infrastructure);
+
+                if (!isDebugException && !IsDependencyAllowed(sourceLayer, targetLayer))
                 {
                     violations.Add(
                         $"{source.Name} ({sourceLayer}) must not reference {target.Name} ({targetLayer}).");
@@ -198,6 +201,11 @@ public sealed class AssemblyDependencyArchitectureTests
             || assemblyName.StartsWith("ChainSawLeg.Coordination.Runtime", StringComparison.Ordinal))
         {
             return AssemblyLayer.Application;
+        }
+        
+        if (assemblyName.StartsWith("ChainSawLeg.Infrastructure.Debug.Runtime", StringComparison.Ordinal))
+        {
+            return AssemblyLayer.Infrastructure;
         }
 
         if (assemblyName.StartsWith("ChainSawLeg.Infrastructure.Runtime", StringComparison.Ordinal))

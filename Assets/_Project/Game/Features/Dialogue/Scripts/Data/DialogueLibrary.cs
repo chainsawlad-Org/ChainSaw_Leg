@@ -24,39 +24,39 @@ public static class DialogueLibrary
         var secondQuestion = new DialogueNode
         {
             text = "Как у тебя дела?",
-            choices = new List<DialogueChoice>
+            /*choices = new List<DialogueChoice>
             {
                 new DialogueChoice { text = "Хорошо", nextNode = goodNode },
                 new DialogueChoice { text = "Плохо", nextNode = badNode }
-            }
+            }*/
         };
 
         var nameResponse = new DialogueNode
         {
             text = "Приятно познакомиться!",
-            nextNode = secondQuestion
+            //nextNode = secondQuestion
         };
 
         var rudeNode = new DialogueNode
         {
             text = "Ну и ладно...",
-            nextNode = secondQuestion
+            //nextNode = secondQuestion
         };
 
         var askName = new DialogueNode
         {
             text = "Как тебя зовут?",
-            choices = new List<DialogueChoice>
+            /*choices = new List<DialogueChoice>
             {
                 new DialogueChoice { text = "Не твоё дело", nextNode = rudeNode },
                 new DialogueChoice { text = "Меня зовут Игрок", nextNode = nameResponse }
-            }
+            }*/
         };
 
         var startNode = new DialogueNode
         {
             text = "Привет! Меня зовут NPC.",
-            nextNode = askName
+            //nextNode = askName
         };
 
         return ConvertToEvents(startNode);
@@ -90,13 +90,13 @@ public static class DialogueLibrary
         {
             events.Add(new TypewriterEvent { text = current.text, speed = 0.05f });
 
-            if (current.choices != null && current.choices.Count > 0)
+            /*if (current.choices != null && current.choices.Count > 0)
             {
                 events.Add(new ChoiceEvent { choices = current.choices });
                 break;
-            }
+            }*/
 
-            current = current.nextNode;
+            //current = current.nextNode;
         }
 
         return events;
