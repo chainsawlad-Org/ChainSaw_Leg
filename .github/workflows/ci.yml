@@ -153,6 +153,14 @@ jobs:
           name: unity-editmode-test-results
           path: unity-test-artifacts
 
+      - name: Debug Unity generated changes
+        if: always()
+        shell: bash
+        run: |
+          git status --short
+          git diff --stat -- Assets Packages ProjectSettings
+          git diff -- Assets/TextMesh\ Pro/Resources/Fonts\ \&\ Materials/LiberationSans\ SDF\ -\ Fallback.asset
+
       - name: Verify Unity import consistency
         if: ${{ !cancelled() }}
         shell: bash
