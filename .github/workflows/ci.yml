@@ -5,12 +5,10 @@ on:
     branches:
       - develop
       - main
-
   pull_request:
     branches:
       - develop
       - main
-
   workflow_dispatch:
 
 permissions:
@@ -104,14 +102,14 @@ jobs:
       - name: Check for missing Git LFS content
         shell: bash
         run: |
-          pointer_files="$(grep -RIl '^version https://git-lfs.github.com/spec/v1$' Assets ProjectSettings Packages 2>/dev/null || true)"
+          pointer_files="$(grep -RIl '^version https://github.com' Assets ProjectSettings Packages 2>/dev/null || true)"
 
           if [ -n "$pointer_files" ]; then
             echo "Git LFS pointer files found. Some LFS assets were not pulled correctly:"
             echo "$pointer_files"
             exit 1
           fi
-          
+
       - name: Clean Unity cache
         run: |
           rm -rf ~/.cache/unity3d
@@ -131,7 +129,7 @@ jobs:
       - name: Run Unity EditMode tests
         id: unity-editmode-tests
         timeout-minutes: 30
-        uses: game-ci/unity-test-runner@v4
+        uses: game-ci/unity-test-runner@v4.3.0
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
@@ -143,7 +141,7 @@ jobs:
           testMode: editmode
           artifactsPath: unity-test-artifacts
           coverageOptions: ''
-          customParameters: -logFile /dev/stdout -assemblyNames ChainSawLeg.Project.Tests
+          customParameters: -batchmode -nographics -assemblyNames ChainSawLeg.Project.Tests
           githubToken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Unity test artifacts
@@ -153,8 +151,28 @@ jobs:
           name: unity-editmode-test-results
           path: unity-test-artifacts
 
+      - name: Debug Unity generated changes
+        if: always()
+        shell: bash
+        run: |
+          git status --short
+          git diff --stat -- Assets Packages ProjectSettings
+          git diff -- "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset"
+
+      - name: Revert TextMesh Pro dynamic modifications
+        if: always()
+        shell: bash
+        run: |
+          TARGET_FONT="Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset"
+          if [ -f "$TARGET_FONT" ]; then
+            git checkout -- "$TARGET_FONT"
+            echo "TextMesh Pro font modifications reverted successfully."
+          else
+            echo "Fallback font file not found, skipping revert."
+          fi
+
       - name: Verify Unity import consistency
-        if: ${{ !cancelled() }}
+        if: always()
         shell: bash
         run: |
           git diff --exit-code -- Assets Packages ProjectSettings
