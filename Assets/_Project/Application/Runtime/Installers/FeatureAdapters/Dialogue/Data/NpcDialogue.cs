@@ -1,67 +1,67 @@
-using System;
-using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
-using UnityEngine;
-using Zenject;
-
-public class NpcDialogue : MonoBehaviour, IInteractable
-{
-    private GameStateMachine gameStateMachine;
-    private DialogueRuntimeRegistry runtimeRegistry;
-    private IRuntimeErrorLogger errorLogger;
-
-    [Inject]
-    public void Construct(
-        GameStateMachine gameStateMachine,
-        DialogueRuntimeRegistry runtimeRegistry,
-        IRuntimeErrorLogger errorLogger)
-    {
-        this.gameStateMachine = gameStateMachine;
-        this.runtimeRegistry = runtimeRegistry;
-        this.errorLogger = errorLogger;
-    }
-
-    public string GetInteractionPrompt() => "Press [E] to talk";
-
-    public bool CanInteract()
-    {
-        IDialogueRuntime dialogueManager = runtimeRegistry.Current;
-        return dialogueManager != null && !dialogueManager.IsActive;
-    }
-
-    public virtual void Interact()
-    {
-        if (!CanInteract())
-            return;
-
-        StartDialogue(destroyCancellationToken, DialogueLibrary.TestDialogue()).Forget();
-    }
-
-    protected async UniTask StartDialogue(System.Threading.CancellationToken cancellationToken, List<IDialogueEvent> dialogue)
-    {
-        try
-        {
-            // var events = DialogueLibrary.TestDialogue();
-            var events = dialogue;
-
-            await gameStateMachine.PushOverlay<DialoguePhase>(phase =>
-            {
-                phase.Configure(new DialogueRequest(
-                    events,
-                    DialogueType.RPG,
-                    transform,
-                    cancellationToken));
-            });
-
-            if (gameStateMachine.IsTopOverlay<DialoguePhase>())
-                await gameStateMachine.PopOverlay();
-        }
-        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
-        {
-        }
-        catch (Exception exception)
-        {
-            errorLogger.LogException(exception, nameof(NpcDialogue));
-        }
-    }
-}
+// using System;
+// using System.Collections.Generic;
+// using Cysharp.Threading.Tasks;
+// using UnityEngine;
+// using Zenject;
+//
+// public class NpcDialogue : MonoBehaviour, IInteractable
+// {
+//     private GameStateMachine gameStateMachine;
+//     private DialogueRuntimeRegistry runtimeRegistry;
+//     private IRuntimeErrorLogger errorLogger;
+//
+//     [Inject]
+//     public void Construct(
+//         GameStateMachine gameStateMachine,
+//         DialogueRuntimeRegistry runtimeRegistry,
+//         IRuntimeErrorLogger errorLogger)
+//     {
+//         this.gameStateMachine = gameStateMachine;
+//         this.runtimeRegistry = runtimeRegistry;
+//         this.errorLogger = errorLogger;
+//     }
+//
+//     public string GetInteractionPrompt() => "Press [E] to talk";
+//
+//     public bool CanInteract()
+//     {
+//         IDialogueRuntime dialogueManager = runtimeRegistry.Current;
+//         return dialogueManager != null && !dialogueManager.IsActive;
+//     }
+//
+//     public virtual void Interact()
+//     {
+//         if (!CanInteract())
+//             return;
+//
+//         StartDialogue(destroyCancellationToken, DialogueLibrary.TestDialogue()).Forget();
+//     }
+//
+//     protected async UniTask StartDialogue(System.Threading.CancellationToken cancellationToken, List<IDialogueEvent> dialogue)
+//     {
+//         try
+//         {
+//             // var events = DialogueLibrary.TestDialogue();
+//             var events = dialogue;
+//
+//             await gameStateMachine.PushOverlay<DialoguePhase>(phase =>
+//             {
+//                 phase.Configure(new DialogueRequest(
+//                     events,
+//                     DialogueType.RPG,
+//                     transform,
+//                     cancellationToken));
+//             });
+//
+//             if (gameStateMachine.IsTopOverlay<DialoguePhase>())
+//                 await gameStateMachine.PopOverlay();
+//         }
+//         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+//         {
+//         }
+//         catch (Exception exception)
+//         {
+//             errorLogger.LogException(exception, nameof(NpcDialogue));
+//         }
+//     }
+// }
