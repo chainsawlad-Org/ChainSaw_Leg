@@ -10,11 +10,12 @@ namespace ChainSawLeg.Features.Dialogue
         public string Title { get; }
         public string StartNodeId { get; }
 
-        public Dialogue(string id, string title, string startNodeId)
+        public Dialogue(string id, string title, string startNodeId, IReadOnlyDictionary<string, DialogueNode> nodes)
         {
             Id = id;
             Title = title;
             StartNodeId = startNodeId;
+            this.nodes = nodes;
         }
 
         public bool TryGetNode(string nodeId, out DialogueNode node)
