@@ -1,0 +1,75 @@
+{
+  "Dialogues": [
+    {
+      "dialogue_id": "guard_intro",
+      "title": "Разговор с охранником",
+      "start_node_id": "node_001"
+    },
+    {
+      "dialogue_id": "toilet_wars_intro",
+      "title": "Туалетные войны",
+      "start_node_id": "node_001"
+    },
+    {
+      "dialogue_id": "science_fair",
+      "title": "Научная ярмарка",
+      "start_node_id": "node_001"
+    }
+  ],
+  "Nodes": [
+    {
+      "node_id": "node_001",
+      "dialogue_id": "toilet_wars_intro",
+      "type": "Line",
+      "speaker": "Guard",
+      "text": "Опять вы здесь?",
+      "next_node_id": "node_002"
+    },
+    {
+      "node_id": "node_002",
+      "dialogue_id": "toilet_wars_intro",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Нам нужно поговорить.",
+      "next_node_id": "node_003"
+    },
+    {
+      "node_id": "node_003",
+      "dialogue_id": "toilet_wars_intro",
+      "type": "Choice",
+      "speaker": "Guard",
+      "text": "Что вам нужно?",
+      "next_node_id": null
+    },
+    {
+      "node_id": "node_004",
+      "dialogue_id": "toilet_wars_intro",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Нам нужно разобраться.",
+      "next_node_id": "node_005"
+    },
+    {
+      "node_id": "node_005",
+      "dialogue_id": "toilet_wars_intro",
+      "type": "Line",
+      "speaker": "Guard",
+      "text": "Хорошо.",
+      "next_node_id": null
+    }
+  ],
+  "Choices": [
+    {
+      "choice_id": "choice_001",
+      "node_id": "node_003",
+      "text": "Нам нужно поговорить.",
+      "next_node_id": "node_004"
+    },
+    {
+      "choice_id": "choice_002",
+      "node_id": "node_003",
+      "text": "Мы просто проходили мимо.",
+      "next_node_id": "node_006"
+    }
+  ]
+}
