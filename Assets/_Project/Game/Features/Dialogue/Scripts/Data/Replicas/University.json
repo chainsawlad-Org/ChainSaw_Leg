@@ -19,7 +19,7 @@
   "Nodes": [
     {
       "node_id": "node_001",
-      "dialogue_id": "toilet_wars_intro",
+      "dialogue_id": "guard_intro",
       "type": "Line",
       "speaker": "Guard",
       "text": "Опять вы здесь?",
@@ -27,7 +27,7 @@
     },
     {
       "node_id": "node_002",
-      "dialogue_id": "toilet_wars_intro",
+      "dialogue_id": "guard_intro",
       "type": "Line",
       "speaker": "Misty",
       "text": "Нам нужно поговорить.",
@@ -35,7 +35,7 @@
     },
     {
       "node_id": "node_003",
-      "dialogue_id": "toilet_wars_intro",
+      "dialogue_id": "guard_intro",
       "type": "Choice",
       "speaker": "Guard",
       "text": "Что вам нужно?",
@@ -43,7 +43,7 @@
     },
     {
       "node_id": "node_004",
-      "dialogue_id": "toilet_wars_intro",
+      "dialogue_id": "guard_intro",
       "type": "Line",
       "speaker": "Misty",
       "text": "Нам нужно разобраться.",
@@ -51,25 +51,134 @@
     },
     {
       "node_id": "node_005",
-      "dialogue_id": "toilet_wars_intro",
+      "dialogue_id": "guard_intro",
       "type": "Line",
       "speaker": "Guard",
       "text": "Хорошо.",
+      "next_node_id": null
+    },
+    {
+      "node_id": "node_001",
+      "dialogue_id": "toilet_wars_intro",
+      "type": "Choice",
+      "speaker": "Pixel",
+      "text": "Ты кто такая?",
+      "next_node_id": "node_002"
+    },
+    {
+      "node_id": "node_002",
+      "dialogue_id": "toilet_wars_intro",
+      "type": "Line",
+      "speaker": "Pixel",
+      "text": "Ничего мимо проходила",
+      "next_node_id": "node_003"
+    },
+    {
+      "node_id": "node_003",
+      "dialogue_id": "toilet_wars_intro",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "По-моему ты врешь. РАССКАЗЫВАЙ, ЧТО ТЫ ТУТ ДЕЛАЕШЬ?",
+      "next_node_id": "node_004"
+    },
+    {
+      "node_id": "node_004",
+      "dialogue_id": "toilet_wars_intro",
+      "type": "Choice",
+      "speaker": "Pixel",
+      "text": "Во-первых кто ты такая еще раз?? А во вторых пошла нахуй.",
+      "next_node_id": "node_005"
+    },
+    {
+      "node_id": "node_005",
+      "dialogue_id": "toilet_wars_intro",
+      "type": "Line",
+      "speaker": "Pixel",
+      "text": "Вот и проваливай!!!",
+      "next_node_id": null
+    },
+    {
+      "node_id": "node_006",
+      "dialogue_id": "toilet_wars_intro",
+      "type": "Line",
+      "speaker": "Pixel",
+      "text": "Ладно, ладно я тут рисую это моя работа.",
+      "next_node_id": "node_006"
+    },
+    {
+      "node_id": "node_007",
+      "dialogue_id": "toilet_wars_intro",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Я так и думала",
+      "next_node_id": null
+    },
+    {
+      "node_id": "node_001",
+      "dialogue_id": "science_fair",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Привет",
+      "next_node_id": "node_002"
+    },
+    {
+      "node_id": "node_002",
+      "dialogue_id": "science_fair",
+      "type": "Line",
+      "speaker": "Man",
+      "text": "Привет",
       "next_node_id": null
     }
   ],
   "Choices": [
     {
-      "choice_id": "choice_001",
+      "choice_id": "guard_intro_choice_001",
+      "dialogue_id": "guard_intro",
       "node_id": "node_003",
       "text": "Нам нужно поговорить.",
       "next_node_id": "node_004"
     },
     {
-      "choice_id": "choice_002",
+      "choice_id": "guard_intro_choice_002",
+      "dialogue_id": "guard_intro",
       "node_id": "node_003",
       "text": "Мы просто проходили мимо.",
+      "next_node_id": "node_005"
+    },
+    {
+      "choice_id": "toilet_wars_intro_choice_001",
+      "dialogue_id": "toilet_wars_intro",
+      "node_id": "node_001",
+      "text": "Меня зовут Мисти.  Что ты тут делаешь?",
+      "next_node_id": "node_002"
+    },
+    {
+      "choice_id": "toilet_wars_intro_choice_002",
+      "dialogue_id": "toilet_wars_intro",
+      "node_id": "node_001",
+      "text": "Я тут задаю вопросы Что тыт тут делаешь?",
+      "next_node_id": "node_002"
+    },
+    {
+      "choice_id": "toilet_wars_intro_choice_003",
+      "dialogue_id": "toilet_wars_intro",
+      "node_id": "node_004",
+      "text": "Меня зовут Мисти.  Что ты тут делаешь?",
       "next_node_id": "node_006"
+    },
+    {
+      "choice_id": "toilet_wars_intro_choice_004",
+      "dialogue_id": "toilet_wars_intro",
+      "node_id": "node_004",
+      "text": "Я тебя сейчас распилю. ПОВТОРЯЮ ЕЩЕ РАЗ. кто ты такая?",
+      "next_node_id": "node_006"
+    },
+    {
+      "choice_id": "toilet_wars_intro_choice_005",
+      "dialogue_id": "toilet_wars_intro",
+      "node_id": "node_004",
+      "text": "Никто",
+      "next_node_id": "node_005"
     }
   ]
 }
