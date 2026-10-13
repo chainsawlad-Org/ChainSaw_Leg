@@ -1,3 +1,4 @@
+using ChainSawLeg.Composition;
 using Zenject;
 
 public class ProjectInstaller : MonoInstaller
