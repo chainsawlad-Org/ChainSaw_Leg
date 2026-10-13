@@ -1,4 +1,3 @@
-using UnityEngine;
 
 namespace ChainSawLeg.Features.Dialogue
 {
