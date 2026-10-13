@@ -1,113 +1,40 @@
-using Newtonsoft.Json.Linq;
-using System.Linq;
 using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
 
-public class DialogueImporter
+namespace ChainSawLeg.Features.Dialogue
 {
-    public string nameJson = "replicas.JSON";
-    public string pathToJson = "_Project/Game/Features/Dialogue/Scripts/Data";
-    public List<DialogueNode> Import()
+    public sealed class DialogueImporter
     {
-        List<DialogueNode> nodes = new List<DialogueNode>();
-        string jsonData = Load(nameJson, pathToJson);
-        if(jsonData != null)
+        private readonly DialogueJsonReader reader;
+        private readonly DialogueValidator validator;
+        private readonly DialogueBuilder builder;
+
+        public DialogueImporter(
+            DialogueJsonReader reader,
+            DialogueValidator validator,
+            DialogueBuilder builder)
         {
-            nodes = Parse(jsonData);
+            this.reader = reader;
+            this.validator = validator;
+            this.builder = builder;
         }
 
-        return nodes;
-    }
-
-    public string Load(string nameJson, string pathToJson)
-    {
-        string pathToFile = Path.Combine(Application.dataPath, pathToJson, nameJson);
-        string jsonData = null;
-
-        if (File.Exists(pathToFile))
+        public List<Dialogue> Import(
+            string jsonPath)
         {
-            jsonData = File.ReadAllText(pathToFile);
-        }
-        else
-        {
-            Debug.LogError(nameJson + " does not exist");
-        }
+            DialogueJsonData data =
+                reader.Read(jsonPath);
 
-        return jsonData;
-    }
-
-    public List<DialogueNode> Parse(string JsonData)
-    {
-        List<DialogueNode> nodes = new List<DialogueNode>();
-        JArray array = JArray.Parse(JsonData);
-        
-        foreach (JObject obj in array)
-        {
-
-            DialogueNode node = new DialogueNode
+            if (data == null)
             {
-                id = obj["id"].Value<string>(),
-                speaker = obj["speaker"].Value<string>(),
-                text = obj["text"].Value<string>(),
-                nextId = obj["next_id"].Value<string>(),
-            };
-
-            nodes.Add(node);
-        }
-
-        if (!Validate(nodes))
-        {
-            return null;
-        }
-
-        return nodes;
-    }
-
-    public bool Validate(List<DialogueNode> nodes)
-    {
-        if (nodes == null)
-        {
-            Debug.LogError("Dialogue node is null");
-            return false;
-        }
-
-        foreach (DialogueNode node in nodes)
-        {
-
-            if (string.IsNullOrEmpty(node.id))
-            {
-                Debug.LogError("ID is null");
-                return false;
+                return null;
             }
 
-            if(nodes.Any(n => n.id == node.id))
+            if (!validator.Validate(data))
             {
-                Debug.LogError("ID " + node.id + " already exists");
-                return false;
+                return null;
             }
 
-            if (string.IsNullOrEmpty(node.text))
-            {
-                Debug.LogError("Node " + node.id + " has null text");
-                return false;
-            }
-
-            if (string.IsNullOrEmpty(node.speaker))
-            {
-                Debug.LogError("Node " + node.id + " has null speaker");
-                return false;
-            }
-
-            if (!nodes.Any(n => n.id == node.nextId) && !string.IsNullOrEmpty(node.nextId))
-            {
-                Debug.LogError("Node " + node.id + " has non-existent nextId");
-                return false;
-            }
-
+            return builder.Build(data);
         }
-
-        return true;
-
     }
 }
