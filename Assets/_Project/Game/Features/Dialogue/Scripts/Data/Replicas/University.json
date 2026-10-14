@@ -103,7 +103,7 @@
       "type": "Line",
       "speaker": "Pixel",
       "text": "Ладно, ладно я тут рисую это моя работа.",
-      "next_node_id": "node_006"
+      "next_node_id": null
     },
     {
       "node_id": "node_007",
