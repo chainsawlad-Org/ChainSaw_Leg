@@ -20,6 +20,13 @@ namespace ChainSawLeg.Composition
 
             Container.Bind<DialogueImporter>()
                 .AsSingle();
+            
+            // Container.Bind<IDialogueDatabase>()
+            //     .To<DialogueDatabaseService>()
+            //     .FromResolve();
+            
+            Container.BindInterfacesAndSelfTo<DialogueDatabaseService>()
+                .AsSingle();
         }
     }
 }
