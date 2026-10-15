@@ -27,6 +27,7 @@ namespace ChainSawLeg.Composition
             
             Container.BindInterfacesAndSelfTo<DialogueDatabaseService>()
                 .AsSingle();
+            Container.BindInterfacesAndSelfTo<DialogueRunner>().AsSingle();
         }
     }
 }
