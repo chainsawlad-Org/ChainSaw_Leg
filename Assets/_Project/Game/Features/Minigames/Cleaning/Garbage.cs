@@ -1,4 +1,3 @@
-using System;
 using ChainSawLeg.Features.Exploration;
 using DG.Tweening;
 using UnityEngine;

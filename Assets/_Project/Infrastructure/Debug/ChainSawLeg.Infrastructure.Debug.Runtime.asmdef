@@ -3,6 +3,7 @@
   "references": [
     "ChainSawLeg.Features.Exploration.Runtime",
     "ChainSawLeg.Infrastructure.Runtime",
+    "ChainSawLeg.Game.Shared.Runtime",
     "UnityDebugSheet.Runtime",
     "Zenject",
     "UnityDebugSheet"

@@ -1,8 +1,7 @@
-using ChainSawLeg.Features.Minigames;
 using DG.Tweening;
 using UnityEngine;
 
-namespace ChainSawLeg.Features.Exploration
+namespace ChainSawLeg.Features.Minigames
 {
     public class Trash : MonoBehaviour
     {
