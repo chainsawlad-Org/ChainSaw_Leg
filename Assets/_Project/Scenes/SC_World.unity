@@ -758,9 +758,11 @@ MonoBehaviour:
   cameraFlow: {fileID: 878292290}
   playerStateAdapter: {fileID: 1157121971}
   playerMovement: {fileID: 1157121966}
-  playerRigidbody2D: {fileID: 1157121961}
   dialogueInputRouter: {fileID: 1157121970}
+  dialogueUI: {fileID: 524943441}
   checkpointTriggers: []
+  enemyFlySpawner: {fileID: 1200896332}
+  garbageTrigger: {fileID: 566828220}
 --- !u!4 &79852801
 Transform:
   m_ObjectHideFlags: 0
@@ -16369,7 +16371,6 @@ GameObject:
   - component: {fileID: 566828218}
   - component: {fileID: 566828217}
   - component: {fileID: 566828220}
-  - component: {fileID: 566828222}
   - component: {fileID: 566828221}
   m_Layer: 0
   m_Name: Triangle (6)
@@ -16529,12 +16530,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.GarbageTrigger
   massMultiplier: 1
-  isFreezed: 1
+  isFreezed: 0
   targetDeltaPoint: {x: 0, y: 0}
   jumpPower: 0
   animationDuration: 0
   dustParticle: {fileID: 379329846}
-  enemySpawner: {fileID: 1200896332}
 --- !u!114 &566828221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16554,18 +16554,6 @@ MonoBehaviour:
   setAnotherBelowSprite: 0
   spriteBelow: {fileID: 0}
   drawGizmos: 0
---- !u!114 &566828222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 566828213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d477db6ac5183f45be3bab75092422e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::ChainSawLeg.Composition.GarbageTriggerAdapter
 --- !u!1 &579907142
 GameObject:
   m_ObjectHideFlags: 0
@@ -31083,7 +31071,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1200896331}
   - component: {fileID: 1200896332}
-  - component: {fileID: 1200896333}
   m_Layer: 0
   m_Name: EnemySpawner
   m_TagString: Untagged
@@ -31118,22 +31105,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 417766c6292304745b58f44690b9f037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.EnemyFlySpawner
-  enemyFlyPrefab: {fileID: 4908300336683156621, guid: 85e026b669a013143909e984effa0471, type: 3}
+  enemyFlyPrefab: {fileID: 3393048056476628012, guid: 85e026b669a013143909e984effa0471, type: 3}
   enemyCount: 5
-  spawnRate: 5
-  delayBeforeSpawn: 6
---- !u!114 &1200896333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1200896330}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c11da387119e66c4690ca68febaa8004, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::ChainSawLeg.Composition.EnemyFlySpawnerAdapter
+  spawnRate: 3
+  delayBeforeSpawn: 3
 --- !u!1 &1203383164
 GameObject:
   m_ObjectHideFlags: 0
@@ -41963,9 +41938,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e85d2f2acd7d843bf9cfa8e0c63befc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialogueManager
-  rpgUI: {fileID: 524943441}
-  bubbleUI: {fileID: 1903723580}
-  cutsceneUI: {fileID: 1143255629}
 --- !u!4 &1556210124
 Transform:
   m_ObjectHideFlags: 0

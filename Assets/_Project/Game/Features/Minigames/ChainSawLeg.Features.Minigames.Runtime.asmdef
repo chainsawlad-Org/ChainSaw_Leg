@@ -5,7 +5,6 @@
         "Unity.InputSystem",
         "UnityEngine.UI",
         "Unity.TextMeshPro",
-        "ChainSawLeg.Features.Exploration.Runtime",
         "ChainSawLeg.Game.Shared.Runtime"
     ],
     "includePlatforms": [],
