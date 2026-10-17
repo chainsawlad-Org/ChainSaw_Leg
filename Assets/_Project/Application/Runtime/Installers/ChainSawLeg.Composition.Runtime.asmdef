@@ -9,6 +9,7 @@
         "ChainSawLeg.Features.Combat.Runtime",
         "ChainSawLeg.Features.Dialogue.Runtime",
         "ChainSawLeg.Features.Exploration.Runtime",
+        "ChainSawLeg.Features.Minigames.Runtime",
         "ChainSawLeg.UI.Runtime",
         "Zenject",
         "UniTask",

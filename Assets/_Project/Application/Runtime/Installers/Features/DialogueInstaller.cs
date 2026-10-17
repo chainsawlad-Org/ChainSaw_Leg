@@ -7,8 +7,6 @@ namespace ChainSawLeg.Composition
     {
         public override void InstallBindings()
         {
-            // Container.BindInterfacesAndSelfTo<DialogueRuntimeRegistry>().AsSingle();
-            // Container.Bind<DialogueService>().AsSingle();
             Container.Bind<DialogueJsonReader>()
                 .AsSingle();
 
@@ -20,10 +18,6 @@ namespace ChainSawLeg.Composition
 
             Container.Bind<DialogueImporter>()
                 .AsSingle();
-            
-            // Container.Bind<IDialogueDatabase>()
-            //     .To<DialogueDatabaseService>()
-            //     .FromResolve();
             
             Container.BindInterfacesAndSelfTo<DialogueDatabaseService>()
                 .AsSingle();
