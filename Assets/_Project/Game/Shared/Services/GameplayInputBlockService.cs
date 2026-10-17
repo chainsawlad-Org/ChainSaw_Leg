@@ -6,11 +6,12 @@ public class GameplayInputBlockService : IGameplayInputBlockService
     private int dashBlockCount;
     private int interactBlockCount;
     private int submitBlockCount;
+    private int kickBlockCount;
 
     public event Action BlockStateChanged;
 
     public bool IsBlocked => IsChannelBlocked(InputBlockChannels.Gameplay);
-    public int ActiveBlockCount => moveBlockCount + dashBlockCount + interactBlockCount + submitBlockCount;
+    public int ActiveBlockCount => moveBlockCount + dashBlockCount + interactBlockCount + submitBlockCount + kickBlockCount;
 
     public bool IsChannelBlocked(InputBlockChannels channels)
     {
@@ -24,6 +25,9 @@ public class GameplayInputBlockService : IGameplayInputBlockService
             return true;
 
         if ((channels & InputBlockChannels.Submit) != 0 && submitBlockCount > 0)
+            return true;
+        
+        if  ((channels & InputBlockChannels.Kick) != 0 && kickBlockCount > 0)
             return true;
 
         return false;
@@ -56,6 +60,7 @@ public class GameplayInputBlockService : IGameplayInputBlockService
         dashBlockCount = 0;
         interactBlockCount = 0;
         submitBlockCount = 0;
+        kickBlockCount = 0;
         BlockStateChanged?.Invoke();
     }
 
@@ -72,5 +77,8 @@ public class GameplayInputBlockService : IGameplayInputBlockService
 
         if ((channels & InputBlockChannels.Submit) != 0)
             submitBlockCount = Math.Max(0, submitBlockCount + delta);
+        
+        if  ((channels & InputBlockChannels.Kick) != 0)
+            kickBlockCount = Math.Max(0, kickBlockCount + delta);
     }
 }

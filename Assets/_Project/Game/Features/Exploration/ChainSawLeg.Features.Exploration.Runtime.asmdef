@@ -3,6 +3,7 @@
     "rootNamespace": "ChainSawLeg.Features.Exploration",
     "references": [
         "ChainSawLeg.Game.Shared.Runtime",
+        "Zenject",
         "UniTask",
         "UnityEngine.UI",
         "Unity.TextMeshPro"

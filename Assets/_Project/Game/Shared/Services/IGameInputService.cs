@@ -7,6 +7,7 @@ public interface IGameInputService
     Vector2 MoveInput { get; }
     bool DashPressed { get; }
     bool InteractPressed { get; }
+    bool KickPressed { get; }
     bool SubmitPressed { get; }
     bool UiSubmitPressed { get; }
     bool PreviousPressed { get; }
@@ -14,6 +15,7 @@ public interface IGameInputService
 
     void ConsumeDash();
     void ConsumeInteract();
+    void ConsumeKick();
     void ConsumeSubmit();
     void ConsumePrevious();
     void ConsumeNext();
