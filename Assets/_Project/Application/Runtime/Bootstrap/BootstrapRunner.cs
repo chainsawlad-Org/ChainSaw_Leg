@@ -3,33 +3,36 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
-public class BootstrapRunner : IBootstrapRunner
+namespace ChainSawLeg.Application
 {
-    private readonly GameStateMachine gameStateMachine;
-    private readonly ISceneLoader sceneLoader;
-    private readonly IStartupResolver startupResolver;
-    private readonly IReadOnlyList<IApplicationService> applicationServices;
-
-    public BootstrapRunner(
-        GameStateMachine gameStateMachine,
-        ISceneLoader sceneLoader,
-        IStartupResolver startupResolver,
-        List<IApplicationService> applicationServices)
+    public class BootstrapRunner : IBootstrapRunner
     {
-        this.gameStateMachine = gameStateMachine;
-        this.sceneLoader = sceneLoader;
-        this.startupResolver = startupResolver;
-        this.applicationServices = applicationServices;
-    }
+        private readonly GameStateMachine gameStateMachine;
+        private readonly ISceneLoader sceneLoader;
+        private readonly IStartupResolver startupResolver;
+        private readonly IReadOnlyList<IApplicationService> applicationServices;
 
-    public async UniTask Run(CancellationToken cancellationToken)
-    {
-        foreach (IApplicationService service in applicationServices)
-            await service.Initialize();
+        public BootstrapRunner(
+            GameStateMachine gameStateMachine,
+            ISceneLoader sceneLoader,
+            IStartupResolver startupResolver,
+            List<IApplicationService> applicationServices)
+        {
+            this.gameStateMachine = gameStateMachine;
+            this.sceneLoader = sceneLoader;
+            this.startupResolver = startupResolver;
+            this.applicationServices = applicationServices;
+        }
 
-        await sceneLoader.LoadAdditiveAsync(SceneNames.Persistent, cancellationToken);
+        public async UniTask Run(CancellationToken cancellationToken)
+        {
+            foreach (IApplicationService service in applicationServices)
+                await service.Initialize();
 
-        Type startupPhase = startupResolver.Resolve();
-        await gameStateMachine.ReplaceMainAsync(startupPhase, cancellationToken);
+            await sceneLoader.LoadAdditiveAsync(SceneNames.Persistent, cancellationToken);
+
+            Type startupPhase = startupResolver.Resolve();
+            await gameStateMachine.ReplaceMainAsync(startupPhase, cancellationToken);
+        }
     }
 }

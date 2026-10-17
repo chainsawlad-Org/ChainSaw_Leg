@@ -1,78 +1,148 @@
-using Cysharp.Threading.Tasks;
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using ChainSawLeg.Game.Shared;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class DialogueDatabaseService : ApplicationServiceBase
+namespace ChainSawLeg.Features.Dialogue
 {
-    private readonly List<DialogueNode> nodes = new();
-    private readonly Dictionary<string, DialogueNode> nodesDatabase = new();
-    private readonly DialogueImporter importer;
-
-    public IReadOnlyList<DialogueNode> Nodes => nodes;
-    public IReadOnlyDictionary<string, DialogueNode> NodesDatabase => nodesDatabase;
-    public bool IsBuilt { get; private set; }
-
-    public DialogueDatabaseService(DialogueImporter importer)
+    public sealed class DialogueDatabaseService
+        : ApplicationServiceBase, IDialogueDatabase
     {
-        this.importer = importer;
-    }
-    public override UniTask Initialize()
-    {
-        Build(importer.Import());
+        private const string RelativeJsonPath =
+            "_Project/Game/Features/Dialogue/Scripts/Data/Replicas/University.json";
 
-        if (nodes != null)
+        private readonly DialogueImporter importer;
+
+        private Dictionary<string, Dialogue> dialoguesById =
+            new Dictionary<string, Dialogue>(StringComparer.Ordinal);
+
+        public bool IsBuilt { get; private set; }
+
+        public DialogueDatabaseService(DialogueImporter importer)
         {
-            Build(nodes);
+            this.importer = importer;
+        }
+
+        public override UniTask Initialize()
+        {
+            string jsonPath = Path.Combine(
+                Application.dataPath,
+                RelativeJsonPath);
+
+            if (!File.Exists(jsonPath))
+            {
+                IsBuilt = false;
+
+                Debug.LogError(
+                    $"[DialogueDatabase] JSON file not found: {jsonPath}");
+
+                return UniTask.CompletedTask;
+            }
+
+            List<Dialogue> importedDialogues = importer.Import(jsonPath);
+
+            if (importedDialogues == null)
+            {
+                IsBuilt = false;
+
+                Debug.LogError(
+                    "[DialogueDatabase] Failed to import dialogues.");
+
+                return UniTask.CompletedTask;
+            }
+
+            Dictionary<string, Dialogue> newDatabase =
+                new Dictionary<string, Dialogue>(
+                    StringComparer.Ordinal);
+
+            foreach (Dialogue dialogue in importedDialogues)
+            {
+                if (dialogue == null)
+                {
+                    IsBuilt = false;
+
+                    Debug.LogError(
+                        "[DialogueDatabase] Imported dialogue is null.");
+
+                    return UniTask.CompletedTask;
+                }
+
+                if (string.IsNullOrWhiteSpace(dialogue.Id))
+                {
+                    IsBuilt = false;
+
+                    Debug.LogError(
+                        "[DialogueDatabase] Dialogue has an empty ID.");
+
+                    return UniTask.CompletedTask;
+                }
+
+                if (newDatabase.ContainsKey(dialogue.Id))
+                {
+                    IsBuilt = false;
+
+                    Debug.LogError(
+                        $"[DialogueDatabase] Duplicate dialogue ID: {dialogue.Id}");
+
+                    return UniTask.CompletedTask;
+                }
+
+                newDatabase.Add(dialogue.Id, dialogue);
+            }
+
+            dialoguesById = newDatabase;
             IsBuilt = true;
-            Debug.Log("Database ready");
+
+            Debug.Log(
+                $"[DialogueDatabase] Successfully built. " +
+                $"Loaded dialogues: {dialoguesById.Count}");
+
+            return UniTask.CompletedTask;
         }
-        else
+
+        public Dialogue GetDialogue(string dialogueId)
         {
+            if (TryGetDialogue(dialogueId, out Dialogue dialogue))
+            {
+                return dialogue;
+            }
+
+            throw new KeyNotFoundException(
+                $"[DialogueDatabase] Dialogue not found: '{dialogueId}'.");
+        }
+
+        public bool TryGetDialogue(
+            string dialogueId,
+            out Dialogue dialogue)
+        {
+            if (string.IsNullOrWhiteSpace(dialogueId))
+            {
+                dialogue = null;
+                return false;
+            }
+
+            return dialoguesById.TryGetValue(dialogueId, out dialogue);
+        }
+
+        public bool Contains(string dialogueId)
+        {
+            return !string.IsNullOrWhiteSpace(dialogueId)
+                && dialoguesById.ContainsKey(dialogueId);
+        }
+
+        public IReadOnlyCollection<Dialogue> GetAll()
+        {
+            return dialoguesById.Values;
+        }
+
+        public override UniTask Dispose()
+        {
+            dialoguesById.Clear();
             IsBuilt = false;
-            Debug.Log("Database is null");
+
+            return UniTask.CompletedTask;
         }
-
-        return UniTask.CompletedTask;
-    }
-
-    public void Build(List<DialogueNode> nodes)
-    {
-        foreach (DialogueNode node in nodes)
-        {
-            nodes.Add(node);
-            nodesDatabase.Add(node.id, node);
-        }
-    }
-
-    public DialogueNode GetNode(string id)
-    {
-        DialogueNode node = nodesDatabase[id];
-
-        if (node == null)
-        {
-            Debug.LogError("id " + id + " not found");
-        }
-
-        return node;
-    }
-
-    public DialogueNode TryGetNode(string id)
-    {
-        nodesDatabase.TryGetValue(id, out DialogueNode node);
-        
-        return node;
-    }
-
-    public bool Contains(string id)
-    {
-        return nodesDatabase.ContainsKey(id);
-    }
-
-    public IReadOnlyList<DialogueNode> GetAll()
-    {
-        return nodes;
     }
 }
-
