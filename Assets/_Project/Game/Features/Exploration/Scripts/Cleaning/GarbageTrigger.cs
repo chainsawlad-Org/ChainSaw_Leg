@@ -13,8 +13,7 @@ namespace ChainSawLeg.Features.Exploration
         private CameraFlow cameraFlow;
         private bool isTriggered;
 
-        [Inject]
-        private void Construct(CameraFlow cameraFlow)
+        public void Initialize(CameraFlow cameraFlow)
         {
             this.cameraFlow = cameraFlow;
         }

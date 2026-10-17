@@ -16369,6 +16369,7 @@ GameObject:
   - component: {fileID: 566828218}
   - component: {fileID: 566828217}
   - component: {fileID: 566828220}
+  - component: {fileID: 566828222}
   - component: {fileID: 566828221}
   m_Layer: 0
   m_Name: Triangle (6)
@@ -16553,6 +16554,18 @@ MonoBehaviour:
   setAnotherBelowSprite: 0
   spriteBelow: {fileID: 0}
   drawGizmos: 0
+--- !u!114 &566828222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 566828213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d477db6ac5183f45be3bab75092422e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::ChainSawLeg.Composition.GarbageTriggerAdapter
 --- !u!1 &579907142
 GameObject:
   m_ObjectHideFlags: 0
@@ -31070,6 +31083,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1200896331}
   - component: {fileID: 1200896332}
+  - component: {fileID: 1200896333}
   m_Layer: 0
   m_Name: EnemySpawner
   m_TagString: Untagged
@@ -31104,10 +31118,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 417766c6292304745b58f44690b9f037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.EnemyFlySpawner
-  enemyFlyPrefab: {fileID: 3393048056476628012, guid: 85e026b669a013143909e984effa0471, type: 3}
+  enemyFlyPrefab: {fileID: 4908300336683156621, guid: 85e026b669a013143909e984effa0471, type: 3}
   enemyCount: 5
   spawnRate: 5
   delayBeforeSpawn: 6
+--- !u!114 &1200896333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200896330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c11da387119e66c4690ca68febaa8004, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::ChainSawLeg.Composition.EnemyFlySpawnerAdapter
 --- !u!1 &1203383164
 GameObject:
   m_ObjectHideFlags: 0
@@ -39430,7 +39456,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractionPromptPresenter
   interactionDetector: {fileID: 1157121969}
-  interactionConfig: {fileID: 11400000, guid: 574aa07b3ec964e179d67a5c8cbe32a1, type: 2}
+  interactionConfig: {fileID: 0}
   promptRoot: {fileID: 1080138677}
   promptText: {fileID: 1239357070}
 --- !u!1 &1390442976

@@ -1,9 +1,8 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
-using Zenject;
 
-namespace ChainSawLeg.Features.Minigames
+namespace ChainSawLeg.Features.Exploration
 {
     public class FlyEnemy : MonoBehaviour, IKickable
     {
@@ -21,10 +20,9 @@ namespace ChainSawLeg.Features.Minigames
         private float lastChangeSpriteTime;
         private SpriteRenderer spriteRenderer;
         private Rigidbody2D rb;
-        private CameraFlow cameraFlow;
         private Rigidbody2D playerRigidbody2D;
         private PlayerMovement playerMovement;
-        private IGameplayInputBlockService inputBlockService;
+        private CameraFlow cameraFlow;
 
         private void Awake()
         {
@@ -32,13 +30,11 @@ namespace ChainSawLeg.Features.Minigames
             rb = GetComponent<Rigidbody2D>();
         }
 
-        [Inject]
-        private void Construct(CameraFlow cameraFlow, Rigidbody2D playerRigidbody2D, PlayerMovement playerMovement, IGameplayInputBlockService inputBlockService)
+        public void Initialize(Rigidbody2D playerRigidbody2D, CameraFlow cameraFlow)
         {
-            this.cameraFlow = cameraFlow;
             this.playerRigidbody2D = playerRigidbody2D;
-            this.playerMovement = playerMovement;
-            this.inputBlockService = inputBlockService;
+            this.cameraFlow = cameraFlow;
+            playerMovement = playerRigidbody2D.GetComponent<PlayerMovement>();
         }
 
         private void Update()
@@ -68,10 +64,9 @@ namespace ChainSawLeg.Features.Minigames
         {
             if (!isLive) return;
             
-            if (other.gameObject.CompareTag("Player"))
+            if (other.gameObject.TryGetComponent(out PlayerMovement player))
             {
                 cameraFlow.ShakeEffect(0.3f, 100, 0.4f);
-                inputBlockService.AcquireBlock(InputBlockChannels.Move);
                 playerMovement.StunPlayer();
                 canMove = false;
                 
@@ -83,7 +78,6 @@ namespace ChainSawLeg.Features.Minigames
                 DOVirtual.DelayedCall(stunDuration, () =>
                 {
                     playerRigidbody2D.linearDamping = basePlayerLinearDamping;
-                    inputBlockService.ReleaseBlock(InputBlockChannels.Move);
                     playerMovement.UnstunPlayer();
                     canMove = true;
                 });
