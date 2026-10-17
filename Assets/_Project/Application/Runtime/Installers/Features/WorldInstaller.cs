@@ -8,6 +8,7 @@ public class WorldInstaller : MonoInstaller
     [SerializeField] private CameraFlow cameraFlow;
     [SerializeField] private ExplorationPlayerStateAdapter playerStateAdapter;
     [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private Rigidbody2D playerRigidbody2D;
     [SerializeField] private DialogueInputRouter dialogueInputRouter;
     [SerializeField] private ExplorationCheckpointTrigger[] checkpointTriggers;
 
@@ -41,6 +42,13 @@ public class WorldInstaller : MonoInstaller
             .FromInstance(playerMovement)
             .AsSingle();
 
+        if (playerRigidbody2D == null)
+            throw new InvalidOperationException("World player Rigidbody2D is not assigned.");
+        
+        Container.Bind<Rigidbody2D>()
+            .FromInstance(playerRigidbody2D)
+            .AsSingle();
+        
         Container.Bind<PlayerInputHandler>()
             .FromComponentInHierarchy()
             .AsSingle();

@@ -77,6 +77,16 @@ public sealed class CombatAndDialogueRegressionTests
     }
 
     [Test]
+    public void DialoguePhaseBlocksKickInput()
+    {
+        var phase = new DialoguePhase(new DialogueService(
+            new ThrowingRuntimeErrorLogger(),
+            new DialogueRuntimeRegistry()));
+
+        Assert.That(phase.BlockedInputChannels & InputBlockChannels.Kick, Is.EqualTo(InputBlockChannels.Kick));
+    }
+
+    [Test]
     public void DialogueRegistryClearsOnlyRegisteredManager()
     {
         var registry = new DialogueRuntimeRegistry();
@@ -98,6 +108,14 @@ public sealed class CombatAndDialogueRegressionTests
         {
             Object.DestroyImmediate(registeredObject);
             Object.DestroyImmediate(otherObject);
+        }
+    }
+
+    private sealed class ThrowingRuntimeErrorLogger : IRuntimeErrorLogger
+    {
+        public void LogException(System.Exception exception, string context)
+        {
+            throw exception;
         }
     }
 }

@@ -1,19 +1,14 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
-using Zenject;
-using UnityEngine;
 
 namespace ChainSawLeg.Features.Exploration
 {
     public class RoomManager : MonoBehaviour
     {
-        [SerializeField] private GameObject collidersObject;
-        [SerializeField] private SpriteRenderer[] roomSprites;
         [SerializeField] private SortingGroup sortingGroup;
         [SerializeField] private Color onCloseColor = new Color(0.2f, 0.2f, 0.2f, 1f);
         [SerializeField] private Transform leftUpperBound;
@@ -25,6 +20,7 @@ namespace ChainSawLeg.Features.Exploration
         [HideInInspector] public Bounds roomBounds;
         private CameraFlow cameraFlow;
         private Dictionary<SpriteRenderer, Color> baseSpriteColors = new Dictionary<SpriteRenderer, Color>();
+        private SpriteRenderer[] roomSprites => GetComponentsInChildren<SpriteRenderer>();
         public readonly float transitionDuration = 1f;
 
         public void ConfigureInputBlocking(IGameplayInputBlockService inputBlockService, CameraFlow cameraFlow)
@@ -47,18 +43,31 @@ namespace ChainSawLeg.Features.Exploration
             {
                 foreach (var sprite in roomSprites) sprite.color = onCloseColor;
                 sortingGroup.sortingOrder--;
-                collidersObject.SetActive(false);
+                SetActiveColliders(false);
+            }
+        }
+
+        public void ChangeLevel(bool state, float duration)
+        {
+            foreach (SpriteRenderer sprite in roomSprites)
+            {
+                Color transparentColor = sprite.color;
+                transparentColor.a = 0;
+                
+                if (state) DOVirtual.Color(sprite.color, onCloseColor, duration, (Color color) => sprite.color = color);
+                else DOVirtual.Color(sprite.color, transparentColor, duration, (Color color) => sprite.color = color);
             }
         }
 
         public void OpenRoom()
         {
-            collidersObject.SetActive(true);
+            SetActiveColliders(true);
             foreach (SpriteRenderer sprite in roomSprites)
             {
                 DOVirtual.Color(onCloseColor, baseSpriteColors[sprite], transitionDuration * 0.5f, (Color color) => sprite.color = color);
-                sortingGroup.sortingOrder++;
             }
+            
+            sortingGroup.sortingOrder++;
             DOVirtual.DelayedCall(transitionDuration * 0.5f, () => gameplayInputBlockService.ReleaseBlock(InputBlockChannels.Gameplay));
             cameraFlow.bounds = roomBounds;
             sortingGroup.enabled = false;
@@ -74,17 +83,23 @@ namespace ChainSawLeg.Features.Exploration
             foreach (var sprite in roomSprites)
             {
                 DOVirtual.Color(baseSpriteColors[sprite], onCloseColor, transitionDuration, (Color color) => sprite.color = color);
-                DOVirtual.DelayedCall(transitionDuration * 0.5f, () => { sortingGroup.sortingOrder--; });
             }
             DOVirtual.DelayedCall(transitionDuration * 0.5f, () =>
             {
-                collidersObject.SetActive(false);
+                sortingGroup.sortingOrder--;
+                SetActiveColliders(false);
                 sortingGroup.enabled = true;
                 onClose?.Invoke();
                 this.onClose?.Invoke();
             });
-            
-            
+        }
+
+        private void SetActiveColliders(bool active)
+        {
+            foreach (var collider in GetComponentsInChildren<Collider2D>())
+            {
+                collider.enabled = active;
+            }
         }
         
         private Bounds CreateBoundsFromTransforms(Vector3 leftUpperBound, Vector3 rightLowerBound)

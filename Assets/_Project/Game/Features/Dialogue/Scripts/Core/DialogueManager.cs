@@ -187,12 +187,14 @@ public class DialogueManager : MonoBehaviour, IDialogueRuntime
         SetState(DialogueState.Typing);
 
         string current = "";
+        
+        float maxTime = text.Length * speed;
+        float time = maxTime;
 
-        foreach (char c in text)
+        while (time > 0)
         {
-            current += c;
-            ShowText(current);
-
+            time -= speed;
+            ShowText(text, Mathf.Clamp01(time / maxTime));
             yield return new WaitForSeconds(speed);
         }
 
@@ -214,12 +216,12 @@ public class DialogueManager : MonoBehaviour, IDialogueRuntime
         SetState(DialogueState.WaitingInput);
     }
 
-    public void ShowText(string text)
+    public void ShowText(string text, float visibility = 0f)
     {
         switch (currentType)
         {
             case DialogueType.RPG:
-                rpgUI.ShowText(text);
+                rpgUI.ShowText(text, visibility);
                 break;
 
             case DialogueType.Bubble:

@@ -35,6 +35,7 @@ public class InputService : IGameInputService, IInitializable, IDisposable
     public bool DashPressed => !gameplayInputBlockService.IsChannelBlocked(InputBlockChannels.Dash) && dashPressed;
     public bool InteractPressed => !gameplayInputBlockService.IsChannelBlocked(InputBlockChannels.Interact) && interactPressed;
     public bool SubmitPressed => !gameplayInputBlockService.IsChannelBlocked(InputBlockChannels.Submit) && submitPressed;
+    public bool KickPressed => !gameplayInputBlockService.IsChannelBlocked(InputBlockChannels.Kick) && kickPressed;
     public bool UiSubmitPressed => uiSubmitPressed;
     public bool PreviousPressed => previousPressed;
     public bool NextPressed => nextPressed;
@@ -47,6 +48,7 @@ public class InputService : IGameInputService, IInitializable, IDisposable
     private bool nextPressed;
     private bool isInitialized;
     private bool isDisposed;
+    private bool kickPressed;
 
     public void Initialize()
     {
@@ -55,6 +57,7 @@ public class InputService : IGameInputService, IInitializable, IDisposable
 
         gameplayInputBlockService.BlockStateChanged += OnGameplayBlockStateChanged;
         input.Player.Dash.performed += OnDash;
+        input.Player.Kick.performed += OnKick;
         input.Player.Interact.performed += OnInteract;
         input.Player.Submit.performed += OnSubmit;
         input.Player.Previous.performed += OnPrevious;
@@ -83,6 +86,11 @@ public class InputService : IGameInputService, IInitializable, IDisposable
         interactPressed = false;
     }
 
+    public void ConsumeKick()
+    {
+        kickPressed = false;
+    }
+
     public void ConsumeSubmit()
     {
         submitPressed = false;
@@ -107,6 +115,7 @@ public class InputService : IGameInputService, IInitializable, IDisposable
         uiSubmitPressed = false;
         previousPressed = false;
         nextPressed = false;
+        kickPressed = false;
     }
 
     private void OnDash(InputAction.CallbackContext context)
@@ -123,6 +132,14 @@ public class InputService : IGameInputService, IInitializable, IDisposable
             return;
 
         interactPressed = true;
+    }
+
+    private void OnKick(InputAction.CallbackContext context)
+    {
+        if (gameplayInputBlockService.IsChannelBlocked(InputBlockChannels.Kick))
+            return;
+        
+        kickPressed = true;
     }
 
     private void OnSubmit(InputAction.CallbackContext context)
@@ -168,6 +185,9 @@ public class InputService : IGameInputService, IInitializable, IDisposable
 
         if (gameplayInputBlockService.IsChannelBlocked(InputBlockChannels.Interact))
             interactPressed = false;
+        
+        if (gameplayInputBlockService.IsChannelBlocked(InputBlockChannels.Kick))
+            kickPressed = false;
 
         if (gameplayInputBlockService.IsChannelBlocked(InputBlockChannels.Submit))
         {
@@ -188,6 +208,7 @@ public class InputService : IGameInputService, IInitializable, IDisposable
             gameplayInputBlockService.BlockStateChanged -= OnGameplayBlockStateChanged;
             input.Player.Dash.performed -= OnDash;
             input.Player.Interact.performed -= OnInteract;
+            input.Player.Kick.performed -= OnKick;
             input.Player.Submit.performed -= OnSubmit;
             input.Player.Previous.performed -= OnPrevious;
             input.Player.Next.performed -= OnNext;
