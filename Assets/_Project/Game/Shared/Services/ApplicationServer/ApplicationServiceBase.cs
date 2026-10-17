@@ -1,14 +1,17 @@
 using Cysharp.Threading.Tasks;
 
-public abstract class ApplicationServiceBase : IApplicationService
+namespace ChainSawLeg.Game.Shared
 {
-    public virtual UniTask Initialize()
+    public abstract class ApplicationServiceBase : IApplicationService
     {
-        return UniTask.CompletedTask;
-    }
+        public virtual UniTask Initialize()
+        {
+            return UniTask.CompletedTask;
+        }
 
-    public virtual UniTask Dispose()
-    {
-        return UniTask.CompletedTask;
+        public virtual UniTask Dispose()
+        {
+            return UniTask.CompletedTask;
+        }
     }
 }

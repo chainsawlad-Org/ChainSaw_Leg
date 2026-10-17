@@ -1,7 +1,10 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SO_DialogueData", menuName = "ChainSawLeg/Dialogue/Dialogue Data")]
-public class DialogueData : ScriptableObject
+namespace ChainSawLeg.Features.Dialogue
 {
-    public DialogueNode startNode;
+    [CreateAssetMenu(fileName = "SO_DialogueData", menuName = "ChainSawLeg/Dialogue/Dialogue Data")]
+    public class DialogueData : ScriptableObject
+    {
+        public DialogueNode startNode;
+    }
 }
