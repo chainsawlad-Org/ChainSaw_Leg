@@ -49,10 +49,10 @@ namespace ChainSawLeg.Features.Dialogue
 
             switch (dialogueRunner.State)
             {
-                case DialogueRuntimeState.AwaitingChoice:
+                case DialogueRuntimeState.AwaitingInput:
                     HandleConfirmation();
                     break;
-                case DialogueRuntimeState.AwaitingInput:
+                case DialogueRuntimeState.AwaitingChoice:
                     HandleChoiceNavigation();
                     HandleConfirmation();
                     break;

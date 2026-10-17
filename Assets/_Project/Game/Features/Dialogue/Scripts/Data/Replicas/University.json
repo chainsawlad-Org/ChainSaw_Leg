@@ -14,6 +14,11 @@
       "dialogue_id": "science_fair",
       "title": "Научная ярмарка",
       "start_node_id": "node_001"
+    },
+    {
+      "dialogue_id": "test",
+      "title": "text",
+      "start_node_id": "node_001"
     }
   ],
   "Nodes": [
@@ -103,7 +108,7 @@
       "type": "Line",
       "speaker": "Pixel",
       "text": "Ладно, ладно я тут рисую это моя работа.",
-      "next_node_id": null
+      "next_node_id": "node_006"
     },
     {
       "node_id": "node_007",
@@ -127,6 +132,22 @@
       "type": "Line",
       "speaker": "Man",
       "text": "Привет",
+      "next_node_id": null
+    },
+    {
+      "node_id": "node_001",
+      "dialogue_id": "test",
+      "type": "Line",
+      "speaker": "sdfsf",
+      "text": "хуй",
+      "next_node_id": "node_002"
+    },
+    {
+      "node_id": "node_002",
+      "dialogue_id": "test",
+      "type": "Line",
+      "speaker": "sadfsdf",
+      "text": "привет",
       "next_node_id": null
     }
   ],
