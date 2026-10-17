@@ -1,53 +1,111 @@
 using System;
-using System.Threading;
+using ChainSawLeg.Features.Dialogue;
 using Cysharp.Threading.Tasks;
 
-public class DialoguePhase : OverlayPhase
+namespace ChainSawLeg.Application
 {
-    private readonly DialogueService dialogueService;
-
-    private DialogueRequest request;
-    private CancellationTokenSource activeCancellation;
-
-    public override InputBlockChannels BlockedInputChannels =>
-        InputBlockChannels.Move | InputBlockChannels.Dash | InputBlockChannels.Interact;
-
-    public DialoguePhase(DialogueService dialogueService)
+    public class DialoguePhase : OverlayPhase
     {
-        this.dialogueService = dialogueService;
-    }
+        private IDialogueRunner dialogueRunner;
+        private GameStateMachine gameStateMachine;
 
-    public void Configure(DialogueRequest request)
-    {
-        this.request = request;
-    }
+        private string dialogueId;
+        private bool isActive;
 
-    public override async UniTask Enter()
-    {
-        if (request == null)
-            throw new InvalidOperationException("Dialogue phase request is not configured.");
+        public override bool CanStack => false;
 
-        CancellationTokenSource cancellation = CancellationTokenSource.CreateLinkedTokenSource(
-            request.CancellationToken);
-        activeCancellation = cancellation;
+        public override InputBlockChannels BlockedInputChannels =>
+            InputBlockChannels.Move |
+            InputBlockChannels.Dash |
+            InputBlockChannels.Interact;
 
-        try
+        public DialoguePhase(IDialogueRunner dialogueRunner, GameStateMachine gameStateMachine)
         {
-            await dialogueService.Play(request, cancellation.Token);
+            this.dialogueRunner = dialogueRunner
+                                  ?? throw new ArgumentNullException(nameof(dialogueRunner));
+
+            this.gameStateMachine = gameStateMachine
+                                    ?? throw new ArgumentNullException(nameof(gameStateMachine));
         }
-        finally
+
+        public void Configure(string id)
         {
-            if (ReferenceEquals(activeCancellation, cancellation))
-                activeCancellation = null;
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                throw new ArgumentException(
+                    "Dialogue ID cannot be empty.",
+                    nameof(id));
+            }
 
-            cancellation.Dispose();
+            dialogueId = id;
         }
-    }
 
-    public override UniTask Exit()
-    {
-        activeCancellation?.Cancel();
-        request = null;
-        return UniTask.CompletedTask;
+        public override UniTask Enter()
+        {
+            if (string.IsNullOrWhiteSpace(dialogueId))
+            {
+                throw new InvalidOperationException(
+                    "DialoguePhase was entered without a dialogue ID.");
+            }
+            
+            if (dialogueRunner.CurrentDialogue != null)
+            {
+                throw new InvalidOperationException(
+                    "Cannot start a dialogue because another dialogue is active.");
+            }
+
+            dialogueRunner.DialogueEnded += OnDialogueEnded;
+            isActive = true;
+
+            try
+            {
+                dialogueRunner.Start(dialogueId);
+            }
+            catch
+            {
+                isActive = false;
+                dialogueRunner.DialogueEnded -= OnDialogueEnded;
+                throw;
+            }
+
+            return UniTask.CompletedTask;
+        }
+
+        public override UniTask Exit()
+        {
+            isActive = false;
+
+            dialogueRunner.DialogueEnded -= OnDialogueEnded;
+
+            if (dialogueRunner.CurrentDialogue == null)
+            {
+                dialogueRunner.Stop();
+            }
+
+            dialogueId = null;
+
+            return UniTask.CompletedTask;
+        }
+
+        private void OnDialogueEnded(Dialogue dialogue)
+        {
+            if (!isActive)
+                return;
+
+            ClosePhaseAsync().Forget();
+        }
+
+        private async UniTask ClosePhaseAsync()
+        {
+            if (!isActive)
+                return;
+            
+
+            if (!gameStateMachine.IsTopOverlay<DialoguePhase>())
+                return;
+            
+
+            await gameStateMachine.PopOverlay();
+        }
     }
 }
