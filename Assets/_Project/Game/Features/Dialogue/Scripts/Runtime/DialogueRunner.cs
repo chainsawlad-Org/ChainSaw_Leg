@@ -132,9 +132,14 @@ namespace ChainSawLeg.Features.Dialogue
 
         public void Stop()
         {
-            CurrentDialogue = null;
-            CurrentNode = null;
-            State = DialogueRuntimeState.Idle;
+            if (CurrentDialogue == null)
+            {
+                State = DialogueRuntimeState.Idle;
+                CurrentNode = null;
+                return;
+            }
+
+            EndDialogue();
         }
 
         private void EnterNode(DialogueNode node)
@@ -195,6 +200,8 @@ namespace ChainSawLeg.Features.Dialogue
         {
             Dialogue dialogue = CurrentDialogue;
 
+            CurrentDialogue = null;
+            CurrentNode = null;
             State = DialogueRuntimeState.Ended;
 
             DialogueEnded?.Invoke(dialogue);
