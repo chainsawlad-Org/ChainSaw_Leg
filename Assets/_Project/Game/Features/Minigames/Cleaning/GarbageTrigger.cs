@@ -1,21 +1,24 @@
-using ChainSawLeg.Features.Minigames;
+using ChainSawLeg.Features.Exploration;
 using DG.Tweening;
 using UnityEngine;
-using Zenject;
 
-namespace ChainSawLeg.Features.Exploration
+namespace ChainSawLeg.Features.Minigames
 {
     public class GarbageTrigger : Garbage
     {
         [SerializeField] private ParticleSystem dustParticle;
-        [SerializeField] private EnemyFlySpawner enemySpawner;
 
         private CameraFlow cameraFlow;
+        private EnemyFlySpawner enemySpawner;
+
         private bool isTriggered;
 
-        public void Initialize(CameraFlow cameraFlow)
+        public void Initialize(
+            CameraFlow cameraFlow,
+            EnemyFlySpawner enemySpawner)
         {
             this.cameraFlow = cameraFlow;
+            this.enemySpawner = enemySpawner;
         }
 
         public override void Kick(Vector2 force)
