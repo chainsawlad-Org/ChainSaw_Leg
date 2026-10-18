@@ -50,6 +50,7 @@ namespace ChainSawLeg.Features.Dialogue
 
             dialogueRunner.NodeChanged += OnNodeChanged;
             dialogueRunner.DialogueEnded += OnDialogueEnded;
+            dialogueRunner.DialogueStarted += OnDialogueStarted;
 
             isSubscribed = true;
         }
@@ -61,6 +62,7 @@ namespace ChainSawLeg.Features.Dialogue
 
             dialogueRunner.NodeChanged -= OnNodeChanged;
             dialogueRunner.DialogueEnded -= OnDialogueEnded;
+            dialogueRunner.DialogueStarted -= OnDialogueStarted;
 
             isSubscribed = false;
         }
@@ -130,6 +132,11 @@ namespace ChainSawLeg.Features.Dialogue
         private void OnDialogueEnded(Dialogue dialogue)
         {
             dialogueUI.Hide();
+        }
+        
+        private void OnDialogueStarted(Dialogue dialogue)
+        {
+            dialogueUI.BeginDialogue();
         }
     }
 }
