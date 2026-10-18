@@ -108,6 +108,11 @@ namespace ChainSawLeg.Composition
             Container.BindInterfacesTo<WorldComposition>()
                 .AsSingle()
                 .NonLazy();
+            
+            
+            Container.BindInterfacesTo<DialogueInputRouterInitializer>()
+                .AsSingle()
+                .NonLazy();
         }
     }
 }
