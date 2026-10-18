@@ -51,6 +51,7 @@ public class PlayerDash : MonoBehaviour
 
     private void StartDash()
     {
+        AudioService.Play(AudioId.muhehehe, 0.3f, 2f);
         dashDirection = movement.LastMoveDir;
 
         if (dashDirection.sqrMagnitude < 0.001f)

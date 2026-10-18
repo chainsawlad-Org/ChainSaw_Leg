@@ -3,10 +3,7 @@
 //     Do not edit by hand — changes will be overwritten.
 // </auto-generated>
 
-namespace ChainSawLeg.Infrastructure
+public enum AudioId
 {
-    public enum AudioId
-    {
-        muhehehe = 0,
-    }
+    muhehehe = 0,
 }

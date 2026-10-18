@@ -1,10 +1,8 @@
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace ChainSawLeg.Infrastructure
-{
-    [CreateAssetMenu(fileName = "AudioLibrary", menuName = "MyGame/Audio Library")]
-    public class AudioLibrary : ScriptableObject
+[CreateAssetMenu(fileName = "AudioLibrary", menuName = "MyGame/Audio Library")]
+public class AudioLibrary : ScriptableObject
 {
     [Header("Folder to scan (relative to project, e.g. Assets/Audio/SFX)")]
     public string sourceFolder = "Assets/_Project/Content/Audio/SFX";
@@ -47,5 +45,4 @@ namespace ChainSawLeg.Infrastructure
     }
 
     private void OnValidate() => lookup = null;
-    }
 }

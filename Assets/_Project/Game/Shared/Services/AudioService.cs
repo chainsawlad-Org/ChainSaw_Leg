@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using ChainSawLeg.Infrastructure;
 
 /// <summary>
 /// Global, static access point for AudioClips stored in an AudioLibrary
@@ -9,7 +8,7 @@ using ChainSawLeg.Infrastructure;
 public static class AudioService
 {
     // Must match: Assets/Resources/.../AudioLibrary.asset  (no extension)
-    private const string LibraryResourcePath = "Audio/AudioLibrary";
+    private const string LibraryResourcePath = "AudioLibrary";
 
     private static AudioLibrary library;
     private static Dictionary<AudioId, AudioClip> enumCache;

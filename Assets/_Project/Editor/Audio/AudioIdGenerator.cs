@@ -4,7 +4,6 @@ using UnityEditor;
 using System.IO;
 using System.Text;
 using System.Collections.Generic;
-using ChainSawLeg.Infrastructure;
 
 public static class AudioIdGenerator
 {
@@ -59,15 +58,12 @@ public static class AudioIdGenerator
         sb.AppendLine("// </auto-generated>");
         sb.AppendLine();
         
-        sb.AppendLine("namespace ChainSawLeg.Infrastructure");
+        sb.AppendLine("public enum AudioId");
         sb.AppendLine("{");
-        sb.AppendLine("    public enum AudioId");
-        sb.AppendLine("    {");
 
         for (int i = 0; i < entries.Count; i++)
-            sb.AppendLine($"        {entries[i]} = {i},");
+            sb.AppendLine($"    {entries[i]} = {i},");
 
-        sb.AppendLine("    }");
         sb.AppendLine("}");
         
         return sb.ToString();

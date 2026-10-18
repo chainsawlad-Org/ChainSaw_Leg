@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEditor;
 using System.Linq;
 using System.Collections.Generic;
-using ChainSawLeg.Infrastructure;
 
 [CustomEditor(typeof(AudioLibrary))]
 public class AudioLibraryEditor : Editor
