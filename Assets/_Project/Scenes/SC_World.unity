@@ -18615,7 +18615,6 @@ GameObject:
   - component: {fileID: 743698913}
   - component: {fileID: 743698914}
   - component: {fileID: 743698915}
-  - component: {fileID: 743698916}
   m_Layer: 0
   m_Name: MistieFrancuas_0
   m_TagString: Untagged
@@ -18743,18 +18742,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2.8201294, y: 21.897165}
   m_EdgeRadius: 0
---- !u!114 &743698916
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 743698912}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47632a60b889401488af291cba8e2ebe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::ChainSawLeg.Composition.SimpleDialogue
 --- !u!1 &749931756
 GameObject:
   m_ObjectHideFlags: 0
@@ -21032,7 +21019,6 @@ GameObject:
   m_Component:
   - component: {fileID: 881542364}
   - component: {fileID: 881542366}
-  - component: {fileID: 881542365}
   m_Layer: 0
   m_Name: Door (1)
   m_TagString: Untagged
@@ -21055,18 +21041,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 837637295}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &881542365
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 881542363}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47632a60b889401488af291cba8e2ebe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::ChainSawLeg.Composition.SimpleDialogue
 --- !u!61 &881542366
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -51084,7 +51058,6 @@ GameObject:
   - component: {fileID: 1867430950}
   - component: {fileID: 1867430951}
   - component: {fileID: 1867430953}
-  - component: {fileID: 1867430952}
   m_Layer: 0
   m_Name: MistieFrancuas_0 (1)
   m_TagString: Untagged
@@ -51166,18 +51139,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &1867430952
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1867430949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47632a60b889401488af291cba8e2ebe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::ChainSawLeg.Composition.SimpleDialogue
 --- !u!61 &1867430953
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -51487,7 +51448,6 @@ GameObject:
   - component: {fileID: 1885223856}
   - component: {fileID: 1885223857}
   - component: {fileID: 1885223859}
-  - component: {fileID: 1885223858}
   - component: {fileID: 1885223860}
   m_Layer: 0
   m_Name: Ksu
@@ -51570,18 +51530,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &1885223858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1885223855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47632a60b889401488af291cba8e2ebe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::ChainSawLeg.Composition.SimpleDialogue
 --- !u!61 &1885223859
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -51925,7 +51873,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1897256112}
   - component: {fileID: 1897256114}
-  - component: {fileID: 1897256115}
   m_Layer: 0
   m_Name: Door (1)
   m_TagString: Untagged
@@ -51994,18 +51941,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1897256115
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1897256111}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47632a60b889401488af291cba8e2ebe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::ChainSawLeg.Composition.SimpleDialogue
 --- !u!1 &1903723578
 GameObject:
   m_ObjectHideFlags: 0

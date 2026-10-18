@@ -32,7 +32,6 @@ namespace ChainSawLeg.Features.Dialogue
         private List<DialogueChoice> activeChoices = new();
         
         private int selectedChoiceIndex = -1;
-        // private DialogueManager dialogueManager;
 
         public bool IsVisible => root != null && root.activeSelf;
 
@@ -42,14 +41,8 @@ namespace ChainSawLeg.Features.Dialogue
 
         private void Awake()
         {
-            // root.SetActive(false);
             Hide();
         }
-
-        // public void SetDialogueManager(DialogueManager manager)
-        // {
-        //     dialogueManager = manager;
-        // }
         
         public void ShowRoot()
         {
@@ -145,41 +138,6 @@ namespace ChainSawLeg.Features.Dialogue
             if (activeChoiceButtons.Count > 0)
                 SelectChoice(0);
         }
-        
-        // public void ShowText(string t)
-        // {
-        //     root.SetActive(true);
-        //     dialogueText.text = t;
-        //     ClearChoices();
-        //     continueHint.SetActive(true);
-        // }
-
-        // public void ShowChoices(List<DialogueChoice> choices)
-        // {
-        //     ClearChoices();
-        //     activeChoices = choices;
-        //
-        //     continueHint.SetActive(false);
-        //
-        //     for (int i = 0; i < choices.Count; i++)
-        //     {
-        //         int index = i;
-        //         var btn = Instantiate(choiceButtonPrefab, choicesContainer);
-        //         ConfigureChoiceButtonVisuals(btn);
-        //
-        //         btn.GetComponentInChildren<TextMeshProUGUI>().text = choices[i].text;
-        //         btn.onClick.AddListener(() =>
-        //         {
-        //             SelectChoice(index);
-        //             dialogueManager?.Choose(index, activeChoices);
-        //         });
-        //
-        //         activeChoiceButtons.Add(btn);
-        //         activeChoiceOutlines.Add(btn.GetComponent<Outline>());
-        //     }
-        //
-        //     SelectChoice(0);
-        // }
 
         public void Hide()
         {
@@ -234,17 +192,6 @@ namespace ChainSawLeg.Features.Dialogue
             SelectChoice(nextIndex);
         }
 
-        // public void SubmitCurrentChoice()
-        // {
-        //     if (activeChoiceButtons.Count == 0 || activeChoices == null)
-        //         return;
-        //
-        //     if (selectedChoiceIndex < 0)
-        //         SelectChoice(0);
-        //
-        //     dialogueManager?.Choose(selectedChoiceIndex, activeChoices);
-        // }
-
         private void SelectChoice(int index)
         {
             if (index < 0 || index >= activeChoiceButtons.Count)
@@ -279,21 +226,6 @@ namespace ChainSawLeg.Features.Dialogue
             outline.useGraphicAlpha = false;
             outline.enabled = false;
         }
-
-        // private void RefreshChoiceSelectionVisuals()
-        // {
-        //     for (int i = 0; i < activeChoiceButtons.Count; i++)
-        //     {
-        //         if (i >= activeChoiceOutlines.Count || activeChoiceOutlines[i] == null)
-        //             continue;
-        //
-        //         Graphic targetGraphic = activeChoiceButtons[i].targetGraphic;
-        //
-        //         if (targetGraphic != null)
-        //             targetGraphic.color = i == selectedChoiceIndex ? ChoiceSelectedColor : ChoiceNormalColor;
-        //
-        //         activeChoiceOutlines[i].enabled = i == selectedChoiceIndex;
-        //     }
 
         private void RefreshChoiceSelectionVisuals()
         {
