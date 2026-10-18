@@ -16,8 +16,28 @@
       "start_node_id": "node_001"
     },
     {
-      "dialogue_id": "test",
-      "title": "text",
+      "dialogue_id": "ksu_stolovaya",
+      "title": "Разговор с КСЮ в столовой",
+      "start_node_id": "node_001"
+    },
+    {
+      "dialogue_id": "vastupl_1",
+      "title": "Ксю начинает выступление. До мини игр",
+      "start_node_id": "node_001"
+    },
+    {
+      "dialogue_id": "vastupl_2",
+      "title": "После демонстрации проекта и до ответов на вопросы. После 1 миниигры",
+      "start_node_id": "node_001"
+    },
+    {
+      "dialogue_id": "vastupl_3",
+      "title": "После ответов на вопросы. После 2 миниигры",
+      "start_node_id": "node_001"
+    },
+    {
+      "dialogue_id": "chad_2_floor_post_exam",
+      "title": "Чед подходит к Мисти после Экзамена",
       "start_node_id": "node_001"
     }
   ],
@@ -26,40 +46,280 @@
       "node_id": "node_001",
       "dialogue_id": "guard_intro",
       "type": "Line",
-      "speaker": "Guard",
-      "text": "Опять вы здесь?",
+      "speaker": "Misty",
+      "text": "Здраствуйте, вы...",
       "next_node_id": "node_002"
     },
     {
       "node_id": "node_002",
       "dialogue_id": "guard_intro",
-      "type": "Line",
-      "speaker": "Misty",
-      "text": "Нам нужно поговорить.",
-      "next_node_id": "node_003"
+      "type": "Choice",
+      "speaker": "Guard",
+      "text": "О, привет Мисти, как твои дела, давненько тебя не было видно в Университете.",
+      "next_node_id": null
     },
     {
       "node_id": "node_003",
       "dialogue_id": "guard_intro",
-      "type": "Choice",
-      "speaker": "Guard",
-      "text": "Что вам нужно?",
-      "next_node_id": null
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Вы не видели....",
+      "next_node_id": "node_004"
     },
     {
       "node_id": "node_004",
       "dialogue_id": "guard_intro",
       "type": "Line",
-      "speaker": "Misty",
-      "text": "Нам нужно разобраться.",
+      "speaker": "Guard",
+      "text": "Похоже нынче какая то эпидемия. Все вокруг то и дело что болеют, вон мой внук например, и недели пройти не успеет он опять приходит домой с какой то болячкой, то горло, то сопли, то еще что. Все болеют, болеют и болеют",
       "next_node_id": "node_005"
     },
     {
       "node_id": "node_005",
       "dialogue_id": "guard_intro",
       "type": "Line",
+      "speaker": "Misty",
+      "text": "Я что хотела узнать, вы не видели случаем....",
+      "next_node_id": "node_006"
+    },
+    {
+      "node_id": "node_006",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
       "speaker": "Guard",
-      "text": "Хорошо.",
+      "text": "Знаешь что Мисти, главное ты здоровье не запускай, помни здоровье нужно беречь с молодости потом не будет. Вот посмотри на меня. Хех",
+      "next_node_id": "node_015"
+    },
+    {
+      "node_id": "node_007",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Вы не видели....",
+      "next_node_id": "node_008"
+    },
+    {
+      "node_id": "node_008",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Guard",
+      "text": "Ой бабушке, ну это хорошо. Бабушка у нас одна, о ней всегда нужно помнить. Тем более помогать. Ты большая молодец",
+      "next_node_id": "node_009"
+    },
+    {
+      "node_id": "node_009",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Я что хотела узнать, вы не видели случаем....",
+      "next_node_id": "node_010"
+    },
+    {
+      "node_id": "node_010",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Guard",
+      "text": "Я вот порой могу внука не видеть целыми месяцами, а если он прибегает, то обязательно он болеет. Заберется в кровать и спит весь день больной. Но я все равно рад когда он приходит",
+      "next_node_id": "node_015"
+    },
+    {
+      "node_id": "node_011",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Вы не видели....",
+      "next_node_id": "node_012"
+    },
+    {
+      "node_id": "node_012",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Guard",
+      "text": "Да как не заметить тебя. Была Мисти и пропала",
+      "next_node_id": "node_013"
+    },
+    {
+      "node_id": "node_013",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Я что хотела узнать, вы не видели случаем....",
+      "next_node_id": "node_014"
+    },
+    {
+      "node_id": "node_014",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Guard",
+      "text": "Разные слухи ходили но я знал что ты просто занята чем то важным",
+      "next_node_id": "node_015"
+    },
+    {
+      "node_id": "node_015",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Guard",
+      "text": "Ты кстати что то хотела узнать.",
+      "next_node_id": "node_016"
+    },
+    {
+      "node_id": "node_016",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Да, вы случайно не видели или может кто то приносил вам заколку фиолетового цвета. Я по-моему ее оставила на уроке физкультуры, где то с месяц назад",
+      "next_node_id": "node_017"
+    },
+    {
+      "node_id": "node_017",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Guard",
+      "text": "Заколка, заколка, заколка хмм.\nНужно посмотреть.",
+      "next_node_id": "node_018"
+    },
+    {
+      "node_id": "node_018",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Guard",
+      "text": "Хмм",
+      "next_node_id": "node_019"
+    },
+    {
+      "node_id": "node_019",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Guard",
+      "text": "\"Звук насвистывания\"",
+      "next_node_id": "node_020"
+    },
+    {
+      "node_id": "node_020",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Guard",
+      "text": "Хмм",
+      "next_node_id": "node_021"
+    },
+    {
+      "node_id": "node_021",
+      "dialogue_id": "guard_intro",
+      "type": "Choice",
+      "speaker": "Guard",
+      "text": "Дорогуша, я не могу нигде найти, похоже никто не преносил",
+      "next_node_id": null
+    },
+    {
+      "node_id": "node_022",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Guard",
+      "text": "Да конечно, вот самое свежее, за последние пару месяцев",
+      "next_node_id": null
+    },
+    {
+      "node_id": "node_023",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Guard",
+      "text": "Да это все последнее нападение на школу.",
+      "next_node_id": "node_024"
+    },
+    {
+      "node_id": "node_024",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Guard",
+      "text": "После последнего раза, у нас отключило половину систем безопасности, одну половину починили, вторую на половину, там все еще нужно половина камер подключить и настроить",
+      "next_node_id": "node_025"
+    },
+    {
+      "node_id": "node_025",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Звучит не оч, в университете должно быть ведь много специалистов, которые были бы в состоянии это все починить",
+      "next_node_id": "node_026"
+    },
+    {
+      "node_id": "node_026",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Guard",
+      "text": "Да в том то и дело, что никого нет, а я один.",
+      "next_node_id": "node_027"
+    },
+    {
+      "node_id": "node_027",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Guard",
+      "text": "Меня одного не хватает, на обычную охрану в школе, а ты про какие то системы",
+      "next_node_id": "node_028"
+    },
+    {
+      "node_id": "node_028",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Guard",
+      "text": "А сейчас без камер я еще остался и без глаз, молодежь совсем обнаглела, уже все стены в Граффити, печати ставить некуда",
+      "next_node_id": "node_029"
+    },
+    {
+      "node_id": "node_029",
+      "dialogue_id": "guard_intro",
+      "type": "Choice",
+      "speaker": "Guard",
+      "text": "Вот бы нашелся кто то, кто мог бы мне помочь починить камеры",
+      "next_node_id": null
+    },
+    {
+      "node_id": "node_030",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Guard",
+      "text": "Удачи на парах",
+      "next_node_id": null
+    },
+    {
+      "node_id": "node_031",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Guard",
+      "text": "Правда!?!?!?",
+      "next_node_id": "node_032"
+    },
+    {
+      "node_id": "node_032",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Guard",
+      "text": "Если там это было бы невероятно славно, ты бы мне очень, очень помогла бы",
+      "next_node_id": "node_033"
+    },
+    {
+      "node_id": "node_033",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Guard",
+      "text": "Последний раз когда тут был технический специалист, он сказал, что последнее что нужно сделать, это настроить камерный узел в кладовой ",
+      "next_node_id": "node_034"
+    },
+    {
+      "node_id": "node_034",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Guard",
+      "text": "Спасибо тебе огромное! Если вдруг получиться починить камеры, найди меня. Я пока придумаю как тебя отблагадорить ",
+      "next_node_id": "node_035"
+    },
+    {
+      "node_id": "node_035",
+      "dialogue_id": "guard_intro",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Хорошо, я попытаюсь починить, камеры. Если что то получиться я вам сообщю",
       "next_node_id": null
     },
     {
@@ -136,18 +396,746 @@
     },
     {
       "node_id": "node_001",
-      "dialogue_id": "test",
+      "dialogue_id": "ksu_stolovaya",
       "type": "Line",
-      "speaker": "sdfsf",
-      "text": "хуй",
+      "speaker": "Misty",
+      "text": "Угадай, кто?",
       "next_node_id": "node_002"
     },
     {
       "node_id": "node_002",
-      "dialogue_id": "test",
+      "dialogue_id": "ksu_stolovaya",
       "type": "Line",
-      "speaker": "sadfsdf",
-      "text": "привет",
+      "speaker": "Ksu",
+      "text": "Ты пришла?",
+      "next_node_id": "node_003"
+    },
+    {
+      "node_id": "node_003",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "А ты че?",
+      "next_node_id": "node_004"
+    },
+    {
+      "node_id": "node_004",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Реально думала, что я не приду?",
+      "next_node_id": "node_005"
+    },
+    {
+      "node_id": "node_005",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Я думала, ты решила остаться в кровати до отчисления.",
+      "next_node_id": "node_006"
+    },
+    {
+      "node_id": "node_006",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Ну, я не выдержала лютого спама.",
+      "next_node_id": "node_007"
+    },
+    {
+      "node_id": "node_007",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Я спамлю весь месяц.",
+      "next_node_id": "node_008"
+    },
+    {
+      "node_id": "node_008",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Что изменилось?",
+      "next_node_id": "node_009"
+    },
+    {
+      "node_id": "node_009",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "А че?",
+      "next_node_id": "node_010"
+    },
+    {
+      "node_id": "node_010",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Ты чем недовольна-то?",
+      "next_node_id": "node_011"
+    },
+    {
+      "node_id": "node_011",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Могу и уйти, если не нужна.",
+      "next_node_id": "node_012"
+    },
+    {
+      "node_id": "node_012",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Не стоит.",
+      "next_node_id": "node_013"
+    },
+    {
+      "node_id": "node_013",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Я искренне рада, что ты пришла.",
+      "next_node_id": "node_014"
+    },
+    {
+      "node_id": "node_014",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Ну, конечно, ты рада.",
+      "next_node_id": "node_015"
+    },
+    {
+      "node_id": "node_015",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Вообще могла б и не писать.",
+      "next_node_id": "node_016"
+    },
+    {
+      "node_id": "node_016",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Я бы и так пришла, не маленькая.",
+      "next_node_id": "node_017"
+    },
+    {
+      "node_id": "node_017",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Я не сомневаюсь в твоей самостоятельности, но хотела убедиться, что ты помнишь, какой сегодня день.",
+      "next_node_id": "node_018"
+    },
+    {
+      "node_id": "node_018",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Ну, да. Помню.",
+      "next_node_id": "node_019"
+    },
+    {
+      "node_id": "node_019",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Вы будете сдавать свои проектики.",
+      "next_node_id": "node_020"
+    },
+    {
+      "node_id": "node_020",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "И стоило же вставать в такую рань ради этого.",
+      "next_node_id": "node_021"
+    },
+    {
+      "node_id": "node_021",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Мисти, ты читала мои сообщения?",
+      "next_node_id": "node_022"
+    },
+    {
+      "node_id": "node_022",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Мисс ок будет добиваться твоего отчисления.",
+      "next_node_id": "node_023"
+    },
+    {
+      "node_id": "node_023",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "И, поверь, она не блефует.",
+      "next_node_id": "node_024"
+    },
+    {
+      "node_id": "node_024",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Отчислит – ну и хрен с ним. Кому не плевать.",
+      "next_node_id": "node_025"
+    },
+    {
+      "node_id": "node_025",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Мне не плевать.",
+      "next_node_id": "node_026"
+    },
+    {
+      "node_id": "node_026",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Просто…",
+      "next_node_id": "node_027"
+    },
+    {
+      "node_id": "node_027",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Ты когда-нибудь задумывалась, что у меня могло не быть плана, который решит все твои проблемы?",
+      "next_node_id": "node_028"
+    },
+    {
+      "node_id": "node_028",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Не выдумывай, Ксю.",
+      "next_node_id": "node_029"
+    },
+    {
+      "node_id": "node_029",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Давай, выкладывай, че мне делать.",
+      "next_node_id": "node_030"
+    },
+    {
+      "node_id": "node_030",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Во-первых, говоришь всем, что мы соавторы.",
+      "next_node_id": "node_031"
+    },
+    {
+      "node_id": "node_031",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Во-вторых, выступаешь так, будто прекрасно понимаешь, о чем идет речь.",
+      "next_node_id": "node_032"
+    },
+    {
+      "node_id": "node_032",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "И в итоге нам ставят «отлично».",
+      "next_node_id": "node_033"
+    },
+    {
+      "node_id": "node_033",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Ты че хочешь сохранить стипендию?",
+      "next_node_id": "node_034"
+    },
+    {
+      "node_id": "node_034",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Очнись, нам светит тройбан!",
+      "next_node_id": "node_035"
+    },
+    {
+      "node_id": "node_035",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Все получится. Ведь это проект про девочек-монстров.",
+      "next_node_id": "node_036"
+    },
+    {
+      "node_id": "node_036",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Да, ладно. Не могла придумать че попроще?",
+      "next_node_id": "node_037"
+    },
+    {
+      "node_id": "node_037",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Это ты шаришь за внутренности монстров, а я их только резать могу.",
+      "next_node_id": "node_038"
+    },
+    {
+      "node_id": "node_038",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Не только резать, но и защищать.",
+      "next_node_id": "node_039"
+    },
+    {
+      "node_id": "node_039",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Ты рофлишь? ",
+      "next_node_id": "node_040"
+    },
+    {
+      "node_id": "node_040",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Вспомни, сколько раз ты жаловалась.",
+      "next_node_id": "node_041"
+    },
+    {
+      "node_id": "node_041",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "«Гражданские только паникуют и мешаются под ногами».",
+      "next_node_id": "node_042"
+    },
+    {
+      "node_id": "node_042",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "«Ни первую помощь оказать, ни в ООМ позвонить».",
+      "next_node_id": "node_043"
+    },
+    {
+      "node_id": "node_043",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Это все твои слова.",
+      "next_node_id": "node_044"
+    },
+    {
+      "node_id": "node_044",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "А в тот последний раз, если бы не было толпы",
+      "next_node_id": "node_045"
+    },
+    {
+      "node_id": "node_045",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Короче!",
+      "next_node_id": "node_046"
+    },
+    {
+      "node_id": "node_046",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Твоих знаний хватит.",
+      "next_node_id": "node_047"
+    },
+    {
+      "node_id": "node_047",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Ведь мы представляем устройство, которое обучает, как нужно действовать при встрече с девочкой-монстром.",
+      "next_node_id": "node_048"
+    },
+    {
+      "node_id": "node_048",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Ништяк. Тогда мне не о чем волноваться.",
+      "next_node_id": "node_049"
+    },
+    {
+      "node_id": "node_049",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Не торопись.",
+      "next_node_id": "node_050"
+    },
+    {
+      "node_id": "node_050",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Сначала нам нужно выступить.",
+      "next_node_id": "node_051"
+    },
+    {
+      "node_id": "node_051",
+      "dialogue_id": "ksu_stolovaya",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Не парься. Я же здесь.",
+      "next_node_id": null
+    },
+    {
+      "node_id": "node_001",
+      "dialogue_id": "vastupl_1",
+      "type": "Line",
+      "speaker": "Miss_ok",
+      "text": "Ваше время пошло.",
+      "next_node_id": "node_002"
+    },
+    {
+      "node_id": "node_002",
+      "dialogue_id": "vastupl_1",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Добрый день, многоуважаемая аттестационная комиссия.",
+      "next_node_id": "node_003"
+    },
+    {
+      "node_id": "node_003",
+      "dialogue_id": "vastupl_1",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Как вы знаете, девочки-монстры – это существа неизвестного происхождения, отловом которых, до недавнего времени, занималась только организация особого мониторинга. Но их ресурсов не хватает для своевременного спасения всех.",
+      "next_node_id": "node_004"
+    },
+    {
+      "node_id": "node_004",
+      "dialogue_id": "vastupl_1",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Наш симулятор предназначен для отработки навыков защиты при встрече с девочкой-монстром.",
+      "next_node_id": "node_005"
+    },
+    {
+      "node_id": "node_005",
+      "dialogue_id": "vastupl_1",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "В его основе лежит адаптивный алгоритм, который реагирует на любые действия в реальном времени.",
+      "next_node_id": "node_006"
+    },
+    {
+      "node_id": "node_006",
+      "dialogue_id": "vastupl_1",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "В конце симулятор оценит правильность произведенных действий для моделируемой чрезвычайной ситуации.",
+      "next_node_id": "node_007"
+    },
+    {
+      "node_id": "node_007",
+      "dialogue_id": "vastupl_1",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Моя коллега провела серию полевых наблюдений.",
+      "next_node_id": "node_008"
+    },
+    {
+      "node_id": "node_008",
+      "dialogue_id": "vastupl_1",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Она фиксировала поведение девочек-монстров и людей в чрезвычайных ситуациях.",
+      "next_node_id": "node_009"
+    },
+    {
+      "node_id": "node_009",
+      "dialogue_id": "vastupl_1",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "За счет огромного массива собранных данных наш проект стал эффективным рабочим инструментом.",
+      "next_node_id": "node_010"
+    },
+    {
+      "node_id": "node_010",
+      "dialogue_id": "vastupl_1",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Моя коллега продемонстрирует его функционал.",
+      "next_node_id": null
+    },
+    {
+      "node_id": "node_001",
+      "dialogue_id": "vastupl_2",
+      "type": "Line",
+      "speaker": "Chad",
+      "text": "У-хууу! Круто!",
+      "next_node_id": "node_002"
+    },
+    {
+      "node_id": "node_002",
+      "dialogue_id": "vastupl_2",
+      "type": "Line",
+      "speaker": "Miss_ok",
+      "text": "Сама разработка выглядит интересно, но к защите у меня есть вопросы. Думаю, у комиссии тоже таковые имеются.",
+      "next_node_id": "node_003"
+    },
+    {
+      "node_id": "node_003",
+      "dialogue_id": "vastupl_2",
+      "type": "Line",
+      "speaker": "Ksu",
+      "text": "Да, мы с радостью ответим.",
+      "next_node_id": "node_004"
+    },
+    {
+      "node_id": "node_004",
+      "dialogue_id": "vastupl_2",
+      "type": "Line",
+      "speaker": "Miss_ok",
+      "text": "Не вы.",
+      "next_node_id": "node_005"
+    },
+    {
+      "node_id": "node_005",
+      "dialogue_id": "vastupl_2",
+      "type": "Line",
+      "speaker": "Miss_ok",
+      "text": "Отвечать будет Мисти.",
+      "next_node_id": null
+    },
+    {
+      "node_id": "node_001",
+      "dialogue_id": "vastupl_3",
+      "type": "Line",
+      "speaker": "Miss_ok",
+      "text": "Результаты объявят позже.",
+      "next_node_id": "node_002"
+    },
+    {
+      "node_id": "node_002",
+      "dialogue_id": "vastupl_3",
+      "type": "Line",
+      "speaker": "Miss_ok",
+      "text": "К сожалению, вам не стоит рассчитывать на что-то выше удовлетворительно.",
+      "next_node_id": "node_003"
+    },
+    {
+      "node_id": "node_003",
+      "dialogue_id": "vastupl_3",
+      "type": "Line",
+      "speaker": "Miss_ok",
+      "text": "И, Мисти.",
+      "next_node_id": "node_004"
+    },
+    {
+      "node_id": "node_004",
+      "dialogue_id": "vastupl_3",
+      "type": "Line",
+      "speaker": "Miss_ok",
+      "text": "Забери зачетку в моем кабинете.",
+      "next_node_id": null
+    },
+    {
+      "node_id": "node_001",
+      "dialogue_id": "chad_2_floor_post_exam",
+      "type": "Line",
+      "speaker": "Chad",
+      "text": "Привет. Круто выступила.",
+      "next_node_id": "node_002"
+    },
+    {
+      "node_id": "node_002",
+      "dialogue_id": "chad_2_floor_post_exam",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Я там чуть не сдохла.",
+      "next_node_id": "node_003"
+    },
+    {
+      "node_id": "node_003",
+      "dialogue_id": "chad_2_floor_post_exam",
+      "type": "Line",
+      "speaker": "Chad",
+      "text": "Видел. Все равно круто.",
+      "next_node_id": "node_004"
+    },
+    {
+      "node_id": "node_004",
+      "dialogue_id": "chad_2_floor_post_exam",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Ты че, безумный фанат?",
+      "next_node_id": "node_005"
+    },
+    {
+      "node_id": "node_005",
+      "dialogue_id": "chad_2_floor_post_exam",
+      "type": "Line",
+      "speaker": "Chad",
+      "text": "Чед. Мы в одной группе учимся.",
+      "next_node_id": "node_006"
+    },
+    {
+      "node_id": "node_006",
+      "dialogue_id": "chad_2_floor_post_exam",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Ага. Еще один.",
+      "next_node_id": "node_007"
+    },
+    {
+      "node_id": "node_007",
+      "dialogue_id": "chad_2_floor_post_exam",
+      "type": "Line",
+      "speaker": "Chad",
+      "text": "Еще один?",
+      "next_node_id": "node_008"
+    },
+    {
+      "node_id": "node_008",
+      "dialogue_id": "chad_2_floor_post_exam",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Забей. Че тебе надо?",
+      "next_node_id": "node_009"
+    },
+    {
+      "node_id": "node_009",
+      "dialogue_id": "chad_2_floor_post_exam",
+      "type": "Line",
+      "speaker": "Chad",
+      "text": "Хочешь пойти на корт?",
+      "next_node_id": "node_010"
+    },
+    {
+      "node_id": "node_010",
+      "dialogue_id": "chad_2_floor_post_exam",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Зачем?",
+      "next_node_id": "node_011"
+    },
+    {
+      "node_id": "node_011",
+      "dialogue_id": "chad_2_floor_post_exam",
+      "type": "Line",
+      "speaker": "Chad",
+      "text": "Попинаем мяч.",
+      "next_node_id": "node_012"
+    },
+    {
+      "node_id": "node_012",
+      "dialogue_id": "chad_2_floor_post_exam",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Че? Нафига?",
+      "next_node_id": "node_013"
+    },
+    {
+      "node_id": "node_013",
+      "dialogue_id": "chad_2_floor_post_exam",
+      "type": "Line",
+      "speaker": "Chad",
+      "text": "Когда моя сестра лежала в больнице, я в свободные часы пропадал на корте.",
+      "next_node_id": "node_014"
+    },
+    {
+      "node_id": "node_014",
+      "dialogue_id": "chad_2_floor_post_exam",
+      "type": "Line",
+      "speaker": "Chad",
+      "text": "Там проще думалось.",
+      "next_node_id": "node_015"
+    },
+    {
+      "node_id": "node_015",
+      "dialogue_id": "chad_2_floor_post_exam",
+      "type": "Line",
+      "speaker": "Chad",
+      "text": "Тебе, кажется, тоже надо проветриться.",
+      "next_node_id": "node_016"
+    },
+    {
+      "node_id": "node_016",
+      "dialogue_id": "chad_2_floor_post_exam",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Эй! Это не как у тебя.",
+      "next_node_id": "node_017"
+    },
+    {
+      "node_id": "node_017",
+      "dialogue_id": "chad_2_floor_post_exam",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Я справлюсь с каким-то там экзаменом.",
+      "next_node_id": "node_018"
+    },
+    {
+      "node_id": "node_018",
+      "dialogue_id": "chad_2_floor_post_exam",
+      "type": "Line",
+      "speaker": "Chad",
+      "text": "Я понял.",
+      "next_node_id": "node_019"
+    },
+    {
+      "node_id": "node_019",
+      "dialogue_id": "chad_2_floor_post_exam",
+      "type": "Line",
+      "speaker": "Chad",
+      "text": "Боишься проиграть капитану флорбольной команды?",
+      "next_node_id": "node_020"
+    },
+    {
+      "node_id": "node_020",
+      "dialogue_id": "chad_2_floor_post_exam",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Че?!",
+      "next_node_id": "node_021"
+    },
+    {
+      "node_id": "node_021",
+      "dialogue_id": "chad_2_floor_post_exam",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Не плачь, когда счет будет 0:100!",
+      "next_node_id": "node_022"
+    },
+    {
+      "node_id": "node_022",
+      "dialogue_id": "chad_2_floor_post_exam",
+      "type": "Line",
+      "speaker": "Chad",
+      "text": "Я постараюсь.",
+      "next_node_id": "node_023"
+    },
+    {
+      "node_id": "node_023",
+      "dialogue_id": "chad_2_floor_post_exam",
+      "type": "Line",
+      "speaker": "Misty",
+      "text": "Ну, так погнали!",
       "next_node_id": null
     }
   ],
@@ -155,16 +1143,51 @@
     {
       "choice_id": "guard_intro_choice_001",
       "dialogue_id": "guard_intro",
-      "node_id": "node_003",
-      "text": "Нам нужно поговорить.",
-      "next_node_id": "node_004"
+      "node_id": "node_002",
+      "text": "Все хорошо, просто неважно себя чувствовала, последнее время ",
+      "next_node_id": "node_003"
     },
     {
       "choice_id": "guard_intro_choice_002",
       "dialogue_id": "guard_intro",
-      "node_id": "node_003",
-      "text": "Мы просто проходили мимо.",
-      "next_node_id": "node_005"
+      "node_id": "node_002",
+      "text": "То там, то сям, в основном помогала бабушке",
+      "next_node_id": "node_007"
+    },
+    {
+      "choice_id": "guard_intro_choice_003",
+      "dialogue_id": "guard_intro",
+      "node_id": "node_002",
+      "text": "Вы заметили, что меня не было в институте, похоже мои дела и вправду плохи, если даже вы заметили что меня нету месяц",
+      "next_node_id": "node_011"
+    },
+    {
+      "choice_id": "guard_intro_choice_004",
+      "dialogue_id": "guard_intro",
+      "node_id": "node_021",
+      "text": "А можно я сама посмотрю в коробке потерянного",
+      "next_node_id": "node_022"
+    },
+    {
+      "choice_id": "guard_intro_choice_005",
+      "dialogue_id": "guard_intro",
+      "node_id": "node_021",
+      "text": "Ну ладно спасибо. А что у вас с мониторами, по-моему они не выглядят сильно жизнеспособными",
+      "next_node_id": "node_023"
+    },
+    {
+      "choice_id": "guard_intro_choice_006",
+      "dialogue_id": "guard_intro",
+      "node_id": "node_029",
+      "text": "Да, это конечно грустно. В любом случае спасибо за помощь, мне пора бежать",
+      "next_node_id": "node_030"
+    },
+    {
+      "choice_id": "guard_intro_choice_007",
+      "dialogue_id": "guard_intro",
+      "node_id": "node_029",
+      "text": "Ну вообще я бы могла помочь вам с этим, может хоть в карму зачтется",
+      "next_node_id": "node_031"
     },
     {
       "choice_id": "toilet_wars_intro_choice_001",
