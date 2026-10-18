@@ -1,5 +1,6 @@
 using ChainSawLeg.Core.SaveSystem;
 using ChainSawLeg.Game.Shared;
+using ChainSawLeg.Infrastructure;
 using Zenject;
 
 namespace ChainSawLeg.Composition

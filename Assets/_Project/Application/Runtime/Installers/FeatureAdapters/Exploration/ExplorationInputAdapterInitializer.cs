@@ -1,3 +1,4 @@
+using ChainSawLeg.Game.Shared;
 using Zenject;
 
 public sealed class ExplorationInputAdapterInitializer : IInitializable
