@@ -19246,9 +19246,9 @@ GameObject:
   - component: {fileID: 781926078}
   - component: {fileID: 781926077}
   - component: {fileID: 781926081}
-  - component: {fileID: 781926080}
   - component: {fileID: 781926079}
-  m_Layer: 0
+  - component: {fileID: 781926082}
+  m_Layer: 6
   m_Name: Guard_staying
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19323,7 +19323,7 @@ Transform:
   m_GameObject: {fileID: 781926076}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: -28.985657, y: -8.178116, z: 0}
+  m_LocalPosition: {x: -34.7, y: -8.178116, z: 0}
   m_LocalScale: {x: 1.8664, y: 1.8664, z: 1.8664}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19347,7 +19347,7 @@ MonoBehaviour:
   onInteract:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 781926080}
+      - m_Target: {fileID: 781926082}
         m_TargetAssemblyTypeName: ChainSawLeg.Composition.StartDialogueOnInteract,
           ChainSawLeg.Composition.Runtime
         m_MethodName: StartDialogue
@@ -19360,19 +19360,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &781926080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 781926076}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe17f1e6feae4b109f39ca87e3812d56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::ChainSawLeg.Composition.StartDialogueOnInteract
-  dialogueId: test
 --- !u!61 &781926081
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -19419,6 +19406,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.81, y: 3.43}
   m_EdgeRadius: 0
+--- !u!114 &781926082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781926076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe17f1e6feae4b109f39ca87e3812d56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::ChainSawLeg.Composition.StartDialogueOnInteract
+  dialogueId: guard_intro
 --- !u!1 &785306259
 GameObject:
   m_ObjectHideFlags: 0
@@ -30339,7 +30339,7 @@ Transform:
   m_GameObject: {fileID: 1157121958}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 31.4, y: -95.1, z: 0}
+  m_LocalPosition: {x: 105.08, y: -95.1, z: 0}
   m_LocalScale: {x: 1.65, y: 1.65, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
