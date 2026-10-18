@@ -8,6 +8,14 @@ namespace ChainSawLeg.Features.Dialogue
 {
     public class DialogueUI_RPG : MonoBehaviour
     {
+        [System.Serializable]
+        private class CharacterVisualConfig
+        {
+            public string characterId;
+            public Color backdropColor = Color.white;
+            public Sprite defaultPortrait; 
+        }
+        
         private static readonly Color ChoiceNormalColor = new Color(1f, 1f, 1f, 1f);
         private static readonly Color ChoiceHighlightedColor = new Color(0.92f, 0.95f, 1f, 1f);
         private static readonly Color ChoicePressedColor = new Color(0.8f, 0.86f, 0.95f, 1f);
@@ -26,6 +34,18 @@ namespace ChainSawLeg.Features.Dialogue
         [Header("Choices")]
         [SerializeField] private Transform choicesContainer;
         [SerializeField] private Button choiceButtonPrefab;
+        
+        [Header("Character Presentation")]
+        [SerializeField] private Image leftCharacterBackdrop;
+        [SerializeField] private Image leftCharacterPortrait;
+        
+        [SerializeField] private Image rightCharacterBackdrop;
+        [SerializeField] private Image rightCharacterPortrait;
+        
+        [Header("Character Configurations")]
+        [SerializeField] private List<CharacterVisualConfig> characterVisuals = new();
+
+        [SerializeField] private string protagonistId = "Misty";
 
         private readonly List<Button> activeChoiceButtons = new();
         private readonly List<Outline> activeChoiceOutlines = new();
@@ -43,7 +63,75 @@ namespace ChainSawLeg.Features.Dialogue
         {
             Hide();
         }
-        
+
+        public void BeginDialogue()
+        {
+            ApplyCharacterVisuals(protagonistId, false);
+
+            ClearCharacterVisual(leftCharacterBackdrop, leftCharacterPortrait);
+            
+            ShowRoot();
+        }
+
+        private void UpdateSpeakersVisuals(string speakerId)
+        {
+            if(string.IsNullOrWhiteSpace(speakerId))
+                return;
+
+            if (speakerId == protagonistId)
+            {
+                ApplyCharacterVisuals(speakerId, false);
+                return;
+            }
+
+            ApplyCharacterVisuals(speakerId, true);
+        }
+
+        private void ApplyCharacterVisuals(string characterId, bool isLeftCharacter)
+        {
+            CharacterVisualConfig config = characterVisuals.Find(
+                character => character.characterId == characterId);
+
+            if (config == null)
+            {
+
+                Debug.LogWarning(
+                    $"[DialogueUI_RPG] Character configuration not found: {characterId}",
+                    this);
+
+                return;
+            }
+            
+            Image backdrop = isLeftCharacter ? leftCharacterBackdrop : rightCharacterBackdrop;
+            Image portrait = isLeftCharacter ? leftCharacterPortrait : rightCharacterPortrait;
+
+            if (backdrop != null)
+            {
+                backdrop.color = config.backdropColor;
+                backdrop.enabled = true;
+            }
+
+            if (portrait != null)
+            {
+                portrait.sprite = config.defaultPortrait;
+                portrait.enabled = config.defaultPortrait != null;
+            }
+        }
+
+        private static void ClearCharacterVisual(
+            Image backdrop,
+            Image portrait)
+        {
+            if (backdrop != null)
+                backdrop.enabled = false;
+
+            if (portrait != null)
+            {
+                portrait.sprite = null;
+                portrait.enabled = false;
+            }
+        }
+
         public void ShowRoot()
         {
             if (root != null)
@@ -72,6 +160,8 @@ namespace ChainSawLeg.Features.Dialogue
                 Hide();
                 return;
             }
+            
+            UpdateSpeakersVisuals(node.Speaker);
 
             if (node.Type == DialogueNodeType.Line)
             {
