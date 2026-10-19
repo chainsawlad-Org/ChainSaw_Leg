@@ -1,6 +1,9 @@
-public class PauseMenuPhase : OverlayPhase
+namespace ChainSawLeg.Application
 {
-    public override bool BlocksInput => true;
-    public override bool PausesGame => true;
-    public override bool CanStack => false;
+    public class PauseMenuPhase : OverlayPhase
+    {
+        public override bool BlocksInput => true;
+        public override bool PausesGame => true;
+        public override bool CanStack => false;
+    }
 }

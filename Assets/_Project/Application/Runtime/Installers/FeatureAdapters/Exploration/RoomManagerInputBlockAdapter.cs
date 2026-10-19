@@ -2,12 +2,15 @@ using ChainSawLeg.Features.Exploration;
 using UnityEngine;
 using Zenject;
 
-[RequireComponent(typeof(RoomManager))]
-public sealed class RoomManagerInputBlockAdapter : MonoBehaviour
+namespace ChainSawLeg.Composition
 {
-    [Inject]
-    public void Construct(IGameplayInputBlockService inputBlockService, CameraFlow cameraFlow)
+    [RequireComponent(typeof(RoomManager))]
+    public sealed class RoomManagerInputBlockAdapter : MonoBehaviour
     {
-        GetComponent<RoomManager>().ConfigureInputBlocking(inputBlockService, cameraFlow);
+        [Inject]
+        public void Construct(IGameplayInputBlockService inputBlockService, CameraFlow cameraFlow)
+        {
+            GetComponent<RoomManager>().ConfigureInputBlocking(inputBlockService, cameraFlow);
+        }
     }
 }

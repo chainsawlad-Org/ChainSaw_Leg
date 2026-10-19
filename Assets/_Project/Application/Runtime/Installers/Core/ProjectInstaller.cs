@@ -1,4 +1,5 @@
 using ChainSawLeg.Application;
+using ChainSawLeg.Infrastructure;
 using Zenject;
 
 namespace ChainSawLeg.Composition

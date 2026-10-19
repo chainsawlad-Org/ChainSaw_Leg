@@ -1,6 +1,9 @@
-public enum DialogueType
+namespace ChainSawLeg.Features.Dialogue
 {
-    Bubble,
-    RPG,
-    Cutscene
+    public enum DialogueType
+    {
+        Bubble,
+        RPG,
+        Cutscene
+    }
 }

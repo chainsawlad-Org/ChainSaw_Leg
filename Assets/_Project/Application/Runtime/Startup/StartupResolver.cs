@@ -1,4 +1,6 @@
 using System;
+using ChainSawLeg.Application;
+using ChainSawLeg.Infrastructure;
 
 public class StartupResolver : IStartupResolver
 {

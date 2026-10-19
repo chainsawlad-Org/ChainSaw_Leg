@@ -2,43 +2,46 @@ using System;
 using System.Linq;
 using Zenject;
 
-public static class AutoBinder
+namespace ChainSawLeg.Infrastructure
 {
-    public static void BindDerivedTypes<TBase>(DiContainer container, bool asSingle = true)
+    public static class AutoBinder
     {
-        Type baseType = typeof(TBase);
-
-        var types = baseType
-            .Assembly
-            .GetTypes()
-            .Where(type => type.IsClass && !type.IsAbstract && baseType.IsAssignableFrom(type));
-
-        foreach (Type type in types)
+        public static void BindDerivedTypes<TBase>(DiContainer container, bool asSingle = true)
         {
-            var binder = container.Bind(type);
+            Type baseType = typeof(TBase);
 
-            if (asSingle)
-                binder.AsSingle();
-            else
-                binder.AsTransient();
+            var types = baseType
+                .Assembly
+                .GetTypes()
+                .Where(type => type.IsClass && !type.IsAbstract && baseType.IsAssignableFrom(type));
+
+            foreach (Type type in types)
+            {
+                var binder = container.Bind(type);
+
+                if (asSingle)
+                    binder.AsSingle();
+                else
+                    binder.AsTransient();
+            }
         }
-    }
 
-    public static void BindAssignableTo<TInterface>(DiContainer container, bool asSingle = true)
-    {
-        Type interfaceType = typeof(TInterface);
-        var types = interfaceType.Assembly
-            .GetTypes()
-            .Where(type => type.IsClass && !type.IsAbstract && interfaceType.IsAssignableFrom(type));
-
-        foreach (Type type in types)
+        public static void BindAssignableTo<TInterface>(DiContainer container, bool asSingle = true)
         {
-            var binder = container.BindInterfacesAndSelfTo(type);
+            Type interfaceType = typeof(TInterface);
+            var types = interfaceType.Assembly
+                .GetTypes()
+                .Where(type => type.IsClass && !type.IsAbstract && interfaceType.IsAssignableFrom(type));
 
-            if (asSingle)
-                binder.AsSingle();
-            else
-                binder.AsTransient();
+            foreach (Type type in types)
+            {
+                var binder = container.BindInterfacesAndSelfTo(type);
+
+                if (asSingle)
+                    binder.AsSingle();
+                else
+                    binder.AsTransient();
+            }
         }
     }
 }

@@ -1,50 +1,53 @@
 using UnityEngine;
 
-public class PlayerInteractionExecutor : MonoBehaviour
+namespace ChainSawLeg.Features.Exploration
 {
-    [SerializeField] private PlayerInputHandler inputHandler;
-    [SerializeField] private PlayerInteractionDetector interactionDetector;
-    [SerializeField] private bool isInteractionEnabled = true;
-
-    private void Awake()
+    public class PlayerInteractionExecutor : MonoBehaviour
     {
-        if (inputHandler == null)
+        [SerializeField] private PlayerInputHandler inputHandler;
+        [SerializeField] private PlayerInteractionDetector interactionDetector;
+        [SerializeField] private bool isInteractionEnabled = true;
+
+        private void Awake()
         {
-            inputHandler = GetComponent<PlayerInputHandler>();
+            if (inputHandler == null)
+            {
+                inputHandler = GetComponent<PlayerInputHandler>();
+            }
+
+            if (interactionDetector == null)
+            {
+                interactionDetector = GetComponent<PlayerInteractionDetector>();
+            }
         }
 
-        if (interactionDetector == null)
+        private void Update()
         {
-            interactionDetector = GetComponent<PlayerInteractionDetector>();
-        }
-    }
+            if (!isInteractionEnabled || inputHandler == null || interactionDetector == null)
+            {
+                return;
+            }
 
-    private void Update()
-    {
-        if (!isInteractionEnabled || inputHandler == null || interactionDetector == null)
-        {
-            return;
-        }
+            if (!inputHandler.InteractPressed)
+            {
+                return;
+            }
 
-        if (!inputHandler.InteractPressed)
-        {
-            return;
-        }
+            inputHandler.ConsumeInteract();
 
-        inputHandler.ConsumeInteract();
+            IInteractable target = interactionDetector.CurrentTarget;
 
-        IInteractable target = interactionDetector.CurrentTarget;
+            if (target == null || !target.CanInteract())
+            {
+                return;
+            }
 
-        if (target == null || !target.CanInteract())
-        {
-            return;
+            target.Interact();
         }
 
-        target.Interact();
-    }
-
-    public void SetInteractionEnabled(bool value)
-    {
-        isInteractionEnabled = value;
+        public void SetInteractionEnabled(bool value)
+        {
+            isInteractionEnabled = value;
+        }
     }
 }

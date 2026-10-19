@@ -1,9 +1,13 @@
+using ChainSawLeg.Infrastructure;
 using Zenject;
 
-public class PhaseInstaller : Installer<PhaseInstaller>
+namespace ChainSawLeg.Composition
 {
-    public override void InstallBindings()
+    public class PhaseInstaller : Installer<PhaseInstaller>
     {
-        AutoBinder.BindDerivedTypes<GamePhase>(Container);
+        public override void InstallBindings()
+        {
+            AutoBinder.BindDerivedTypes<GamePhase>(Container);
+        }
     }
 }

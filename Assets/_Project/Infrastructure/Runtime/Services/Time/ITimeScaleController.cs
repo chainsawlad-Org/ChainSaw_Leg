@@ -1,4 +1,7 @@
-public interface ITimeScaleController
+namespace ChainSawLeg.Infrastructure
 {
-    float TimeScale { get; set; }
+    public interface ITimeScaleController
+    {
+        float TimeScale { get; set; }
+    }
 }

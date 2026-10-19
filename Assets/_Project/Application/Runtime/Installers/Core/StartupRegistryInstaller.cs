@@ -1,19 +1,23 @@
+using ChainSawLeg.Application;
 using Zenject;
 
-public class StartupRegistryInstaller : IInitializable
+namespace ChainSawLeg.Composition
 {
-    private readonly StartupPhaseRegistry registry;
-
-    public StartupRegistryInstaller(StartupPhaseRegistry startupPhaseRegistry)
+    public class StartupRegistryInstaller : IInitializable
     {
-        this.registry = startupPhaseRegistry;
-    }
+        private readonly StartupPhaseRegistry registry;
 
-    public void Initialize()
-    {
-        registry.Register<MainMenuPhase>(SceneNames.MainMenu);
-        registry.Register<ExplorationPhase>(SceneNames.World);
-        registry.Register<WorldOldExplorationPhase>(SceneNames.WorldOld);
-        registry.Register<BattlePhase>(SceneNames.Battle);
+        public StartupRegistryInstaller(StartupPhaseRegistry startupPhaseRegistry)
+        {
+            this.registry = startupPhaseRegistry;
+        }
+
+        public void Initialize()
+        {
+            registry.Register<MainMenuPhase>(SceneNames.MainMenu);
+            registry.Register<ExplorationPhase>(SceneNames.World);
+            registry.Register<WorldOldExplorationPhase>(SceneNames.WorldOld);
+            registry.Register<BattlePhase>(SceneNames.Battle);
+        }
     }
 }
