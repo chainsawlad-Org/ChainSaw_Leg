@@ -1,6 +1,5 @@
 using ChainSawLeg.Game.Shared;
 using UnityEngine;
-using Zenject;
 
 namespace ChainSawLeg.Features.Dialogue
 {
