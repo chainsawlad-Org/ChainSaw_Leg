@@ -1,31 +1,43 @@
 using System;
-using ChainSawLeg.Application;
 using ChainSawLeg.Infrastructure;
+using UnityEditor;
 
-public class StartupResolver : IStartupResolver
+namespace ChainSawLeg.Application
 {
-    private readonly StartupPhaseRegistry registry;
-    private readonly IActiveSceneProvider activeSceneProvider;
-
-    public StartupResolver(
-        StartupPhaseRegistry registry,
-        IActiveSceneProvider activeSceneProvider)
+    public class StartupResolver : IStartupResolver
     {
-        this.registry = registry;
-        this.activeSceneProvider = activeSceneProvider;
-    }
+        private readonly StartupPhaseRegistry registry;
+        private readonly IActiveSceneProvider activeSceneProvider;
 
-    public Type Resolve()
-    {
+        public StartupResolver(
+            StartupPhaseRegistry registry,
+            IActiveSceneProvider activeSceneProvider)
+        {
+            this.registry = registry;
+            this.activeSceneProvider = activeSceneProvider;
+        }
+
+        public Type Resolve()
+        {
 #if UNITY_EDITOR
 
-        string activeScene = activeSceneProvider.ActiveSceneName;
+            string startupScene = SessionState.GetString(
+                "ChainSawLeg.StartupScene",
+                string.Empty);
 
-        if (registry.TryGet(activeScene, out Type phase))
-            return phase;
+            if (!string.IsNullOrEmpty(startupScene) &&
+                registry.TryGet(startupScene, out Type startupPhase))
+            {
+                return startupPhase;
+            }
 
+            string activeScene = activeSceneProvider.ActiveSceneName;
+
+            if (registry.TryGet(activeScene, out Type activePhase))
+                return activePhase;
 #endif
 
-        return typeof(MainMenuPhase);
+            return typeof(MainMenuPhase);
+        }
     }
 }
