@@ -1,6 +1,9 @@
-public class BattlePhase : SceneGamePhase
+namespace ChainSawLeg.Application
 {
-    protected override string SceneName => SceneNames.Battle;
+    public class BattlePhase : SceneGamePhase
+    {
+        protected override string SceneName => SceneNames.Battle;
 
-    public BattlePhase(ISceneLoader sceneLoader) : base(sceneLoader) { }
+        public BattlePhase(ISceneLoader sceneLoader) : base(sceneLoader) { }
+    }
 }

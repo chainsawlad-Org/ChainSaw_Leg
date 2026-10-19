@@ -1,8 +1,10 @@
-
 using System;
 
-public interface IPhaseFactory
+namespace ChainSawLeg.Application
 {
-    T Get<T>() where T : GamePhase;
-    GamePhase Get(Type phaseType);
+    public interface IPhaseFactory
+    {
+        T Get<T>() where T : GamePhase;
+        GamePhase Get(Type phaseType);
+    }
 }

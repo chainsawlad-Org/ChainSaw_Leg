@@ -1,8 +1,11 @@
-public class MainMenuPhase : SceneGamePhase
+namespace ChainSawLeg.Application
 {
-    protected override string SceneName => SceneNames.MainMenu;
-    public override bool AllowsGameplayInput => false;
+    public class MainMenuPhase : SceneGamePhase
+    {
+        protected override string SceneName => SceneNames.MainMenu;
+        public override bool AllowsGameplayInput => false;
 
-    public MainMenuPhase(ISceneLoader sceneLoader) : base(sceneLoader)
-    { }
+        public MainMenuPhase(ISceneLoader sceneLoader) : base(sceneLoader)
+        { }
+    }
 }

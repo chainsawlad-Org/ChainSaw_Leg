@@ -1,7 +1,10 @@
 using Cysharp.Threading.Tasks;
 
-public interface IGamePhase
+namespace ChainSawLeg.Application
 {
-    UniTask Enter();
-    UniTask Exit();
+    public interface IGamePhase
+    {
+        UniTask Enter();
+        UniTask Exit();
+    }
 }
