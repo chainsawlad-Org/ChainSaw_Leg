@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public static class AudioIdGenerator
 {
     // Where the generated enum lives (must be a normal Assets/ folder, not Editor/)
-    public const string OutputPath = "Assets/_Project/Infrastructure/Runtime/Audio/Generated/AudioId.cs";
+    public const string OutputPath = "Assets/_Project/Game/Shared/Audio/Generated/AudioId.cs";
 
     /// <summary>Regenerates AudioId.cs from a library's clips. Returns true if the file changed.</summary>
     public static bool Regenerate(AudioLibrary library)
