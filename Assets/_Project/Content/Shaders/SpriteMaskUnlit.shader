@@ -6,6 +6,7 @@ Shader "custom/StencilMask"
         _MainTex("Sprite Texture", 2D) = "white" {}
         _Color("Tint", Color) = (1,1,1,1)
         _AlphaCutoff("Alpha Cutoff", Range(0.01, 1.0)) = 0.1
+        [Toggle] _MaskEnabled("Mask Enabled", Float) = 1
 
             // Legacy properties. They're here so that materials using this shader can gracefully fallback to the legacy sprite shader.
             [HideInInspector] PixelSnap("Pixel snap", Float) = 0
@@ -75,6 +76,7 @@ Shader "custom/StencilMask"
             SAMPLER(sampler_MainTex);
             half4 _MainTex_ST;
             half _AlphaCutoff;
+            float _MaskEnabled;
 
             Varyings UnlitVertex(Attributes v)
             {
@@ -109,6 +111,9 @@ Shader "custom/StencilMask"
                     return debugColor;
                 }
                 #endif
+
+                if (_MaskEnabled < 0.5)
+                    return float4(0, 0, 0, 0);
 
                 clip(mainTex.a - _AlphaCutoff);
                 if (mainTex.a < 0.1)
@@ -172,6 +177,7 @@ Shader "custom/StencilMask"
             SAMPLER(sampler_MainTex);
             float4 _MainTex_ST;
             half _AlphaCutoff;
+            float _MaskEnabled;
 
             Varyings UnlitVertex(Attributes attributes)
             {
@@ -188,7 +194,7 @@ Shader "custom/StencilMask"
                 return o;
             }
 
-            float4 UnlitFragment(Varyings i) : SV_Target
+            half4 UnlitFragment(Varyings i) : SV_Target
             {
                 float4 mainTex = i.color * SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
 
@@ -207,8 +213,10 @@ Shader "custom/StencilMask"
                 }
                 #endif
 
-                clip(mainTex.a - _AlphaCutoff);
+                if (_MaskEnabled < 0.5)
+                    return float4(0, 0, 0, 0);
 
+                clip(mainTex.a - _AlphaCutoff);
                 if (mainTex.a < 0.1)
                     return float4(0, 0, 0, 0);
 
