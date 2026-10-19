@@ -30169,7 +30169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63424b21c27d84a5b863ff04a44fdde3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  moveSpeed: 12
+  moveSpeed: 15
   snapTo8Directions: 1
   sprite: {fileID: 2105037964}
   flipSprite: 1

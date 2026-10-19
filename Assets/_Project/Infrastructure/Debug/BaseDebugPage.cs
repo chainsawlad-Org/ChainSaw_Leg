@@ -19,7 +19,7 @@ public sealed class BaseDebugPage : DefaultDebugPageBase
     {
         AddSlider(Camera.main.orthographicSize, 15f, 30f, "Camera zoom", valueChanged: x => Camera.main.orthographicSize = x);
         AddSlider(playerTransform.localScale.x, 1f, 3f, "Player size", valueChanged: x => playerTransform.localScale = new Vector3(x, x, 1f));
-        AddSlider(9f, 9f, 30f, "Player speed", valueChanged: x => playerTransform.GetComponent<PlayerMovement>().SetSpeed(x));
+        AddSlider(15f, 9f, 30f, "Player speed", valueChanged: x => playerTransform.GetComponent<PlayerMovement>().SetSpeed(x));
         AddSlider(playerKick.kickForcePower, 0f, 100f, "Kick power", valueChanged: x => playerKick.SetKickPowerForce(x));
         yield break;
     }
