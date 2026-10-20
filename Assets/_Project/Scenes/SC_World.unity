@@ -21309,6 +21309,7 @@ Transform:
   m_Children:
   - {fileID: 1935467794}
   - {fileID: 781926078}
+  - {fileID: 1885223856}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &946610157
@@ -27110,8 +27111,7 @@ Transform:
   m_LocalPosition: {x: 23.26, y: -9.67, z: 0}
   m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_ConstrainProportionsScale: 1
-  m_Children:
-  - {fileID: 1885223856}
+  m_Children: []
   m_Father: {fileID: 1347719314}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &1011003359
@@ -51012,6 +51012,8 @@ GameObject:
   - component: {fileID: 1885223857}
   - component: {fileID: 1885223859}
   - component: {fileID: 1885223860}
+  - component: {fileID: 1885223862}
+  - component: {fileID: 1885223861}
   m_Layer: 0
   m_Name: Ksu
   m_TagString: Untagged
@@ -51028,11 +51030,11 @@ Transform:
   m_GameObject: {fileID: 1885223855}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.14, y: 1.55, z: 0}
-  m_LocalScale: {x: 0.91999996, y: 0.91999996, z: 0.91999996}
+  m_LocalPosition: {x: 108.40301, y: 6.830574, z: 0}
+  m_LocalScale: {x: 1.564, y: 1.564, z: 1.564}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 1011003358}
+  m_Father: {fileID: 938699330}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1885223857
 SpriteRenderer:
@@ -51158,6 +51160,50 @@ MonoBehaviour:
   setAnotherBelowSprite: 1
   spriteBelow: {fileID: 1825893451}
   drawGizmos: 0
+--- !u!114 &1885223861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1885223855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe17f1e6feae4b109f39ca87e3812d56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::ChainSawLeg.Composition.StartDialogueOnInteract
+  dialogueId: ksu_stolovaya
+--- !u!114 &1885223862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1885223855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4401f714c82749ccba9e753dc9070ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.NpcDialogueInteractable
+  interactionPrompt: Press E to talk
+  canRepeat: 1
+  startsBusy: 0
+  onInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1885223861}
+        m_TargetAssemblyTypeName: ChainSawLeg.Composition.StartDialogueOnInteract,
+          ChainSawLeg.Composition.Runtime
+        m_MethodName: StartDialogue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1894139456
 GameObject:
   m_ObjectHideFlags: 0
@@ -51688,7 +51734,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1935467794}
   - component: {fileID: 1935467793}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Guard_sitting
   m_TagString: Untagged
   m_Icon: {fileID: 0}

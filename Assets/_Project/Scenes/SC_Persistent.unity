@@ -316,7 +316,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 910, y: -490}
-  m_SizeDelta: {x: 600, y: 1080}
+  m_SizeDelta: {x: 740, y: 1550}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &652767653
 MonoBehaviour:
@@ -664,15 +664,15 @@ RectTransform:
   m_GameObject: {fileID: 862834684}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.3712, y: 1.3712, z: 1.3712}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1883378029}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.41243246, y: 0.091483876}
+  m_AnchorMax: {x: 0.97570276, y: 0.6516452}
+  m_AnchoredPosition: {x: 0.00012207031, y: -1}
+  m_SizeDelta: {x: -112, y: -233}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &862834686
 MonoBehaviour:
@@ -687,7 +687,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 0}
+  m_Color: {r: 0.16015485, g: 0.18297255, b: 0.5566038, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1099,11 +1099,14 @@ MonoBehaviour:
   rightCharacterPortrait: {fileID: 1956380444}
   characterVisuals:
   - characterId: Misty
-    backdropColor: {r: 0.2924528, g: 0.040005345, b: 0.040005345, a: 0}
+    backdropSprite: {fileID: -1950347701787535943, guid: 55c43de4335ab4c3abdded4519618bd0, type: 3}
     defaultPortrait: {fileID: 21300000, guid: 70eff6779823b2944ad615b806c859cb, type: 3}
   - characterId: Guard
-    backdropColor: {r: 0.08410466, g: 0.26765007, b: 0.509434, a: 0}
+    backdropSprite: {fileID: -6927832087994390139, guid: c58e568ace8ed4fe7bb12849473bd35a, type: 3}
     defaultPortrait: {fileID: -7021977050208556119, guid: 18ea7ff012d854a2e9cb45eb3a697c0a, type: 3}
+  - characterId: Ksu
+    backdropSprite: {fileID: -6224225685058395647, guid: bd7f23d6a4c5347a882c3737510794d4, type: 3}
+    defaultPortrait: {fileID: -6855618125087540284, guid: b1413a07c583949489ff4d964defbd47, type: 3}
   protagonistId: Misty
 --- !u!1 &1725620147
 GameObject:
@@ -1273,10 +1276,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1040864507}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.58, y: 0.01}
-  m_AnchorMax: {x: 0.685, y: 0.04}
-  m_AnchoredPosition: {x: 14, y: 0}
-  m_SizeDelta: {x: 28, y: 0}
+  m_AnchorMin: {x: 0.565, y: 0.109777786}
+  m_AnchorMax: {x: 0.68500006, y: 0.14170372}
+  m_AnchoredPosition: {x: 1.5, y: -0.5}
+  m_SizeDelta: {x: -1, y: -3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1851282819
 MonoBehaviour:
@@ -1414,7 +1417,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -910, y: -490}
-  m_SizeDelta: {x: 600, y: 1080}
+  m_SizeDelta: {x: 740, y: 1550}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1883378030
 MonoBehaviour:
@@ -1549,15 +1552,15 @@ RectTransform:
   m_GameObject: {fileID: 1956380442}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.4025873, y: 1.3285859, z: 1.3285859}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 652767652}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.28, y: 0.07016129}
+  m_AnchorMax: {x: 0.8514324, y: 0.61258066}
+  m_AnchoredPosition: {x: 0, y: -1.5}
+  m_SizeDelta: {x: -118, y: -206}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1956380444
 MonoBehaviour:
@@ -1631,7 +1634,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.34, y: 0.05}
   m_AnchorMax: {x: 0.66, y: 0.2}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 129, y: 596}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1959025344
