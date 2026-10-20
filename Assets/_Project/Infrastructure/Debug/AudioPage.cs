@@ -5,7 +5,7 @@ using UnityEngine.Audio;
 
 public sealed class AudioPage : DefaultDebugPageBase
 {
-    protected override string Title { get; } = "Player settings";
+    protected override string Title { get; } = "Audio settings";
     private AudioMixer audioMixer;
     
     public void Initialize(AudioMixer mixer)
