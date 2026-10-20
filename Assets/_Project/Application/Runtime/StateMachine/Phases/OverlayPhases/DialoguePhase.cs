@@ -11,6 +11,8 @@ namespace ChainSawLeg.Application
 
         private string dialogueId;
         private bool isActive;
+        
+        private readonly DialogueViewRegistry dialogueViewRegistry;
 
         public override bool CanStack => false;
 
@@ -19,13 +21,19 @@ namespace ChainSawLeg.Application
             InputBlockChannels.Dash |
             InputBlockChannels.Interact;
 
-        public DialoguePhase(IDialogueRunner dialogueRunner, GameStateMachine gameStateMachine)
+        public DialoguePhase(
+            IDialogueRunner dialogueRunner,
+            GameStateMachine gameStateMachine,
+            DialogueViewRegistry dialogueViewRegistry)
         {
             this.dialogueRunner = dialogueRunner
                                   ?? throw new ArgumentNullException(nameof(dialogueRunner));
 
             this.gameStateMachine = gameStateMachine
                                     ?? throw new ArgumentNullException(nameof(gameStateMachine));
+            
+            this.dialogueViewRegistry = dialogueViewRegistry
+                                        ?? throw new ArgumentNullException(nameof(dialogueViewRegistry));
         }
 
         public void Configure(string id)
@@ -100,10 +108,13 @@ namespace ChainSawLeg.Application
             if (!isActive)
                 return;
             
-
             if (!gameStateMachine.IsTopOverlay<DialoguePhase>())
                 return;
             
+            await dialogueViewRegistry.Get().HideAnimatedAsync();
+            
+            if (!isActive)
+                return;
 
             await gameStateMachine.PopOverlay();
         }
