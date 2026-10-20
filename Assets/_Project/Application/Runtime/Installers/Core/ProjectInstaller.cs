@@ -1,5 +1,7 @@
 using ChainSawLeg.Application;
+using ChainSawLeg.Features.Dialogue;
 using ChainSawLeg.Infrastructure;
+using UnityEngine;
 using Zenject;
 
 namespace ChainSawLeg.Composition
@@ -50,6 +52,9 @@ namespace ChainSawLeg.Composition
                 .NonLazy();
 
             Container.BindExecutionOrder<BootstrapStartup>(100);
+            
+            Container.Bind<DialogueViewRegistry>()
+                .AsSingle();
         }
     }
 }

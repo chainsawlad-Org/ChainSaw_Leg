@@ -1,3 +1,4 @@
+using ChainSawLeg.Application;
 using ChainSawLeg.Core.SaveSystem;
 using ChainSawLeg.Features.Dialogue;
 using ChainSawLeg.UI;
@@ -51,6 +52,9 @@ namespace ChainSawLeg.Composition
             Container.Bind<DialogueUI_RPG>()
                 .FromInstance(dialogueUI)
                 .AsSingle();
+            
+            Container.Resolve<DialogueViewRegistry>()
+                .Register(dialogueUI);
         }
     }
 }
