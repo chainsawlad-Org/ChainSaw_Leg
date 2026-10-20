@@ -23529,6 +23529,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DebugSheetController
   player: {fileID: 1157121962}
   playerKick: {fileID: 1157121974}
+  audioMixer: {fileID: 24100000, guid: 659cb832129a33b4cab0a3101be6476e, type: 2}
 --- !u!4 &749931758
 Transform:
   m_ObjectHideFlags: 0
