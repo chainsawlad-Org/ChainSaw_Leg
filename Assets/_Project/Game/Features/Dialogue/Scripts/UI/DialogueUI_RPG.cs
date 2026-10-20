@@ -12,7 +12,7 @@ namespace ChainSawLeg.Features.Dialogue
         private class CharacterVisualConfig
         {
             public string characterId;
-            public Color backdropColor = Color.white;
+            public Sprite backdropSprite;
             public Sprite defaultPortrait; 
         }
         
@@ -64,27 +64,34 @@ namespace ChainSawLeg.Features.Dialogue
             Hide();
         }
 
-        public void BeginDialogue()
+        public void BeginDialogue(Dialogue dialogue)
         {
-            ApplyCharacterVisuals(protagonistId, false);
+            ClearCharacterVisual(
+                leftCharacterBackdrop,
+                leftCharacterPortrait);
 
-            ClearCharacterVisual(leftCharacterBackdrop, leftCharacterPortrait);
+            ClearCharacterVisual(
+                rightCharacterBackdrop,
+                rightCharacterPortrait);
             
-            ShowRoot();
-        }
+            string opponentId = FindConversationPartner(dialogue);
+            
+            Debug.Log(
+                $"[DialogueUI_RPG] Dialogue: {dialogue?.Id}, " +
+                $"Protagonist: {protagonistId}, " +
+                $"Opponent: {opponentId}",
+                this);
 
-        private void UpdateSpeakersVisuals(string speakerId)
-        {
-            if(string.IsNullOrWhiteSpace(speakerId))
-                return;
-
-            if (speakerId == protagonistId)
+            if (!string.IsNullOrWhiteSpace(opponentId))
             {
-                ApplyCharacterVisuals(speakerId, false);
-                return;
+                ApplyCharacterVisuals(opponentId, true);
             }
 
-            ApplyCharacterVisuals(speakerId, true);
+            ApplyCharacterVisuals(protagonistId, false);
+
+            ShowRoot();
+            
+            ShowRoot();
         }
 
         private void ApplyCharacterVisuals(string characterId, bool isLeftCharacter)
@@ -107,8 +114,8 @@ namespace ChainSawLeg.Features.Dialogue
 
             if (backdrop != null)
             {
-                backdrop.color = config.backdropColor;
-                backdrop.enabled = true;
+                backdrop.sprite = config.backdropSprite;
+                backdrop.enabled = config.backdropSprite != null;
             }
 
             if (portrait != null)
@@ -160,8 +167,6 @@ namespace ChainSawLeg.Features.Dialogue
                 Hide();
                 return;
             }
-            
-            UpdateSpeakersVisuals(node.Speaker);
 
             if (node.Type == DialogueNodeType.Line)
             {
@@ -360,6 +365,25 @@ namespace ChainSawLeg.Features.Dialogue
 
             choiceId = choice.Id;
             return true;
+        }
+        
+        private string FindConversationPartner(Dialogue dialogue)
+        {
+            if (dialogue == null)
+                return null;
+
+            foreach (DialogueNode node in dialogue.Nodes.Values)
+            {
+                if (node == null || string.IsNullOrWhiteSpace(node.Speaker))
+                    continue;
+
+                if (node.Speaker == protagonistId)
+                    continue;
+
+                return node.Speaker;
+            }
+
+            return null;
         }
     }
 }

@@ -135,7 +135,7 @@ namespace ChainSawLeg.Features.Dialogue
         
         private void OnDialogueStarted(Dialogue dialogue)
         {
-            dialogueUI.BeginDialogue();
+            dialogueUI.BeginDialogue(dialogue);
         }
     }
 }
