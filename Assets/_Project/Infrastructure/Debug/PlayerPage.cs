@@ -3,9 +3,9 @@ using UnityDebugSheet;
 using System.Collections;
 using ChainSawLeg.Features.Exploration;
 
-public sealed class BaseDebugPage : DefaultDebugPageBase
+public sealed class PlayerPage : DefaultDebugPageBase
 {
-    protected override string Title { get; } = "Debug Page";
+    protected override string Title { get; } = "Player settings";
     private Transform playerTransform;
     private PlayerKick playerKick;
 
