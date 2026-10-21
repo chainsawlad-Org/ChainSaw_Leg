@@ -1,6 +1,7 @@
+using ChainSawLeg.Core.SaveSystem;
 using UnityEngine;
 
-namespace ChainSawLeg.Core.SaveSystem
+namespace ChainSawLeg.Infrastructure
 {
     public sealed class UnityGameSaveRuntimeMetadataProvider : IGameSaveRuntimeMetadataProvider
     {

@@ -1,4 +1,5 @@
 using ChainSawLeg.Core.SaveSystem;
+using ChainSawLeg.Game.Shared;
 
 namespace ChainSawLeg.Features.Exploration.Save
 {
@@ -18,8 +19,7 @@ namespace ChainSawLeg.Features.Exploration.Save
             {
                 string loadedScene = sceneLoader?.LoadedGameplayScene;
 
-                if (loadedScene == SceneNames.World ||
-                    loadedScene == SceneNames.WorldOld)
+                if (loadedScene == SceneNames.World)
                     return loadedScene;
 
                 return sceneId;

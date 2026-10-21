@@ -1,3 +1,4 @@
+using ChainSawLeg.Application;
 using ChainSawLeg.Core.SaveSystem;
 using ChainSawLeg.Game.Shared;
 using ChainSawLeg.Infrastructure;
@@ -34,8 +35,8 @@ namespace ChainSawLeg.Composition
                 .AsSingle();
             Container.BindInterfacesAndSelfTo<MainMenuStartCommandService>()
                 .AsSingle();
-            Container.BindInterfacesAndSelfTo<BattleSceneTransitionService>()
-                .AsSingle();
+            // Container.BindInterfacesAndSelfTo<BattleSceneTransitionService>()
+            //     .AsSingle();
             Container.Bind<BattleSessionService>()
                 .AsSingle();
             Container.BindInterfacesAndSelfTo<MainMenuSaveBrowserRequestBroker>()

@@ -1,4 +1,5 @@
 using System;
+using ChainSawLeg.Game.Shared;
 using Cysharp.Threading.Tasks;
 
 namespace ChainSawLeg.Application
@@ -27,11 +28,11 @@ namespace ChainSawLeg.Application
         }
     }
 
-    public sealed class WorldOldExplorationPhase : ExplorationPhase
-    {
-        protected override string SceneName => SceneNames.WorldOld;
-
-        public WorldOldExplorationPhase(ISceneLoader sceneLoader) : base(sceneLoader)
-        { }
-    }
+    // public sealed class WorldOldExplorationPhase : ExplorationPhase
+    // {
+    //     protected override string SceneName => SceneNames.WorldOld;
+    //
+    //     public WorldOldExplorationPhase(ISceneLoader sceneLoader) : base(sceneLoader)
+    //     { }
+    // }
 }

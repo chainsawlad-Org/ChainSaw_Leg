@@ -1,3 +1,5 @@
+using ChainSawLeg.Game.Shared;
+
 namespace ChainSawLeg.Application
 {
     public class MainMenuPhase : SceneGamePhase

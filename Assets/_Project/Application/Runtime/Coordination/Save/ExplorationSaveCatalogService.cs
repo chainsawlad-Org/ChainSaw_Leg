@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using ChainSawLeg.Core.SaveSystem;
+using ChainSawLeg.Game.Shared;
 using Cysharp.Threading.Tasks;
 
 namespace ChainSawLeg.Features.Exploration.Save

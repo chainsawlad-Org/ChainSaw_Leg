@@ -1,4 +1,5 @@
 using ChainSawLeg.Application;
+using ChainSawLeg.Game.Shared;
 using Zenject;
 
 namespace ChainSawLeg.Composition
@@ -16,7 +17,6 @@ namespace ChainSawLeg.Composition
         {
             registry.Register<MainMenuPhase>(SceneNames.MainMenu);
             registry.Register<ExplorationPhase>(SceneNames.World);
-            registry.Register<BattlePhase>(SceneNames.Battle);
         }
     }
 }
