@@ -50,7 +50,14 @@ public sealed class MainMenuStartCommandService : IDisposable
     {
         try
         {
-            await gameStateMachine.ReplaceMainAsync<ExplorationPhase>(cancellationToken);
+            // await gameStateMachine.ReplaceMainAsync<IntroPhase>(
+            //     cancellationToken);
+            
+            cancellationToken.ThrowIfCancellationRequested();
+
+            // 2. После завершения интро переходим в игровой мир.
+            await gameStateMachine.ReplaceMainAsync<ExplorationPhase>(
+                cancellationToken);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {

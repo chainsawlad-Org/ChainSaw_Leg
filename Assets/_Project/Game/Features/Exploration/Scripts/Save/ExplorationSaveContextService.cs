@@ -1,4 +1,5 @@
 using ChainSawLeg.Core.SaveSystem;
+using ChainSawLeg.Game.Shared;
 
 namespace ChainSawLeg.Features.Exploration.Save
 {
