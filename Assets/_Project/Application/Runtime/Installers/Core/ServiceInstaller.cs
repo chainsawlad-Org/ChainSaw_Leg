@@ -34,8 +34,8 @@ namespace ChainSawLeg.Composition
                 .AsSingle();
             Container.BindInterfacesAndSelfTo<MainMenuStartCommandService>()
                 .AsSingle();
-            Container.BindInterfacesAndSelfTo<BattleSceneTransitionService>()
-                .AsSingle();
+            // Container.BindInterfacesAndSelfTo<BattleSceneTransitionService>()
+            //     .AsSingle();
             Container.Bind<BattleSessionService>()
                 .AsSingle();
             Container.BindInterfacesAndSelfTo<MainMenuSaveBrowserRequestBroker>()

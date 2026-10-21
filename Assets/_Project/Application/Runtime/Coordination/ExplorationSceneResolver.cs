@@ -7,14 +7,10 @@ public static class ExplorationSceneResolver
     public static string ResolveSceneName(string sceneId)
     {
         ExplorationSceneIds.Validate(sceneId);
-
-        if (sceneId == ExplorationSceneIds.World)
-            return SceneNames.WorldOld;
-
+        
         if (!sceneId.StartsWith("SC_", StringComparison.Ordinal) ||
             sceneId == SceneNames.Persistent ||
-            sceneId == SceneNames.MainMenu ||
-            sceneId == SceneNames.Battle)
+            sceneId == SceneNames.MainMenu)
             throw new GameSaveValidationException($"Unknown exploration scene ID: {sceneId}.");
 
         return sceneId;

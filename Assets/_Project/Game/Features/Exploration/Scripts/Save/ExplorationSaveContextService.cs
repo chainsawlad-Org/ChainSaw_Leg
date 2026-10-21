@@ -18,8 +18,7 @@ namespace ChainSawLeg.Features.Exploration.Save
             {
                 string loadedScene = sceneLoader?.LoadedGameplayScene;
 
-                if (loadedScene == SceneNames.World ||
-                    loadedScene == SceneNames.WorldOld)
+                if (loadedScene == SceneNames.World)
                     return loadedScene;
 
                 return sceneId;
