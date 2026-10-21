@@ -55,6 +55,9 @@ namespace ChainSawLeg.Composition
             
             Container.Bind<DialogueViewRegistry>()
                 .AsSingle();
+            
+            Container.Bind<IntroSequenceService>()
+                .AsSingle();
         }
     }
 }
