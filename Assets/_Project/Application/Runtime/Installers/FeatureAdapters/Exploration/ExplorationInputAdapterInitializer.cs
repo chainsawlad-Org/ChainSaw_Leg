@@ -1,21 +1,24 @@
 using ChainSawLeg.Game.Shared;
 using Zenject;
 
-public sealed class ExplorationInputAdapterInitializer : IInitializable
+namespace ChainSawLeg.Composition
 {
-    private readonly PlayerInputHandler inputHandler;
-    private readonly IGameInputService inputService;
-
-    public ExplorationInputAdapterInitializer(
-        PlayerInputHandler inputHandler,
-        IGameInputService inputService)
+    public sealed class ExplorationInputAdapterInitializer : IInitializable
     {
-        this.inputHandler = inputHandler;
-        this.inputService = inputService;
-    }
+        private readonly PlayerInputHandler inputHandler;
+        private readonly IGameInputService inputService;
 
-    public void Initialize()
-    {
-        inputHandler.Initialize(inputService);
+        public ExplorationInputAdapterInitializer(
+            PlayerInputHandler inputHandler,
+            IGameInputService inputService)
+        {
+            this.inputHandler = inputHandler;
+            this.inputService = inputService;
+        }
+
+        public void Initialize()
+        {
+            inputHandler.Initialize(inputService);
+        }
     }
 }

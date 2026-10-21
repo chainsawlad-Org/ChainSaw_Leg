@@ -1,3 +1,5 @@
+using ChainSawLeg.Application;
+using ChainSawLeg.Infrastructure;
 using NUnit.Framework;
 using Zenject;
 

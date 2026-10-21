@@ -1,14 +1,18 @@
+using ChainSawLeg.UI;
 using Zenject;
 
-public class MainMenuInstaller : MonoInstaller
+namespace ChainSawLeg.Composition
 {
-    public override void InstallBindings()
+    public class MainMenuInstaller : MonoInstaller
     {
-        Container.Bind<MainMenuUI>()
-            .FromComponentInHierarchy()
-            .AsSingle();
-        Container.BindInterfacesTo<MainMenuCoordinator>()
-            .AsSingle()
-            .NonLazy();
+        public override void InstallBindings()
+        {
+            Container.Bind<MainMenuUI>()
+                .FromComponentInHierarchy()
+                .AsSingle();
+            Container.BindInterfacesTo<MainMenuCoordinator>()
+                .AsSingle()
+                .NonLazy();
+        }
     }
 }

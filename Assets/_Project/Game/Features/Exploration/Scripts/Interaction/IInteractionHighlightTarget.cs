@@ -1,4 +1,7 @@
-public interface IInteractionHighlightTarget
+namespace ChainSawLeg.Features.Exploration
 {
-    void SetHighlighted(bool isHighlighted);
+    public interface IInteractionHighlightTarget
+    {
+        void SetHighlighted(bool isHighlighted);
+    }
 }

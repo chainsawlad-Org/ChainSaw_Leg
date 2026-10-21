@@ -1,11 +1,14 @@
-public sealed class UnityApplicationQuitService : IApplicationQuitService
+namespace ChainSawLeg.Infrastructure
 {
-    public void Quit()
+    public sealed class UnityApplicationQuitService : IApplicationQuitService
     {
+        public void Quit()
+        {
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
+            UnityEditor.EditorApplication.isPlaying = false;
 #else
         UnityEngine.Application.Quit();
 #endif
+        }
     }
 }

@@ -1,7 +1,10 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
-public interface IBootstrapRunner
+namespace ChainSawLeg.Application
 {
-    UniTask Run(CancellationToken cancellationToken);
+    public interface IBootstrapRunner
+    {
+        UniTask Run(CancellationToken cancellationToken);
+    }
 }

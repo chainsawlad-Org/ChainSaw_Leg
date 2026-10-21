@@ -16,7 +16,6 @@ namespace ChainSawLeg.Composition
         [SerializeField] private ExplorationPlayerStateAdapter playerStateAdapter;
         [SerializeField] private PlayerMovement playerMovement;
         [SerializeField] private DialogueInputRouter dialogueInputRouter;
-        [SerializeField] private DialogueUI_RPG dialogueUI;
         [SerializeField] private ExplorationCheckpointTrigger[] checkpointTriggers;
         [SerializeField] private EnemyFlySpawner enemyFlySpawner;
         [SerializeField] private GarbageTrigger garbageTrigger;
@@ -42,16 +41,6 @@ namespace ChainSawLeg.Composition
 
             Container.Bind<DialogueInputRouter>()
                 .FromInstance(dialogueInputRouter)
-                .AsSingle();
-
-            if (dialogueUI == null)
-            {
-                throw new InvalidOperationException(
-                    "World dialogue UI is not assigned.");
-            }
-
-            Container.Bind<DialogueUI_RPG>()
-                .FromInstance(dialogueUI)
                 .AsSingle();
 
             if (playerMovement == null)

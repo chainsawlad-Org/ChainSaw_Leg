@@ -1,31 +1,33 @@
-using ChainSawLeg.Features.Exploration;
 using UnityEngine;
 using Zenject;
 
-public class Door : MonoBehaviour, IInteractable
+namespace ChainSawLeg.Features.Exploration
 {
-    [SerializeField] private RoomManager nextRoom;
-    [SerializeField] private RoomManager prevRoom;
-    [SerializeField] private Vector2 nextPlayerOffset;
-    private PlayerMovement playerMovement;
-    
-    [Inject]
-    public void Construct(PlayerMovement playerMovement)
+    public class Door : MonoBehaviour, IInteractable
     {
-        this.playerMovement = playerMovement;
-    }
+        [SerializeField] private RoomManager nextRoom;
+        [SerializeField] private RoomManager prevRoom;
+        [SerializeField] private Vector2 nextPlayerOffset;
+        private PlayerMovement playerMovement;
     
-    public string GetInteractionPrompt() => "Press [E] to talk";
+        [Inject]
+        public void Construct(PlayerMovement playerMovement)
+        {
+            this.playerMovement = playerMovement;
+        }
+    
+        public string GetInteractionPrompt() => "Press [E] to talk";
 
-    public bool CanInteract() => true;
+        public bool CanInteract() => true;
 
-    public void Interact()
-    {
-        if (!CanInteract())
-            return;
+        public void Interact()
+        {
+            if (!CanInteract())
+                return;
 
-        Vector2 nextPlayerPosition = transform.position + (Vector3)nextPlayerOffset;
-        prevRoom.CloseRoom(nextRoom, () => nextRoom.OpenRoom(), nextPlayerPosition);
-        playerMovement.TransitToPosition(nextPlayerPosition, nextRoom.transitionDuration);
+            Vector2 nextPlayerPosition = transform.position + (Vector3)nextPlayerOffset;
+            prevRoom.CloseRoom(nextRoom, () => nextRoom.OpenRoom(), nextPlayerPosition);
+            playerMovement.TransitToPosition(nextPlayerPosition, nextRoom.transitionDuration);
+        }
     }
 }

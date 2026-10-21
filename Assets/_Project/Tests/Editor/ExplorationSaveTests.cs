@@ -1,5 +1,6 @@
 using ChainSawLeg.Core.SaveSystem;
 using ChainSawLeg.Features.Exploration.Save;
+using ChainSawLeg.Infrastructure;
 using NUnit.Framework;
 
 public sealed class ExplorationSaveTests

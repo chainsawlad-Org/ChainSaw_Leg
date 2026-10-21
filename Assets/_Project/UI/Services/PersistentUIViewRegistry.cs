@@ -1,19 +1,22 @@
 using UnityEngine;
 
-public sealed class PersistentUIViewRegistry
+namespace ChainSawLeg.UI
 {
-    public PersistentUIViewRegistry(Transform uiRoot, int checkpointSlotCount)
+    public sealed class PersistentUIViewRegistry
     {
-        PauseMenuView = PauseMenuViewFactory.BuildPauseMenuView(
-            uiRoot,
-            out SaveBrowserView saveBrowserView);
-        SaveBrowserView = saveBrowserView;
-        CheckpointSaveMenuView = CheckpointSaveMenuViewFactory.BuildCheckpointSaveMenuView(
-            uiRoot,
-            checkpointSlotCount);
-    }
+        public PersistentUIViewRegistry(Transform uiRoot, int checkpointSlotCount)
+        {
+            PauseMenuView = PauseMenuViewFactory.BuildPauseMenuView(
+                uiRoot,
+                out SaveBrowserView saveBrowserView);
+            SaveBrowserView = saveBrowserView;
+            CheckpointSaveMenuView = CheckpointSaveMenuViewFactory.BuildCheckpointSaveMenuView(
+                uiRoot,
+                checkpointSlotCount);
+        }
 
-    public PauseMenuView PauseMenuView { get; }
-    public SaveBrowserView SaveBrowserView { get; }
-    public CheckpointSaveMenuView CheckpointSaveMenuView { get; }
+        public PauseMenuView PauseMenuView { get; }
+        public SaveBrowserView SaveBrowserView { get; }
+        public CheckpointSaveMenuView CheckpointSaveMenuView { get; }
+    }
 }
