@@ -20,7 +20,7 @@ namespace ChainSawLeg.Application
             return EnterAsync(CancellationToken.None);
         }
 
-        public async UniTask EnterAsync(CancellationToken cancellationToken)
+        public virtual async UniTask EnterAsync(CancellationToken cancellationToken)
         {
             await sceneLoader.SwitchToAsync(SceneName, cancellationToken);
         }
