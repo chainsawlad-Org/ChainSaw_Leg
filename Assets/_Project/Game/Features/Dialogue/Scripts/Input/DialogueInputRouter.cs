@@ -105,6 +105,15 @@ namespace ChainSawLeg.Features.Dialogue
                 return;
 
             inputService.ConsumeSubmit();
+            
+            if (dialogueUI.IsTyping)
+            {
+                dialogueUI.CompleteTyping();
+                return;
+            }
+            
+            if (dialogueUI.IsAnimatingBlocks)
+                return;
 
             switch (dialogueRunner.State)
             {
