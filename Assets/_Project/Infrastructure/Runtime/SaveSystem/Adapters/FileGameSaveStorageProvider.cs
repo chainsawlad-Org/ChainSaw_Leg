@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using ChainSawLeg.Core.SaveSystem;
+using ChainSawLeg.Game.Shared;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace ChainSawLeg.Core.SaveSystem
+namespace ChainSawLeg.Infrastructure
 {
     public sealed class FileGameSaveStorageProvider : IGameSaveStorageProvider
     {

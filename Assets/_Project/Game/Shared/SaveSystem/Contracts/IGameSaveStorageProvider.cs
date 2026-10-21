@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Threading;
+using ChainSawLeg.Core.SaveSystem;
 using Cysharp.Threading.Tasks;
 
-namespace ChainSawLeg.Core.SaveSystem
+namespace ChainSawLeg.Game.Shared
 {
     public interface IGameSaveStorageProvider
     {

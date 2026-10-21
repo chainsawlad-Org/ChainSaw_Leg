@@ -1,6 +1,7 @@
 using System;
 using ChainSawLeg.Core.SaveSystem;
 using ChainSawLeg.Features.Exploration.Save;
+using ChainSawLeg.Game.Shared;
 
 public static class ExplorationSceneResolver
 {

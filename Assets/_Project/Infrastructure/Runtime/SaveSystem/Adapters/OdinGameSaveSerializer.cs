@@ -1,7 +1,8 @@
 using System;
+using ChainSawLeg.Core.SaveSystem;
 using OdinSerializer;
 
-namespace ChainSawLeg.Core.SaveSystem
+namespace ChainSawLeg.Infrastructure
 {
     public sealed class OdinGameSaveSerializer : IGameSaveSerializer
     {
