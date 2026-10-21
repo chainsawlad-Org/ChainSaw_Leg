@@ -4,6 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using ChainSawLeg.Core.SaveSystem;
 using ChainSawLeg.Features.Exploration.Save;
+using ChainSawLeg.Game.Shared;
+using ChainSawLeg.Infrastructure;
 using Cysharp.Threading.Tasks;
 using NUnit.Framework;
 
