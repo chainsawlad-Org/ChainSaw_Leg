@@ -62,8 +62,8 @@ namespace ChainSawLeg.Composition
                 .AsSingle();
 
             Container.Bind<PlayerInputHandler>()
-                .FromComponentInHierarchy()
-                .AsSingle();
+                .FromComponentsInHierarchy()
+                .AsCached();
 
             Container.BindInterfacesTo<ExplorationInputAdapterInitializer>()
                 .AsSingle()

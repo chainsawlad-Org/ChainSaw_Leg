@@ -1,20 +1,24 @@
+using System.Collections.Generic;
 using Zenject;
 
 public sealed class ExplorationInputAdapterInitializer : IInitializable
 {
-    private readonly PlayerInputHandler inputHandler;
+    private readonly List<PlayerInputHandler> inputHandlers;
     private readonly IGameInputService inputService;
 
     public ExplorationInputAdapterInitializer(
-        PlayerInputHandler inputHandler,
+        List<PlayerInputHandler> inputHandlers,
         IGameInputService inputService)
     {
-        this.inputHandler = inputHandler;
+        this.inputHandlers = inputHandlers;
         this.inputService = inputService;
     }
 
     public void Initialize()
     {
-        inputHandler.Initialize(inputService);
+        foreach (var handler in inputHandlers)
+        {
+            handler.Initialize(inputService);
+        }
     }
 }
