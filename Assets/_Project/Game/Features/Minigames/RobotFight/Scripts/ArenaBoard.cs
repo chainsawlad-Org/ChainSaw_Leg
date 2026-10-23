@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using ChainSawLeg.Features.Exploration;
 using UnityEngine;
 
@@ -25,6 +26,36 @@ namespace ChainSawLeg.Features.Minigames
                 {
                     Vector2 cellPosition = transform.position + new Vector3(x * cellSize.x, y * cellSize.y, 0);
                     ArenaCell cell = Instantiate(cellPrefab, cellPosition, Quaternion.identity);
+                    cell.DoSpawnAnimation();
+                    cells.Add(new Vector2Int(x, y), cell);
+                }
+            }
+        }
+
+        public void TestExpandArena()
+        {
+            currentPlayerCell = Vector2Int.zero;
+            controller.Relocate(GetCellPosition(Vector2Int.zero), 0.5f);
+            Vector2Int oldBoardSize = boardSize;
+            boardSize = new Vector2Int(9, 3);
+
+            foreach (var cell in cells.ToArray())
+            {
+                if (cell.Key.y > boardSize.y - 1)
+                {
+                    cells[cell.Key].DoDespawnAnimation();
+                    Destroy(cells[cell.Key].gameObject, 5f);
+                    cells.Remove(cell.Key);
+                }
+            }
+            
+            for (int x = oldBoardSize.x; x < boardSize.x; x++)
+            {
+                for (int y = 0; y < boardSize.y; y++)
+                {
+                    Vector2 cellPosition = transform.position + new Vector3(x * cellSize.x, y * cellSize.y, 0);
+                    ArenaCell cell = Instantiate(cellPrefab, cellPosition, Quaternion.identity);
+                    cell.DoSpawnAnimation();
                     cells.Add(new Vector2Int(x, y), cell);
                 }
             }
@@ -73,7 +104,13 @@ namespace ChainSawLeg.Features.Minigames
         {
             if (!cells.ContainsKey(cell)) return false;
             return cells[cell].inDefaultState;
-        } 
+        }
+
+        public bool CellIsBeated(Vector2Int cell)
+        {
+            if (currentPlayerCell == cell && Time.time - controller.lastKickTime < 0.25f) return true;
+            return false;
+        }
 
         private bool TryGetNextCell(MoveDirection direction, out Vector2Int newCell)
         {

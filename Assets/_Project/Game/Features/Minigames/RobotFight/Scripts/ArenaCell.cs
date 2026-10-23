@@ -16,6 +16,24 @@ namespace ChainSawLeg.Features.Minigames
         
         public bool inDefaultState {get; private set;} = true;
 
+        public void DoSpawnAnimation()
+        {
+            Color transparent = lineSprites[0].color;
+            transparent.a = 0;
+            
+            foreach (var sprite in lineSprites)
+                DOVirtual.Color(transparent, defaultColor, recolorTime, onVirtualUpdate: x => sprite.color = x);
+        }
+
+        public void DoDespawnAnimation()
+        {
+            Color transparent = lineSprites[0].color;
+            transparent.a = 0;
+            
+            foreach (var sprite in lineSprites)
+                DOVirtual.Color(sprite.color, transparent, recolorTime, onVirtualUpdate: x => sprite.color = x);
+        }
+
         public void SetDefaultCell()
         {
             Color transparent = stripeSprite.color;

@@ -20415,7 +20415,7 @@ Transform:
   m_GameObject: {fileID: 582749044}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26.71, y: -99.59144, z: 0}
+  m_LocalPosition: {x: 17.46, y: -99.59144, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22040,7 +22040,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.RobotFightController
   health: 100
-  delayBetweenMoves: 0.2
+  delayBetweenMoves: 0.15
+  delayBetweenKicks: 0.5
+  stunDuration: 0.75
   mistySprite: {fileID: 687754511}
   arenaBoard: {fileID: 872049813}
   defaultSprite: {fileID: -118075199013514713, guid: bf84a4875304c5a4fb094efc44dac0dc, type: 3}
@@ -26092,7 +26094,7 @@ Transform:
   m_GameObject: {fileID: 872049812}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 40.19503, y: -97.42394, z: 0}
+  m_LocalPosition: {x: 25, y: -100, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -26112,7 +26114,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.AttackManager
   arenaBoard: {fileID: 872049813}
   itemPrefab: {fileID: 5101023493941496097, guid: 3cf5966f0a45e3f4497b3565c5156180, type: 3}
+  twoBlocksPrefab: {fileID: 1963574427008930072, guid: 003d76727707b44449631ee07e946888, type: 3}
+  fourBlockPrefab: {fileID: 4478655368105436344, guid: 4cc81e85f0426c44087858b71b78f52f, type: 3}
+  beatableBlockPrefab: {fileID: 2662142526475422866, guid: 3ad75e2a30e2c614b915a98c8476384e, type: 3}
   itemSpawnPoint: {fileID: 582749045}
+  attackConfig: {fileID: 11400000, guid: 161d5625f253e8741901ba12614aa922, type: 2}
+  secondAttackConfig: {fileID: 11400000, guid: 09157f788b86b9d4c863d2164f8fb963, type: 2}
 --- !u!1 &873733988
 GameObject:
   m_ObjectHideFlags: 0
@@ -48700,6 +48707,53 @@ MonoBehaviour:
   setAnotherBelowSprite: 0
   spriteBelow: {fileID: 0}
   drawGizmos: 0
+--- !u!1 &1395201661
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1395201663}
+  - component: {fileID: 1395201662}
+  m_Layer: 0
+  m_Name: RobotAttackDebug
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1395201662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395201661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0552f9747c7aa71429fc6196ef441ca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.DebugRobotAttack
+  time: 4
+  boardSize: {x: 9, y: 3}
+  config: {fileID: 11400000, guid: 09157f788b86b9d4c863d2164f8fb963, type: 2}
+--- !u!4 &1395201663
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395201661}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 25, y: -100, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1400125546
 GameObject:
   m_ObjectHideFlags: 0
@@ -70319,3 +70373,4 @@ SceneRoots:
   - {fileID: 687754512}
   - {fileID: 872049814}
   - {fileID: 582749045}
+  - {fileID: 1395201663}
