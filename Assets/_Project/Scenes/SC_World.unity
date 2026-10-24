@@ -20415,7 +20415,7 @@ Transform:
   m_GameObject: {fileID: 582749044}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.46, y: -99.59144, z: 0}
+  m_LocalPosition: {x: 33.6, y: -44.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22129,7 +22129,7 @@ Transform:
   m_GameObject: {fileID: 687754508}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 40, y: -99, z: 0}
+  m_LocalPosition: {x: 40.59, y: -45.23, z: 0}
   m_LocalScale: {x: 1.64, y: 1.64, z: 1.64}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -26084,7 +26084,7 @@ MonoBehaviour:
   cameraFlow: {fileID: 878292290}
   cellPrefab: {fileID: -5193467853437757741, guid: 10a6d5675c0ff35468674ac7034d2841, type: 3}
   cellSize: {x: 6, y: 5}
-  boardSize: {x: 4, y: 4}
+  boardSize: {x: 25, y: 3}
 --- !u!4 &872049814
 Transform:
   m_ObjectHideFlags: 0
@@ -26094,7 +26094,7 @@ Transform:
   m_GameObject: {fileID: 872049812}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 25, y: -100, z: 0}
+  m_LocalPosition: {x: 45, y: -50, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -26118,8 +26118,9 @@ MonoBehaviour:
   fourBlockPrefab: {fileID: 4478655368105436344, guid: 4cc81e85f0426c44087858b71b78f52f, type: 3}
   beatableBlockPrefab: {fileID: 2662142526475422866, guid: 3ad75e2a30e2c614b915a98c8476384e, type: 3}
   itemSpawnPoint: {fileID: 582749045}
-  attackConfig: {fileID: 11400000, guid: 161d5625f253e8741901ba12614aa922, type: 2}
+  attackConfig: {fileID: 11400000, guid: 7214d90ca8df6c14b9a7d4aada595d2e, type: 2}
   secondAttackConfig: {fileID: 11400000, guid: 09157f788b86b9d4c863d2164f8fb963, type: 2}
+  itemSpawnInHeaven: 1
 --- !u!1 &873733988
 GameObject:
   m_ObjectHideFlags: 0
@@ -26346,7 +26347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96df1959133254b449fe62210578fcba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::CameraFlow
-  player: {fileID: 1157121962}
+  player: {fileID: 687754512}
   camera: {fileID: 519420031}
   smoothSpeed: 0.125
   offset: {x: 0, y: 0, z: -1}
@@ -48736,9 +48737,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0552f9747c7aa71429fc6196ef441ca2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.DebugRobotAttack
-  time: 4
-  boardSize: {x: 9, y: 3}
-  config: {fileID: 11400000, guid: 09157f788b86b9d4c863d2164f8fb963, type: 2}
+  time: 0.63
+  boardSize: {x: 25, y: 3}
+  config: {fileID: 11400000, guid: 7214d90ca8df6c14b9a7d4aada595d2e, type: 2}
 --- !u!4 &1395201663
 Transform:
   m_ObjectHideFlags: 0
@@ -48748,7 +48749,7 @@ Transform:
   m_GameObject: {fileID: 1395201661}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 25, y: -100, z: 0}
+  m_LocalPosition: {x: 45, y: -50, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -70372,5 +70373,5 @@ SceneRoots:
   - {fileID: 976843179}
   - {fileID: 687754512}
   - {fileID: 872049814}
-  - {fileID: 582749045}
   - {fileID: 1395201663}
+  - {fileID: 582749045}

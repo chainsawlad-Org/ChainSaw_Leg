@@ -14,14 +14,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.RobotAttackConfig
   attackList:
   - time: 1
-    attackType: 3
-    position: {x: 0, y: 2}
-  - time: 2
-    attackType: 3
+    attackType: 0
     position: {x: 1, y: 1}
+  - time: 2
+    attackType: 1
+    position: {x: 1, y: 2}
   - time: 3
-    attackType: 3
+    attackType: 4
     position: {x: 2, y: 2}
   - time: 4
-    attackType: 3
+    attackType: 2
     position: {x: 1, y: 0}
+  - time: 5
+    attackType: 1
+    position: {x: 1, y: 3}
+  - time: 6
+    attackType: 4
+    position: {x: 1, y: 3}
+  - time: 7
+    attackType: 4
+    position: {x: 1, y: 3}
+  - time: 8
+    attackType: 4
+    position: {x: 1, y: 3}
+  - time: 9
+    attackType: 4
+    position: {x: 1, y: 3}
+  - time: 9.5
+    attackType: 1
+    position: {x: 0, y: 2}
+  - time: 10
+    attackType: 2
+    position: {x: 1, y: 0}
+  - time: 11
+    attackType: 4
+    position: {x: 1, y: 0}
+  - time: 12
+    attackType: 1
+    position: {x: 1, y: 3}
+  - time: 12.5
+    attackType: 2
+    position: {x: 0, y: 0}
+  - time: 13
+    attackType: 2
+    position: {x: 2, y: 1}
+  - time: 14
+    attackType: 4
+    position: {x: 2, y: 1}
+  - time: 15
+    attackType: 4
+    position: {x: 2, y: 1}
