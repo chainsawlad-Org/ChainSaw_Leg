@@ -29,12 +29,6 @@ namespace ChainSawLeg.Features.Minigames
             inputHandler = GetComponent<PlayerInputHandler>();
         }
 
-        private void Start()
-        {
-            arenaBoard.TryMove(Vector2.up, out Vector2 newPosition);
-            transform.position = newPosition;
-        }
-
         public void ApplyDamage(int damage)
         {
             health -= damage;

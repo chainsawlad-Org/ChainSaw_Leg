@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -15,6 +16,16 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField] private Material beatableMaterial;
         
         public bool inDefaultState {get; private set;} = true;
+
+        private void Start()
+        {
+            foreach (var line in lineSprites)
+            {
+                Color transparent = line.color;
+                transparent.a = 0;
+                line.color = transparent;
+            }
+        }
 
         public void DoSpawnAnimation()
         {

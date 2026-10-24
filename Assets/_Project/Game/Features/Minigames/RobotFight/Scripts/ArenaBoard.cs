@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ChainSawLeg.Features.Exploration;
@@ -9,6 +10,7 @@ namespace ChainSawLeg.Features.Minigames
     {
         [SerializeField] private RobotFightController controller;
         [SerializeField] private CameraFlow cameraFlow;
+        [SerializeField] private Transform cameraPoint;
         [SerializeField] private ArenaCell cellPrefab;
         [SerializeField] private Vector2 cellSize;
         [SerializeField] private Vector2Int boardSize;
@@ -16,9 +18,9 @@ namespace ChainSawLeg.Features.Minigames
         private enum MoveDirection { Up, Down, Left, Right }
         
         private Dictionary<Vector2Int, ArenaCell> cells = new Dictionary<Vector2Int, ArenaCell>();
-        public Vector2Int currentPlayerCell { get; private set; }
-        
-        private void Awake()
+        public Vector2Int currentPlayerCell { get; private set; } = Vector2Int.one;
+
+        private void Start()
         {
             for (int x = 0; x < boardSize.x; x++)
             {
@@ -26,10 +28,19 @@ namespace ChainSawLeg.Features.Minigames
                 {
                     Vector2 cellPosition = transform.position + new Vector3(x * cellSize.x, y * cellSize.y, 0);
                     ArenaCell cell = Instantiate(cellPrefab, cellPosition, Quaternion.identity);
-                    cell.DoSpawnAnimation();
                     cells.Add(new Vector2Int(x, y), cell);
                 }
             }
+        }
+
+        public void EnablePlayer()
+        {
+            foreach (var cell in cells.Values)
+            {
+                cell.DoSpawnAnimation();
+            }
+            controller.gameObject.SetActive(true);
+            cameraFlow.player = cameraPoint;
         }
 
         public void TestExpandArena()

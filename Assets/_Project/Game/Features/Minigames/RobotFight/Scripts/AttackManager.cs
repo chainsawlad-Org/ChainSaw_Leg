@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -12,35 +14,59 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField] private GameObject fourBlockPrefab;
         [SerializeField] private GameObject beatableBlockPrefab;
         [SerializeField] private Transform itemSpawnPoint;
-        [SerializeField] private RobotAttackConfig attackConfig;
-        [SerializeField] private RobotAttackConfig secondAttackConfig;
+        [SerializeField] private PlayerMovement player;
+        [SerializeField] private RobotAttackConfig[] attackConfigs;
 
         private float itemFlyDuration = 1f;
         private bool itemSpawnInHeaven;
+        private int currentAttackConfig;
+        private Sequence attackSequence;
+        private Coroutine attackCoroutine;
 
-        private void Start()
+        public void ReadyUpPlayer(float stunDuration)
         {
-            StartSequence();
-        }
+            player.StunPlayer();
 
-        private void StartSequence()
-        {
-            Sequence sequence = DOTween.Sequence();
-            foreach (var attack in attackConfig.attackList)
+            DOVirtual.DelayedCall(stunDuration, () =>
             {
-                //sequence.Join(DOVirtual.DelayedCall(attack.time, () => Attack(attack.position, attack.attackType))).SetLoops(-1);
-                sequence.Join(DOVirtual.DelayedCall(attack.time, () => Attack(attack.position, attack.attackType)));
+                DOVirtual.DelayedCall(1f, () => player.UnstunPlayer());
+                player.transform.DOMove(arenaBoard.GetCellPosition(arenaBoard.currentPlayerCell), 1f).SetEase(Ease.Linear);
+            });
+        }
+        
+        public void StartSequence()
+        {
+            player.gameObject.SetActive(false);
+            arenaBoard.EnablePlayer();
+            attackSequence = DOTween.Sequence();
+            
+            foreach (var attack in attackConfigs[currentAttackConfig].attackList)
+            {
+                attackSequence.Join(DOVirtual.DelayedCall(attack.time, () => Attack(attack.position, attack.attackType)));
             }
 
-            sequence.Append(DOVirtual.DelayedCall(1f, () =>
-            {
-                arenaBoard.TestExpandArena();
-                itemSpawnInHeaven = true;
-            }));
+            attackSequence.Append(DOVirtual.DelayedCall(2f, StartNextAttack));
+        }
 
-            foreach (var attack in secondAttackConfig.attackList)
+        IEnumerator LoopedAttack()
+        {
+            while (true)
             {
-                sequence.Join(DOVirtual.DelayedCall(attack.time, () => Attack(attack.position, attack.attackType)));
+                for (int i = 0; i < attackConfigs[currentAttackConfig].attackList.Length; i++)
+                {
+                    RobotAttack attack = attackConfigs[currentAttackConfig].attackList[i];
+                    float time = attack.time;
+                    if (i > 0) time -= attackConfigs[currentAttackConfig].attackList[i - 1].time;
+                    yield return new WaitForSeconds(time);
+
+                    Attack(attack.position, attack.attackType);
+                }
+                // foreach (var attack in attackConfigs[currentAttackConfig].attackList)
+                // {
+                //     DOVirtual.DelayedCall(attack.time, () => Attack(attack.position, attack.attackType));
+                // }
+
+                //yield return new WaitForSeconds(attackConfigs[currentAttackConfig].attackList[^1].time);
             }
         }
 
@@ -68,7 +94,8 @@ namespace ChainSawLeg.Features.Minigames
                 {
                     arenaBoard.TakeDamageToCell(cell, 10);
                     arenaBoard.SetCellDefault(cell);
-                    Destroy(item.gameObject);
+                    item.GetComponent<SpriteRenderer>().enabled = false;
+                    item.GetComponent<ParticleSystem>().Play();
                 });
             }
         }
@@ -105,16 +132,33 @@ namespace ChainSawLeg.Features.Minigames
             {
                 if (arenaBoard.CellIsBeated(targetCell))
                 {
+                    StartNextAttack();
                     item.transform.DOKill();
-                    item.transform.DOMove(itemSpawnPoint.position, 0.75f).SetEase(Ease.Linear)
+                    item.transform.DOMove(itemSpawnPoint.position, 0.2f).SetEase(Ease.Linear)
                         .OnComplete(() => Destroy(item.gameObject));
                 }
                 else
                 {
                     arenaBoard.TakeDamageToCell(targetCell, 10);
-                    Destroy(item.gameObject);
+                    item.GetComponent<SpriteRenderer>().enabled = false;
+                    item.GetComponent<ParticleSystem>().Play();
                 }
                 arenaBoard.SetCellDefault(targetCell);
+            });
+        }
+
+        private void StartNextAttack()
+        {
+            if (currentAttackConfig == 3) return;
+            
+            if(attackCoroutine != null) StopCoroutine(attackCoroutine);
+            currentAttackConfig++;
+            
+            Debug.Log($"STARTING NEXT ATTACK: {currentAttackConfig}");
+
+            DOVirtual.DelayedCall(3f, () =>
+            {
+                attackCoroutine = StartCoroutine(LoopedAttack());
             });
         }
 
