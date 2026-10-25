@@ -106,6 +106,7 @@ namespace ChainSawLeg.Features.Minigames
                     arenaBoard.SetCellDefault(cell);
                     item.GetComponent<SpriteRenderer>().enabled = false;
                     item.GetComponent<ParticleSystem>().Play();
+                    AudioService.Play(AudioId.ItemBreak, 0.03f, Random.Range(0.85f, 1.1f));
                 });
             }
         }
@@ -151,12 +152,14 @@ namespace ChainSawLeg.Features.Minigames
                             Destroy(item.gameObject);
                             robot.OnDamageAnimation(StartNextAttack);
                         });
+                    AudioService.Play(AudioId.AttackHit);
                 }
                 else
                 {
                     arenaBoard.TakeDamageToCell(targetCell, 20);
                     item.GetComponent<SpriteRenderer>().enabled = false;
                     item.GetComponent<ParticleSystem>().Play();
+                    AudioService.Play(AudioId.ItemBreak, 0.03f, Random.Range(0.85f, 1.1f));
                 }
                 arenaBoard.SetCellDefault(targetCell);
             });
@@ -209,6 +212,7 @@ namespace ChainSawLeg.Features.Minigames
 
         private void OnRobotKicked()
         {
+            AudioService.Play(AudioId.AttackHit);
             if (attackCoroutine != null) StopCoroutine(attackCoroutine);
             currentAttackConfig++;
             
@@ -253,6 +257,8 @@ namespace ChainSawLeg.Features.Minigames
                         Color transparent = new Color(1f, 1f, 1f, 0f);
                         DOVirtual.Color(whiteScreen.color, transparent, 1f, onVirtualUpdate: x => whiteScreen.color = x)
                             .SetEase(Ease.Linear);
+
+                        AudioService.Play(AudioId.KidsCheering);
 
                     
                         foreach (var man in happyPeopleObjects)

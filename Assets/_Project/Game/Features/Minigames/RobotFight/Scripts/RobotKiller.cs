@@ -134,6 +134,7 @@ namespace ChainSawLeg.Features.Minigames
                     DOVirtual.DelayedCall(0.5f, () => playerMovement.UnstunPlayer());
                     if (!firstKickWasDone) dudes.Ping();
                     firstKickWasDone = true;
+                    AudioService.Play(AudioId.CartoonHammerHit);
 
                     break;
                 }
@@ -165,16 +166,22 @@ namespace ChainSawLeg.Features.Minigames
         public void Kick(Vector2 force)
         {
             if (currentState != RobotState.Distracted) return;
-            
+
+            AudioService.Play(AudioId.AttackHit);
             attackManager.ReadyUpPlayer(3f);
             currentState = RobotState.Flying;
             Sequence s = DOTween.Sequence();
             spriteRenderer.sprite = sprites[0];
             DOVirtual.DelayedCall(0.5f, () => hologramsObject.SetActive(false));
-            s.Append(transform.DOShakePosition(3f, 0.4f, 100).OnComplete(() => spriteRenderer.sprite = sprites[2]));
+            s.Append(transform.DOShakePosition(3f, 0.4f, 100).OnComplete(() =>
+            {
+                AudioService.Play(AudioId.Jump);
+                spriteRenderer.sprite = sprites[2];
+            }));
             s.Append(transform.DOJump(roofPoint.position, 20f, 1, 1f).SetEase(flyCurve));
             s.OnComplete(() =>
             {
+                AudioService.Play(AudioId.FallToGround);
                 cameraFlow.ShakeEffect(0.4f, 100, 0.5f);
                 DOVirtual.DelayedCall(1f, () =>
                 {
@@ -235,22 +242,29 @@ namespace ChainSawLeg.Features.Minigames
         public void PlayToSecondPhaseAnimation(Vector2 playerPosition, Action onJumped, Action onKicked)
         {
             spriteRenderer.sprite = sprites[2];
+            AudioService.Play(AudioId.Jump);
             transform.DOJump(playerPosition + Vector2.right * 5f, 20f, 1, 1f)
                 .SetEase(flyCurve)
                 .OnComplete(() =>
                 {
+                    AudioService.Play(AudioId.FallToGround);
                     cameraFlow.ShakeEffect(0.3f, 100, 0.5f);
                     spriteRenderer.sprite = sprites[0];
                     onJumped?.Invoke();
                     DOVirtual.DelayedCall(2f, () =>
                     {
-                        ThrowAnimation(() => onKicked?.Invoke(), 1f);
+                        ThrowAnimation(() =>
+                        {
+                            AudioService.Play(AudioId.HeavyHit);
+                            onKicked?.Invoke();
+                        }, 1f);
                     });
                 });
         }
 
         public void Jump(Vector2 position, Action onComplete)
         {
+            AudioService.Play(AudioId.Jump);
             spriteRenderer.sprite = sprites[2];
             transform.DOJump(position, 20f, 1, 1f).OnComplete(() =>
             {

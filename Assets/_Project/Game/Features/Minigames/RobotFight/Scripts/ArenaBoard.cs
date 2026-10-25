@@ -70,6 +70,7 @@ namespace ChainSawLeg.Features.Minigames
             cameraFlow.transform.position = player.transform.position;
             cameraFlow.player = player.transform;
             foreach (var cell in cells.Values) Destroy(cell.gameObject);
+            healthbarTransform.DOMoveX(-100f, 1f);
             cells.Clear();
         }
 
@@ -158,6 +159,7 @@ namespace ChainSawLeg.Features.Minigames
             {
                 if (playerHealth <= 0) return;
                 
+                AudioService.Play(AudioId.DamageTaken);
                 playerHealth -= damage;
                 DOVirtual.Float(healthbarImage.fillAmount, (float)playerHealth / (float)baseHealth, 0.25f, onVirtualUpdate: x => healthbarImage.fillAmount = x);
                 controller.ApplyDamage(damage);

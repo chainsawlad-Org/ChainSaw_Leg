@@ -15,6 +15,24 @@ MonoBehaviour:
   sourceFolder: Assets/_Project/Content/Audio/SFX
   mixerGroup: {fileID: -5311093583491653434, guid: 659cb832129a33b4cab0a3101be6476e, type: 2}
   clips:
+  - {fileID: 8300000, guid: f33a277719d73ad4dbffd0fbd619505a, type: 3}
+  - {fileID: 8300000, guid: 063493d8cfa11e54998699951e99e0e8, type: 3}
+  - {fileID: 8300000, guid: 7a8ac3c100e54e640b7145b1ee84720d, type: 3}
+  - {fileID: 8300000, guid: d17ba0390c163124c98e0e545623ad73, type: 3}
+  - {fileID: 8300000, guid: 3ae9c8bb0a3998441bc6170a287426f0, type: 3}
+  - {fileID: 8300000, guid: ec848eff47d5c6640a455fa5db8af348, type: 3}
+  - {fileID: 8300000, guid: ff9836d081ca967438a616955067e2ff, type: 3}
+  - {fileID: 8300000, guid: 42c30e822dac6a44aab35f0e78160df0, type: 3}
   - {fileID: 8300000, guid: 71edabb3da038ae419771b2d5d11d408, type: 3}
+  - {fileID: 8300000, guid: ee866332193465f479f18a8bdfa77363, type: 3}
   clipNames:
+  - AttackHit
+  - CartoonHammerHit
+  - DamageTaken
+  - FallToGround
+  - HeavyHit
+  - ItemBreak
+  - Jump
+  - KidsCheering
   - muhehehe
+  - Swing

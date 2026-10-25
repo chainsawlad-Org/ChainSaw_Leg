@@ -2,6 +2,7 @@ using System;
 using ChainSawLeg.Features.Exploration;
 using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace ChainSawLeg.Features.Minigames
 {
@@ -80,6 +81,7 @@ namespace ChainSawLeg.Features.Minigames
             if (arenaBoard.TryMove(input, out Vector2 newPosition))
             {
                 transform.DOMove(newPosition, 0.15f);
+                AudioService.Play(AudioId.Swing, 0.05f, Random.Range(0.85f, 1.15f));
                 
                 if (input.x != 0f)
                 {
