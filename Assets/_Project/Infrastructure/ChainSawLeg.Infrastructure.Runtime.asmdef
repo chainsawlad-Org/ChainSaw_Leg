@@ -3,6 +3,9 @@
     "rootNamespace": "ChainSawLeg.Infrastructure",
     "references": [
         "ChainSawLeg.Game.Shared.Runtime",
+        "ChainSawLeg.Features.Dialogue.Runtime",
+        "ChainSawLeg.Features.Quest.Runtime",
+      
         "Zenject",
         "UniTask",
         "Unity.InputSystem"
