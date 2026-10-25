@@ -762,7 +762,7 @@ MonoBehaviour:
   checkpointTriggers: []
   enemyFlySpawner: {fileID: 1200896332}
   garbageTrigger: {fileID: 566828220}
-  worldQuestProgressionController: {fileID: 0}
+  worldQuestProgressionController: {fileID: 1257559899}
 --- !u!4 &79852801
 Transform:
   m_ObjectHideFlags: 0
@@ -30061,7 +30061,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63424b21c27d84a5b863ff04a44fdde3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  moveSpeed: 12
+  moveSpeed: 20
   snapTo8Directions: 1
   sprite: {fileID: 2105037964}
   flipSprite: 1
@@ -36971,6 +36971,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1257559897}
   - component: {fileID: 1257559898}
+  - component: {fileID: 1257559899}
   m_Layer: 6
   m_Name: InvisibleWall
   m_TagString: Untagged
@@ -37039,6 +37040,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 4.0017166, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1257559899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257559895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 357c4231011e4a9daffa06b8306b5c0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Infrastructure.Runtime::ChainSawLeg.Infrastructure.WorldQuestProgressionController
+  requiredDialogueId: ksu_stolovaya
+  questId: world_unlock_second_floor
 --- !u!1 &1259854692
 GameObject:
   m_ObjectHideFlags: 0

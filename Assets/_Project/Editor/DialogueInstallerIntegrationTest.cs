@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using ChainSawLeg.Composition;
 using ChainSawLeg.Features.Dialogue;
+using ChainSawLeg.Game.Shared;
 using UnityEditor;
 using UnityEngine;
 using Zenject;
