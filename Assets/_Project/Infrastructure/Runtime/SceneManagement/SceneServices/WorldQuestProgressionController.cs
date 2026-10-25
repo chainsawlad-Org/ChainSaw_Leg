@@ -7,12 +7,14 @@ namespace ChainSawLeg.Infrastructure
 {
     public sealed class WorldQuestProgressionController : MonoBehaviour
     {
+        [Header("Quest")]
         [SerializeField] private string requiredDialogueId;
         [SerializeField] private string questId;
 
         private IDialogueRunner dialogueRunner;
         private MissionProgressionService questService;
         private Collider2D wallCollider;
+        
         private bool isOpened;
 
         [Inject]
@@ -24,6 +26,12 @@ namespace ChainSawLeg.Infrastructure
             this.questService = questService;
 
             this.dialogueRunner.DialogueEnded += HandleDialogueEnded;
+            
+            Debug.Log(
+                "[WorldQuestProgressionController] Injected. " +
+                $"Required dialogue: '{requiredDialogueId}', " +
+                $"Quest: '{questId}'.",
+                this);
         }
 
         private void Awake()
@@ -49,57 +57,86 @@ namespace ChainSawLeg.Infrastructure
 
         private void HandleDialogueEnded(Dialogue dialogue)
         {
+            Debug.Log(
+                "[WorldQuestProgressionController] DialogueEnded event received.",
+                this);
+            
             if (isOpened || dialogue == null)
             {
+                Debug.LogWarning(
+                    "[WorldQuestProgressionController] Dialogue is null.",
+                    this);
+                return;
+            }
+            
+            Debug.Log(
+                $"[WorldQuestProgressionController] " +
+                $"Ended dialogue ID: '{dialogue.Id}'. " +
+                $"Expected ID: '{requiredDialogueId}'.",
+                this);
+            
+            if (isOpened)
+            {
+                Debug.Log("[WorldQuestProgressionController] Passage is already open.", this);
                 return;
             }
 
             if (dialogue.Id != requiredDialogueId)
             {
+                Debug.Log(
+                    "[WorldQuestProgressionController] Dialogue ID does not match.",
+                    this);
                 return;
             }
 
             QuestStatus status = questService.GetStatus(questId);
-
-            if (status == QuestStatus.Available)
-            {
-                questService.StartQuest(questId);
-                status = questService.GetStatus(questId);
-            }
+            
+            Debug.Log(
+                $"[WorldQuestProgressionController] Quest '{questId}' status: {status}.",
+                this);
 
             if (status != QuestStatus.InProgress)
             {
                 Debug.LogWarning(
                     $"[WorldQuestProgressionController] " +
-                    $"Quest '{questId}' cannot be completed. " +
+                    $"Quest '{questId}' is not InProgress. " +
                     $"Current status: {status}.",
                     this);
 
                 return;
             }
 
-            questService.CompleteQuest(questId);
+            bool completed = questService.CompleteQuest(questId);
+            
+            Debug.Log(
+                $"[WorldQuestProgressionController] CompleteQuest result: {completed}.",
+                this);
 
-            if (questService.GetStatus(questId) != QuestStatus.Completed)
+            if (!completed)
             {
                 Debug.LogWarning(
                     $"[WorldQuestProgressionController] " +
-                    $"Quest '{questId}' was not completed.",
+                    $"Could not complete quest '{questId}'.",
+                    this);
+
+                return;
+            }
+
+            if (wallCollider == null)
+            {
+                Debug.LogError(
+                    "[WorldQuestProgressionController] " +
+                    "Cannot open passage because Collider2D is missing.",
                     this);
 
                 return;
             }
 
             isOpened = true;
-
-            if (wallCollider != null)
-            {
-                wallCollider.enabled = false;
-            }
+            wallCollider.enabled = false;
 
             Debug.Log(
-                $"[WorldQuestProgressionController] " +
-                $"Quest '{questId}' completed. InvisibleWall opened.",
+                "[WorldQuestProgressionController] SUCCESS: passage opened.",
                 this);
         }
     }
