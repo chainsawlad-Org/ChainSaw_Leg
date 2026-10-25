@@ -1,13 +1,26 @@
 using ChainSawLeg.Application;
+using ChainSawLeg.Features.Quest;
 using ChainSawLeg.Infrastructure;
+using UnityEngine;
 using Zenject;
 
 namespace ChainSawLeg.Composition
 {
     public class ProjectInstaller : MonoInstaller
     {
+        [SerializeField]
+        private QuestDatabaseConfig questDatabaseConfig;
         public override void InstallBindings()
         {
+            if (questDatabaseConfig == null)
+            {
+                throw new System.InvalidOperationException(
+                    "QuestDatabaseConfig is not assigned in ProjectInstaller.");
+            }
+
+            Container.BindInstance(questDatabaseConfig)
+                .AsSingle();
+            
             Container.Bind<GameStateMachine>()
                 .AsSingle();
 

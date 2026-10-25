@@ -49,6 +49,7 @@ MonoBehaviour:
   _monoInstallers:
   - {fileID: 31481708322543815}
   _installerPrefabs: []
+  _findSiblingMonoInstallers: 0
   _parentNewObjectsUnderContext: 1
   _editorReflectionBakingCoverageMode: 0
   _buildsReflectionBakingCoverageMode: 0
@@ -75,3 +76,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b36e745e463b34c5dabe0f54ca951384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectInstaller
+  questDatabaseConfig: {fileID: 11400000, guid: e0bb3d47466654b75a36aa6c3ba114ba, type: 2}

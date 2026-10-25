@@ -1,3 +1,4 @@
+
 using System;
 using ChainSawLeg.Features.Quest;
 using ChainSawLeg.Game.Shared;
@@ -6,54 +7,99 @@ using UnityEngine;
 
 namespace ChainSawLeg.Composition
 {
-    public sealed class QuestStartupInitializer: IApplicationService
+    public sealed class QuestStartupInitializer : IApplicationService
     {
-        private const string QuestLineId = "university_main";
-        private const string QuestId = "world_unlock_second_floor";
-
+        private readonly QuestDatabaseConfig questDatabaseConfig;
         private readonly MissionProgressionService questService;
 
-        public QuestStartupInitializer(MissionProgressionService questService)
+        public QuestStartupInitializer(
+            QuestDatabaseConfig questDatabaseConfig,
+            MissionProgressionService questService)
         {
+            this.questDatabaseConfig = questDatabaseConfig;
             this.questService = questService;
         }
 
         public UniTask Initialize()
         {
-            Debug.Log("[QuestStartupInitializer] Initialize started.");
-            
-            questService.RegisterQuestLine(new QuestLineDefinition(
-                id: QuestLineId,
-                title: "University",
-                type: QuestLineType.Main,
-                rootQuestIds: new[] { QuestId }
-            ));
-
-            questService.RegisterQuest(new QuestDefinition(
-                id: QuestId,
-                title: "Conversation with Ksu",
-                description: "Talk to Ksu to open a way to the second floor",
-                parentQuestId: null,
-                childQuestIds: Array.Empty<String>(),
-                prerequisiteQuestIds: Array.Empty<String>(),
-                completionPolicy: QuestCompletionPolicy.Manual
-            ));
-
-            questService.Initialize();
-
-            bool started = questService.StartQuest(QuestId);
-
-            if (!started)
+            if (questDatabaseConfig == null)
             {
                 throw new InvalidOperationException(
-                    $"Could not start quest '{QuestId}'. " +
-                    $"Current status: {questService.GetStatus(QuestId)}."
+                    "QuestDatabaseConfig is not available.");
+            }
+
+            foreach (QuestDatabaseConfig.QuestLineEntry entry
+                     in questDatabaseConfig.QuestLines)
+            {
+                if (entry == null)
+                {
+                    throw new InvalidOperationException(
+                        "QuestDatabaseConfig contains a null quest line.");
+                }
+
+                questService.RegisterQuestLine(
+                    new QuestLineDefinition(
+                        id: entry.id,
+                        title: entry.title,
+                        type: entry.type,
+                        rootQuestIds: entry.rootQuestIds
+                    )
                 );
             }
 
+            foreach (QuestDatabaseConfig.QuestEntry entry
+                     in questDatabaseConfig.Quests)
+            {
+                if (entry == null)
+                {
+                    throw new InvalidOperationException(
+                        "QuestDatabaseConfig contains a null quest.");
+                }
+
+                questService.RegisterQuest(
+                    new QuestDefinition(
+                        id: entry.id,
+                        title: entry.title,
+                        description: entry.description,
+                        parentQuestId: string.IsNullOrWhiteSpace(
+                            entry.parentQuestId)
+                            ? null
+                            : entry.parentQuestId,
+                        childQuestIds: entry.childQuestIds,
+                        prerequisiteQuestIds: entry.prerequisiteQuestIds,
+                        completionPolicy: entry.completionPolicy
+                    )
+                );
+            }
+
+            questService.Initialize();
+
+            foreach (QuestDatabaseConfig.QuestEntry entry
+                     in questDatabaseConfig.Quests)
+            {
+                if (!entry.startOnGameStart)
+                {
+                    continue;
+                }
+
+                bool started = questService.StartQuest(entry.id);
+
+                if (!started)
+                {
+                    throw new InvalidOperationException(
+                        $"Could not start quest '{entry.id}'. " +
+                        $"Current status: {questService.GetStatus(entry.id)}.");
+                }
+            }
+
+            Debug.Log(
+                $"[QuestStartupInitializer] Initialized " +
+                $"{questDatabaseConfig.QuestLines.Count} quest lines and " +
+                $"{questDatabaseConfig.Quests.Count} quests.");
+
             return UniTask.CompletedTask;
         }
-        
+
         public UniTask Dispose()
         {
             return UniTask.CompletedTask;
