@@ -1,7 +1,10 @@
 using Cysharp.Threading.Tasks;
 
-public interface IApplicationService
+namespace ChainSawLeg.Game.Shared
 {
-    UniTask Initialize();
-    UniTask Dispose();
+    public interface IApplicationService
+    {
+        UniTask Initialize();
+        UniTask Dispose();
+    }
 }

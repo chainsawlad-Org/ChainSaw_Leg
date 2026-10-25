@@ -33,6 +33,7 @@ namespace ChainSawLeg.Application
             await sceneLoader.LoadAdditiveAsync(SceneNames.Persistent, cancellationToken);
 
             Type startupPhase = startupResolver.Resolve();
+            
             await gameStateMachine.ReplaceMainAsync(startupPhase, cancellationToken);
         }
     }
