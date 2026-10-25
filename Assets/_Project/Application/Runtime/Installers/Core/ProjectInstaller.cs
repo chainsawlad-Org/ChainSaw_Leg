@@ -1,7 +1,5 @@
 using ChainSawLeg.Application;
-using ChainSawLeg.Features.Dialogue;
 using ChainSawLeg.Infrastructure;
-using UnityEngine;
 using Zenject;
 
 namespace ChainSawLeg.Composition
@@ -29,6 +27,7 @@ namespace ChainSawLeg.Composition
             ServiceInstaller.Install(Container);
             DialogueInstaller.Install(Container);
             ExplorationInstaller.Install(Container);
+            QuestInstaller.Install(Container);
 
             Container.Bind<IBootstrapRunner>()
                 .To<BootstrapRunner>()
