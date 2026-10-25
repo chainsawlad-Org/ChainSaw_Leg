@@ -95,7 +95,7 @@ namespace ChainSawLeg.Composition
                 .FromInstance(garbageTrigger)
                 .AsSingle();
 
-            Container.BindInterfacesTo<WorldComposition>()
+            Container.BindInterfacesTo<WorldInitializer>()
                 .AsSingle()
                 .NonLazy();
             

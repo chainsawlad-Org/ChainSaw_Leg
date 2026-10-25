@@ -7,7 +7,7 @@ using Zenject;
 
 namespace ChainSawLeg.Composition
 {
-    public sealed class WorldComposition : IInitializable
+    public sealed class WorldInitializer : IInitializable
     {
         private readonly GarbageTrigger garbageTrigger;
         private readonly EnemyFlySpawner enemyFlySpawner;
@@ -15,7 +15,7 @@ namespace ChainSawLeg.Composition
         private readonly PlayerMovement playerMovement;
         private readonly CameraFlow cameraFlow;
 
-        public WorldComposition(
+        public WorldInitializer(
             GarbageTrigger garbageTrigger,
             EnemyFlySpawner enemyFlySpawner,
             IGameObjectSpawner gameObjectSpawner,

@@ -3,7 +3,7 @@ using ChainSawLeg.Features.Quest;
 using UnityEngine;
 using Zenject;
 
-namespace ChainSawLeg.Composition
+namespace ChainSawLeg.Infrastructure
 {
     public sealed class WorldQuestProgressionController : MonoBehaviour
     {
