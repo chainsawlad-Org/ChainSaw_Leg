@@ -10,8 +10,8 @@ namespace ChainSawLeg.Composition
     {
         public override void InstallBindings()
         {
-            AutoBinder.BindDerivedTypes<ApplicationServiceBase>(Container);
-            AutoBinder.BindAssignableTo<IApplicationService>(Container);
+            // AutoBinder.BindDerivedTypes<ApplicationServiceBase>(Container);
+            // AutoBinder.BindAssignableTo<IApplicationService>(Container);
 
             Container.Bind<ITimeScaleController>()
                 .To<UnityTimeScaleController>()
@@ -59,6 +59,8 @@ namespace ChainSawLeg.Composition
             Container.Bind<GameSavePendingRestoreService>()
                 .AsSingle();
             Container.Bind<CheckpointGameSaveSlotRotationService>()
+                .AsSingle();
+            Container.BindInterfacesAndSelfTo<QuestStartupInitializer>()
                 .AsSingle();
         }
     }
