@@ -1,0 +1,19 @@
+{
+    "name": "ChainSawLeg.Features.Quest.Runtime",
+    "rootNamespace": "ChainSawLeg.Features.Quest",
+    "references": [
+        "Unity.InputSystem",
+        "UnityEngine.UI",
+        "Unity.TextMeshPro",
+        "ChainSawLeg.Game.Shared.Runtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
