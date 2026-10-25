@@ -29,6 +29,9 @@ namespace ChainSawLeg.Features.Exploration
         public bool followZ = true;
 
         public Bounds bounds;
+
+        [Tooltip("Clamp camera position in bounds or not")]
+        public bool clampPosition = true;
     
         private Vector3 velocity = Vector3.zero;
         private bool inTransition;
@@ -83,7 +86,8 @@ namespace ChainSawLeg.Features.Exploration
         
             Vector3 smoothedPosition = Vector3.SmoothDamp(
                 transform.position,
-                GetClampedPosition(GetDesiredPosition(transform.position), bounds),
+                clampPosition ? GetClampedPosition(GetDesiredPosition(transform.position), bounds)
+                :  GetDesiredPosition(transform.position),
                 ref velocity,
                 smoothSpeed
             );

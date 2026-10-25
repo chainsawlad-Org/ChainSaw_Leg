@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 namespace ChainSawLeg.Features.Minigames
@@ -15,6 +17,11 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField] private GameObject beatableBlockPrefab;
         [SerializeField] private Transform itemSpawnPoint;
         [SerializeField] private PlayerMovement player;
+        [SerializeField] private RobotKiller robot;
+        [SerializeField] private SpriteRenderer blackBackground;
+        [SerializeField] private Image whiteScreen;
+        [SerializeField] private GameObject[] peopleObjects;
+        [SerializeField] private GameObject[] happyPeopleObjects;
         [SerializeField] private RobotAttackConfig[] attackConfigs;
 
         private float itemFlyDuration = 1f;
@@ -23,14 +30,21 @@ namespace ChainSawLeg.Features.Minigames
         private Sequence attackSequence;
         private Coroutine attackCoroutine;
 
+        private void Start()
+        {
+            arenaBoard.onLastCellKicked += OnRobotKicked;
+            arenaBoard.onPlayerDead += OnPlayerDead;
+        }
+
         public void ReadyUpPlayer(float stunDuration)
         {
             player.StunPlayer();
 
             DOVirtual.DelayedCall(stunDuration, () =>
             {
-                DOVirtual.DelayedCall(1f, () => player.UnstunPlayer());
+                DOVirtual.DelayedCall(4f, () => player.UnstunPlayer());
                 player.transform.DOMove(arenaBoard.GetCellPosition(arenaBoard.currentPlayerCell), 1f).SetEase(Ease.Linear);
+                arenaBoard.SetupCamera();
             });
         }
         
@@ -61,12 +75,6 @@ namespace ChainSawLeg.Features.Minigames
 
                     Attack(attack.position, attack.attackType);
                 }
-                // foreach (var attack in attackConfigs[currentAttackConfig].attackList)
-                // {
-                //     DOVirtual.DelayedCall(attack.time, () => Attack(attack.position, attack.attackType));
-                // }
-
-                //yield return new WaitForSeconds(attackConfigs[currentAttackConfig].attackList[^1].time);
             }
         }
 
@@ -84,6 +92,8 @@ namespace ChainSawLeg.Features.Minigames
 
         private void AttackCells(Vector2 targetPos, Vector2Int[] cells, GameObject prefab)
         {
+            if (!itemSpawnInHeaven) robot.ThrowAnimation();
+            
             GameObject item = SpawnItem(prefab, targetPos, itemSpawnInHeaven);
 
             foreach (var cell in cells)
@@ -92,7 +102,7 @@ namespace ChainSawLeg.Features.Minigames
             
                 DOVirtual.DelayedCall(itemFlyDuration, () =>
                 {
-                    arenaBoard.TakeDamageToCell(cell, 10);
+                    arenaBoard.TakeDamageToCell(cell, 20);
                     arenaBoard.SetCellDefault(cell);
                     item.GetComponent<SpriteRenderer>().enabled = false;
                     item.GetComponent<ParticleSystem>().Play();
@@ -132,14 +142,19 @@ namespace ChainSawLeg.Features.Minigames
             {
                 if (arenaBoard.CellIsBeated(targetCell))
                 {
-                    StartNextAttack();
+                    if (attackCoroutine != null) StopCoroutine(attackCoroutine);
+                    arenaBoard.FlipPlayerToRobot();
                     item.transform.DOKill();
                     item.transform.DOMove(itemSpawnPoint.position, 0.2f).SetEase(Ease.Linear)
-                        .OnComplete(() => Destroy(item.gameObject));
+                        .OnComplete(() =>
+                        {
+                            Destroy(item.gameObject);
+                            robot.OnDamageAnimation(StartNextAttack);
+                        });
                 }
                 else
                 {
-                    arenaBoard.TakeDamageToCell(targetCell, 10);
+                    arenaBoard.TakeDamageToCell(targetCell, 20);
                     item.GetComponent<SpriteRenderer>().enabled = false;
                     item.GetComponent<ParticleSystem>().Play();
                 }
@@ -149,9 +164,12 @@ namespace ChainSawLeg.Features.Minigames
 
         private void StartNextAttack()
         {
-            if (currentAttackConfig == 3) return;
+            if (currentAttackConfig == 3)
+            {
+                StartSecondPhase();
+                return;
+            }
             
-            if(attackCoroutine != null) StopCoroutine(attackCoroutine);
             currentAttackConfig++;
             
             Debug.Log($"STARTING NEXT ATTACK: {currentAttackConfig}");
@@ -160,6 +178,98 @@ namespace ChainSawLeg.Features.Minigames
             {
                 attackCoroutine = StartCoroutine(LoopedAttack());
             });
+        }
+
+        private void StartSecondPhase()
+        {
+            arenaBoard.isSecondPhase = true;
+            itemSpawnInHeaven = true;
+            arenaBoard.SetActivePlayer(false);
+            arenaBoard.FlipPlayerToRobot();
+            Vector2 playerPos = arenaBoard.GetCellPosition(arenaBoard.currentPlayerCell);
+            robot.PlayToSecondPhaseAnimation(playerPos, () =>
+            {
+                blackBackground.gameObject.SetActive(true);
+                foreach(var man in peopleObjects) man.SetActive(false);
+                DOVirtual.Color(blackBackground.color, Color.black, 1f,
+                    onVirtualUpdate: x => blackBackground.color = x);
+            }, () =>
+            {
+                arenaBoard.KickPlayer(Vector2.left * 60f, 0.75f);
+                arenaBoard.cameraFlowToPlayer = true;
+                currentAttackConfig = 4;
+                DOVirtual.DelayedCall(3f, () => arenaBoard.CreateArenaSecondPhase(new Vector2Int(10, 3), () =>
+                {
+                    robot.transform.position = arenaBoard.GetCellPosition(new Vector2Int(9, 1)) + Vector2.right * 5f;
+                    arenaBoard.SetActivePlayer(true);
+                    attackCoroutine = StartCoroutine(LoopedAttack());
+                }));
+            });
+        }
+
+        private void OnRobotKicked()
+        {
+            if (attackCoroutine != null) StopCoroutine(attackCoroutine);
+            currentAttackConfig++;
+            
+            if (currentAttackConfig == 7)
+            {
+                EndFight();
+                return;
+            }
+            
+            arenaBoard.SetActivePlayer(false);
+            arenaBoard.SetCellDefault(arenaBoard.currentPlayerCell);
+            robot.OnDamageAnimation(() =>
+            {
+                Vector2Int arenaSize = new Vector2Int(currentAttackConfig == 5 ? 18 : 25, 3);
+                robot.Jump(robot.transform.position + Vector3.right * 60f, () =>
+                {
+                    arenaBoard.CreateArenaSecondPhase(arenaSize, () =>
+                    {
+                        arenaBoard.SetActivePlayer(true);
+                        robot.transform.position = arenaBoard.GetCellPosition(new Vector2Int(arenaSize.x-1, 1)) + Vector2.right * 5f;
+                        attackCoroutine = StartCoroutine(LoopedAttack());
+                    });
+                });
+            });
+        }
+
+        private void EndFight()
+        {
+            arenaBoard.SetActivePlayer(false);
+            robot.OnDamageAnimation(null);
+            whiteScreen.gameObject.SetActive(true);
+            DOVirtual.Color(whiteScreen.color, Color.white, 3f, onVirtualUpdate: x => whiteScreen.color = x)
+                .SetEase(Ease.Linear)
+                .OnComplete(() =>
+                {
+                    DOVirtual.DelayedCall(3f, () =>
+                    {
+                        player.gameObject.SetActive(true);
+                        Destroy(robot.gameObject);
+                        arenaBoard.CloseArena(player);
+                        blackBackground.gameObject.SetActive(false);
+                        Color transparent = new Color(1f, 1f, 1f, 0f);
+                        DOVirtual.Color(whiteScreen.color, transparent, 1f, onVirtualUpdate: x => whiteScreen.color = x)
+                            .SetEase(Ease.Linear);
+
+                    
+                        foreach (var man in happyPeopleObjects)
+                        {
+                            man.SetActive(true);
+                            man.transform.DOMove(man.transform.position + Vector3.up * 3f, 0.2f)
+                                .SetLoops(Random.Range(20, 50), LoopType.Yoyo)
+                                .SetDelay(Random.value);
+                        }
+                    });
+                });
+        }
+
+        private void OnPlayerDead()
+        {
+            if (attackCoroutine != null) StopCoroutine(attackCoroutine);
+            arenaBoard.SetActivePlayer(false);
         }
 
         private GameObject SpawnItem(GameObject prefab, Vector2 targetPosition, bool fromHeaven)

@@ -7,7 +7,7 @@ namespace ChainSawLeg.Features.Minigames
 {
     public class RobotFightController : MonoBehaviour
     {
-        [SerializeField] private int health = 100;
+        //[SerializeField] private int health = 100;
         [SerializeField] private float delayBetweenMoves = 0.25f;
         [SerializeField] private float delayBetweenKicks = 0.5f;
         [SerializeField] private float stunDuration = 0.25f;
@@ -18,6 +18,7 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField] private Sprite damagedSprite;
         [SerializeField] private CameraFlow cameraFlow;
         public float lastKickTime { get; private set;}
+        public bool controlActive = true;
         
         private PlayerInputHandler inputHandler;
         private Vector2 prevMoveInput;
@@ -29,9 +30,14 @@ namespace ChainSawLeg.Features.Minigames
             inputHandler = GetComponent<PlayerInputHandler>();
         }
 
+        private void Start()
+        {
+            transform.position = arenaBoard.GetCellPosition(arenaBoard.currentPlayerCell);
+        }
+
         public void ApplyDamage(int damage)
         {
-            health -= damage;
+            //health -= damage;
             mistySprite.sprite = damagedSprite;
             cameraFlow.ShakeEffect(0.4f, 100, 0.5f);
             lastDamagedTime = Time.time;
@@ -39,13 +45,19 @@ namespace ChainSawLeg.Features.Minigames
             DOVirtual.DelayedCall(stunDuration, () => { mistySprite.sprite = defaultSprite; });
         }
 
-        public void Relocate(Vector2 newPosition, float duration)
+        public void Relocate(Vector2 newPosition, float duration, Ease ease = Ease.OutQuad)
         {
-            transform.DOMove(newPosition, duration).SetEase(Ease.OutQuad);
+            transform.DOMove(newPosition, duration).SetEase(ease);
+        }
+
+        public void FlipPlayer(bool flip)
+        {
+            mistySprite.flipX = flip;
         }
 
         private void Update()
         {
+            if (!controlActive) return;
             HandleMoving();
             HandleKick();
         }
@@ -92,6 +104,8 @@ namespace ChainSawLeg.Features.Minigames
         {
             cameraFlow.ShakeEffect(0.4f, 100, delayBetweenKicks);
             mistySprite.sprite = kickSprite;
+            
+            arenaBoard.KickCell();
             
             DOVirtual.DelayedCall(delayBetweenKicks, () => { if (mistySprite.sprite == kickSprite) mistySprite.sprite = defaultSprite; });
         }

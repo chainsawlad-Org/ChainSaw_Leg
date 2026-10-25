@@ -36,13 +36,14 @@ namespace ChainSawLeg.Features.Minigames
                 DOVirtual.Color(transparent, defaultColor, recolorTime, onVirtualUpdate: x => sprite.color = x);
         }
 
-        public void DoDespawnAnimation()
+        public void Despawn()
         {
             Color transparent = lineSprites[0].color;
             transparent.a = 0;
-            
+
             foreach (var sprite in lineSprites)
-                DOVirtual.Color(sprite.color, transparent, recolorTime, onVirtualUpdate: x => sprite.color = x);
+                DOVirtual.Color(sprite.color, transparent, recolorTime, onVirtualUpdate: x => sprite.color = x)
+                    .OnComplete(() => Destroy(gameObject));
         }
 
         public void SetDefaultCell()

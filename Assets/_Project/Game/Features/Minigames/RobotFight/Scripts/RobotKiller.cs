@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using ChainSawLeg.Features.Exploration;
 using DG.Tweening;
 using UnityEngine;
@@ -31,8 +32,8 @@ namespace ChainSawLeg.Features.Minigames
         private float frameTimer;
         private int currentFrameIndex;
         private bool handsDirection = true;
-        private float lastAttackTime;
         private bool firstKickWasDone;
+        private Coroutine throwAnimationCoroutine;
 
         private void Start()
         {
@@ -77,7 +78,6 @@ namespace ChainSawLeg.Features.Minigames
         private void StartAttack()
         {
             currentState = RobotState.Attacking;
-            lastAttackTime = Time.time;
             frameTimer = 0f;
             currentFrameIndex = 0; // Start at idle frame
         }
@@ -199,6 +199,64 @@ namespace ChainSawLeg.Features.Minigames
                     transform.DOJump((Vector2)transform.position + Vector2.right * 100f, 20f, 1, 8);
                 });
             }
+        }
+
+        public void ThrowAnimation(Action onThrown = null, float timeBeforeThrow = 0f)
+        {
+            if (throwAnimationCoroutine != null) StopCoroutine(throwAnimationCoroutine);
+            throwAnimationCoroutine = StartCoroutine(DoThrowAnimation(timeBeforeThrow, onThrown));
+        }
+
+        IEnumerator DoThrowAnimation(float timeBeforeThrow, Action onThrown)
+        {
+            for (int i = 0; i < sprites.Length; i++)
+            {
+                spriteRenderer.sprite = sprites[i];
+                yield return new WaitForSeconds(timeBetweenFrames);
+            }
+            
+            yield return new WaitForSeconds(timeBeforeThrow);
+
+            for (int i = sprites.Length - 1; i >= 0; i--)
+            {
+                spriteRenderer.sprite = sprites[i];
+                yield return new WaitForSeconds(timeBetweenFrames);
+            }
+            
+            onThrown?.Invoke();
+        }
+
+        public void OnDamageAnimation(Action onComplete)
+        {
+            spriteRenderer.sprite = sprites[0];
+            transform.DOShakePosition(3f, 0.65f, 100).OnComplete(() => onComplete?.Invoke());
+        }
+
+        public void PlayToSecondPhaseAnimation(Vector2 playerPosition, Action onJumped, Action onKicked)
+        {
+            spriteRenderer.sprite = sprites[2];
+            transform.DOJump(playerPosition + Vector2.right * 5f, 20f, 1, 1f)
+                .SetEase(flyCurve)
+                .OnComplete(() =>
+                {
+                    cameraFlow.ShakeEffect(0.3f, 100, 0.5f);
+                    spriteRenderer.sprite = sprites[0];
+                    onJumped?.Invoke();
+                    DOVirtual.DelayedCall(2f, () =>
+                    {
+                        ThrowAnimation(() => onKicked?.Invoke(), 1f);
+                    });
+                });
+        }
+
+        public void Jump(Vector2 position, Action onComplete)
+        {
+            spriteRenderer.sprite = sprites[2];
+            transform.DOJump(position, 20f, 1, 1f).OnComplete(() =>
+            {
+                spriteRenderer.sprite = sprites[0];
+                onComplete?.Invoke();
+            });
         }
 
         private void OnDrawGizmos()
