@@ -20,7 +20,7 @@ namespace ChainSawLeg.Features.Exploration
         [HideInInspector] public Bounds roomBounds;
         private CameraFlow cameraFlow;
         private Dictionary<SpriteRenderer, Color> baseSpriteColors = new Dictionary<SpriteRenderer, Color>();
-        private SpriteRenderer[] roomSprites => GetComponentsInChildren<SpriteRenderer>();
+        private SpriteRenderer[] roomSprites => GetComponentsInChildren<SpriteRenderer>(true);
         public readonly float transitionDuration = 1f;
 
         public void ConfigureInputBlocking(IGameplayInputBlockService inputBlockService, CameraFlow cameraFlow)
