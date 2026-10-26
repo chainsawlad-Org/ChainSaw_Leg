@@ -1,67 +1,70 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
-public class DialogueUI_Bubble : MonoBehaviour
+namespace ChainSawLeg.Features.Dialogue
 {
-    [SerializeField] private GameObject root;
-    [SerializeField] private TextMeshProUGUI text;
-    [SerializeField] private Vector3 offset = new Vector3(1f, 1f, 0);
-
-    private Transform target;
-
-    private void Awake()
+    public class DialogueUI_Bubble : MonoBehaviour
     {
-        if (root != null)
-            root.SetActive(false);
-    }
+        [SerializeField] private GameObject root;
+        [SerializeField] private TextMeshProUGUI text;
+        [SerializeField] private Vector3 offset = new Vector3(1f, 1f, 0);
 
-    public void SetTarget(Transform t)
-    {
-        target = t;
-    }
+        private Transform target;
 
-    public void ShowRoot()
-    {
-        if (root != null)
-            root.SetActive(true);
-    }
-
-    public void ShowText(string message)
-    {
-        if (text != null)
-            text.text = message;
-
-        if (root != null)
-            root.SetActive(true);
-
-        // Invoke(nameof(Hide), 3f);
-    }
-
-    private void LateUpdate()
-    {
-        if (target != null && root != null && root.activeSelf)
+        private void Awake()
         {
-            root.transform.position = target.position + offset;
-
+            if (root != null)
+                root.SetActive(false);
         }
-    }
 
-    public void Show(string message, Transform targetTransform)
-    {
-        target = targetTransform;
+        public void SetTarget(Transform t)
+        {
+            target = t;
+        }
 
-        if (text != null)
-            text.text = message;
+        public void ShowRoot()
+        {
+            if (root != null)
+                root.SetActive(true);
+        }
 
-        if (root != null)
-            root.SetActive(true);
-    }
+        public void ShowText(string message)
+        {
+            if (text != null)
+                text.text = message;
 
-    public void Hide()
-    {
-        if (root != null)
-            root.SetActive(false);
+            if (root != null)
+                root.SetActive(true);
 
-        target = null;
+            // Invoke(nameof(Hide), 3f);
+        }
+
+        private void LateUpdate()
+        {
+            if (target != null && root != null && root.activeSelf)
+            {
+                root.transform.position = target.position + offset;
+
+            }
+        }
+
+        public void Show(string message, Transform targetTransform)
+        {
+            target = targetTransform;
+
+            if (text != null)
+                text.text = message;
+
+            if (root != null)
+                root.SetActive(true);
+        }
+
+        public void Hide()
+        {
+            if (root != null)
+                root.SetActive(false);
+
+            target = null;
+        }
     }
 }

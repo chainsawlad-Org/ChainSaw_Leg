@@ -1,4 +1,7 @@
-public interface IPauseRequestHandler
+namespace ChainSawLeg.Infrastructure
 {
-    void RequestPause();
+    public interface IPauseRequestHandler
+    {
+        void RequestPause();
+    }
 }

@@ -1,6 +1,9 @@
 using UnityEngine.SceneManagement;
 
-public sealed class UnityActiveSceneProvider : IActiveSceneProvider
+namespace ChainSawLeg.Infrastructure
 {
-    public string ActiveSceneName => SceneManager.GetActiveScene().name;
+    public sealed class UnityActiveSceneProvider : IActiveSceneProvider
+    {
+        public string ActiveSceneName => SceneManager.GetActiveScene().name;
+    }
 }

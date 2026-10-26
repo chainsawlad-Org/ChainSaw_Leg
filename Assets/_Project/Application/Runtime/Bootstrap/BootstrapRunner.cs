@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using ChainSawLeg.Game.Shared;
 using Cysharp.Threading.Tasks;
 
 namespace ChainSawLeg.Application
@@ -32,6 +33,7 @@ namespace ChainSawLeg.Application
             await sceneLoader.LoadAdditiveAsync(SceneNames.Persistent, cancellationToken);
 
             Type startupPhase = startupResolver.Resolve();
+            
             await gameStateMachine.ReplaceMainAsync(startupPhase, cancellationToken);
         }
     }

@@ -1,0 +1,75 @@
+using ChainSawLeg.Application;
+using ChainSawLeg.Features.Quest;
+using ChainSawLeg.Infrastructure;
+using UnityEngine;
+using Zenject;
+
+namespace ChainSawLeg.Composition
+{
+    public class ProjectInstaller : MonoInstaller
+    {
+        [SerializeField]
+        private QuestDatabaseConfig questDatabaseConfig;
+        public override void InstallBindings()
+        {
+            if (questDatabaseConfig == null)
+            {
+                throw new System.InvalidOperationException(
+                    "QuestDatabaseConfig is not assigned in ProjectInstaller.");
+            }
+
+            Container.BindInstance(questDatabaseConfig)
+                .AsSingle();
+            
+            Container.Bind<GameStateMachine>()
+                .AsSingle();
+
+            Container.Bind<ISceneLoader>()
+                .To<SceneLoader>()
+                .AsSingle();
+
+            Container.Bind<IActiveSceneProvider>()
+                .To<UnityActiveSceneProvider>()
+                .AsSingle();
+
+            Container.Bind<IPhaseFactory>()
+                .To<PhaseFactory>()
+                .AsSingle();
+
+            PhaseInstaller.Install(Container);
+            ServiceInstaller.Install(Container);
+            DialogueInstaller.Install(Container);
+            ExplorationInstaller.Install(Container);
+            QuestInstaller.Install(Container);
+
+            Container.Bind<IBootstrapRunner>()
+                .To<BootstrapRunner>()
+                .AsSingle();
+
+            Container.Bind<StartupPhaseRegistry>()
+                .AsSingle();
+
+            Container.Bind<IStartupResolver>()
+                .To<StartupResolver>()
+                .AsSingle();
+
+            Container.BindInterfacesAndSelfTo<StartupRegistryInstaller>()
+                .AsSingle()
+                .NonLazy();
+
+            Container.BindExecutionOrder<StartupRegistryInstaller>(-100);
+
+            Container.BindInterfacesAndSelfTo<BootstrapStartup>()
+                .AsSingle()
+                .NonLazy();
+
+            Container.BindExecutionOrder<BootstrapStartup>(100);
+            
+            Container.Bind<DialogueViewRegistry>()
+                .AsSingle();
+            
+            Container.Bind<IntroSequenceService>()
+                .AsSingle();
+        }
+    }
+}

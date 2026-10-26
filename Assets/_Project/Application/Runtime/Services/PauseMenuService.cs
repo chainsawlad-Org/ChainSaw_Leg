@@ -1,6 +1,8 @@
 using System;
 using System.Threading;
 using ChainSawLeg.Application;
+using ChainSawLeg.Game.Shared;
+using ChainSawLeg.Infrastructure;
 using Cysharp.Threading.Tasks;
 
 public class PauseMenuService : IPauseRequestHandler

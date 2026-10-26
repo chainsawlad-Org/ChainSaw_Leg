@@ -1,8 +1,11 @@
 
 using System;
 
-public interface IStartupResolver
+namespace ChainSawLeg.Application
 {
-    Type Resolve();
+    public interface IStartupResolver
+    {
+        Type Resolve();
+    }
 }
 

@@ -1,12 +1,15 @@
 using System;
 using UnityEngine;
 
-public sealed class UnityRuntimeErrorLogger : IRuntimeErrorLogger
+namespace ChainSawLeg.Infrastructure
 {
-    private readonly ILogger logger = Debug.unityLogger;
-
-    public void LogException(Exception exception, string context)
+    public sealed class UnityRuntimeErrorLogger : IRuntimeErrorLogger
     {
-        logger.Log(LogType.Error, $"{context}\n{exception}");
+        private readonly ILogger logger = Debug.unityLogger;
+
+        public void LogException(Exception exception, string context)
+        {
+            logger.Log(LogType.Error, $"{context}\n{exception}");
+        }
     }
 }

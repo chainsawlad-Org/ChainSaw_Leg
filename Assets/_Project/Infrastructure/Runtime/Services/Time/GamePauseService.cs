@@ -1,52 +1,55 @@
-public class GamePauseService
+namespace ChainSawLeg.Infrastructure
 {
-    private readonly ITimeScaleController timeScaleController;
-
-    private int activePauseCount;
-    private float previousTimeScale = 1f;
-
-    public GamePauseService(ITimeScaleController timeScaleController)
+    public class GamePauseService
     {
-        this.timeScaleController = timeScaleController;
-    }
+        private readonly ITimeScaleController timeScaleController;
 
-    public bool IsPaused => activePauseCount > 0;
-    public int ActivePauseCount => activePauseCount;
+        private int activePauseCount;
+        private float previousTimeScale = 1f;
 
-    public void AcquirePause()
-    {
-        if (activePauseCount == 0)
+        public GamePauseService(ITimeScaleController timeScaleController)
         {
-            float currentTimeScale = timeScaleController.TimeScale;
-            previousTimeScale = currentTimeScale > 0f ? currentTimeScale : 1f;
-            timeScaleController.TimeScale = 0f;
+            this.timeScaleController = timeScaleController;
         }
 
-        activePauseCount++;
-    }
+        public bool IsPaused => activePauseCount > 0;
+        public int ActivePauseCount => activePauseCount;
 
-    public void ReleasePause()
-    {
-        if (activePauseCount == 0)
-            return;
+        public void AcquirePause()
+        {
+            if (activePauseCount == 0)
+            {
+                float currentTimeScale = timeScaleController.TimeScale;
+                previousTimeScale = currentTimeScale > 0f ? currentTimeScale : 1f;
+                timeScaleController.TimeScale = 0f;
+            }
 
-        activePauseCount--;
+            activePauseCount++;
+        }
 
-        if (activePauseCount > 0)
-            return;
+        public void ReleasePause()
+        {
+            if (activePauseCount == 0)
+                return;
 
-        timeScaleController.TimeScale = previousTimeScale;
-    }
+            activePauseCount--;
 
-    public void Reset()
-    {
-        float currentTimeScale = timeScaleController.TimeScale;
+            if (activePauseCount > 0)
+                return;
 
-        activePauseCount = 0;
+            timeScaleController.TimeScale = previousTimeScale;
+        }
 
-        if (currentTimeScale <= 0f)
-            timeScaleController.TimeScale = previousTimeScale > 0f ? previousTimeScale : 1f;
+        public void Reset()
+        {
+            float currentTimeScale = timeScaleController.TimeScale;
 
-        previousTimeScale = timeScaleController.TimeScale;
+            activePauseCount = 0;
+
+            if (currentTimeScale <= 0f)
+                timeScaleController.TimeScale = previousTimeScale > 0f ? previousTimeScale : 1f;
+
+            previousTimeScale = timeScaleController.TimeScale;
+        }
     }
 }

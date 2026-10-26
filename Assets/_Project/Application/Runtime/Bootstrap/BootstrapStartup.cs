@@ -3,43 +3,46 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Zenject;
 
-public class BootstrapStartup : IInitializable, IDisposable
+namespace ChainSawLeg.Application
 {
-    private readonly IBootstrapRunner bootstrapRunner;
-    private readonly IRuntimeErrorLogger errorLogger;
-    private readonly CancellationTokenSource lifetimeCancellation = new();
-
-    public BootstrapStartup(
-        IBootstrapRunner bootstrapRunner,
-        IRuntimeErrorLogger errorLogger)
+    public class BootstrapStartup : IInitializable, IDisposable
     {
-        this.bootstrapRunner = bootstrapRunner;
-        this.errorLogger = errorLogger;
-    }
+        private readonly IBootstrapRunner bootstrapRunner;
+        private readonly IRuntimeErrorLogger errorLogger;
+        private readonly CancellationTokenSource lifetimeCancellation = new();
 
-    public void Initialize()
-    {
-        RunAsync(lifetimeCancellation.Token).Forget();
-    }
-
-    public void Dispose()
-    {
-        lifetimeCancellation.Cancel();
-        lifetimeCancellation.Dispose();
-    }
-
-    private async UniTask RunAsync(CancellationToken cancellationToken)
-    {
-        try
+        public BootstrapStartup(
+            IBootstrapRunner bootstrapRunner,
+            IRuntimeErrorLogger errorLogger)
         {
-            await bootstrapRunner.Run(cancellationToken);
+            this.bootstrapRunner = bootstrapRunner;
+            this.errorLogger = errorLogger;
         }
-        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+
+        public void Initialize()
         {
+            RunAsync(lifetimeCancellation.Token).Forget();
         }
-        catch (Exception exception)
+
+        public void Dispose()
         {
-            errorLogger.LogException(exception, nameof(BootstrapStartup));
+            lifetimeCancellation.Cancel();
+            lifetimeCancellation.Dispose();
+        }
+
+        private async UniTask RunAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                await bootstrapRunner.Run(cancellationToken);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+            }
+            catch (Exception exception)
+            {
+                errorLogger.LogException(exception, nameof(BootstrapStartup));
+            }
         }
     }
 }

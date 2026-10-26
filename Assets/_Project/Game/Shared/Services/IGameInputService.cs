@@ -1,23 +1,26 @@
 using UnityEngine;
 
-public interface IGameInputService
+namespace ChainSawLeg.Game.Shared
 {
-    bool IsReady { get; }
-    bool IsGameplayInputEnabled { get; }
-    Vector2 MoveInput { get; }
-    bool DashPressed { get; }
-    bool InteractPressed { get; }
-    bool KickPressed { get; }
-    bool SubmitPressed { get; }
-    bool UiSubmitPressed { get; }
-    bool PreviousPressed { get; }
-    bool NextPressed { get; }
+    public interface IGameInputService
+    {
+        bool IsReady { get; }
+        bool IsGameplayInputEnabled { get; }
+        Vector2 MoveInput { get; }
+        bool DashPressed { get; }
+        bool InteractPressed { get; }
+        bool KickPressed { get; }
+        bool SubmitPressed { get; }
+        bool UiSubmitPressed { get; }
+        bool PreviousPressed { get; }
+        bool NextPressed { get; }
 
-    void ConsumeDash();
-    void ConsumeInteract();
-    void ConsumeKick();
-    void ConsumeSubmit();
-    void ConsumePrevious();
-    void ConsumeNext();
-    void ResetTransientInput();
+        void ConsumeDash();
+        void ConsumeInteract();
+        void ConsumeKick();
+        void ConsumeSubmit();
+        void ConsumePrevious();
+        void ConsumeNext();
+        void ResetTransientInput();
+    }
 }

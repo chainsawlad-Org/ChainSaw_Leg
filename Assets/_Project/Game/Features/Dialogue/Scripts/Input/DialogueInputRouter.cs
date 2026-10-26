@@ -1,57 +1,82 @@
+using ChainSawLeg.Game.Shared;
 using UnityEngine;
-using Zenject;
 
 namespace ChainSawLeg.Features.Dialogue
 {
     public sealed class DialogueInputRouter : MonoBehaviour
     {
-        // private InputService inputService;
-        // private DialogueRuntimeRegistry runtimeRegistry;
-
         private IGameInputService inputService;
         private IDialogueRunner dialogueRunner;
         private DialogueUI_RPG dialogueUI;
 
-        [Inject]
-        // public void Construct(
-        //     InputService inputService,
-        //     DialogueRuntimeRegistry runtimeRegistry)
-        // {
-        //     this.inputService = inputService;
-        //     this.runtimeRegistry = runtimeRegistry;
-        // }
+        private bool isInitialized;
+        private bool isSubscribed;
 
-        public void Construct(IGameInputService inputService, IDialogueRunner dialogueRunner, DialogueUI_RPG dialogueUI)
+        public void Initialize(
+            IGameInputService inputService,
+            IDialogueRunner dialogueRunner,
+            DialogueUI_RPG dialogueUI)
         {
+            if (isInitialized)
+                return;
+
             this.inputService = inputService;
             this.dialogueRunner = dialogueRunner;
             this.dialogueUI = dialogueUI;
-            
-            this.dialogueRunner.NodeChanged += OnNodeChanged;
-            this.dialogueRunner.DialogueEnded += OnDialogueEnded;
+
+            isInitialized = true;
+
+            Subscribe();
+        }
+        
+        private void OnEnable()
+        {
+            Subscribe();
         }
 
         private void OnDisable()
         {
             if (dialogueRunner != null)
             {
-                dialogueRunner.NodeChanged -= OnNodeChanged;
-                dialogueRunner.DialogueEnded -= OnDialogueEnded;
+                Unsubscribe();
             }
+        }
+        
+        private void Subscribe()
+        {
+            if (!isInitialized || !isActiveAndEnabled || isSubscribed)
+                return;
+
+            dialogueRunner.NodeChanged += OnNodeChanged;
+            dialogueRunner.DialogueEnded += OnDialogueEnded;
+            dialogueRunner.DialogueStarted += OnDialogueStarted;
+
+            isSubscribed = true;
+        }
+        
+        private void Unsubscribe()
+        {
+            if (!isSubscribed)
+                return;
+
+            dialogueRunner.NodeChanged -= OnNodeChanged;
+            dialogueRunner.DialogueEnded -= OnDialogueEnded;
+            dialogueRunner.DialogueStarted -= OnDialogueStarted;
+
+            isSubscribed = false;
         }
 
         private void Update()
         {
-            if (inputService == null || dialogueRunner == null || dialogueUI == null)
-            {
+            if (!isInitialized)
                 return;
-            }
 
             switch (dialogueRunner.State)
             {
                 case DialogueRuntimeState.AwaitingInput:
                     HandleConfirmation();
                     break;
+
                 case DialogueRuntimeState.AwaitingChoice:
                     HandleChoiceNavigation();
                     HandleConfirmation();
@@ -80,6 +105,15 @@ namespace ChainSawLeg.Features.Dialogue
                 return;
 
             inputService.ConsumeSubmit();
+            
+            if (dialogueUI.IsTyping)
+            {
+                dialogueUI.CompleteTyping();
+                return;
+            }
+            
+            if (dialogueUI.IsAnimatingBlocks)
+                return;
 
             switch (dialogueRunner.State)
             {
@@ -106,6 +140,11 @@ namespace ChainSawLeg.Features.Dialogue
         private void OnDialogueEnded(Dialogue dialogue)
         {
             dialogueUI.Hide();
+        }
+        
+        private void OnDialogueStarted(Dialogue dialogue)
+        {
+            dialogueUI.BeginDialogue(dialogue);
         }
     }
 }

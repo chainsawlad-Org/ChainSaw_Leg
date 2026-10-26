@@ -1,82 +1,85 @@
 using TMPro;
 using UnityEngine;
 
-public class InteractionPromptPresenter : MonoBehaviour
+namespace ChainSawLeg.Features.Exploration
 {
-    [SerializeField] private PlayerInteractionDetector interactionDetector;
-    [SerializeField] private ExplorationInteractionConfig interactionConfig;
-    [SerializeField] private GameObject promptRoot;
-    [SerializeField] private TMP_Text promptText;
-
-    private void OnEnable()
+    public class InteractionPromptPresenter : MonoBehaviour
     {
-        if (interactionDetector != null)
-        {
-            interactionDetector.CurrentTargetChanged += OnCurrentTargetChanged;
-            Refresh(interactionDetector.CurrentTarget);
-        }
-        else
-        {
-            Hide();
-        }
-    }
+        [SerializeField] private PlayerInteractionDetector interactionDetector;
+        [SerializeField] private ExplorationInteractionConfig interactionConfig;
+        [SerializeField] private GameObject promptRoot;
+        [SerializeField] private TMP_Text promptText;
 
-    private void OnDisable()
-    {
-        if (interactionDetector != null)
+        private void OnEnable()
         {
-            interactionDetector.CurrentTargetChanged -= OnCurrentTargetChanged;
-        }
-    }
-
-    private void OnCurrentTargetChanged(IInteractable target)
-    {
-        Refresh(target);
-    }
-
-    private void Refresh(IInteractable target)
-    {
-        if (target == null)
-        {
-            Hide();
-            return;
+            if (interactionDetector != null)
+            {
+                interactionDetector.CurrentTargetChanged += OnCurrentTargetChanged;
+                Refresh(interactionDetector.CurrentTarget);
+            }
+            else
+            {
+                Hide();
+            }
         }
 
-        string prompt = target.GetInteractionPrompt();
-
-        if (string.IsNullOrWhiteSpace(prompt))
+        private void OnDisable()
         {
-            prompt = interactionConfig != null
-                ? interactionConfig.DefaultPromptText
-                : "Press E to interact";
+            if (interactionDetector != null)
+            {
+                interactionDetector.CurrentTargetChanged -= OnCurrentTargetChanged;
+            }
         }
 
-        Show(prompt);
-    }
-
-    private void Show(string value)
-    {
-        if (promptRoot != null)
+        private void OnCurrentTargetChanged(IInteractable target)
         {
-            promptRoot.SetActive(true);
+            Refresh(target);
         }
 
-        if (promptText != null)
+        private void Refresh(IInteractable target)
         {
-            promptText.text = value;
-        }
-    }
+            if (target == null)
+            {
+                Hide();
+                return;
+            }
 
-    private void Hide()
-    {
-        if (promptRoot != null)
-        {
-            promptRoot.SetActive(false);
+            string prompt = target.GetInteractionPrompt();
+
+            if (string.IsNullOrWhiteSpace(prompt))
+            {
+                prompt = interactionConfig != null
+                    ? interactionConfig.DefaultPromptText
+                    : "Press E to interact";
+            }
+
+            Show(prompt);
         }
 
-        if (promptText != null)
+        private void Show(string value)
         {
-            promptText.text = string.Empty;
+            if (promptRoot != null)
+            {
+                promptRoot.SetActive(true);
+            }
+
+            if (promptText != null)
+            {
+                promptText.text = value;
+            }
+        }
+
+        private void Hide()
+        {
+            if (promptRoot != null)
+            {
+                promptRoot.SetActive(false);
+            }
+
+            if (promptText != null)
+            {
+                promptText.text = string.Empty;
+            }
         }
     }
 }

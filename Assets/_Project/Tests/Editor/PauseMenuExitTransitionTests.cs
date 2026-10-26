@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ChainSawLeg.Application;
+using ChainSawLeg.Game.Shared;
+using ChainSawLeg.Infrastructure;
 using Cysharp.Threading.Tasks;
 using NUnit.Framework;
 

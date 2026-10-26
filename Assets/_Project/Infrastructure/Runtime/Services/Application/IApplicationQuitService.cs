@@ -1,4 +1,7 @@
-public interface IApplicationQuitService
+namespace ChainSawLeg.Infrastructure
 {
-    void Quit();
+    public interface IApplicationQuitService
+    {
+        void Quit();
+    }
 }
