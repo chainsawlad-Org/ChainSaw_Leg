@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f160a313f4b4ccb44bf6b606200498a9, type: 3}
+  m_Name: AudioLibrary
+  m_EditorClassIdentifier: ChainSawLeg.Infrastructure.Runtime::AudioLibrary
+  sourceFolder: Assets/_Project/Content/Audio/SFX
+  mixerGroup: {fileID: -5311093583491653434, guid: 659cb832129a33b4cab0a3101be6476e, type: 2}
+  clips:
+  - {fileID: 8300000, guid: 71edabb3da038ae419771b2d5d11d408, type: 3}
+  clipNames:
+  - muhehehe
