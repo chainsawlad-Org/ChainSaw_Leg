@@ -1,4 +1,7 @@
-public interface IActiveSceneProvider
+namespace ChainSawLeg.Infrastructure
 {
-    string ActiveSceneName { get; }
+    public interface IActiveSceneProvider
+    {
+        string ActiveSceneName { get; }
+    }
 }

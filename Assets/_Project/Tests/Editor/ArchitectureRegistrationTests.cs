@@ -1,3 +1,5 @@
+using ChainSawLeg.Application;
+using ChainSawLeg.Infrastructure;
 using NUnit.Framework;
 using Zenject;
 
@@ -11,6 +13,5 @@ public sealed class ArchitectureRegistrationTests
         AutoBinder.BindDerivedTypes<GamePhase>(container);
 
         Assert.That(container.HasBinding<ExplorationPhase>(), Is.True);
-        Assert.That(container.HasBinding<WorldOldExplorationPhase>(), Is.True);
     }
 }

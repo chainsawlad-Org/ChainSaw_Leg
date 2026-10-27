@@ -1,10 +1,13 @@
 using Zenject;
 
-public class SafeSceneContext : SceneContext
+namespace ChainSawLeg.Application
 {
-    protected override void OnDestroy()
+    public class SafeSceneContext : SceneContext
     {
-        if (Container != null)
-            Container.UnbindAll();
+        protected override void OnDestroy()
+        {
+            if (Container != null)
+                Container.UnbindAll();
+        }
     }
 }

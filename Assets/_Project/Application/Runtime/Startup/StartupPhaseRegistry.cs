@@ -1,16 +1,20 @@
 using System;
 using System.Collections.Generic;
-public class StartupPhaseRegistry
+
+namespace ChainSawLeg.Application
 {
-    private readonly Dictionary<string, Type> phases = new();
-
-    public void Register<TPhase>(string sceneName) where TPhase : SceneGamePhase
+    public class StartupPhaseRegistry
     {
-        phases[sceneName] = typeof(TPhase);
-    }
+        private readonly Dictionary<string, Type> phases = new();
 
-    public bool TryGet(string sceneName, out Type phase)
-    {
-        return phases.TryGetValue(sceneName, out phase);
+        public void Register<TPhase>(string sceneName) where TPhase : SceneGamePhase
+        {
+            phases[sceneName] = typeof(TPhase);
+        }
+
+        public bool TryGet(string sceneName, out Type phase)
+        {
+            return phases.TryGetValue(sceneName, out phase);
+        }
     }
 }

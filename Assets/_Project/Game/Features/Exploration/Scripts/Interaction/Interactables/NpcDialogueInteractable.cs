@@ -1,59 +1,62 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class NpcDialogueInteractable : MonoBehaviour, IInteractable
+namespace ChainSawLeg.Features.Exploration
 {
-    [SerializeField] private string interactionPrompt = "Press E to talk";
-    [SerializeField] private bool canRepeat = true;
-    [SerializeField] private bool startsBusy;
-    [SerializeField] private UnityEvent onInteract;
-
-    private bool isBusy;
-    private bool hasBeenUsed;
-
-    private void Awake()
+    public class NpcDialogueInteractable : MonoBehaviour, IInteractable
     {
-        isBusy = startsBusy;
-    }
+        [SerializeField] private string interactionPrompt = "Press E to talk";
+        [SerializeField] private bool canRepeat = true;
+        [SerializeField] private bool startsBusy;
+        [SerializeField] private UnityEvent onInteract;
 
-    public string GetInteractionPrompt()
-    {
-        return interactionPrompt;
-    }
+        private bool isBusy;
+        private bool hasBeenUsed;
 
-    public bool CanInteract()
-    {
-        if (isBusy)
+        private void Awake()
         {
-            return false;
+            isBusy = startsBusy;
         }
 
-        if (!canRepeat && hasBeenUsed)
+        public string GetInteractionPrompt()
         {
-            return false;
+            return interactionPrompt;
         }
 
-        return true;
-    }
-
-    public void Interact()
-    {
-        if (!CanInteract())
+        public bool CanInteract()
         {
-            return;
+            if (isBusy)
+            {
+                return false;
+            }
+
+            if (!canRepeat && hasBeenUsed)
+            {
+                return false;
+            }
+
+            return true;
         }
 
-        hasBeenUsed = true;
-        onInteract?.Invoke();
-    }
+        public void Interact()
+        {
+            if (!CanInteract())
+            {
+                return;
+            }
 
-    public void SetBusy(bool value)
-    {
-        isBusy = value;
-    }
+            hasBeenUsed = true;
+            onInteract?.Invoke();
+        }
 
-    public void ResetUsage()
-    {
-        hasBeenUsed = false;
+        public void SetBusy(bool value)
+        {
+            isBusy = value;
+        }
+
+        public void ResetUsage()
+        {
+            hasBeenUsed = false;
+        }
     }
 }

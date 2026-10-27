@@ -1,19 +1,22 @@
 using UnityEngine;
 
-public class SimpleOutlineHighlightTarget : MonoBehaviour, IInteractionHighlightTarget
+namespace ChainSawLeg.Features.Exploration
 {
-    [SerializeField] private GameObject highlightVisual;
-
-    private void Awake()
+    public class SimpleOutlineHighlightTarget : MonoBehaviour, IInteractionHighlightTarget
     {
-        SetHighlighted(false);
-    }
+        [SerializeField] private GameObject highlightVisual;
 
-    public void SetHighlighted(bool isHighlighted)
-    {
-        if (highlightVisual != null)
+        private void Awake()
         {
-            highlightVisual.SetActive(isHighlighted);
+            SetHighlighted(false);
+        }
+
+        public void SetHighlighted(bool isHighlighted)
+        {
+            if (highlightVisual != null)
+            {
+                highlightVisual.SetActive(isHighlighted);
+            }
         }
     }
 }

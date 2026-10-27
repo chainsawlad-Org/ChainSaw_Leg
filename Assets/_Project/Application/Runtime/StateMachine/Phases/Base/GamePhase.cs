@@ -1,8 +1,11 @@
 using Cysharp.Threading.Tasks;
 
-public abstract class GamePhase : IGamePhase
+namespace ChainSawLeg.Application
 {
-    public abstract UniTask Enter();
+    public abstract class GamePhase : IGamePhase
+    {
+        public abstract UniTask Enter();
 
-    public abstract UniTask Exit();
+        public abstract UniTask Exit();
+    }
 }

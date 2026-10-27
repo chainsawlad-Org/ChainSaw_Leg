@@ -1,10 +1,13 @@
 using UnityEngine;
 
-public class UnityTimeScaleController : ITimeScaleController
+namespace ChainSawLeg.Infrastructure
 {
-    public float TimeScale
+    public class UnityTimeScaleController : ITimeScaleController
     {
-        get => Time.timeScale;
-        set => Time.timeScale = value;
+        public float TimeScale
+        {
+            get => Time.timeScale;
+            set => Time.timeScale = value;
+        }
     }
 }

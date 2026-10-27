@@ -1,36 +1,39 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
-public class DialogueUI_Cutscene : MonoBehaviour
+namespace ChainSawLeg.Features.Dialogue
 {
-    [SerializeField] private GameObject root;
-    [SerializeField] private TextMeshProUGUI text;
-
-    private void Awake()
+    public class DialogueUI_Cutscene : MonoBehaviour
     {
-        root.SetActive(false);
-    }
+        [SerializeField] private GameObject root;
+        [SerializeField] private TextMeshProUGUI text;
 
-    public void ShowRoot()
-    {
-        root.SetActive(true);
-        Clear();
-    }
+        private void Awake()
+        {
+            root.SetActive(false);
+        }
 
-    public void ShowText(string t)
-    {
-        root.SetActive(true);
-        text.text = t;
-    }
+        public void ShowRoot()
+        {
+            root.SetActive(true);
+            Clear();
+        }
 
-    public void Hide()
-    {
-        root.SetActive(false);
-        Clear();
-    }
+        public void ShowText(string t)
+        {
+            root.SetActive(true);
+            text.text = t;
+        }
 
-    private void Clear()
-    {
-        text.text = "";
+        public void Hide()
+        {
+            root.SetActive(false);
+            Clear();
+        }
+
+        private void Clear()
+        {
+            text.text = "";
+        }
     }
 }
