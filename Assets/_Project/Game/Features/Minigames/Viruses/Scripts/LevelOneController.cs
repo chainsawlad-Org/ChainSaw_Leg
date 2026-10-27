@@ -15,10 +15,13 @@ namespace ChainSawLeg.Features.Minigames
         public BoxCollider2D area;
         public GameObject virusesList;
         //Временно
-        public GameManager gameManager;
+        public VirusesGameManager gameManager;
+        //Временно
+        public GameObject cursor;
 
         public void StartLevel()
         {
+            cursor.transform.position = gameManager.spawnOne.transform.position;
             coroutine = StartCoroutine(SpawnViruses());
         }
 

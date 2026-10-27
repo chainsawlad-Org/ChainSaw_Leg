@@ -1,14 +1,20 @@
-using log4net.Core;
 using UnityEngine;
 
 namespace ChainSawLeg.Features.Minigames
 {
-    public class GameManager : MonoBehaviour
+    public class VirusesGameManager : MonoBehaviour
     {
         private int indexLevel = 1;
         private bool levelIsStarted;
-        public LevelOneController oneController;
 
+        public LevelOneController oneController;
+        public LevelTwoController twoController;
+
+        //Уровни
+        public GameObject spawnOne;
+        public GameObject spawnTwo;
+        public GameObject spawnThree;
+        public GameObject spawnFour;
         private void Update()
         {
             switch (indexLevel)
@@ -21,6 +27,11 @@ namespace ChainSawLeg.Features.Minigames
                     }
                     break;
                 case 2:
+                    if (!levelIsStarted)
+                    {
+                        twoController.StartLevel();
+                        levelIsStarted = true;
+                    }
                     break;
                 case 3:
                     break;
@@ -30,6 +41,7 @@ namespace ChainSawLeg.Features.Minigames
         public void NextLevel()
         {
             indexLevel++;
+            levelIsStarted = false;
         }
 
         public void PrevLevel()
