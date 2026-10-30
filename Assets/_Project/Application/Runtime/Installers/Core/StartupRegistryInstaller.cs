@@ -15,5 +15,7 @@ public class StartupRegistryInstaller : IInitializable
         registry.Register<ExplorationPhase>(SceneNames.World);
         registry.Register<WorldOldExplorationPhase>(SceneNames.WorldOld);
         registry.Register<BattlePhase>(SceneNames.Battle);
+
+        registry.Register<VirusesPhase>(SceneNames.Viruses);
     }
 }

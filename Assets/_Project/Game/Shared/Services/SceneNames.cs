@@ -6,4 +6,6 @@ public class SceneNames
     public const string WorldOld = "SC_World_Old";
     public const string Battle = "SC_Battle";
     public const string Dialogue = "SC_Dialogue";
+
+    public const string Viruses = "SC_Minigame_Viruses";
 }
