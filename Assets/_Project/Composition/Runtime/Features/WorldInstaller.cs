@@ -19,7 +19,6 @@ namespace ChainSawLeg.Composition
         [SerializeField] private ExplorationCheckpointTrigger[] checkpointTriggers;
         [SerializeField] private EnemyFlySpawner enemyFlySpawner;
         [SerializeField] private GarbageTrigger garbageTrigger;
-        [SerializeField] private WorldQuestProgressionController worldQuestProgressionController;
 
         public override void InstallBindings()
         {
@@ -52,8 +51,8 @@ namespace ChainSawLeg.Composition
                 .AsSingle();
 
             Container.Bind<PlayerInputHandler>()
-                .FromComponentInHierarchy()
-                .AsSingle();
+                .FromComponentsInHierarchy()
+                .AsCached();
 
             Container.BindInterfacesTo<ExplorationInputAdapterInitializer>()
                 .AsSingle()
@@ -100,19 +99,9 @@ namespace ChainSawLeg.Composition
                 .NonLazy();
             
             
-            Container.BindInterfacesTo<DialogueInputRouterInitializer>()
-                .AsSingle()
-                .NonLazy();
-            
-            if (worldQuestProgressionController == null)
-            {
-                throw new InvalidOperationException(
-                    "World quest progression controller is not assigned.");
-            }
-
-            Container.Bind<WorldQuestProgressionController>()
-                .FromInstance(worldQuestProgressionController)
-                .AsSingle();
+            // Container.BindInterfacesTo<DialogueInputRouterInitializer>()
+            //     .AsSingle()
+            //     .NonLazy();
         }
     }
 }
