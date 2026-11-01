@@ -175,9 +175,7 @@ namespace ChainSawLeg.Features.Minigames
             
             currentAttackConfig++;
             
-            Debug.Log($"STARTING NEXT ATTACK: {currentAttackConfig}");
-
-            DOVirtual.DelayedCall(3f, () =>
+            DOVirtual.DelayedCall(1f, () =>
             {
                 attackCoroutine = StartCoroutine(LoopedAttack());
             });
