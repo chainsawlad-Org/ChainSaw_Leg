@@ -15,6 +15,13 @@ namespace ChainSawLeg.Features.Minigames
         public GameObject spawnTwo;
         public GameObject spawnThree;
         public GameObject spawnFour;
+
+        public GameObject cursor;
+
+        public void Initialize(GameObject curosr)
+        {
+            this.cursor = curosr;
+        }
         private void Update()
         {
             switch (indexLevel)

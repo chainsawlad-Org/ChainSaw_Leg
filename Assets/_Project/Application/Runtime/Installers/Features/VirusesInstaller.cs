@@ -1,3 +1,4 @@
+using ChainSawLeg.Composition;
 using ChainSawLeg.Features.Minigames;
 using UnityEngine;
 using Zenject;
@@ -5,14 +6,20 @@ using Zenject;
 public class VirusesInstaller : MonoInstaller
 {
     [SerializeField]
-    public VirusesGameManager gameManager;
+    private VirusesGameManager gameManager;
+    [SerializeField]
+    private GameObject cursor;
     public override void InstallBindings()
     {
         Container.Bind<VirusesGameManager>()
                 .FromInstance(gameManager)
                 .AsSingle();
 
-        Container.BindInterfacesTo<LevelTwoController>()
+        Container.Bind<GameObject>()
+                .FromInstance(cursor)
+                .AsSingle();
+
+        Container.BindInterfacesTo<VirusesComposition>()
                 .AsSingle()
                 .NonLazy();
     }

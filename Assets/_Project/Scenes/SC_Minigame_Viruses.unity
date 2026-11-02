@@ -263,7 +263,7 @@ MonoBehaviour:
   area: {fileID: 495182421}
   virusesList: {fileID: 3533118}
   gameManager: {fileID: 381143824}
-  cursor: {fileID: 0}
+  cursor: {fileID: 469664818}
 --- !u!4 &103507532
 Transform:
   m_ObjectHideFlags: 0
@@ -291,8 +291,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29105fa2b568f9b41b1d47a4435cbb37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.LevelTwoController
-  gameManager: {fileID: 0}
-  cursor: {fileID: 0}
+  gameManager: {fileID: 381143824}
+  cursor: {fileID: 469664818}
 --- !u!1 &150771592
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,10 +495,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.GameManager
   oneController: {fileID: 103507531}
   twoController: {fileID: 0}
-  spawnOne: {fileID: 0}
+  spawnOne: {fileID: 1630124861}
   spawnTwo: {fileID: 0}
   spawnThree: {fileID: 0}
   spawnFour: {fileID: 0}
+  cursor: {fileID: 0}
 --- !u!1 &469664818
 GameObject:
   m_ObjectHideFlags: 0
@@ -1033,6 +1034,7 @@ GameObject:
   - component: {fileID: 942673552}
   - component: {fileID: 942673551}
   - component: {fileID: 942673550}
+  - component: {fileID: 942673553}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1114,6 +1116,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &942673553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 942673549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
 --- !u!1 &943665346
 GameObject:
   m_ObjectHideFlags: 0
@@ -1473,6 +1519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::VirusesInstaller
   gameManager: {fileID: 381143824}
+  cursor: {fileID: 469664818}
 --- !u!114 &1750828745
 MonoBehaviour:
   m_ObjectHideFlags: 0
