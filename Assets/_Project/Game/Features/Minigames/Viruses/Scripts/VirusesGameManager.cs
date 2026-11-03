@@ -50,10 +50,5 @@ namespace ChainSawLeg.Features.Minigames
             indexLevel++;
             levelIsStarted = false;
         }
-
-        public void PrevLevel()
-        {
-            indexLevel--;
-        }
     }
 }

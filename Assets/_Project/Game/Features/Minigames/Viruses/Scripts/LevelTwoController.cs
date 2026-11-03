@@ -8,10 +8,20 @@ namespace ChainSawLeg.Features.Minigames
         private VirusesGameManager gameManager;
         [SerializeField]
         private GameObject cursor;
+        [SerializeField]
+        private GameObject mainCamera;
 
+        [SerializeField]
+        private GameObject spawnTwo; 
+        public void Initialize(GameObject curosr, GameObject mainCamera)
+        {
+            this.cursor = curosr;
+            this.mainCamera = mainCamera;
+        }
         public void StartLevel()
         {
-            cursor.transform.position = gameManager.spawnTwo.transform.position;
+            cursor.transform.position = spawnTwo.transform.position;
+            mainCamera.transform.SetParent(cursor.transform, false);
         }
     }
 }

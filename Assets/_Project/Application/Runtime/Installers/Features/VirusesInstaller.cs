@@ -5,19 +5,30 @@ using Zenject;
 
 public class VirusesInstaller : MonoInstaller
 {
-    [SerializeField]
-    private VirusesGameManager gameManager;
-    [SerializeField]
-    private GameObject cursor;
+    [SerializeField] private VirusesGameManager gameManager;
+    [SerializeField] private LevelTwoController levelTwoController;
+
+    [SerializeField] private GameObject cursor;
+    [SerializeField] private GameObject mainCamera;
     public override void InstallBindings()
     {
         Container.Bind<VirusesGameManager>()
                 .FromInstance(gameManager)
                 .AsSingle();
 
-        Container.Bind<GameObject>()
-                .FromInstance(cursor)
+        Container.Bind<LevelTwoController>()
+                .FromInstance(levelTwoController)
                 .AsSingle();
+
+        Container.Bind<GameObject>()
+                .WithId("Cursor")
+                .FromInstance(cursor)
+                .AsCached();
+
+        Container.Bind<GameObject>()
+                .WithId("MainCamera")
+                .FromInstance(mainCamera)
+                .AsCached();
 
         Container.BindInterfacesTo<VirusesComposition>()
                 .AsSingle()
