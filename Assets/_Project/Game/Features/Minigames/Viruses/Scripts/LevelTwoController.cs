@@ -2,17 +2,13 @@ using UnityEngine;
 
 namespace ChainSawLeg.Features.Minigames
 {
-    public class LevelTwoController : MonoBehaviour
+    public class LevelTwoController : MonoBehaviour, ILevel
     {
-        [SerializeField]
-        private VirusesGameManager gameManager;
-        [SerializeField]
-        private GameObject cursor;
-        [SerializeField]
-        private GameObject mainCamera;
+        [SerializeField] private VirusesGameManager gameManager;
+        [SerializeField] private GameObject cursor;
+        [SerializeField] private GameObject mainCamera;
 
-        [SerializeField]
-        private GameObject spawnTwo; 
+        [SerializeField] private GameObject spawnTwo; 
         public void Initialize(GameObject curosr, GameObject mainCamera)
         {
             this.cursor = curosr;
@@ -22,6 +18,11 @@ namespace ChainSawLeg.Features.Minigames
         {
             cursor.transform.position = spawnTwo.transform.position;
             mainCamera.transform.SetParent(cursor.transform, false);
+        }
+
+        public void RevertLevel()
+        {
+            cursor.transform.position = spawnTwo.transform.position;
         }
     }
 }

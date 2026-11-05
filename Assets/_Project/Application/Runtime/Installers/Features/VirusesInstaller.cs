@@ -8,6 +8,7 @@ public class VirusesInstaller : MonoInstaller
     [SerializeField] private VirusesGameManager gameManager;
     [SerializeField] private LevelTwoController levelTwoController;
 
+    [SerializeField] private CursorContoll cursorContoll;
     [SerializeField] private GameObject cursor;
     [SerializeField] private GameObject mainCamera;
     public override void InstallBindings()
@@ -18,6 +19,10 @@ public class VirusesInstaller : MonoInstaller
 
         Container.Bind<LevelTwoController>()
                 .FromInstance(levelTwoController)
+                .AsSingle();
+
+        Container.Bind<CursorContoll>()
+                .FromInstance(cursorContoll)
                 .AsSingle();
 
         Container.Bind<GameObject>()

@@ -6,6 +6,7 @@ namespace ChainSawLeg.Features.Minigames
     {
         private int indexLevel = 1;
         private bool levelIsStarted;
+        private GameObject currentLevel;
 
         public LevelOneController oneController;
         public LevelTwoController twoController;
@@ -30,6 +31,7 @@ namespace ChainSawLeg.Features.Minigames
                     if (!levelIsStarted)
                     {
                         oneController.StartLevel();
+                        currentLevel = oneController.gameObject;
                         levelIsStarted = true;
                     }
                     break;
@@ -37,6 +39,7 @@ namespace ChainSawLeg.Features.Minigames
                     if (!levelIsStarted)
                     {
                         twoController.StartLevel();
+                        currentLevel = twoController.gameObject;
                         levelIsStarted = true;
                     }
                     break;
@@ -49,6 +52,11 @@ namespace ChainSawLeg.Features.Minigames
         {
             indexLevel++;
             levelIsStarted = false;
+        }
+
+        public void LevelRevert()
+        {
+            currentLevel.GetComponent<ILevel>().RevertLevel();
         }
     }
 }

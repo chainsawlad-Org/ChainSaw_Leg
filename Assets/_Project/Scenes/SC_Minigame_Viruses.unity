@@ -305,6 +305,7 @@ GameObject:
   m_Component:
   - component: {fileID: 150425077}
   - component: {fileID: 150425078}
+  - component: {fileID: 150425079}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
@@ -373,6 +374,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.6109047, y: 40.393665}
   m_EdgeRadius: 0
+--- !u!114 &150425079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150425076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d468527d3f4466547a6c53bcd66cc7a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.CursorDeath
 --- !u!1 &150771592
 GameObject:
   m_ObjectHideFlags: 0
@@ -591,11 +604,12 @@ GameObject:
   - component: {fileID: 469664823}
   - component: {fileID: 469664822}
   - component: {fileID: 469664821}
+  - component: {fileID: 469664824}
   - component: {fileID: 469664820}
   - component: {fileID: 469664819}
   m_Layer: 0
   m_Name: Cursor
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -773,6 +787,19 @@ Transform:
   - {fileID: 150771593}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &469664824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 469664818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0854e65d102a50428f7a2ba72d92f60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.CursorContoll
+  gameManager: {fileID: 0}
 --- !u!1 &495182419
 GameObject:
   m_ObjectHideFlags: 0
@@ -1397,6 +1424,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1150340099}
   - component: {fileID: 1150340100}
+  - component: {fileID: 1150340101}
   m_Layer: 0
   m_Name: Collider (1)
   m_TagString: Untagged
@@ -1465,6 +1493,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.6109047, y: 40.393665}
   m_EdgeRadius: 0
+--- !u!114 &1150340101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1150340098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d468527d3f4466547a6c53bcd66cc7a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.CursorDeath
 --- !u!1 &1289861784
 GameObject:
   m_ObjectHideFlags: 0
@@ -1566,6 +1606,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1397292845}
   - component: {fileID: 1397292846}
+  - component: {fileID: 1397292847}
   m_Layer: 0
   m_Name: Collider (2)
   m_TagString: Untagged
@@ -1634,6 +1675,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 3.8603058, y: 0.4395485}
   m_EdgeRadius: 0
+--- !u!114 &1397292847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397292844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d468527d3f4466547a6c53bcd66cc7a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.CursorDeath
 --- !u!1 &1630124861
 GameObject:
   m_ObjectHideFlags: 0
@@ -1790,6 +1843,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Composition.Runtime::VirusesInstaller
   gameManager: {fileID: 381143824}
   levelTwoController: {fileID: 103507533}
+  cursorContoll: {fileID: 469664824}
   cursor: {fileID: 469664818}
   mainCamera: {fileID: 942673549}
 --- !u!114 &1750828745

@@ -5,10 +5,8 @@ namespace ChainSawLeg.Features.Minigames
 {
     public class CursorTip : MonoBehaviour
     {
-        [SerializeField]
-        private Transform cursorTip;
-        [SerializeField]
-        private float radius;
+        [SerializeField] private Transform cursorTip;
+        [SerializeField] private float radius;
 
         [Header("Input Actions")]
         [SerializeField] private InputActionAsset inputActions;
