@@ -20,6 +20,12 @@ namespace ChainSawLeg.Features.Minigames
             col = GetComponent<Collider2D>();
         }
 
+        private bool canMove = true;
+
+        public void LockMovement() => canMove = false;
+
+        public void UnlockMovement() => canMove = true;
+
         private void Update()
         {
             ProcessMove();
@@ -28,6 +34,12 @@ namespace ChainSawLeg.Features.Minigames
 
         private void ProcessMove()
         {
+            if (!canMove)
+            {
+                rb.linearVelocityX = 0f;
+                return;
+            }
+
             float xVelocity = 0f;
 
             if (Keyboard.current.aKey.isPressed) xVelocity = -1f;
@@ -41,7 +53,7 @@ namespace ChainSawLeg.Features.Minigames
 
         private void ProcessJump()
         {
-            if (Keyboard.current.wKey.wasPressedThisFrame && IsGrounded())
+            if (canMove && Keyboard.current.wKey.wasPressedThisFrame && IsGrounded())
             {
                 rb.linearVelocityY = jumpForce;
             }

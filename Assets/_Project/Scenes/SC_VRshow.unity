@@ -1304,6 +1304,7 @@ GameObject:
   - component: {fileID: 1157121962}
   - component: {fileID: 1157121977}
   - component: {fileID: 1157121976}
+  - component: {fileID: 1157121978}
   - component: {fileID: 1157121975}
   - component: {fileID: 1157121961}
   m_Layer: 0
@@ -1411,6 +1412,26 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   sprite: {fileID: 1157121977}
+--- !u!114 &1157121978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1157121958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ddb7dca102b42b2bc5b1b8b5e4f9704, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.PlatformerPlayerAttack
+  attackSprite: {fileID: 21300000, guid: b62afc0b438fb41438fbbcf05e56d276, type: 3}
+  sprite: {fileID: 1157121977}
+  movement: {fileID: 1157121976}
+  cameraFlow: {fileID: 878292290}
+  attackDuration: 0.5
+  shakeStrength: 0.2
+  shakeVibrato: 100
+  shakeDuration: 0.4
 --- !u!212 &1157121977
 SpriteRenderer:
   serializedVersion: 2
