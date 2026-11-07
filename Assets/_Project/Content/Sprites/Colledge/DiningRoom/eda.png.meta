@@ -116,12 +116,12 @@ TextureImporter:
       name: eda_0
       rect:
         serializedVersion: 2
-        x: 4
+        x: 291
         y: 0
-        width: 2455
+        width: 2168
         height: 980
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -134,11 +134,33 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: eda_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 364
+        width: 291
+        height: 583
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 370dadd7f5fa53442815fa344d288aad
+      internalID: 255450166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 9c31088f5b6d2c748bfbb7a54ae90887
     internalID: 0
     vertices: []
     indices: 
@@ -149,6 +171,7 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       eda_0: 5518510886174307808
+      eda_1: 255450166
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
