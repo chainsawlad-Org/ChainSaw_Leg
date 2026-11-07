@@ -8,12 +8,16 @@ namespace ChainSawLeg.Features.Minigames
     {
         [SerializeField] private float speed = 10f;
         [SerializeField] private float jumpForce = 50f;
+        [SerializeField] private float groundCheckDistance = 0.2f;
+        [SerializeField] private LayerMask groundMask = ~0;
         [SerializeField] private SpriteRenderer sprite;
         private Rigidbody2D rb;
+        private Collider2D col;
 
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
+            col = GetComponent<Collider2D>();
         }
 
         private void Update()
@@ -37,10 +41,19 @@ namespace ChainSawLeg.Features.Minigames
 
         private void ProcessJump()
         {
-            if (Keyboard.current.wKey.wasPressedThisFrame)
+            if (Keyboard.current.wKey.wasPressedThisFrame && IsGrounded())
             {
                 rb.linearVelocityY = jumpForce;
             }
+        }
+
+        private bool IsGrounded()
+        {
+            Vector2 origin = new Vector2(col.bounds.center.x, col.bounds.min.y - 0.01f);
+            RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, groundCheckDistance, groundMask);
+            Debug.DrawRay(origin, Vector2.down * groundCheckDistance, hit ? Color.green : Color.red);
+
+            return hit.collider != null;
         }
     }
 }
