@@ -1502,6 +1502,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   bodyCollider: {fileID: 1157121975}
+  areaAttackRadius: 2.2
+  areaAttackDamage: 2
+  areaHitScanDuration: 0.2
+  upwardLaunchForce: 27
 --- !u!1 &1195533870
 GameObject:
   m_ObjectHideFlags: 0

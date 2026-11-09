@@ -26,9 +26,16 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField] private LayerMask damageableMask = ~0;
         [SerializeField] private Collider2D bodyCollider;
 
+        [Header("Airborne Area Attack")]
+        [SerializeField] private float areaAttackRadius = 2.2f;
+        [SerializeField] private int areaAttackDamage = 2;
+        [SerializeField] private float areaHitScanDuration = 0.2f;
+        [SerializeField] private float upwardLaunchForce = 18f;
+
         private readonly HashSet<IDamageable> damagedTargets = new HashSet<IDamageable>();
         private Sprite defaultSprite;
         private bool isAttacking;
+        private bool hasLaunched;
         private Coroutine hitScanCoroutine;
 
         private void Awake()
@@ -40,30 +47,45 @@ namespace ChainSawLeg.Features.Minigames
 
         private void Update()
         {
-            if (Keyboard.current.spaceKey.wasPressedThisFrame && !isAttacking)
+            if (isAttacking || !Keyboard.current.spaceKey.wasPressedThisFrame) return;
+
+            if (Keyboard.current.sKey.isPressed && !movement.IsGrounded())
+                AreaAttack();
+            else
                 Attack();
         }
 
         private void Attack()
         {
+            BeginAttack(false, attackRadius, damage, hitScanDuration);
+        }
+
+        private void AreaAttack()
+        {
+            BeginAttack(true, areaAttackRadius, areaAttackDamage, areaHitScanDuration);
+        }
+
+        private void BeginAttack(bool isAreaAttack, float radius, int attackDamage, float scanDuration)
+        {
             isAttacking = true;
+            hasLaunched = false;
             damagedTargets.Clear();
             sprite.sprite = attackSprite;
             cameraFlow.ShakeEffect(shakeStrength, shakeVibrato, shakeDuration);
 
             if (hitScanCoroutine != null) StopCoroutine(hitScanCoroutine);
-            hitScanCoroutine = StartCoroutine(ScanForHits());
+            hitScanCoroutine = StartCoroutine(ScanForHits(isAreaAttack, radius, attackDamage, scanDuration));
 
             DOVirtual.DelayedCall(attackDuration, EndAttack);
         }
 
-        private IEnumerator ScanForHits()
+        private IEnumerator ScanForHits(bool isAreaAttack, float radius, int attackDamage, float scanDuration)
         {
-            float scanEndTime = Time.time + hitScanDuration;
+            float scanEndTime = Time.time + scanDuration;
 
             do
             {
-                PerformHitDetection();
+                PerformHitDetection(isAreaAttack, radius, attackDamage);
                 yield return null;
             }
             while (isAttacking && Time.time < scanEndTime);
@@ -71,10 +93,10 @@ namespace ChainSawLeg.Features.Minigames
             hitScanCoroutine = null;
         }
 
-        private void PerformHitDetection()
+        private void PerformHitDetection(bool isAreaAttack, float radius, int attackDamage)
         {
-            Vector2 attackCenter = GetAttackCenter();
-            Collider2D[] hits = Physics2D.OverlapCircleAll(attackCenter, attackRadius, damageableMask);
+            Vector2 attackCenter = isAreaAttack ? GetAreaCenter() : GetAttackCenter();
+            Collider2D[] hits = Physics2D.OverlapCircleAll(attackCenter, radius, damageableMask);
 
             foreach (Collider2D hit in hits)
             {
@@ -82,8 +104,19 @@ namespace ChainSawLeg.Features.Minigames
 
                 if (damageable == null || !damagedTargets.Add(damageable)) continue;
 
-                damageable.TakeDamage(damage);
+                damageable.TakeDamage(attackDamage);
+
+                if (isAreaAttack)
+                    LaunchUp();
             }
+        }
+
+        private void LaunchUp()
+        {
+            if (hasLaunched) return;
+
+            hasLaunched = true;
+            movement.LaunchUp(upwardLaunchForce);
         }
 
         private Vector2 GetAttackCenter()
@@ -97,12 +130,22 @@ namespace ChainSawLeg.Features.Minigames
             return origin + new Vector2(attackOffset.x * facing, attackOffset.y);
         }
 
+        private Vector2 GetAreaCenter()
+        {
+            return bodyCollider != null
+                ? (Vector2)bodyCollider.bounds.center
+                : (Vector2)transform.position;
+        }
+
         private void OnDrawGizmosSelected()
         {
             if (sprite == null) return;
 
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(GetAttackCenter(), attackRadius);
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(GetAreaCenter(), areaAttackRadius);
         }
 
         private void EndAttack()

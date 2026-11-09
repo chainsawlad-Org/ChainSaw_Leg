@@ -31,6 +31,20 @@ namespace ChainSawLeg.Features.Minigames
 
         public void UnlockMovement() => canMove = true;
 
+        public bool IsGrounded()
+        {
+            Vector2 origin = new Vector2(col.bounds.center.x, col.bounds.min.y - 0.01f);
+            RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, groundCheckDistance, groundMask);
+            Debug.DrawRay(origin, Vector2.down * groundCheckDistance, hit ? Color.green : Color.red);
+
+            return hit.collider != null;
+        }
+
+        public void LaunchUp(float force)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, force);
+        }
+
         private void Update()
         {
             ProcessMove();
@@ -80,13 +94,5 @@ namespace ChainSawLeg.Features.Minigames
             }
         }
 
-        private bool IsGrounded()
-        {
-            Vector2 origin = new Vector2(col.bounds.center.x, col.bounds.min.y - 0.01f);
-            RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, groundCheckDistance, groundMask);
-            Debug.DrawRay(origin, Vector2.down * groundCheckDistance, hit ? Color.green : Color.red);
-
-            return hit.collider != null;
-        }
     }
 }
