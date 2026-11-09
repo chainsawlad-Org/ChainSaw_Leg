@@ -5,7 +5,8 @@
         "Unity.InputSystem",
         "UnityEngine.UI",
         "Unity.TextMeshPro",
-        "ChainSawLeg.Game.Shared.Runtime"
+        "ChainSawLeg.Game.Shared.Runtime",
+        "DOTween.Modules"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
