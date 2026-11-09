@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using ChainSawLeg.Features.Exploration;
 using DG.Tweening;
@@ -19,13 +20,16 @@ namespace ChainSawLeg.Features.Minigames
 
         [Header("Hit Detection")]
         [SerializeField] private int damage = 1;
+        [SerializeField] private float hitScanDuration = 0.15f;
         [SerializeField] private float attackRadius = 1.1f;
         [SerializeField] private Vector2 attackOffset = new Vector2(1f, 0f);
         [SerializeField] private LayerMask damageableMask = ~0;
         [SerializeField] private Collider2D bodyCollider;
 
+        private readonly HashSet<IDamageable> damagedTargets = new HashSet<IDamageable>();
         private Sprite defaultSprite;
         private bool isAttacking;
+        private Coroutine hitScanCoroutine;
 
         private void Awake()
         {
@@ -43,19 +47,34 @@ namespace ChainSawLeg.Features.Minigames
         private void Attack()
         {
             isAttacking = true;
+            damagedTargets.Clear();
             sprite.sprite = attackSprite;
             cameraFlow.ShakeEffect(shakeStrength, shakeVibrato, shakeDuration);
 
-            PerformHitDetection();
+            if (hitScanCoroutine != null) StopCoroutine(hitScanCoroutine);
+            hitScanCoroutine = StartCoroutine(ScanForHits());
 
             DOVirtual.DelayedCall(attackDuration, EndAttack);
+        }
+
+        private IEnumerator ScanForHits()
+        {
+            float scanEndTime = Time.time + hitScanDuration;
+
+            do
+            {
+                PerformHitDetection();
+                yield return null;
+            }
+            while (isAttacking && Time.time < scanEndTime);
+
+            hitScanCoroutine = null;
         }
 
         private void PerformHitDetection()
         {
             Vector2 attackCenter = GetAttackCenter();
             Collider2D[] hits = Physics2D.OverlapCircleAll(attackCenter, attackRadius, damageableMask);
-            var damagedTargets = new HashSet<IDamageable>();
 
             foreach (Collider2D hit in hits)
             {

@@ -1495,6 +1495,7 @@ MonoBehaviour:
   shakeVibrato: 100
   shakeDuration: 0.4
   damage: 1
+  hitScanDuration: 0.1
   attackRadius: 1.1
   attackOffset: {x: 1, y: 0}
   damageableMask:
