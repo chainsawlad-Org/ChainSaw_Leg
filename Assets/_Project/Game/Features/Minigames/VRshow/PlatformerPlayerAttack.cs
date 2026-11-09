@@ -36,6 +36,7 @@ namespace ChainSawLeg.Features.Minigames
         private Sprite defaultSprite;
         private bool isAttacking;
         private bool hasLaunched;
+        private bool hasShaken;
         private Coroutine hitScanCoroutine;
 
         private void Awake()
@@ -69,9 +70,9 @@ namespace ChainSawLeg.Features.Minigames
         {
             isAttacking = true;
             hasLaunched = false;
+            hasShaken = false;
             damagedTargets.Clear();
             sprite.sprite = attackSprite;
-            cameraFlow.ShakeEffect(shakeStrength, shakeVibrato, shakeDuration);
 
             if (hitScanCoroutine != null) StopCoroutine(hitScanCoroutine);
             hitScanCoroutine = StartCoroutine(ScanForHits(isAreaAttack, radius, attackDamage, scanDuration));
@@ -105,10 +106,19 @@ namespace ChainSawLeg.Features.Minigames
                 if (damageable == null || !damagedTargets.Add(damageable)) continue;
 
                 damageable.TakeDamage(attackDamage);
+                ShakeOnHit();
 
                 if (isAreaAttack)
                     LaunchUp();
             }
+        }
+
+        private void ShakeOnHit()
+        {
+            if (hasShaken) return;
+
+            hasShaken = true;
+            cameraFlow.ShakeEffect(shakeStrength, shakeVibrato, shakeDuration);
         }
 
         private void LaunchUp()
