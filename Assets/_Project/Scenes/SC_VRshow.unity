@@ -1273,6 +1273,7 @@ GameObject:
   - component: {fileID: 2081737889}
   - component: {fileID: 2081737888}
   - component: {fileID: 2081737890}
+  - component: {fileID: 2081737891}
   m_Layer: 6
   m_Name: Monster
   m_TagString: Untagged
@@ -1437,6 +1438,26 @@ MonoBehaviour:
   body: {fileID: 2081737888}
   hitColor: {r: 1, g: 0.2, b: 0.2, a: 1}
   hitFlashDuration: 0.25
+--- !u!114 &2081737891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081737885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da24367165e3cd842b3a3fa7754a95c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.MonsterAttack
+  damage: 1
+  damageCooldown: 1
+  touchCollider: {fileID: 2081737889}
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  touchPadding: 0.15
+  monsterHealth: {fileID: 2081737890}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
