@@ -101,6 +101,8 @@ namespace ChainSawLeg.Features.Minigames
 
             foreach (Collider2D hit in hits)
             {
+                if (hit.transform.IsChildOf(transform)) continue;
+
                 IDamageable damageable = hit.GetComponentInParent<IDamageable>();
 
                 if (damageable == null || !damagedTargets.Add(damageable)) continue;
