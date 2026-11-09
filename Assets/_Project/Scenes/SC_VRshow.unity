@@ -1406,7 +1406,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.PlatformerPlayerMovement
   speed: 10
-  jumpForce: 20
+  jumpForce: 28
   jumpCutMultiplier: 0.5
   coyoteTime: 0.15
   jumpBufferTime: 0.15
@@ -1490,8 +1490,8 @@ MonoBehaviour:
   sprite: {fileID: 1157121977}
   movement: {fileID: 1157121976}
   cameraFlow: {fileID: 878292290}
-  attackDuration: 0.5
-  shakeStrength: 0.2
+  attackDuration: 0.25
+  shakeStrength: 0.15
   shakeVibrato: 100
   shakeDuration: 0.4
   damage: 1
@@ -1500,7 +1500,7 @@ MonoBehaviour:
   damageableMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  bodyCollider: {fileID: 0}
+  bodyCollider: {fileID: 1157121975}
 --- !u!1 &1195533870
 GameObject:
   m_ObjectHideFlags: 0
