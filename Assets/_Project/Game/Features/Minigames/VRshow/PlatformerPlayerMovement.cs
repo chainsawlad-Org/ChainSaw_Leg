@@ -10,6 +10,7 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField] private float jumpForce = 50f;
         [SerializeField, Range(0f, 1f)] private float jumpCutMultiplier = 0.5f;
         [SerializeField] private float coyoteTime = 0.15f;
+        [SerializeField] private float jumpBufferTime = 0.15f;
         [SerializeField] private float groundCheckDistance = 0.2f;
         [SerializeField] private LayerMask groundMask = ~0;
         [SerializeField] private SpriteRenderer sprite;
@@ -24,6 +25,7 @@ namespace ChainSawLeg.Features.Minigames
 
         private bool canMove = true;
         private float lastGroundedTime = -Mathf.Infinity;
+        private float lastJumpPressedTime = -Mathf.Infinity;
 
         public void LockMovement() => canMove = false;
 
@@ -59,12 +61,17 @@ namespace ChainSawLeg.Features.Minigames
             bool isGrounded = IsGrounded();
             if (isGrounded) lastGroundedTime = Time.time;
 
-            bool coyoteAvailable = Time.time - lastGroundedTime <= coyoteTime;
+            if (Keyboard.current.wKey.wasPressedThisFrame)
+                lastJumpPressedTime = Time.time;
 
-            if (canMove && Keyboard.current.wKey.wasPressedThisFrame && coyoteAvailable)
+            bool coyoteAvailable = Time.time - lastGroundedTime <= coyoteTime;
+            bool jumpBuffered = Time.time - lastJumpPressedTime <= jumpBufferTime;
+
+            if (canMove && jumpBuffered && coyoteAvailable)
             {
                 rb.linearVelocityY = jumpForce;
                 lastGroundedTime = -Mathf.Infinity;
+                lastJumpPressedTime = -Mathf.Infinity;
             }
 
             if (Keyboard.current.wKey.wasReleasedThisFrame && rb.linearVelocityY > 0f)
