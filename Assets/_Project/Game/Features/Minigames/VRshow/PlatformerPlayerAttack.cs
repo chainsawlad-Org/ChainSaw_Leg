@@ -44,7 +44,6 @@ namespace ChainSawLeg.Features.Minigames
         {
             isAttacking = true;
             sprite.sprite = attackSprite;
-            movement.LockMovement();
             cameraFlow.ShakeEffect(shakeStrength, shakeVibrato, shakeDuration);
 
             PerformHitDetection();
@@ -91,7 +90,6 @@ namespace ChainSawLeg.Features.Minigames
         {
             isAttacking = false;
             sprite.sprite = defaultSprite;
-            movement.UnlockMovement();
         }
     }
 }
