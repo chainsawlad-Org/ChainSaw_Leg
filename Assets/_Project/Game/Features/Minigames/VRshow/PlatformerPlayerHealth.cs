@@ -87,6 +87,17 @@ namespace ChainSawLeg.Features.Minigames
             Healed?.Invoke(CurrentHealth, maxHealth);
         }
 
+        public void Kill()
+        {
+            if (!IsAlive) return;
+
+            CurrentHealth = 0;
+            HealthChanged?.Invoke(CurrentHealth, maxHealth);
+            Damaged?.Invoke(CurrentHealth, maxHealth);
+
+            Die();
+        }
+
         private void PlayHitFeedback()
         {
             if (cameraFlow != null) cameraFlow.ShakeEffect(shakeStrength, shakeVibrato, shakeDuration);
