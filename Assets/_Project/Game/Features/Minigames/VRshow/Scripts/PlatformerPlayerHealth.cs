@@ -58,6 +58,14 @@ namespace ChainSawLeg.Features.Minigames
             if (sprite != null) defaultColor = sprite.color;
 
             CurrentHealth = maxHealth;
+
+            if (PlatformerCheckpointData.HasPosition)
+            {
+                Vector3 position = PlatformerCheckpointData.Position;
+                transform.position = position;
+
+                if (body != null) body.position = position;
+            }
         }
 
         public void TakeDamage(int amount)
