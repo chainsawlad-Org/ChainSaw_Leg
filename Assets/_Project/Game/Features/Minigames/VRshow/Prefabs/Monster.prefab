@@ -215,6 +215,7 @@ MonoBehaviour:
   dashSpeed: 18
   dashDuration: 0.2
   dashCooldown: 2
+  brakeDuration: 1
   body: {fileID: 3367798471521809211}
   monsterHealth: {fileID: 5928348966729218557}
   playerHealth: {fileID: 0}
