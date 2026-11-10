@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3367798471521809211}
   - component: {fileID: 5928348966729218557}
   - component: {fileID: 8255377757622217686}
+  - component: {fileID: 7743908221545921346}
   m_Layer: 6
   m_Name: Monster
   m_TagString: Untagged
@@ -146,7 +147,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 3
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -198,3 +199,22 @@ MonoBehaviour:
     m_Bits: 4294967295
   touchPadding: 0.15
   monsterHealth: {fileID: 5928348966729218557}
+--- !u!114 &7743908221545921346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 14461513940079517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cbb4e5667ee4f60bb6cac9431699d6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.MonsterDash
+  detectionRadius: 6
+  dashSpeed: 18
+  dashDuration: 0.2
+  dashCooldown: 2
+  body: {fileID: 3367798471521809211}
+  monsterHealth: {fileID: 5928348966729218557}
+  playerHealth: {fileID: 0}
