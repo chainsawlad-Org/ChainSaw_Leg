@@ -1191,7 +1191,7 @@ MonoBehaviour:
   shakeVibrato: 100
   shakeDuration: 0.4
   deathShakeDuration: 3
-  deathShakeStrength: 0.2
+  deathShakeStrength: 0.075
   deathShakeVibrato: 60
   sprite: {fileID: 1157121977}
   bodyCollider: {fileID: 1157121975}

@@ -67,6 +67,8 @@ namespace ChainSawLeg.Features.Minigames
             CurrentHealth = Mathf.Max(0, CurrentHealth - amount);
             HealthChanged?.Invoke(CurrentHealth, maxHealth);
             Damaged?.Invoke(CurrentHealth, maxHealth);
+            
+            PlayHitFeedback();
 
             if (CurrentHealth == 0)
             {
@@ -75,7 +77,6 @@ namespace ChainSawLeg.Features.Minigames
             }
 
             invulnerableUntil = Time.time + invulnerabilityDuration;
-            PlayHitFeedback();
         }
 
         public void Heal(int amount)
@@ -95,6 +96,7 @@ namespace ChainSawLeg.Features.Minigames
             HealthChanged?.Invoke(CurrentHealth, maxHealth);
             Damaged?.Invoke(CurrentHealth, maxHealth);
 
+            PlayHitFeedback();
             Die();
         }
 
@@ -108,19 +110,18 @@ namespace ChainSawLeg.Features.Minigames
 
             sprite.DOKill();
             sprite.color = hitColor;
-            sprite.DOColor(defaultColor, hitFlashDuration)
-                .OnComplete(() =>
-                    sprite.DOFade(0.4f, blinkInterval)
-                        .SetLoops(blinkLoops, LoopType.Yoyo)
-                        .OnComplete(() => sprite.color = defaultColor));
+            sprite.DOColor(defaultColor, hitFlashDuration);
+            // sprite.DOColor(defaultColor, hitFlashDuration)
+            //     .OnComplete(() =>
+            //         sprite.DOFade(0.4f, blinkInterval)
+            //             .SetLoops(blinkLoops, LoopType.Yoyo)
+            //             .OnComplete(() => sprite.color = defaultColor));
         }
 
         private void Die()
         {
             isDead = true;
-
-            if (sprite != null) sprite.DOKill();
-
+            
             if (movement != null) movement.LockMovement();
 
             if (bodyCollider != null) bodyCollider.enabled = false;
@@ -133,7 +134,7 @@ namespace ChainSawLeg.Features.Minigames
 
             Died?.Invoke();
 
-            transform.DOShakePosition(deathShakeDuration, deathShakeStrength, deathShakeVibrato);
+            transform.DOShakePosition(deathShakeDuration, deathShakeStrength, deathShakeVibrato, 90F, false, false);
         }
     }
 }
