@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5928348966729218557}
   - component: {fileID: 8255377757622217686}
   - component: {fileID: 7743908221545921346}
+  - component: {fileID: 7891047145812118389}
   m_Layer: 6
   m_Name: Monster
   m_TagString: Untagged
@@ -211,11 +212,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cbb4e5667ee4f60bb6cac9431699d6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.MonsterDash
-  detectionRadius: 6
+  detectionRadius: 15
   dashSpeed: 18
-  dashDuration: 0.2
+  dashDuration: 0.4
   dashCooldown: 2
+  shakeDuration: 1
+  shakeStrength: 0.15
+  shakeVibrato: 10
   brakeDuration: 1
   body: {fileID: 3367798471521809211}
   monsterHealth: {fileID: 5928348966729218557}
   playerHealth: {fileID: 0}
+--- !u!114 &7891047145812118389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 14461513940079517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25205174cda051940b78393742817d31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.MonsterAnimation
+  sprites:
+  - {fileID: 21300000, guid: 3f4fb7d20dc30f441a114c20d53b328e, type: 3}
+  - {fileID: 21300000, guid: c3576c7b1b84ad4479eb99a7be6008a7, type: 3}
+  frameDuration: 0.25
+  loop: 1
