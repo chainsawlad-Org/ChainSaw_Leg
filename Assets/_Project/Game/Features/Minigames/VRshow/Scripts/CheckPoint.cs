@@ -66,6 +66,7 @@ namespace ChainSawLeg.Features.Minigames
 
             if (playerHealth == null || !playerHealth.IsAlive) return;
 
+            playerHealth.Heal(99);
             activated = true;
             PlatformerCheckpointData.Save(playerHealth.transform.position);
 
