@@ -48,9 +48,9 @@ namespace ChainSawLeg.Features.Minigames
 
         private void Update()
         {
-            if (isAttacking || !Keyboard.current.spaceKey.wasPressedThisFrame) return;
+            if (isAttacking || !Keyboard.current.zKey.wasPressedThisFrame) return;
 
-            if (Keyboard.current.sKey.isPressed && !movement.IsGrounded())
+            if (!movement.IsGrounded())
                 AreaAttack();
             else
                 Attack();
