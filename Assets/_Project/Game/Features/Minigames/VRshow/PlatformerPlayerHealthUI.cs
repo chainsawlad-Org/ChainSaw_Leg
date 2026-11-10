@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace ChainSawLeg.Features.Minigames
@@ -23,6 +25,10 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField] private float breakRotation = 35f;
         [SerializeField] private float healDuration = 0.35f;
 
+        [Header("Death Fade")]
+        [SerializeField] private Image blackScreen;
+        [SerializeField, Min(0f)] private float deathFadeDuration = 0.5f;
+
         private static readonly Color MaskFill = new Color(0.92f, 0.89f, 0.78f);
         private static readonly Color MaskOutline = new Color(0.08f, 0.07f, 0.06f);
         private static readonly Color VesselFill = new Color(0.16f, 0.15f, 0.13f, 0.6f);
@@ -36,15 +42,55 @@ namespace ChainSawLeg.Features.Minigames
 
             BuildMasks();
 
+            if (blackScreen != null)
+            {
+                blackScreen.raycastTarget = false;
+                blackScreen.SetAlpha(0f);
+            }
+
             if (health == null) return;
 
             health.HealthChanged += OnHealthChanged;
+            health.Died += OnDied;
             OnHealthChanged(health.CurrentHealth, health.MaxHealth);
         }
 
         private void OnDestroy()
         {
-            if (health != null) health.HealthChanged -= OnHealthChanged;
+            if (health != null)
+            {
+                health.HealthChanged -= OnHealthChanged;
+                health.Died -= OnDied;
+            }
+        }
+
+        private void OnDied()
+        {
+            StartCoroutine(DeathSequence());
+        }
+
+        private IEnumerator DeathSequence()
+        {
+            yield return new WaitForSeconds(health.DeathShakeDuration);
+
+            if (blackScreen != null)
+            {
+                blackScreen.raycastTarget = true;
+                blackScreen.SetAlpha(0f);
+                blackScreen.DOFade(1f, deathFadeDuration);
+                yield return new WaitForSeconds(deathFadeDuration);
+            }
+
+            Canvas canvas = blackScreen != null ? blackScreen.GetComponentInParent<Canvas>(true) : null;
+            if (canvas != null) DontDestroyOnLoad(canvas.gameObject);
+
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            yield return null;
+
+            if (blackScreen == null || canvas == null) yield break;
+
+            blackScreen.DOFade(0f, deathFadeDuration)
+                .OnComplete(() => Destroy(canvas.gameObject));
         }
 
         private void BuildMasks()

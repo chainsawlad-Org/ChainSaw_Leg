@@ -22,6 +22,11 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField] private int shakeVibrato = 100;
         [SerializeField] private float shakeDuration = 0.4f;
 
+        [Header("Death")]
+        [SerializeField, Min(0f)] private float deathShakeDuration = 3f;
+        [SerializeField] private float deathShakeStrength = 0.2f;
+        [SerializeField] private int deathShakeVibrato = 60;
+
         [Header("References")]
         [SerializeField] private SpriteRenderer sprite;
         [SerializeField] private Collider2D bodyCollider;
@@ -36,6 +41,7 @@ namespace ChainSawLeg.Features.Minigames
         public int CurrentHealth { get; private set; }
         public bool IsAlive => !isDead && CurrentHealth > 0;
         public bool IsInvulnerable => Time.time < invulnerableUntil;
+        public float DeathShakeDuration => deathShakeDuration;
 
         public event Action<int, int> HealthChanged;
         public event Action<int, int> Damaged;
@@ -115,6 +121,8 @@ namespace ChainSawLeg.Features.Minigames
             }
 
             Died?.Invoke();
+
+            transform.DOShakePosition(deathShakeDuration, deathShakeStrength, deathShakeVibrato);
         }
     }
 }
