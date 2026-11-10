@@ -24,6 +24,7 @@ namespace ChainSawLeg.Features.Minigames
         }
 
         private bool canMove = true;
+        private bool launchedUp;
         private float lastGroundedTime = -Mathf.Infinity;
         private float lastJumpPressedTime = -Mathf.Infinity;
 
@@ -43,6 +44,7 @@ namespace ChainSawLeg.Features.Minigames
         public void LaunchUp(float force)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, force);
+            launchedUp = true;
         }
 
         private void Update()
@@ -87,10 +89,14 @@ namespace ChainSawLeg.Features.Minigames
                 lastJumpPressedTime = -Mathf.Infinity;
             }
 
-            if ((Keyboard.current.spaceKey.wasReleasedThisFrame || Keyboard.current.upArrowKey.wasReleasedThisFrame) && rb.linearVelocityY > 0f)
+            if (!launchedUp
+                && (Keyboard.current.spaceKey.wasReleasedThisFrame || Keyboard.current.upArrowKey.wasReleasedThisFrame)
+                && rb.linearVelocityY > 0f)
             {
                 rb.linearVelocityY *= jumpCutMultiplier;
             }
+
+            if (isGrounded) launchedUp = false;
         }
 
     }
