@@ -77,7 +77,6 @@ namespace ChainSawLeg.Features.Minigames
 
             if (Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.upArrowKey.wasPressedThisFrame)
                 lastJumpPressedTime = Time.time;
-
             bool coyoteAvailable = Time.time - lastGroundedTime <= coyoteTime;
             bool jumpBuffered = Time.time - lastJumpPressedTime <= jumpBufferTime;
 
@@ -88,7 +87,7 @@ namespace ChainSawLeg.Features.Minigames
                 lastJumpPressedTime = -Mathf.Infinity;
             }
 
-            if (Keyboard.current.spaceKey.wasReleasedThisFrame && rb.linearVelocityY > 0f)
+            if ((Keyboard.current.spaceKey.wasReleasedThisFrame || Keyboard.current.upArrowKey.wasReleasedThisFrame) && rb.linearVelocityY > 0f)
             {
                 rb.linearVelocityY *= jumpCutMultiplier;
             }
