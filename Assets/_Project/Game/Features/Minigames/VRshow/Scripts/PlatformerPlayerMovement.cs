@@ -10,6 +10,7 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField] private float jumpForce = 50f;
         [SerializeField, Range(0f, 1f)] private float jumpCutMultiplier = 0.5f;
         [SerializeField] private float coyoteTime = 0.15f;
+        [SerializeField, Min(0f)] private float knockbackControlTime = 0.25f;
         [SerializeField] private float jumpBufferTime = 0.15f;
         [SerializeField] private float groundCheckDistance = 0.2f;
         [SerializeField] private LayerMask groundMask = ~0;
@@ -25,6 +26,7 @@ namespace ChainSawLeg.Features.Minigames
 
         private bool canMove = true;
         private bool launchedUp;
+        private float knockbackUntil = -Mathf.Infinity;
         private float lastGroundedTime = -Mathf.Infinity;
         private float lastJumpPressedTime = -Mathf.Infinity;
 
@@ -47,6 +49,12 @@ namespace ChainSawLeg.Features.Minigames
             launchedUp = true;
         }
 
+        public void ApplyKnockback(Vector2 velocity)
+        {
+            rb.linearVelocity = velocity;
+            knockbackUntil = Time.time + knockbackControlTime;
+        }
+
         private void Update()
         {
             ProcessMove();
@@ -60,6 +68,9 @@ namespace ChainSawLeg.Features.Minigames
                 rb.linearVelocityX = 0f;
                 return;
             }
+
+            // Let knockback velocity play out before player input takes over again.
+            if (Time.time < knockbackUntil) return;
 
             float xVelocity = 0f;
 

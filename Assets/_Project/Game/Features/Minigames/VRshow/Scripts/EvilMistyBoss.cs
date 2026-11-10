@@ -1,16 +1,19 @@
 using System.Collections;
+using ChainSawLeg.Features.Exploration;
 using DG.Tweening;
 using UnityEngine;
 
 namespace ChainSawLeg.Features.Minigames
 {
     /// <summary>
-    /// Boss brain for EvilMisty. Runs an attack loop: telegraphs and performs one
-    /// attack at a time, then idles. New attacks are added as coroutines next to
-    /// HurricaneAttack and scheduled in RunAttackLoop.
+    /// Boss brain for EvilMisty. Runs an attack loop that strictly alternates between
+    /// attacks (Hurricane → Slam → Hurricane → …). New attacks are added as coroutines
+    /// next to HurricaneAttack/SlamAttack and scheduled in RunAttackLoop.
     /// </summary>
     public sealed class EvilMistyBoss : MonoBehaviour
     {
+        public enum BossState { Idle, Telegraph, Jump, Land, Recover }
+
         [Header("Target")]
         [SerializeField] private LayerMask targetMask = ~0;
 
@@ -18,16 +21,30 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField, Min(0f)] private float firstAttackDelay = 1f;
         [SerializeField, Min(0f)] private float idleTimeBetweenAttacks = 2f;
 
+        [Header("Telegraph")]
+        [SerializeField, Min(0f)] private float telegraphDuration = 0.5f;
+        [SerializeField, Min(0f)] private float telegraphShakeStrength = 0.25f;
+        [SerializeField, Min(0)] private int telegraphShakeVibrato = 40;
+
         [Header("Hurricane Attack")]
         [SerializeField, Min(1)] private int dashCount = 3;
         [SerializeField, Min(0f)] private float dashSpeed = 15f;
         [SerializeField, Min(0f)] private float dashDuration = 0.6f;
         [SerializeField, Min(0f)] private float pauseBetweenDashes = 0.35f;
-        [SerializeField, Min(0f)] private float telegraphDuration = 0.5f;
-        [SerializeField, Min(0f)] private float telegraphShakeStrength = 0.25f;
-        [SerializeField, Min(0)] private int telegraphShakeVibrato = 40;
 
-        [Header("Wall Detection")]
+        [Header("Slam Attack")]
+        [SerializeField, Min(1)] private int slamBounceCount = 3;
+        [SerializeField, Min(0f)] private float slamArcHeight = 4f;
+        [SerializeField, Min(0f)] private float slamJumpDuration = 0.9f;
+        [SerializeField, Range(0f, 1f)] private float slamLockAtProgress = 0.7f;
+        [SerializeField, Min(0f)] private float slamRecoverDuration = 0.8f;
+        [SerializeField, Min(0.1f)] private float slamRadius = 2.5f;
+        [SerializeField, Min(0f)] private float slamKnockbackSide = 12f;
+        [SerializeField, Min(0f)] private float slamKnockbackUp = 18f;
+        [SerializeField] private bool showLandingMarker = true;
+        [SerializeField, Min(0f)] private float slamCameraShakeStrength = 0.6f;
+
+        [Header("Wall / Ground Detection")]
         [SerializeField] private LayerMask wallMask = ~0;
         [SerializeField, Min(0f)] private float wallCheckDistance = 0.3f;
 
@@ -41,6 +58,7 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField] private Transform spinningVisual;
         [SerializeField, Min(0f)] private float spinSpeed = 720f;
         [SerializeField] private Sprite hurricaneSprite;
+        [SerializeField] private CameraFlow cameraFlow;
 
         private Rigidbody2D body;
         private SpriteRenderer sprite;
@@ -49,6 +67,11 @@ namespace ChainSawLeg.Features.Minigames
         private PlatformerPlayerHealth playerHealth;
         private float nextDamageTime = -Mathf.Infinity;
         private bool isDashing;
+        private bool useHurricaneNext = true;
+        private GameObject landingMarker;
+        private SpriteRenderer landingMarkerRenderer;
+
+        public BossState CurrentState { get; private set; } = BossState.Idle;
 
         private void Awake()
         {
@@ -66,6 +89,10 @@ namespace ChainSawLeg.Features.Minigames
             if (sprite != null) defaultSprite = sprite.sprite;
 
             if (body != null) defaultGravityScale = body.gravityScale;
+
+            if (cameraFlow == null) cameraFlow = FindFirstObjectByType<CameraFlow>();
+
+            if (showLandingMarker) CreateLandingMarker();
         }
 
         private void Start()
@@ -77,6 +104,8 @@ namespace ChainSawLeg.Features.Minigames
         private void OnDestroy()
         {
             StopAllCoroutines();
+
+            if (landingMarker != null) Destroy(landingMarker);
         }
 
         private void Update()
@@ -94,8 +123,13 @@ namespace ChainSawLeg.Features.Minigames
             while (true)
             {
                 if (playerHealth != null && playerHealth.IsAlive)
-                    yield return HurricaneAttack();
+                {
+                    // Strict alternation: hurricane → slam → hurricane → …
+                    yield return useHurricaneNext ? HurricaneAttack() : SlamAttack();
+                    useHurricaneNext = !useHurricaneNext;
+                }
 
+                CurrentState = BossState.Idle;
                 yield return new WaitForSeconds(idleTimeBetweenAttacks);
             }
         }
@@ -103,6 +137,7 @@ namespace ChainSawLeg.Features.Minigames
         private IEnumerator HurricaneAttack()
         {
             // Telegraph: stop and shake, then dash.
+            CurrentState = BossState.Telegraph;
             if (body != null) body.linearVelocity = Vector2.zero;
             if (telegraphDuration > 0f)
                 transform.DOShakePosition(telegraphDuration, telegraphShakeStrength, telegraphShakeVibrato);
@@ -146,6 +181,150 @@ namespace ChainSawLeg.Features.Minigames
 
             body.gravityScale = defaultGravityScale;
             if (sprite != null && defaultSprite != null) sprite.sprite = defaultSprite;
+        }
+
+        private IEnumerator SlamAttack()
+        {
+            // Telegraph: stop and shake before the first jump.
+            CurrentState = BossState.Telegraph;
+            if (body != null) body.linearVelocity = Vector2.zero;
+            if (telegraphDuration > 0f)
+                transform.DOShakePosition(telegraphDuration, telegraphShakeStrength, telegraphShakeVibrato);
+            yield return new WaitForSeconds(telegraphDuration);
+
+            if (body == null || playerHealth == null || !playerHealth.IsAlive) yield break;
+
+            // The tween drives the transform, so physics must not fight it mid-air.
+            body.gravityScale = 0f;
+            body.simulated = false;
+
+            // Distance from the transform origin to the collider bottom while standing.
+            float standOffset = damageCollider != null
+                ? transform.position.y - damageCollider.bounds.min.y
+                : 0f;
+
+            for (int i = 0; i < slamBounceCount; i++)
+            {
+                if (!playerHealth.IsAlive) break;
+
+                // Arc jump: aim at the player's X at take-off, land on solid ground there.
+                CurrentState = BossState.Jump;
+                float targetX = playerHealth.transform.position.x;
+                FindGroundAt(targetX, transform.position.y, out float groundY);
+
+                Vector3 target = new Vector3(targetX, groundY + standOffset, transform.position.z);
+                SetLandingMarker(targetX, groundY, false);
+
+                bool landed = false;
+                Tween jumpTween = transform.DOJump(target, slamArcHeight, 1, slamJumpDuration)
+                    .SetEase(Ease.Linear);
+
+                // The arc flight is the dodge window; the marker locks near the end.
+                jumpTween.OnUpdate(() =>
+                {
+                    if (jumpTween.ElapsedPercentage() >= slamLockAtProgress)
+                        SetLandingMarker(targetX, groundY, true);
+                });
+                jumpTween.OnComplete(() => landed = true);
+
+                while (!landed && playerHealth.IsAlive)
+                    yield return null;
+
+                if (jumpTween.IsActive()) jumpTween.Kill();
+
+                // Land: impact, then bounce straight into the next arc jump.
+                CurrentState = BossState.Land;
+                if (landingMarker != null) landingMarker.SetActive(false);
+                SlamImpact();
+            }
+
+            body.simulated = true;
+            body.linearVelocity = Vector2.zero;
+            body.gravityScale = defaultGravityScale;
+
+            // Recover: boss stands still, giving the player a safe window.
+            CurrentState = BossState.Recover;
+            yield return new WaitForSeconds(slamRecoverDuration);
+        }
+
+        private void SlamImpact()
+        {
+            Vector2 center = damageCollider != null
+                ? (Vector2)damageCollider.bounds.center
+                : (Vector2)transform.position;
+
+            Collider2D[] hits = Physics2D.OverlapCircleAll(center, slamRadius, targetMask);
+
+            foreach (Collider2D hit in hits)
+            {
+                PlatformerPlayerHealth hitHealth = hit.GetComponentInParent<PlatformerPlayerHealth>();
+
+                if (hitHealth == null || !hitHealth.IsAlive) continue;
+
+                hitHealth.TakeDamage(damage);
+
+                // Knockback: pushed away from the boss and upward.
+                Vector2 away = (Vector2)hitHealth.transform.position - center;
+                float sideX = Mathf.Abs(away.x) > 0.01f ? Mathf.Sign(away.x) : 1f;
+
+                PlatformerPlayerMovement movement = hitHealth.GetComponent<PlatformerPlayerMovement>();
+                if (movement != null)
+                    movement.ApplyKnockback(new Vector2(sideX * slamKnockbackSide, slamKnockbackUp));
+            }
+
+            if (cameraFlow != null)
+                cameraFlow.ShakeEffect(slamCameraShakeStrength, telegraphShakeVibrato, telegraphDuration * 2f);
+        }
+
+        private void CreateLandingMarker()
+        {
+            landingMarker = new GameObject("SlamLandingMarker");
+
+            landingMarkerRenderer = landingMarker.AddComponent<SpriteRenderer>();
+            landingMarkerRenderer.sprite = CreateFilledCircleSprite();
+            landingMarkerRenderer.color = new Color(1f, 0.25f, 0.2f, 0.45f);
+            landingMarkerRenderer.sortingOrder = 10;
+
+            landingMarker.transform.localScale = Vector3.one * (slamRadius * 2f);
+            landingMarker.SetActive(false);
+        }
+
+        private void SetLandingMarker(float x, float groundY, bool locked)
+        {
+            if (landingMarker == null) return;
+
+            landingMarker.SetActive(true);
+            landingMarker.transform.position = new Vector3(x, groundY + slamRadius, transform.position.z);
+
+            if (landingMarkerRenderer != null)
+                landingMarkerRenderer.color = locked
+                    ? new Color(1f, 0.15f, 0.1f, 0.8f)
+                    : new Color(1f, 0.25f, 0.2f, 0.45f);
+        }
+
+        private bool FindGroundAt(float x, float fromY, out float groundY)
+        {
+            groundY = fromY;
+
+            Vector2 origin = new Vector2(x, fromY + 10f);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(origin, Vector2.down, 100f, wallMask);
+
+            float closest = float.PositiveInfinity;
+            bool found = false;
+
+            foreach (RaycastHit2D hit in hits)
+            {
+                if (hit.collider == damageCollider) continue;
+                if (hit.collider.GetComponentInParent<PlatformerPlayerHealth>() != null) continue;
+                if (hit.distance >= closest) continue;
+
+                closest = hit.distance;
+                found = true;
+            }
+
+            if (found) groundY = origin.y - closest;
+
+            return found;
         }
 
         private bool IsWallAhead(float directionX)
@@ -192,13 +371,40 @@ namespace ChainSawLeg.Features.Minigames
             }
         }
 
+        private static Sprite CreateFilledCircleSprite()
+        {
+            const int size = 64;
+
+            Texture2D texture = new Texture2D(size, size, TextureFormat.RGBA32, false) { wrapMode = TextureWrapMode.Clamp };
+            Vector2 center = new Vector2(size * 0.5f, size * 0.5f);
+            float radius = size * 0.5f - 1f;
+
+            for (int y = 0; y < size; y++)
+            {
+                for (int x = 0; x < size; x++)
+                {
+                    float distance = Vector2.Distance(new Vector2(x + 0.5f, y + 0.5f), center);
+                    float alpha = Mathf.Clamp01(radius - distance + 0.5f);
+
+                    texture.SetPixel(x, y, new Color(1f, 1f, 1f, alpha));
+                }
+            }
+
+            texture.Apply();
+
+            return Sprite.Create(texture, new Rect(0f, 0f, size, size), new Vector2(0.5f, 0.5f), size);
+        }
+
         private void OnDrawGizmosSelected()
         {
             if (damageCollider == null) damageCollider = GetComponent<Collider2D>();
-            if (damageCollider == null) return;
 
             Gizmos.color = Color.magenta;
-            Gizmos.DrawWireCube(damageCollider.bounds.center, damageCollider.bounds.size);
+            if (damageCollider != null)
+                Gizmos.DrawWireCube(damageCollider.bounds.center, damageCollider.bounds.size);
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, slamRadius);
         }
     }
 }

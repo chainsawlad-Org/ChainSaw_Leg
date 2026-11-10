@@ -1484,8 +1484,8 @@ Transform:
   m_GameObject: {fileID: 656114396}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10, y: -6.33, z: 0}
-  m_LocalScale: {x: 1.4, y: 1.4, z: 1.4}
+  m_LocalPosition: {x: 10, y: -6.59, z: 0}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -1591,19 +1591,35 @@ MonoBehaviour:
     m_Bits: 4294967295
   firstAttackDelay: 1
   idleTimeBetweenAttacks: 2
+  telegraphDuration: 0.5
+  telegraphShakeStrength: 0.25
+  telegraphShakeVibrato: 40
   dashCount: 1
   dashSpeed: 25
   dashDuration: 1
   pauseBetweenDashes: 1
-  telegraphDuration: 0.5
+  slamBounceCount: 3
+  slamArcHeight: 10
+  slamJumpDuration: 0.9
+  slamLockAtProgress: 0.7
+  slamRecoverDuration: 0.8
+  slamRadius: 2.5
+  slamKnockbackSide: 12
+  slamKnockbackUp: 18
+  showLandingMarker: 0
+  slamCameraShakeStrength: 0.6
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  wallCheckDistance: 0.3
   damage: 1
   damageCollider: {fileID: 0}
   touchPadding: 0.15
   damageCooldown: 0.5
   spinningVisual: {fileID: 0}
   spinSpeed: 720
-  telegraphColor: {r: 1, g: 0, b: 0, a: 1}
   hurricaneSprite: {fileID: -6143035174361692184, guid: 94bb1582719216948b4a14c240985bc2, type: 3}
+  cameraFlow: {fileID: 0}
 --- !u!1 &749931756
 GameObject:
   m_ObjectHideFlags: 0
@@ -2490,6 +2506,7 @@ MonoBehaviour:
   jumpForce: 28
   jumpCutMultiplier: 0.5
   coyoteTime: 0.15
+  knockbackControlTime: 0.25
   jumpBufferTime: 0.15
   groundCheckDistance: 0.2
   groundMask:
