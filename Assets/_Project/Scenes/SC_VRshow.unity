@@ -2558,7 +2558,7 @@ MonoBehaviour:
   movement: {fileID: 1157121976}
   cameraFlow: {fileID: 878292290}
   attackDuration: 0.25
-  shakeStrength: 0.15
+  shakeStrength: 0.3
   shakeVibrato: 100
   shakeDuration: 0.4
   damage: 1
