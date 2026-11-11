@@ -73,6 +73,10 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField] private Sprite hurricaneSprite;
         [SerializeField] private CameraFlow cameraFlow;
 
+        [Header("Slam Skin")]
+        [SerializeField] private Transform slamSkin;
+        [SerializeField, Min(0f)] private float slamSkinSpinSpeed = 360f;
+
         [Header("References")]
         [SerializeField] private MonsterHealth monsterHealth;
 
@@ -83,6 +87,7 @@ namespace ChainSawLeg.Features.Minigames
         private PlatformerPlayerHealth playerHealth;
         private float nextDamageTime = -Mathf.Infinity;
         private bool isDashing;
+        private bool isSlamSkinActive;
         private bool useHurricaneNext = true;
         private GameObject landingMarker;
         private SpriteRenderer landingMarkerRenderer;
@@ -103,6 +108,7 @@ namespace ChainSawLeg.Features.Minigames
                 SpriteRenderer childSprite = GetComponentInChildren<SpriteRenderer>();
                 if (childSprite != null && childSprite.transform != transform) spinningVisual = childSprite.transform;
             }
+            if (slamSkin == null) slamSkin = transform.Find("SlamAttackSprite");
 
             sprite = GetComponentInChildren<SpriteRenderer>();
             if (sprite != null) defaultSprite = sprite.sprite;
@@ -136,6 +142,9 @@ namespace ChainSawLeg.Features.Minigames
             if (isDashing && spinningVisual != null)
                 spinningVisual.Rotate(0f, 0f, spinSpeed * Time.deltaTime);
 
+            if (isSlamSkinActive && slamSkin != null)
+                slamSkin.Rotate(0f, 0f, slamSkinSpinSpeed * Time.deltaTime);
+
             // Always face the player (same convention as the player: flipX = facing left).
             if (playerHealth != null && sprite != null)
                 sprite.flipX = playerHealth.transform.position.x > transform.position.x;
@@ -155,10 +164,16 @@ namespace ChainSawLeg.Features.Minigames
             StopAllCoroutines();
 
             isDashing = false;
+            isSlamSkinActive = false;
             CurrentState = BossState.Idle;
 
             if (body != null) body.linearVelocity = Vector2.zero;
-            if (sprite != null && defaultSprite != null) sprite.sprite = defaultSprite;
+            if (slamSkin != null) slamSkin.gameObject.SetActive(false);
+            if (sprite != null)
+            {
+                sprite.sprite = defaultSprite;
+                sprite.enabled = true;
+            }
             if (landingMarker != null) landingMarker.SetActive(false);
 
             if (cameraFlow != null) cameraFlow.RemoveShakeEffect();
@@ -273,6 +288,11 @@ namespace ChainSawLeg.Features.Minigames
 
             if (body == null || playerHealth == null || !playerHealth.IsAlive) yield break;
 
+            // Slam state: the whole view becomes the spinning skin.
+            isSlamSkinActive = true;
+            if (sprite != null) sprite.enabled = false;
+            if (slamSkin != null) slamSkin.gameObject.SetActive(true);
+
             // The tween drives the transform, so physics must not fight it mid-air.
             body.gravityScale = 0f;
             body.simulated = false;
@@ -318,6 +338,15 @@ namespace ChainSawLeg.Features.Minigames
                 CurrentState = BossState.Land;
                 if (landingMarker != null) landingMarker.SetActive(false);
                 SlamImpact();
+            }
+
+            // Back to the default look for the cosmetic exit bounce.
+            isSlamSkinActive = false;
+            if (slamSkin != null) slamSkin.gameObject.SetActive(false);
+            if (sprite != null)
+            {
+                sprite.sprite = defaultSprite;
+                sprite.enabled = true;
             }
 
             // Cosmetic exit bounce: a small hop away from the player, no hitbox, no marker.
