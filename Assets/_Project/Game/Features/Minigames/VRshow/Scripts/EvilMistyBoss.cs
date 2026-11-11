@@ -21,6 +21,10 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField, Min(0f)] private float firstAttackDelay = 1f;
         [SerializeField, Min(0f)] private float idleTimeBetweenAttacks = 2f;
 
+        [Header("Aggro")]
+        [SerializeField, Min(0f)] private float aggroRange = 12f;
+        [SerializeField, Min(0.05f)] private float aggroCheckInterval = 0.25f;
+
         [Header("Telegraph")]
         [SerializeField, Min(0f)] private float telegraphDuration = 0.5f;
         [SerializeField, Min(0f)] private float telegraphShakeStrength = 0.25f;
@@ -140,16 +144,31 @@ namespace ChainSawLeg.Features.Minigames
 
             while (true)
             {
-                if (playerHealth != null && playerHealth.IsAlive)
+                // Attack only while the player is near; the alternation order is
+                // preserved, so the first attack after re-aggro keeps the sequence.
+                if (IsPlayerNear())
                 {
                     // Strict alternation: hurricane → slam → hurricane → …
                     yield return useHurricaneNext ? HurricaneAttack() : SlamAttack();
                     useHurricaneNext = !useHurricaneNext;
-                }
 
-                CurrentState = BossState.Idle;
-                yield return new WaitForSeconds(idleTimeBetweenAttacks);
+                    CurrentState = BossState.Idle;
+                    yield return new WaitForSeconds(idleTimeBetweenAttacks);
+                }
+                else
+                {
+                    CurrentState = BossState.Idle;
+                    yield return new WaitForSeconds(aggroCheckInterval);
+                }
             }
+        }
+
+        private bool IsPlayerNear()
+        {
+            if (playerHealth == null || !playerHealth.IsAlive) return false;
+
+            Vector2 offset = (Vector2)playerHealth.transform.position - (Vector2)transform.position;
+            return offset.sqrMagnitude <= aggroRange * aggroRange;
         }
 
         private IEnumerator HurricaneAttack()
@@ -465,6 +484,9 @@ namespace ChainSawLeg.Features.Minigames
 
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, slamRadius);
+
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(transform.position, aggroRange);
         }
     }
 }

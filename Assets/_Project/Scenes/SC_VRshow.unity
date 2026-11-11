@@ -1591,6 +1591,8 @@ MonoBehaviour:
     m_Bits: 4294967295
   firstAttackDelay: 1
   idleTimeBetweenAttacks: 1
+  aggroRange: 35
+  aggroCheckInterval: 0.25
   telegraphDuration: 0.5
   telegraphShakeStrength: 0.25
   telegraphShakeVibrato: 40
@@ -1620,7 +1622,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   wallCheckDistance: 0.3
   damage: 1
-  damageCollider: {fileID: 0}
+  damageCollider: {fileID: 656114399}
   touchPadding: 0.15
   damageCooldown: 0.5
   spinningVisual: {fileID: 0}
