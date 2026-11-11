@@ -1590,20 +1590,25 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   firstAttackDelay: 1
-  idleTimeBetweenAttacks: 2
+  idleTimeBetweenAttacks: 1
   telegraphDuration: 0.5
   telegraphShakeStrength: 0.25
   telegraphShakeVibrato: 40
   dashCount: 1
   dashSpeed: 25
   dashDuration: 1
-  pauseBetweenDashes: 1
-  slamBounceCount: 3
+  pauseBetweenDashes: 0
+  slamBounceCountHealthy: 1
+  slamBounceCountEnraged: 3
+  enragedHealthFraction: 0.5
   slamArcHeight: 10
   slamJumpDuration: 0.9
   slamLockAtProgress: 0.7
   slamRecoverDuration: 0.8
   slamRadius: 2.5
+  slamExitBounceDistance: 4
+  slamExitBounceHeight: 2.5
+  slamExitBounceDuration: 0.5
   slamKnockbackSide: 12
   slamKnockbackUp: 18
   showLandingMarker: 0
@@ -1620,6 +1625,7 @@ MonoBehaviour:
   spinSpeed: 720
   hurricaneSprite: {fileID: -6143035174361692184, guid: 94bb1582719216948b4a14c240985bc2, type: 3}
   cameraFlow: {fileID: 0}
+  monsterHealth: {fileID: 0}
 --- !u!1 &749931756
 GameObject:
   m_ObjectHideFlags: 0
@@ -2606,6 +2612,7 @@ MonoBehaviour:
   areaHitScanDuration: 0.2
   upwardLaunchForce: 32
   airborneHitInvulnerability: 0.5
+  attackLockAfterDamage: 0.5
 --- !u!114 &1157121979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2623,6 +2630,10 @@ MonoBehaviour:
   blinkInterval: 0.08
   knockbackSide: 15
   knockbackUp: 10
+  hitTimeScale: 0.2
+  hitTimeScaleFadeIn: 0.05
+  hitTimeScaleHold: 0.1
+  hitTimeScaleFadeOut: 0.2
   hitColor: {r: 1, g: 0, b: 0, a: 1}
   hitFlashDuration: 0.1
   cameraFlow: {fileID: 878292290}

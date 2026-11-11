@@ -33,12 +33,19 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField, Min(0f)] private float pauseBetweenDashes = 0.35f;
 
         [Header("Slam Attack")]
-        [SerializeField, Min(1)] private int slamBounceCount = 3;
+        [SerializeField, Min(1)] private int slamBounceCountHealthy = 1;
+        [SerializeField, Min(1)] private int slamBounceCountEnraged = 3;
+        [SerializeField, Range(0.01f, 1f)] private float enragedHealthFraction = 0.5f;
         [SerializeField, Min(0f)] private float slamArcHeight = 4f;
         [SerializeField, Min(0f)] private float slamJumpDuration = 0.9f;
         [SerializeField, Range(0f, 1f)] private float slamLockAtProgress = 0.7f;
         [SerializeField, Min(0f)] private float slamRecoverDuration = 0.8f;
         [SerializeField, Min(0.1f)] private float slamRadius = 2.5f;
+
+        [Header("Slam Exit Bounce (visual only)")]
+        [SerializeField, Min(0f)] private float slamExitBounceDistance = 1.5f;
+        [SerializeField, Min(0f)] private float slamExitBounceHeight = 1.6f;
+        [SerializeField, Min(0f)] private float slamExitBounceDuration = 0.45f;
         [SerializeField, Min(0f)] private float slamKnockbackSide = 12f;
         [SerializeField, Min(0f)] private float slamKnockbackUp = 18f;
         [SerializeField] private bool showLandingMarker = true;
@@ -60,6 +67,9 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField] private Sprite hurricaneSprite;
         [SerializeField] private CameraFlow cameraFlow;
 
+        [Header("References")]
+        [SerializeField] private MonsterHealth monsterHealth;
+
         private Rigidbody2D body;
         private SpriteRenderer sprite;
         private Sprite defaultSprite;
@@ -77,6 +87,8 @@ namespace ChainSawLeg.Features.Minigames
         {
             body = GetComponent<Rigidbody2D>();
             if (body == null) Debug.LogWarning("EvilMistyBoss needs a Rigidbody2D to dash.", this);
+
+            if (monsterHealth == null) monsterHealth = GetComponent<MonsterHealth>();
 
             if (damageCollider == null) damageCollider = GetComponent<Collider2D>();
             if (spinningVisual == null)
@@ -203,7 +215,10 @@ namespace ChainSawLeg.Features.Minigames
                 ? transform.position.y - damageCollider.bounds.min.y
                 : 0f;
 
-            for (int i = 0; i < slamBounceCount; i++)
+            // Difficulty progression: bounces increase once half the boss health is gone.
+            int bounceCount = IsEnraged() ? slamBounceCountEnraged : slamBounceCountHealthy;
+
+            for (int i = 0; i < bounceCount; i++)
             {
                 if (!playerHealth.IsAlive) break;
 
@@ -238,6 +253,23 @@ namespace ChainSawLeg.Features.Minigames
                 SlamImpact();
             }
 
+            // Cosmetic exit bounce: a small hop away from the player, no hitbox, no marker.
+            if (playerHealth.IsAlive)
+            {
+                CurrentState = BossState.Jump;
+                float exitDirectionX = Mathf.Sign(transform.position.x - playerHealth.transform.position.x);
+                if (exitDirectionX == 0f) exitDirectionX = 1f;
+
+                float exitX = transform.position.x + exitDirectionX * slamExitBounceDistance;
+                FindGroundAt(exitX, transform.position.y, out float exitGroundY);
+
+                Vector3 exitTarget = new Vector3(exitX, exitGroundY + standOffset, transform.position.z);
+                transform.DOJump(exitTarget, slamExitBounceHeight, 1, slamExitBounceDuration)
+                    .SetEase(Ease.Linear);
+
+                yield return new WaitForSeconds(slamExitBounceDuration);
+            }
+
             body.simulated = true;
             body.linearVelocity = Vector2.zero;
             body.gravityScale = defaultGravityScale;
@@ -245,6 +277,12 @@ namespace ChainSawLeg.Features.Minigames
             // Recover: boss stands still, giving the player a safe window.
             CurrentState = BossState.Recover;
             yield return new WaitForSeconds(slamRecoverDuration);
+        }
+
+        private bool IsEnraged()
+        {
+            return monsterHealth != null
+                && monsterHealth.CurrentHealth <= monsterHealth.MaxHealth * enragedHealthFraction;
         }
 
         private void SlamImpact()
