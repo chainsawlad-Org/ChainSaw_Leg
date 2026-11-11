@@ -62,7 +62,8 @@ namespace ChainSawLeg.Features.Exploration
 
         public void RemoveShakeEffect()
         {
-            shakeTweener.Kill();
+            if (shakeTweener != null && shakeTweener.IsActive()) shakeTweener.Kill();
+            shakeTweener = null;
         }
 
         public void ShakeEffect(float strength, int vibrato, float duration, bool ensurePlay = false)

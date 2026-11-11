@@ -95,6 +95,7 @@ namespace ChainSawLeg.Features.Minigames
             if (body == null) Debug.LogWarning("EvilMistyBoss needs a Rigidbody2D to dash.", this);
 
             if (monsterHealth == null) monsterHealth = GetComponent<MonsterHealth>();
+            if (monsterHealth != null) monsterHealth.Died += OnBossDied;
 
             if (damageCollider == null) damageCollider = GetComponent<Collider2D>();
             if (spinningVisual == null)
@@ -121,6 +122,8 @@ namespace ChainSawLeg.Features.Minigames
 
         private void OnDestroy()
         {
+            if (monsterHealth != null) monsterHealth.Died -= OnBossDied;
+
             StopAllCoroutines();
 
             if (landingMarker != null) Destroy(landingMarker);
@@ -128,6 +131,8 @@ namespace ChainSawLeg.Features.Minigames
 
         private void Update()
         {
+            if (monsterHealth != null && !monsterHealth.IsAlive) return;
+
             if (isDashing && spinningVisual != null)
                 spinningVisual.Rotate(0f, 0f, spinSpeed * Time.deltaTime);
 
@@ -138,11 +143,32 @@ namespace ChainSawLeg.Features.Minigames
             TryDamagePlayer();
         }
 
+        private bool BossAlive()
+        {
+            return monsterHealth == null || monsterHealth.IsAlive;
+        }
+
+        private void OnBossDied()
+        {
+            // A dead boss stops fighting immediately: kill every attack coroutine
+            // (the hurricane's finally removes the camera rumble) and clean up.
+            StopAllCoroutines();
+
+            isDashing = false;
+            CurrentState = BossState.Idle;
+
+            if (body != null) body.linearVelocity = Vector2.zero;
+            if (sprite != null && defaultSprite != null) sprite.sprite = defaultSprite;
+            if (landingMarker != null) landingMarker.SetActive(false);
+
+            if (cameraFlow != null) cameraFlow.RemoveShakeEffect();
+        }
+
         private IEnumerator RunAttackLoop()
         {
             yield return new WaitForSeconds(firstAttackDelay);
 
-            while (true)
+            while (BossAlive())
             {
                 // Attack only while the player is near; the alternation order is
                 // preserved, so the first attack after re-aggro keeps the sequence.
@@ -203,7 +229,7 @@ namespace ChainSawLeg.Features.Minigames
 
             for (int i = 0; i < dashCount; i++)
             {
-                if (!playerHealth.IsAlive) break;
+                if (!playerHealth.IsAlive || !BossAlive()) break;
 
                 // Dash along the horizontal axis only: chase the player's side, keep Y locked.
                 float directionX = Mathf.Sign(playerHealth.transform.position.x - transform.position.x);
@@ -212,7 +238,7 @@ namespace ChainSawLeg.Features.Minigames
 
                 isDashing = true;
                 float elapsed = 0f;
-                while (elapsed < dashDuration && playerHealth.IsAlive)
+                while (elapsed < dashDuration && playerHealth.IsAlive && BossAlive())
                 {
                     elapsed += Time.deltaTime;
                     body.linearVelocityY = 0f;
@@ -227,7 +253,7 @@ namespace ChainSawLeg.Features.Minigames
 
                 body.linearVelocity = Vector2.zero;
 
-                if (!playerHealth.IsAlive) break;
+                if (!playerHealth.IsAlive || !BossAlive()) break;
 
                 yield return new WaitForSeconds(pauseBetweenDashes);
             }
@@ -261,7 +287,7 @@ namespace ChainSawLeg.Features.Minigames
 
             for (int i = 0; i < bounceCount; i++)
             {
-                if (!playerHealth.IsAlive) break;
+                if (!playerHealth.IsAlive || !BossAlive()) break;
 
                 // Arc jump: aim at the player's X at take-off, land on solid ground there.
                 CurrentState = BossState.Jump;
@@ -295,7 +321,7 @@ namespace ChainSawLeg.Features.Minigames
             }
 
             // Cosmetic exit bounce: a small hop away from the player, no hitbox, no marker.
-            if (playerHealth.IsAlive)
+            if (playerHealth.IsAlive && BossAlive())
             {
                 CurrentState = BossState.Jump;
                 float exitDirectionX = Mathf.Sign(transform.position.x - playerHealth.transform.position.x);
