@@ -2732,6 +2732,8 @@ MonoBehaviour:
   hitTimeScaleFadeIn: 0.05
   hitTimeScaleHold: 0.1
   hitTimeScaleFadeOut: 0.2
+  hurtSprite: {fileID: -361453216587789962, guid: 562d540622603c54880cbdf6fac1ba36, type: 3}
+  hurtSpriteDuration: 0.5
   hitColor: {r: 1, g: 0, b: 0, a: 1}
   hitFlashDuration: 0.1
   cameraFlow: {fileID: 878292290}

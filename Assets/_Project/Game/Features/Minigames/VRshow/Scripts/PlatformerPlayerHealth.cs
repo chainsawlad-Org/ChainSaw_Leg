@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using ChainSawLeg.Features.Exploration;
 using DG.Tweening;
 using UnityEngine;
@@ -24,6 +25,10 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField, Min(0f)] private float hitTimeScaleHold = 0.1f;
         [SerializeField, Min(0f)] private float hitTimeScaleFadeOut = 0.2f;
 
+        [Header("Hurt Sprite")]
+        [SerializeField] private Sprite hurtSprite;
+        [SerializeField, Min(0f)] private float hurtSpriteDuration = 1f;
+
         [Header("Hit Feedback")]
         [SerializeField] private Color hitColor = Color.red;
         [SerializeField] private float hitFlashDuration = 0.1f;
@@ -44,9 +49,11 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField] private PlatformerPlayerMovement movement;
 
         private Color defaultColor;
+        private Sprite defaultSprite;
         private bool isDead;
         private float invulnerableUntil = -Mathf.Infinity;
         private Sequence hitTimeScaleSequence;
+        private Coroutine hurtSpriteCoroutine;
 
         public int MaxHealth => maxHealth;
         public int CurrentHealth { get; private set; }
@@ -66,7 +73,11 @@ namespace ChainSawLeg.Features.Minigames
             if (body == null) body = GetComponent<Rigidbody2D>();
             if (movement == null) movement = GetComponent<PlatformerPlayerMovement>();
 
-            if (sprite != null) defaultColor = sprite.color;
+            if (sprite != null)
+            {
+                defaultColor = sprite.color;
+                defaultSprite = sprite.sprite;
+            }
 
             CurrentHealth = maxHealth;
 
@@ -107,9 +118,30 @@ namespace ChainSawLeg.Features.Minigames
 
             invulnerableUntil = Time.time + invulnerabilityDuration;
 
+            PlayHurtSprite();
             PlayHitTimeScale();
 
             if (sourcePosition.HasValue) ApplyHitKnockback(sourcePosition.Value);
+        }
+
+        private void PlayHurtSprite()
+        {
+            if (sprite == null || hurtSprite == null) return;
+
+            sprite.sprite = hurtSprite;
+
+            if (hurtSpriteCoroutine != null) StopCoroutine(hurtSpriteCoroutine);
+            hurtSpriteCoroutine = StartCoroutine(HurtSpriteRoutine());
+        }
+
+        private IEnumerator HurtSpriteRoutine()
+        {
+            yield return new WaitForSeconds(hurtSpriteDuration);
+
+            hurtSpriteCoroutine = null;
+
+            // Only revert if nothing else swapped the sprite in the meantime.
+            if (sprite != null && sprite.sprite == hurtSprite) sprite.sprite = defaultSprite;
         }
 
         private void PlayHitTimeScale()
@@ -131,6 +163,8 @@ namespace ChainSawLeg.Features.Minigames
         {
             if (hitTimeScaleSequence != null && hitTimeScaleSequence.IsActive())
                 hitTimeScaleSequence.Kill();
+
+            if (hurtSpriteCoroutine != null) StopCoroutine(hurtSpriteCoroutine);
 
             Time.timeScale = 1f;
         }
