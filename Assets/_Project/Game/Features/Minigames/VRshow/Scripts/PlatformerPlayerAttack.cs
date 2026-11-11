@@ -34,12 +34,17 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField] private float upwardLaunchForce = 18f;
         [SerializeField, Min(0f)] private float airborneHitInvulnerability = 1.5f;
 
+        [Header("Airborne Skin")]
+        [SerializeField] private Transform airborneSkin;
+        [SerializeField, Min(0f)] private float airborneSkinSpinSpeed = 360f;
+
         [Header("Damage Lock")]
         [SerializeField, Min(0f)] private float attackLockAfterDamage = 0.5f;
 
         private readonly HashSet<IDamageable> damagedTargets = new HashSet<IDamageable>();
         private Sprite defaultSprite;
         private bool isAttacking;
+        private bool isAreaAttack;
         private bool hasLaunched;
         private bool hasShaken;
         private float attackLockedUntil = -Mathf.Infinity;
@@ -49,6 +54,7 @@ namespace ChainSawLeg.Features.Minigames
         {
             if (bodyCollider == null) bodyCollider = GetComponent<Collider2D>();
             if (health == null) health = FindFirstObjectByType<PlatformerPlayerHealth>();
+            if (airborneSkin == null) airborneSkin = transform.Find("AirAttackSprite");
 
             if (health != null) health.Damaged += OnDamaged;
 
@@ -67,6 +73,9 @@ namespace ChainSawLeg.Features.Minigames
 
         private void Update()
         {
+            if (isAttacking && isAreaAttack && airborneSkin != null)
+                airborneSkin.Rotate(0f, 0f, airborneSkinSpinSpeed * Time.deltaTime);
+
             if (isAttacking || !Keyboard.current.zKey.wasPressedThisFrame) return;
             if (Time.time < attackLockedUntil) return;
 
@@ -86,16 +95,30 @@ namespace ChainSawLeg.Features.Minigames
             BeginAttack(true, areaAttackRadius, areaAttackDamage, areaHitScanDuration);
         }
 
-        private void BeginAttack(bool isAreaAttack, float radius, int attackDamage, float scanDuration)
+        private void BeginAttack(bool areaAttack, float radius, int attackDamage, float scanDuration)
         {
             isAttacking = true;
+            isAreaAttack = areaAttack;
             hasLaunched = false;
             hasShaken = false;
             damagedTargets.Clear();
-            sprite.sprite = attackSprite;
+
+            if (areaAttack)
+            {
+                // Airborne attack: swap the whole view to the spinning skin.
+                sprite.enabled = false;
+                if (airborneSkin != null) airborneSkin.gameObject.SetActive(true);
+
+                // The player is invulnerable for the whole airborne attack state.
+                if (health != null) health.GrantInvulnerability(attackDuration);
+            }
+            else
+            {
+                sprite.sprite = attackSprite;
+            }
 
             if (hitScanCoroutine != null) StopCoroutine(hitScanCoroutine);
-            hitScanCoroutine = StartCoroutine(ScanForHits(isAreaAttack, radius, attackDamage, scanDuration));
+            hitScanCoroutine = StartCoroutine(ScanForHits(areaAttack, radius, attackDamage, scanDuration));
 
             DOVirtual.DelayedCall(attackDuration, EndAttack);
         }
@@ -188,7 +211,16 @@ namespace ChainSawLeg.Features.Minigames
         private void EndAttack()
         {
             isAttacking = false;
-            sprite.sprite = defaultSprite;
+
+            if (isAreaAttack)
+            {
+                if (airborneSkin != null) airborneSkin.gameObject.SetActive(false);
+                sprite.enabled = true;
+            }
+            else
+            {
+                sprite.sprite = defaultSprite;
+            }
         }
     }
 }
