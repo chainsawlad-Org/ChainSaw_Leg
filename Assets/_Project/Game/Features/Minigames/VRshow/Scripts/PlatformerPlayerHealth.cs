@@ -18,6 +18,12 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField, Min(0f)] private float knockbackSide = 8f;
         [SerializeField, Min(0f)] private float knockbackUp = 6f;
 
+        [Header("Hit Time Scale")]
+        [SerializeField, Range(0.01f, 1f)] private float hitTimeScale = 0.2f;
+        [SerializeField, Min(0f)] private float hitTimeScaleFadeIn = 0.05f;
+        [SerializeField, Min(0f)] private float hitTimeScaleHold = 0.1f;
+        [SerializeField, Min(0f)] private float hitTimeScaleFadeOut = 0.2f;
+
         [Header("Hit Feedback")]
         [SerializeField] private Color hitColor = Color.red;
         [SerializeField] private float hitFlashDuration = 0.1f;
@@ -40,6 +46,7 @@ namespace ChainSawLeg.Features.Minigames
         private Color defaultColor;
         private bool isDead;
         private float invulnerableUntil = -Mathf.Infinity;
+        private Sequence hitTimeScaleSequence;
 
         public int MaxHealth => maxHealth;
         public int CurrentHealth { get; private set; }
@@ -100,7 +107,32 @@ namespace ChainSawLeg.Features.Minigames
 
             invulnerableUntil = Time.time + invulnerabilityDuration;
 
+            PlayHitTimeScale();
+
             if (sourcePosition.HasValue) ApplyHitKnockback(sourcePosition.Value);
+        }
+
+        private void PlayHitTimeScale()
+        {
+            const float defaultTimeScale = 1f;
+
+            if (hitTimeScaleSequence != null && hitTimeScaleSequence.IsActive())
+                hitTimeScaleSequence.Kill();
+
+            // Runs on unscaled time so the effect itself is not slowed by it.
+            hitTimeScaleSequence = DOTween.Sequence().SetUpdate(true);
+            hitTimeScaleSequence.Append(DOTween.To(() => Time.timeScale, value => Time.timeScale = value, hitTimeScale, hitTimeScaleFadeIn).SetUpdate(true));
+            hitTimeScaleSequence.AppendInterval(hitTimeScaleHold);
+            hitTimeScaleSequence.Append(DOTween.To(() => Time.timeScale, value => Time.timeScale = value, defaultTimeScale, hitTimeScaleFadeOut).SetUpdate(true));
+            hitTimeScaleSequence.OnKill(() => Time.timeScale = defaultTimeScale);
+        }
+
+        private void OnDestroy()
+        {
+            if (hitTimeScaleSequence != null && hitTimeScaleSequence.IsActive())
+                hitTimeScaleSequence.Kill();
+
+            Time.timeScale = 1f;
         }
 
         private void ApplyHitKnockback(Vector2 sourcePosition)
