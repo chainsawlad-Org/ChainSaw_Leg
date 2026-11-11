@@ -96,6 +96,13 @@ namespace ChainSawLeg.Features.Minigames
             Healed?.Invoke(CurrentHealth, maxHealth);
         }
 
+        public void GrantInvulnerability(float duration)
+        {
+            if (!IsAlive || duration <= 0f) return;
+
+            invulnerableUntil = Mathf.Max(invulnerableUntil, Time.time + duration);
+        }
+
         public void Kill()
         {
             if (!IsAlive) return;

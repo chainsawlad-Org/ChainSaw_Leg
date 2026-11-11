@@ -12,6 +12,7 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField] private Sprite attackSprite;
         [SerializeField] private SpriteRenderer sprite;
         [SerializeField] private PlatformerPlayerMovement movement;
+        [SerializeField] private PlatformerPlayerHealth health;
         [SerializeField] private CameraFlow cameraFlow;
         [SerializeField] private float attackDuration = 0.5f;
         [SerializeField] private float shakeStrength = 0.2f;
@@ -31,6 +32,7 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField] private int areaAttackDamage = 2;
         [SerializeField] private float areaHitScanDuration = 0.2f;
         [SerializeField] private float upwardLaunchForce = 18f;
+        [SerializeField, Min(0f)] private float airborneHitInvulnerability = 1.5f;
 
         private readonly HashSet<IDamageable> damagedTargets = new HashSet<IDamageable>();
         private Sprite defaultSprite;
@@ -42,6 +44,7 @@ namespace ChainSawLeg.Features.Minigames
         private void Awake()
         {
             if (bodyCollider == null) bodyCollider = GetComponent<Collider2D>();
+            if (health == null) health = FindFirstObjectByType<PlatformerPlayerHealth>();
 
             defaultSprite = sprite.sprite;
         }
@@ -111,7 +114,12 @@ namespace ChainSawLeg.Features.Minigames
                 ShakeOnHit();
 
                 if (isAreaAttack)
+                {
                     LaunchUp();
+
+                    // Successful airborne hit grants a short window of invulnerability.
+                    if (health != null) health.GrantInvulnerability(airborneHitInvulnerability);
+                }
             }
         }
 
