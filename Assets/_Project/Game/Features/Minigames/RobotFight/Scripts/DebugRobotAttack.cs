@@ -1,16 +1,24 @@
-using System;
 using UnityEngine;
 
 namespace ChainSawLeg.Features.Minigames
 {
+    /// <summary>
+    /// Editor visualization of a robot attack wave: draws the arena grid and where each
+    /// attack inside the configured time window lands. Gizmo-only helper for authoring
+    /// attack configs; has no gameplay effect.
+    /// </summary>
     public class DebugRobotAttack : MonoBehaviour
     {
+        private const float GizmoSphereRadius = 2f;
+        private const float TargetTimeWindow = 1f;
+        private const float TargetBoxPadding = 1.05f;
+
         [SerializeField] private float time;
         [SerializeField] private Vector2Int boardSize;
         [SerializeField] private RobotAttackConfig config;
+        [Tooltip("World size of one grid cell; must match ArenaBoard.cellSize for the gizmos to align.")]
+        [SerializeField] private float cubeSize = 5f;
 
-        private float cubeSize = 5f;
-         
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.white;
@@ -23,45 +31,51 @@ namespace ChainSawLeg.Features.Minigames
                     Gizmos.DrawWireCube(position, Vector3.one * cubeSize);
                 }
             }
-            
-            foreach (var attack in config.attackList)
-            {
-                if (attack.time > time || Mathf.Abs(time - attack.time) > 1f) continue;
 
-                if (attack.attackType == RobotItemType.OneBlock || attack.attackType == RobotItemType.BeatableBlock)
+            foreach (RobotAttack attack in config.attackList)
+            {
+                if (attack.time > time || Mathf.Abs(time - attack.time) > TargetTimeWindow) continue;
+
+                switch (attack.attackType)
                 {
-                    Gizmos.color = attack.attackType == RobotItemType.OneBlock ? Color.red : Color.yellow;
-                    Vector3 position = (Vector2)transform.position + (Vector2)attack.position * cubeSize;
-                    Gizmos.DrawWireSphere(position, 2f);
-                }
-                else if (attack.attackType == RobotItemType.TwoBlock)
-                {
-                    Gizmos.color = Color.red;
-                    for (int i = 0; i < 2; i++)
-                    {
-                        Vector3 position = (Vector2)transform.position + (attack.position + (Vector2.right * i)) * cubeSize;
-                        Gizmos.DrawWireSphere(position, 2f);
-                    }
-                }
-                else if (attack.attackType == RobotItemType.FourBlock)
-                {
-                    Gizmos.color = Color.red;
-                    for (int x = 0; x < 2; x++)
-                    {
-                        for (int y = 0; y < 2; y++)
+                    case RobotItemType.OneBlock:
+                        Gizmos.color = Color.red;
+                        DrawCellSphere(attack.position);
+                        break;
+                    case RobotItemType.BeatableBlock:
+                        Gizmos.color = Color.yellow;
+                        DrawCellSphere(attack.position);
+                        break;
+                    case RobotItemType.TwoBlock:
+                        Gizmos.color = Color.red;
+                        for (int i = 0; i < 2; i++)
                         {
-                            Vector3 position = (Vector2)transform.position + (attack.position + (Vector2.right * x) + (Vector2.up * y)) * cubeSize;
-                            Gizmos.DrawWireSphere(position, 2f);
+                            DrawCellSphere(attack.position + Vector2.right * i);
                         }
-                    }
-                }
-                else if (attack.attackType == RobotItemType.TargetBlock)
-                {
-                    Gizmos.color = Color.red;
-                    Vector3 position = (Vector2)transform.position + (Vector2)(boardSize - Vector2.one) * 0.5f * cubeSize;
-                    Gizmos.DrawWireCube(position, (Vector2)boardSize * cubeSize * 1.05f);
+                        break;
+                    case RobotItemType.FourBlock:
+                        Gizmos.color = Color.red;
+                        for (int x = 0; x < 2; x++)
+                        {
+                            for (int y = 0; y < 2; y++)
+                            {
+                                DrawCellSphere(attack.position + Vector2.right * x + Vector2.up * y);
+                            }
+                        }
+                        break;
+                    case RobotItemType.TargetBlock:
+                        Gizmos.color = Color.red;
+                        Vector3 targetPosition = (Vector2)transform.position + (Vector2)(boardSize - Vector2.one) * 0.5f * cubeSize;
+                        Gizmos.DrawWireCube(targetPosition, (Vector2)boardSize * cubeSize * TargetBoxPadding);
+                        break;
                 }
             }
+        }
+
+        private void DrawCellSphere(Vector2 cell)
+        {
+            Vector3 position = (Vector2)transform.position + cell * cubeSize;
+            Gizmos.DrawWireSphere(position, GizmoSphereRadius);
         }
     }
 }

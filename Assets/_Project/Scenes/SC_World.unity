@@ -23122,16 +23122,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4affe3e8e564ba34690824692e515d1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.RobotFightController
-  delayBetweenMoves: 0.15
-  delayBetweenKicks: 0.5
-  stunDuration: 0.75
-  mistySprite: {fileID: 687754511}
   arenaBoard: {fileID: 872049813}
+  cameraFlow: {fileID: 878292290}
+  mistySprite: {fileID: 687754511}
   defaultSprite: {fileID: -118075199013514713, guid: bf84a4875304c5a4fb094efc44dac0dc, type: 3}
   kickSprite: {fileID: 21300000, guid: 238016b1f8802e74e83cfd1e89bab3d0, type: 3}
   damagedSprite: {fileID: 4861888979889269997, guid: c2383d205139e76408fef1458dc7df68, type: 3}
-  cameraFlow: {fileID: 878292290}
-  controlActive: 1
+  delayBetweenMoves: 0.15
+  delayBetweenKicks: 0.5
+  stunDuration: 0.75
+  moveDuration: 0.15
+  shakeStrength: 0.4
+  shakeVibrato: 100
+  damageShakeDuration: 0.5
+  moveSoundVolume: 0.05
+  moveSoundPitchRange: {x: 0.85, y: 1.15}
 --- !u!114 &687754510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24387,7 +24392,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.HelpingDudes
   pingObject: {fileID: 979114138}
-  robotKiller: {fileID: 2091776707}
 --- !u!61 &748673495
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -27179,10 +27183,23 @@ MonoBehaviour:
   cellPrefab: {fileID: -5193467853437757741, guid: 10a6d5675c0ff35468674ac7034d2841, type: 3}
   cellSize: {x: 6, y: 5}
   boardSize: {x: 4, y: 4}
-  cameraPointSpeed: 40
   playerHealth: 100
-  cameraFlowToPlayer: 0
-  isSecondPhase: 0
+  cameraPointSpeed: 40
+  cameraMoveDuration: 1
+  healthbarShownX: 100
+  healthbarSlideDuration: 1
+  healthbarFillDuration: 0.25
+  loseScreenFadeDuration: 1.5
+  loseShakeDuration: 10
+  loseShakeStrength: 2
+  loseShakeVibrato: 100
+  loseShakeRandomness: 90
+  boardRebuildDelay: 1
+  boardRebuildCompleteDelay: 1
+  nearbyHitShakeStrength: 0.2
+  nearbyHitShakeVibrato: 100
+  nearbyHitShakeDuration: 0.4
+  beatWindow: 0.25
 --- !u!4 &872049814
 Transform:
   m_ObjectHideFlags: 0
@@ -27211,16 +27228,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11ebafe7477222b40811591e83891c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.AttackManager
+  fightConfig: {fileID: 11400000, guid: 7927cbe1c5ecaba4f838363885caf582, type: 2}
   arenaBoard: {fileID: 872049813}
-  itemPrefab: {fileID: 5101023493941496097, guid: 3cf5966f0a45e3f4497b3565c5156180, type: 3}
-  twoBlocksPrefab: {fileID: 1963574427008930072, guid: 003d76727707b44449631ee07e946888, type: 3}
-  fourBlockPrefab: {fileID: 4478655368105436344, guid: 4cc81e85f0426c44087858b71b78f52f, type: 3}
-  beatableBlockPrefab: {fileID: 2662142526475422866, guid: 3ad75e2a30e2c614b915a98c8476384e, type: 3}
   itemSpawnPoint: {fileID: 443083057}
   player: {fileID: 1157121966}
   robot: {fileID: 2091776707}
   blackBackground: {fileID: 802174524}
   whiteScreen: {fileID: 590633011}
+  itemPrefab: {fileID: 5101023493941496097, guid: 3cf5966f0a45e3f4497b3565c5156180, type: 3}
+  twoBlocksPrefab: {fileID: 1963574427008930072, guid: 003d76727707b44449631ee07e946888, type: 3}
+  fourBlockPrefab: {fileID: 4478655368105436344, guid: 4cc81e85f0426c44087858b71b78f52f, type: 3}
+  beatableBlockPrefab: {fileID: 2662142526475422866, guid: 3ad75e2a30e2c614b915a98c8476384e, type: 3}
   peopleObjects:
   - {fileID: 949478027}
   happyPeopleObjects:
@@ -27294,6 +27312,7 @@ MonoBehaviour:
   time: 1.27
   boardSize: {x: 4, y: 4}
   config: {fileID: 11400000, guid: 35a7837c7f9a45749bd45e8e55f1a35f, type: 2}
+  cubeSize: 5
 --- !u!1 &873733988
 GameObject:
   m_ObjectHideFlags: 0
@@ -71441,12 +71460,48 @@ MonoBehaviour:
   cameraFlow: {fileID: 878292290}
   attackManager: {fileID: 872049815}
   attackRange: 3
-  attackCooldown: 1.5
-  timeBetweenFrames: 0.05
   attackRadius: 10
-  health: 100
   attackOffset: {x: -5, y: 0}
   kickDirection: {x: -186.5, y: 67}
+  damagePerHit: 40
+  health: 100
+  hitStunDuration: 0.5
+  readyUpStun: 3
+  timeBetweenFrames: 0.05
+  distractedFrameTime: 0.2
+  idleFrameIndex: 0
+  distractFrameIndexA: 1
+  leapFrameIndex: 2
+  hitShakeStrength: 0.3
+  hitShakeVibrato: 100
+  hitShakeDuration: 0.4
+  kickShakeDuration: 3
+  kickShakeStrength: 0.4
+  kickShakeVibrato: 100
+  hologramHideDelay: 0.5
+  jumpHeight: 20
+  jumpDuration: 1
+  landShakeVibrato: 100
+  landShakeDuration: 0.5
+  kickLandShakeStrength: 0.4
+  landRecoveryDelay: 1
+  fightStartDelay: 2
+  secondPhaseLandShakeStrength: 0.3
+  secondPhaseThrowDelay: 2
+  heavyHitThrowDelay: 1
+  jumpInOffset: 5
+  damageShakeDuration: 1
+  damageShakeStrength: 0.6
+  damageShakeVibrato: 100
+  onDamageShakeDuration: 3
+  onDamageShakeStrength: 0.65
+  onDamageShakeVibrato: 100
+  deathShakeDuration: 3
+  deathShakeStrength: 0.5
+  deathShakeVibrato: 100
+  deathShakeRandomness: 90
+  deathLaunchDistance: 100
+  deathJumpDuration: 8
 --- !u!1 &2104250267
 GameObject:
   m_ObjectHideFlags: 0
