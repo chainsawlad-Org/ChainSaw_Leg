@@ -125,6 +125,10 @@ namespace ChainSawLeg.Features.Minigames
             if (isDashing && spinningVisual != null)
                 spinningVisual.Rotate(0f, 0f, spinSpeed * Time.deltaTime);
 
+            // Always face the player (same convention as the player: flipX = facing left).
+            if (playerHealth != null && sprite != null)
+                sprite.flipX = playerHealth.transform.position.x > transform.position.x;
+
             TryDamagePlayer();
         }
 
