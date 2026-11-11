@@ -31,6 +31,8 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField, Min(0f)] private float dashSpeed = 15f;
         [SerializeField, Min(0f)] private float dashDuration = 0.6f;
         [SerializeField, Min(0f)] private float pauseBetweenDashes = 0.35f;
+        [SerializeField, Min(0f)] private float hurricaneCameraShakeStrength = 0.04f;
+        [SerializeField, Min(0)] private int hurricaneCameraShakeVibrato = 25;
 
         [Header("Slam Attack")]
         [SerializeField, Min(1)] private int slamBounceCountHealthy = 1;
@@ -151,6 +153,22 @@ namespace ChainSawLeg.Features.Minigames
         }
 
         private IEnumerator HurricaneAttack()
+        {
+            // Continuous camera rumble for the whole hurricane; always removed on exit.
+            if (cameraFlow != null)
+                cameraFlow.AddShakeEffect(hurricaneCameraShakeStrength, hurricaneCameraShakeVibrato, true);
+
+            try
+            {
+                yield return HurricaneAttackBody();
+            }
+            finally
+            {
+                if (cameraFlow != null) cameraFlow.RemoveShakeEffect();
+            }
+        }
+
+        private IEnumerator HurricaneAttackBody()
         {
             // Telegraph: stop and shake, then dash.
             CurrentState = BossState.Telegraph;
@@ -315,7 +333,7 @@ namespace ChainSawLeg.Features.Minigames
             }
 
             if (cameraFlow != null)
-                cameraFlow.ShakeEffect(slamCameraShakeStrength, telegraphShakeVibrato, telegraphDuration * 2f);
+                cameraFlow.ShakeEffect(slamCameraShakeStrength, telegraphShakeVibrato, telegraphDuration * 2f, true);
         }
 
         private void CreateLandingMarker()

@@ -49,11 +49,15 @@ namespace ChainSawLeg.Features.Exploration
                 transform.position = player.position + offset;
         }
 
-        public void AddShakeEffect(float strength, int vibrato)
+        public void AddShakeEffect(float strength, int vibrato, bool ensurePlay = false)
         {
-            if (shakeTweener.IsActive()) return;
+            if (shakeTweener.IsActive())
+            {
+                if (ensurePlay) shakeTweener.Kill();
+                else return;
+            }
         
-            shakeTweener = camera.transform.DOShakePosition(1, strength, vibrato, 90F, false, false).SetLoops(-1);
+            shakeTweener = camera.transform.DOShakePosition(0.25f, strength, vibrato, 90F, false, false).SetLoops(-1);
         }
 
         public void RemoveShakeEffect()
@@ -61,9 +65,13 @@ namespace ChainSawLeg.Features.Exploration
             shakeTweener.Kill();
         }
 
-        public void ShakeEffect(float strength, int vibrato, float duration)
+        public void ShakeEffect(float strength, int vibrato, float duration, bool ensurePlay = false)
         {
-            if (shakeTweener.IsActive()) return;
+            if (shakeTweener.IsActive())
+            {
+                if (ensurePlay) shakeTweener.Kill();
+                else return;
+            }
         
             shakeTweener = camera.transform.DOShakePosition(duration, strength, vibrato, 90F, false, true).SetAutoKill(true);
         }

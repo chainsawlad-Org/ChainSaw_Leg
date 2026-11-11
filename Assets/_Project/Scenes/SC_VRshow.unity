@@ -1598,6 +1598,8 @@ MonoBehaviour:
   dashSpeed: 25
   dashDuration: 1
   pauseBetweenDashes: 0
+  hurricaneCameraShakeStrength: 0.1
+  hurricaneCameraShakeVibrato: 50
   slamBounceCountHealthy: 1
   slamBounceCountEnraged: 3
   enragedHealthFraction: 0.5
