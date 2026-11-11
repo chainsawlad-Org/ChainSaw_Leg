@@ -42,7 +42,7 @@ namespace ChainSawLeg.Features.Minigames
                 if (playerHealth == null || !playerHealth.IsAlive || playerHealth.IsInvulnerable) continue;
 
                 nextDamageTime = Time.time + damageCooldown;
-                playerHealth.TakeDamage(damage);
+                playerHealth.TakeDamage(damage, center);
 
                 return;
             }

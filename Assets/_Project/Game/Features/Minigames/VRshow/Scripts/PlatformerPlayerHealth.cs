@@ -14,6 +14,10 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField] private float invulnerabilityDuration = 1f;
         [SerializeField] private float blinkInterval = 0.08f;
 
+        [Header("Hit Knockback")]
+        [SerializeField, Min(0f)] private float knockbackSide = 8f;
+        [SerializeField, Min(0f)] private float knockbackUp = 6f;
+
         [Header("Hit Feedback")]
         [SerializeField] private Color hitColor = Color.red;
         [SerializeField] private float hitFlashDuration = 0.1f;
@@ -70,12 +74,22 @@ namespace ChainSawLeg.Features.Minigames
 
         public void TakeDamage(int amount)
         {
+            TakeDamageCore(amount, null);
+        }
+
+        public void TakeDamage(int amount, Vector2 sourcePosition)
+        {
+            TakeDamageCore(amount, sourcePosition);
+        }
+
+        private void TakeDamageCore(int amount, Vector2? sourcePosition)
+        {
             if (!IsAlive || amount <= 0 || IsInvulnerable) return;
 
             CurrentHealth = Mathf.Max(0, CurrentHealth - amount);
             HealthChanged?.Invoke(CurrentHealth, maxHealth);
             Damaged?.Invoke(CurrentHealth, maxHealth);
-            
+
             PlayHitFeedback();
 
             if (CurrentHealth == 0)
@@ -85,6 +99,19 @@ namespace ChainSawLeg.Features.Minigames
             }
 
             invulnerableUntil = Time.time + invulnerabilityDuration;
+
+            if (sourcePosition.HasValue) ApplyHitKnockback(sourcePosition.Value);
+        }
+
+        private void ApplyHitKnockback(Vector2 sourcePosition)
+        {
+            if (movement == null) return;
+
+            // Push away from the attacker, slightly upward.
+            Vector2 away = (Vector2)transform.position - sourcePosition;
+            float sideX = Mathf.Abs(away.x) > 0.01f ? Mathf.Sign(away.x) : 1f;
+
+            movement.ApplyKnockback(new Vector2(sideX * knockbackSide, knockbackUp));
         }
 
         public void Heal(int amount)

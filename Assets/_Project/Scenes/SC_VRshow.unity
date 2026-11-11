@@ -2621,6 +2621,8 @@ MonoBehaviour:
   maxHealth: 5
   invulnerabilityDuration: 1
   blinkInterval: 0.08
+  knockbackSide: 15
+  knockbackUp: 10
   hitColor: {r: 1, g: 0, b: 0, a: 1}
   hitFlashDuration: 0.1
   cameraFlow: {fileID: 878292290}
