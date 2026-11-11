@@ -34,11 +34,15 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField] private float upwardLaunchForce = 18f;
         [SerializeField, Min(0f)] private float airborneHitInvulnerability = 1.5f;
 
+        [Header("Damage Lock")]
+        [SerializeField, Min(0f)] private float attackLockAfterDamage = 0.5f;
+
         private readonly HashSet<IDamageable> damagedTargets = new HashSet<IDamageable>();
         private Sprite defaultSprite;
         private bool isAttacking;
         private bool hasLaunched;
         private bool hasShaken;
+        private float attackLockedUntil = -Mathf.Infinity;
         private Coroutine hitScanCoroutine;
 
         private void Awake()
@@ -46,12 +50,25 @@ namespace ChainSawLeg.Features.Minigames
             if (bodyCollider == null) bodyCollider = GetComponent<Collider2D>();
             if (health == null) health = FindFirstObjectByType<PlatformerPlayerHealth>();
 
+            if (health != null) health.Damaged += OnDamaged;
+
             defaultSprite = sprite.sprite;
+        }
+
+        private void OnDestroy()
+        {
+            if (health != null) health.Damaged -= OnDamaged;
+        }
+
+        private void OnDamaged(int current, int max)
+        {
+            attackLockedUntil = Time.time + attackLockAfterDamage;
         }
 
         private void Update()
         {
             if (isAttacking || !Keyboard.current.zKey.wasPressedThisFrame) return;
+            if (Time.time < attackLockedUntil) return;
 
             if (!movement.IsGrounded())
                 AreaAttack();
