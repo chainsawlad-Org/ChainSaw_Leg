@@ -125,6 +125,10 @@ namespace ChainSawLeg.Features.Minigames
         private void Start()
         {
             playerHealth = FindFirstObjectByType<PlatformerPlayerHealth>();
+        }
+
+        public void StartAttack()
+        {
             StartCoroutine(RunAttackLoop());
         }
 
