@@ -120,6 +120,8 @@ namespace ChainSawLeg.Features.Minigames
             if (hitScanCoroutine != null) StopCoroutine(hitScanCoroutine);
             hitScanCoroutine = StartCoroutine(ScanForHits(areaAttack, radius, attackDamage, scanDuration));
 
+            AudioService.Play(AudioId.Swing);
+
             DOVirtual.DelayedCall(attackDuration, EndAttack);
         }
 
@@ -152,6 +154,7 @@ namespace ChainSawLeg.Features.Minigames
 
                 damageable.TakeDamage(attackDamage);
                 ShakeOnHit();
+                AudioService.Play(AudioId.AttackHit);
 
                 if (isAreaAttack)
                 {

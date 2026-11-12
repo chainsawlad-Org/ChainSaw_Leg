@@ -72,6 +72,9 @@ namespace ChainSawLeg.Features.Minigames
                 shakeTween = transform
                     .DOShakePosition(shakeDuration, shakeStrength, shakeVibrato, fadeOut: true);
 
+                AudioService.Play(AudioId.Squeak);
+                DOVirtual.DelayedCall(shakeDuration * 0.5f, () => AudioService.Play(AudioId.Squeak));
+
                 float telegraphElapsed = 0f;
                 while (telegraphElapsed < shakeDuration)
                 {

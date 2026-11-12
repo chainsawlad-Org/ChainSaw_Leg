@@ -80,6 +80,8 @@ namespace ChainSawLeg.Features.Minigames
         [Header("References")]
         [SerializeField] private MonsterHealth monsterHealth;
 
+        [SerializeField] private AudioSource hurricaneAudio;
+
         private Rigidbody2D body;
         private SpriteRenderer sprite;
         private Sprite defaultSprite;
@@ -234,7 +236,10 @@ namespace ChainSawLeg.Features.Minigames
             CurrentState = BossState.Telegraph;
             if (body != null) body.linearVelocity = Vector2.zero;
             if (telegraphDuration > 0f)
+            {
                 transform.DOShakePosition(telegraphDuration, telegraphShakeStrength, telegraphShakeVibrato);
+                AudioService.Play(AudioId.AttackTelegraph);
+            }
             yield return new WaitForSeconds(telegraphDuration);
 
             if (body == null || playerHealth == null || !playerHealth.IsAlive) yield break;
@@ -253,6 +258,8 @@ namespace ChainSawLeg.Features.Minigames
 
                 isDashing = true;
                 float elapsed = 0f;
+                hurricaneAudio.Play();
+                
                 while (elapsed < dashDuration && playerHealth.IsAlive && BossAlive())
                 {
                     elapsed += Time.deltaTime;
@@ -265,6 +272,8 @@ namespace ChainSawLeg.Features.Minigames
                     yield return null;
                 }
                 isDashing = false;
+                
+                hurricaneAudio.Stop();
 
                 body.linearVelocity = Vector2.zero;
 
@@ -283,7 +292,10 @@ namespace ChainSawLeg.Features.Minigames
             CurrentState = BossState.Telegraph;
             if (body != null) body.linearVelocity = Vector2.zero;
             if (telegraphDuration > 0f)
+            {
                 transform.DOShakePosition(telegraphDuration, telegraphShakeStrength, telegraphShakeVibrato);
+                AudioService.Play(AudioId.AttackTelegraph);
+            }
             yield return new WaitForSeconds(telegraphDuration);
 
             if (body == null || playerHealth == null || !playerHealth.IsAlive) yield break;
@@ -320,6 +332,8 @@ namespace ChainSawLeg.Features.Minigames
                 bool landed = false;
                 Tween jumpTween = transform.DOJump(target, slamArcHeight, 1, slamJumpDuration)
                     .SetEase(Ease.Linear);
+                
+                if (i == 0) AudioService.Play(AudioId.Jump);
 
                 // The arc flight is the dodge window; the marker locks near the end.
                 jumpTween.OnUpdate(() =>
@@ -327,7 +341,11 @@ namespace ChainSawLeg.Features.Minigames
                     if (jumpTween.ElapsedPercentage() >= slamLockAtProgress)
                         SetLandingMarker(targetX, groundY, true);
                 });
-                jumpTween.OnComplete(() => landed = true);
+                jumpTween.OnComplete(() =>
+                {
+                    landed = true;
+                    AudioService.Play(AudioId.ItemBreak);
+                });
 
                 while (!landed && playerHealth.IsAlive)
                     yield return null;

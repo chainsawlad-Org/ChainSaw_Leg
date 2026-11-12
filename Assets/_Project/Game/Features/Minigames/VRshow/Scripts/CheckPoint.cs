@@ -70,6 +70,8 @@ namespace ChainSawLeg.Features.Minigames
             activated = true;
             PlatformerCheckpointData.Save(playerHealth.transform.position);
 
+            AudioService.Play(AudioId.Heal);
+
             if (visual != null) visual.color = activatedColor;
         }
 

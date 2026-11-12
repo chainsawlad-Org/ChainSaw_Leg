@@ -98,6 +98,7 @@ namespace ChainSawLeg.Features.Minigames
                 rb.linearVelocityY = jumpForce;
                 lastGroundedTime = -Mathf.Infinity;
                 lastJumpPressedTime = -Mathf.Infinity;
+                AudioService.Play(AudioId.Jump2);
             }
 
             if (!launchedUp

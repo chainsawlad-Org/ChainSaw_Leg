@@ -219,11 +219,7 @@ namespace ChainSawLeg.Features.Minigames
             sprite.DOKill();
             sprite.color = hitColor;
             sprite.DOColor(defaultColor, hitFlashDuration);
-            // sprite.DOColor(defaultColor, hitFlashDuration)
-            //     .OnComplete(() =>
-            //         sprite.DOFade(0.4f, blinkInterval)
-            //             .SetLoops(blinkLoops, LoopType.Yoyo)
-            //             .OnComplete(() => sprite.color = defaultColor));
+            AudioService.Play(AudioId.DamageTaken);
         }
 
         private void Die()
