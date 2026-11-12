@@ -1746,7 +1746,7 @@ GameObject:
   - component: {fileID: 1157121972}
   - component: {fileID: 1157121971}
   - component: {fileID: 1157121974}
-  - component: {fileID: 1157121973}
+  - component: {fileID: 1157121975}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1913,8 +1913,30 @@ MonoBehaviour:
   dashDuration: 0.2
   dashCooldown: 2
   isDashing: 0
---- !u!58 &1157121973
-CircleCollider2D:
+--- !u!114 &1157121974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1157121958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a105aaa2a2bd1042b60bc4b7a867f39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.PlayerKick
+  spriteRenderer: {fileID: 2105037964}
+  kickSprite: {fileID: 21300000, guid: 238016b1f8802e74e83cfd1e89bab3d0, type: 3}
+  kickOrigin: {fileID: 1766003554}
+  <kickForcePower>k__BackingField: 40
+  kickDuration: 0.2
+  kickCooldown: 1
+  kickRadius: 4
+  maxKickAngle: 160
+  originOffset: {x: 0, y: 1}
+  drawGizmos: 0
+--- !u!70 &1157121975
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1947,30 +1969,9 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -1.0527302}
-  m_Radius: 0.55273026
---- !u!114 &1157121974
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1157121958}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a105aaa2a2bd1042b60bc4b7a867f39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ChainSawLeg.Features.Exploration.Runtime::ChainSawLeg.Features.Exploration.PlayerKick
-  spriteRenderer: {fileID: 2105037964}
-  kickSprite: {fileID: 21300000, guid: 238016b1f8802e74e83cfd1e89bab3d0, type: 3}
-  kickOrigin: {fileID: 1766003554}
-  <kickForcePower>k__BackingField: 40
-  kickDuration: 0.2
-  kickCooldown: 1
-  kickRadius: 4
-  maxKickAngle: 160
-  originOffset: {x: 0, y: 1}
-  drawGizmos: 0
+  m_Offset: {x: 0, y: -1.25}
+  m_Size: {x: 1, y: 0.5}
+  m_Direction: 1
 --- !u!1 &1195533870
 GameObject:
   m_ObjectHideFlags: 0
