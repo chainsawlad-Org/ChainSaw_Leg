@@ -1838,7 +1838,6 @@ GameObject:
   m_Component:
   - component: {fileID: 878292289}
   - component: {fileID: 878292290}
-  - component: {fileID: 878292291}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -1884,19 +1883,7 @@ MonoBehaviour:
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  clampPosition: 1
---- !u!114 &878292291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 878292288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74f5cb0e6b8926347ae69634ae6cec47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.CameraFix
+  clampPosition: 0
 --- !u!1 &909131675
 GameObject:
   m_ObjectHideFlags: 0
