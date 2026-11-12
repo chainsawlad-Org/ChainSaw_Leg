@@ -1965,7 +1965,7 @@ MonoBehaviour:
   kickSprite: {fileID: 21300000, guid: 238016b1f8802e74e83cfd1e89bab3d0, type: 3}
   kickOrigin: {fileID: 1766003554}
   <kickForcePower>k__BackingField: 40
-  kickDuration: 0.5
+  kickDuration: 0.2
   kickCooldown: 1
   kickRadius: 4
   maxKickAngle: 160
