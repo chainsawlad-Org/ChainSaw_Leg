@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a23e56e797eba4a479b0e5e56539b13e, type: 3}
+  m_Name: SO_RobotFightConfig
+  m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.RobotFightConfig
+  damagePerHit: 20
+  nextWaveDelay: 1
+  scriptedWaveEndDelay: 2
+  playerUnstunDelay: 4
+  playerRepositionDuration: 1
+  itemFlyDuration: 1
+  heavenSpawnOffset: 60
+  itemSpinSpeed: 100
+  itemThrowJumpHeight: 15
+  itemReturnDuration: 0.2
+  itemBreakVolume: 0.03
+  itemBreakPitchRange: {x: 0.85, y: 1.1}
+  secondPhaseArenaSize: {x: 10, y: 3}
+  wideArenaSize: {x: 18, y: 3}
+  widestArenaSize: {x: 25, y: 3}
+  robotLandingOffset: 5
+  arenaRebuildDelay: 3
+  backgroundFadeDuration: 1
+  playerKickForce: 60
+  playerKickDuration: 0.75
+  robotLeapDistance: 60
+  whiteScreenFadeInDuration: 3
+  whiteScreenHoldDuration: 3
+  whiteScreenFadeOutDuration: 1
+  celebrateJumpHeight: 3
+  celebrateJumpDuration: 0.2
+  celebrateLoopRange: {x: 20, y: 50}
