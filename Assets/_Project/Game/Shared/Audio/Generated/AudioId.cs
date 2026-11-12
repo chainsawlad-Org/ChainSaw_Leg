@@ -5,5 +5,14 @@
 
 public enum AudioId
 {
-    muhehehe = 0,
+    AttackHit = 0,
+    CartoonHammerHit = 1,
+    DamageTaken = 2,
+    FallToGround = 3,
+    HeavyHit = 4,
+    ItemBreak = 5,
+    Jump = 6,
+    KidsCheering = 7,
+    muhehehe = 8,
+    Swing = 9,
 }

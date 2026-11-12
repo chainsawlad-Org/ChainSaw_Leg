@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7736a1a4ce4118a4695c9831a443ea65, type: 3}
+  m_Name: RobotAttack4
+  m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.RobotAttackConfig
+  attackList:
+  - time: 1
+    attackType: 2
+    position: {x: 0, y: 2}
+  - time: 1.5
+    attackType: 4
+    position: {x: 0, y: 2}
+  - time: 2
+    attackType: 1
+    position: {x: 2, y: 0}
+  - time: 2.35
+    attackType: 2
+    position: {x: 2, y: 1}
+  - time: 2.65
+    attackType: 2
+    position: {x: 0, y: 2}
+  - time: 3
+    attackType: 4
+    position: {x: 0, y: 2}
+  - time: 3.35
+    attackType: 1
+    position: {x: 0, y: 0}
+  - time: 3.65
+    attackType: 2
+    position: {x: 2, y: 0}
+  - time: 4
+    attackType: 1
+    position: {x: 1, y: 3}
+  - time: 4.35
+    attackType: 4
+    position: {x: 1, y: 3}
+  - time: 4.65
+    attackType: 1
+    position: {x: 0, y: 2}
+  - time: 5
+    attackType: 1
+    position: {x: 1, y: 0}
+  - time: 5.35
+    attackType: 3
+    position: {x: 3, y: 1}
+  - time: 5.65
+    attackType: 4
+    position: {x: 1, y: 1}
+  - time: 6
+    attackType: 2
+    position: {x: 0, y: 2}
+  - time: 6.35
+    attackType: 1
+    position: {x: 0, y: 0}
+  - time: 6.65
+    attackType: 2
+    position: {x: 2, y: 0}
+  - time: 7
+    attackType: 4
+    position: {x: 2, y: 0}
+  - time: 7.5
+    attackType: 3
+    position: {x: 0, y: 2}
+  - time: 8
+    attackType: 2
+    position: {x: 1, y: 2}
+  - time: 8.35
+    attackType: 4
+    position: {x: 1, y: 2}

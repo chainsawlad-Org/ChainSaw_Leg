@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     private float currentSpeed;
     private float interactionIconOffsetX;
     private int stunCount;
+    private float baseLinearDamping;
 
     public Vector2 LastMoveDir { get; private set; } = Vector2.up;
 
@@ -27,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
         dash = GetComponent<PlayerDash>();
         currentSpeed = moveSpeed;
         interactionIconOffsetX = interactionIcon.localPosition.x;
+        baseLinearDamping = rb.linearDamping;
     }
 
     private void FixedUpdate()
@@ -85,11 +87,13 @@ public class PlayerMovement : MonoBehaviour
     public void StunPlayer()
     {
         stunCount++;
+        rb.linearDamping = 5f;
     }
 
     public void UnstunPlayer()
     {
         stunCount--;
+        rb.linearDamping = baseLinearDamping;
     }
 
     public void TransitToPosition(Vector2 position, float duration)
