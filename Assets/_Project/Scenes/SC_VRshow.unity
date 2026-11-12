@@ -1872,7 +1872,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046005fd76e14ebd8d78d289186205df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.MonsterHealth
-  maxHealth: 10
+  maxHealth: 15
   destroyOnDeath: 1
   deathDuration: 0.25
   spriteRenderer: {fileID: 0}
