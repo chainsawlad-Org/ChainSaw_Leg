@@ -200,6 +200,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   touchPadding: 0.15
   monsterHealth: {fileID: 5928348966729218557}
+  sprite: {fileID: 5102932424296525244}
 --- !u!114 &7743908221545921346
 MonoBehaviour:
   m_ObjectHideFlags: 0

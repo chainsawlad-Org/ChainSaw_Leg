@@ -26,6 +26,7 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField] private Rigidbody2D body;
         [SerializeField] private MonsterHealth monsterHealth;
         [SerializeField] private PlatformerPlayerHealth playerHealth;
+        [SerializeField] private SpriteRenderer sprite;
 
         private float nextDashTime = -Mathf.Infinity;
         private Coroutine dashCoroutine;
@@ -39,6 +40,7 @@ namespace ChainSawLeg.Features.Minigames
             if (body == null) body = GetComponent<Rigidbody2D>();
             if (monsterHealth == null) monsterHealth = GetComponent<MonsterHealth>();
             if (playerHealth == null) playerHealth = FindFirstObjectByType<PlatformerPlayerHealth>();
+            if (sprite == null) sprite = GetComponentInChildren<SpriteRenderer>();
 
             originalLocalPosition = transform.localPosition;
         }
@@ -63,6 +65,11 @@ namespace ChainSawLeg.Features.Minigames
             if (body == null) yield break;
 
             isDashing = true;
+
+            // Face the dash direction. Monster sprites are authored facing LEFT,
+            // so flipX means facing right. Vertical dashes keep the last facing.
+            if (sprite != null && Mathf.Abs(direction.x) > 0.001f)
+                sprite.flipX = direction.x > 0f;
 
             // --- Telegraph phase: shake in place before dashing ---
             if (shakeDuration > 0f)
