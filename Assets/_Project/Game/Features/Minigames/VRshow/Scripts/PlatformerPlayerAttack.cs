@@ -41,6 +41,9 @@ namespace ChainSawLeg.Features.Minigames
         [Header("Damage Lock")]
         [SerializeField, Min(0f)] private float attackLockAfterDamage = 0.5f;
 
+        [Header("Attack Rate")]
+        [SerializeField, Min(0f)] private float attackCooldown = 0.5f;
+
         private readonly HashSet<IDamageable> damagedTargets = new HashSet<IDamageable>();
         private Sprite defaultSprite;
         private bool isAttacking;
@@ -48,6 +51,7 @@ namespace ChainSawLeg.Features.Minigames
         private bool hasLaunched;
         private bool hasShaken;
         private float attackLockedUntil = -Mathf.Infinity;
+        private float nextAttackTime = -Mathf.Infinity;
         private Coroutine hitScanCoroutine;
 
         private void Awake()
@@ -78,6 +82,7 @@ namespace ChainSawLeg.Features.Minigames
 
             if (isAttacking || !Keyboard.current.spaceKey.wasPressedThisFrame) return;
             if (Time.time < attackLockedUntil) return;
+            if (Time.time < nextAttackTime) return;
 
             if (!movement.IsGrounded())
                 AreaAttack();
@@ -99,6 +104,7 @@ namespace ChainSawLeg.Features.Minigames
         {
             isAttacking = true;
             isAreaAttack = areaAttack;
+            nextAttackTime = Time.time + attackCooldown;
             hasLaunched = false;
             hasShaken = false;
             damagedTargets.Clear();
