@@ -74,8 +74,8 @@ namespace ChainSawLeg.Features.Minigames
 
             float xVelocity = 0f;
 
-            if (Keyboard.current.leftArrowKey.isPressed) xVelocity = -1f;
-            if (Keyboard.current.rightArrowKey.isPressed) xVelocity = 1f;
+            if (Keyboard.current.aKey.isPressed) xVelocity = -1f;
+            if (Keyboard.current.dKey.isPressed) xVelocity = 1f;
             
             rb.linearVelocityX = xVelocity * speed;
             
@@ -88,7 +88,7 @@ namespace ChainSawLeg.Features.Minigames
             bool isGrounded = IsGrounded();
             if (isGrounded) lastGroundedTime = Time.time;
 
-            if (Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.upArrowKey.wasPressedThisFrame)
+            if (Keyboard.current.wKey.wasPressedThisFrame)
                 lastJumpPressedTime = Time.time;
             bool coyoteAvailable = Time.time - lastGroundedTime <= coyoteTime;
             bool jumpBuffered = Time.time - lastJumpPressedTime <= jumpBufferTime;
@@ -102,7 +102,7 @@ namespace ChainSawLeg.Features.Minigames
             }
 
             if (!launchedUp
-                && (Keyboard.current.spaceKey.wasReleasedThisFrame || Keyboard.current.upArrowKey.wasReleasedThisFrame)
+                && Keyboard.current.wKey.wasReleasedThisFrame
                 && rb.linearVelocityY > 0f)
             {
                 rb.linearVelocityY *= jumpCutMultiplier;
