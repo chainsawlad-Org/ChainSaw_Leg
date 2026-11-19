@@ -58,7 +58,10 @@ namespace ChainSawLeg.Features.Minigames
         {
             playerHealth = FindFirstObjectByType<PlatformerPlayerHealth>();
             warningCamera = cameraFlow != null ? cameraFlow.camera : Camera.main;
+        }
 
+        public void StartAttack()
+        {
             StartCoroutine(RunAttackLoop());
         }
 
