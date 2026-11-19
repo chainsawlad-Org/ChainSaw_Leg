@@ -10,6 +10,7 @@ namespace ChainSawLeg.Features.Minigames
         private void OnTriggerEnter2D(Collider2D other)
         {
             evilMisty.StartAttack();
+            GetComponent<BoxCollider2D>().enabled = false;
         }
     }
 }
