@@ -316,6 +316,8 @@ GameObject:
   - component: {fileID: 148392818}
   - component: {fileID: 148392817}
   - component: {fileID: 148392816}
+  - component: {fileID: 148392821}
+  - component: {fileID: 148392820}
   m_Layer: 6
   m_Name: HalfEvilMisty
   m_TagString: Untagged
@@ -461,6 +463,56 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &148392820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148392815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec58d5f6d74cc37409cf81bf563c5ce6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.HalfEvilMisty
+  firstAttackDelay: 2
+  attackInterval: 4
+  trianglePrefab: {fileID: 5162837099581258495, guid: 4f3dc4f8892aaed4fbffd62854160a4e, type: 3}
+  triangleCount: 15
+  holeWidth: 3
+  triangleSpacing: 2
+  triangleSpeed: 12
+  triangleLifetime: 15
+  triangleDamage: 1
+  triangleDamageRadius: 0.5
+  maxSpawnHeightBelowPlayer: 20
+  warningCanvas: {fileID: 0}
+  warningTime: 1.5
+  warningYOffset: 60
+  warningSize: 36
+  warningColor: {r: 1, g: 0.85, b: 0.25, a: 1}
+  monsterHealth: {fileID: 0}
+  cameraFlow: {fileID: 0}
+--- !u!114 &148392821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148392815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 046005fd76e14ebd8d78d289186205df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.MonsterHealth
+  maxHealth: 3
+  destroyOnDeath: 1
+  deathDuration: 0.25
+  spriteRenderer: {fileID: 0}
+  bodyCollider: {fileID: 0}
+  body: {fileID: 0}
+  hitColor: {r: 1, g: 0, b: 0, a: 1}
+  hitFlashDuration: 0.1
 --- !u!1001 &162901403
 PrefabInstance:
   m_ObjectHideFlags: 0
