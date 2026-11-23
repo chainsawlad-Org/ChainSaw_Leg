@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046005fd76e14ebd8d78d289186205df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.MonsterHealth
-  maxHealth: 3
+  maxHealth: 2
   destroyOnDeath: 1
   deathDuration: 0.25
   spriteRenderer: {fileID: 5102932424296525244}
@@ -200,7 +200,6 @@ MonoBehaviour:
     m_Bits: 4294967295
   touchPadding: 0.15
   monsterHealth: {fileID: 5928348966729218557}
-  sprite: {fileID: 5102932424296525244}
 --- !u!114 &7743908221545921346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,6 +223,7 @@ MonoBehaviour:
   body: {fileID: 3367798471521809211}
   monsterHealth: {fileID: 5928348966729218557}
   playerHealth: {fileID: 0}
+  sprite: {fileID: 0}
 --- !u!114 &7891047145812118389
 MonoBehaviour:
   m_ObjectHideFlags: 0
