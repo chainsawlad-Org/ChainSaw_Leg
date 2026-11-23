@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 556508a69810a66409e49573ad874987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.BossTriangleMissile
-  flySpeed: 12
+  flySpeed: 20
   lifetime: 15
   damage: 1
   damageRadius: 0.5

@@ -22,7 +22,7 @@ namespace ChainSawLeg.Features.Minigames
 
         [Header("Triangle Volley")]
         [SerializeField] private GameObject trianglePrefab;
-        [SerializeField, Min(1)] private int triangleCount = 10;
+        [SerializeField, Min(1)] private int triangleCount = 3;
         [Tooltip("How wide the safe gap in the triangle wall is, in world units. Rounded up to whole columns (one column = triangleSpacing wide).")]
         [SerializeField, Min(0f)] private float holeWidth = 2.2f;
         [SerializeField, Min(0f)] private float triangleSpacing = 2.2f;
