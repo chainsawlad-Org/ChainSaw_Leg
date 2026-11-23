@@ -88,7 +88,7 @@ namespace ChainSawLeg.Features.Minigames
             bool isGrounded = IsGrounded();
             if (isGrounded) lastGroundedTime = Time.time;
 
-            if (Keyboard.current.wKey.wasPressedThisFrame)
+            if (Keyboard.current.wKey.wasPressedThisFrame || Keyboard.current.spaceKey.wasPressedThisFrame)
                 lastJumpPressedTime = Time.time;
             bool coyoteAvailable = Time.time - lastGroundedTime <= coyoteTime;
             bool jumpBuffered = Time.time - lastJumpPressedTime <= jumpBufferTime;
