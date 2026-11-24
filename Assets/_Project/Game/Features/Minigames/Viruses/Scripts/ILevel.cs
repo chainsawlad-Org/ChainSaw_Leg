@@ -5,5 +5,7 @@ namespace ChainSawLeg.Features.Minigames
     {
         void StartLevel();
         void RevertLevel();
+        void CompleteLevel();
+
     }
 }

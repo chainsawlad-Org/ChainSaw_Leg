@@ -9,10 +9,11 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField] private GameObject mainCamera;
 
         [SerializeField] private GameObject spawnTwo; 
-        public void Initialize(GameObject curosr, GameObject mainCamera)
+        public void Initialize(GameObject curosr, GameObject mainCamera, VirusesGameManager gameManager)
         {
             this.cursor = curosr;
             this.mainCamera = mainCamera;
+            this.gameManager = gameManager;
         }
         public void StartLevel()
         {
@@ -23,6 +24,11 @@ namespace ChainSawLeg.Features.Minigames
         public void RevertLevel()
         {
             cursor.transform.position = spawnTwo.transform.position;
+        }
+
+        public void CompleteLevel()
+        {
+            gameManager.NextLevel();
         }
     }
 }

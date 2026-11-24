@@ -30,7 +30,7 @@ namespace ChainSawLeg.Composition
         public void Initialize()
         {
             gameManager.Initialize(cursor);
-            levelTwoController.Initialize(cursor, mainCamera);
+            levelTwoController.Initialize(cursor, mainCamera, gameManager);
 
             cursorContoll.Initialize(gameManager);
         }

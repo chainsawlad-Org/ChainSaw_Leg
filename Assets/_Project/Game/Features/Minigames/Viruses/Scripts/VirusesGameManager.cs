@@ -6,7 +6,7 @@ namespace ChainSawLeg.Features.Minigames
     {
         private int indexLevel = 1;
         private bool levelIsStarted;
-        private GameObject currentLevel;
+        public GameObject currentLevel;
 
         public LevelOneController oneController;
         public LevelTwoController twoController;
@@ -52,6 +52,7 @@ namespace ChainSawLeg.Features.Minigames
         {
             indexLevel++;
             levelIsStarted = false;
+            Debug.Log("Next level " +  indexLevel);
         }
 
         public void LevelRevert()
