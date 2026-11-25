@@ -1,12 +1,12 @@
-using ChainSawLeg.Features.Exploration;
 using UnityEngine;
 
 namespace ChainSawLeg.Features.Minigames
 {
     /// <summary>
-    /// A boss-spawned triangle that flies straight up, damages the player once
-    /// and self-destructs. The player's attack can also destroy it mid-flight.
-    /// Trigger collider only: it never physically blocks anything.
+    /// A boss-spawned triangle that flies straight in a configured direction,
+    /// damages the player once and self-destructs. The player's attack can also
+    /// destroy it mid-flight. Trigger collider only: it never physically blocks
+    /// anything.
     /// </summary>
     public sealed class BossTriangleMissile : MonoBehaviour, IDamageable
     {
@@ -21,6 +21,8 @@ namespace ChainSawLeg.Features.Minigames
 
         [Header("Visuals")]
         [SerializeField] private SpriteRenderer visual;
+
+        private Vector2 flyDirection = Vector2.up;
 
         private void Awake()
         {
@@ -42,7 +44,7 @@ namespace ChainSawLeg.Features.Minigames
 
         private void Update()
         {
-            transform.position += Vector3.up * (flySpeed * Time.deltaTime);
+            transform.position += (Vector3)(flyDirection * (flySpeed * Time.deltaTime));
 
             TryDamagePlayer();
         }
@@ -72,12 +74,16 @@ namespace ChainSawLeg.Features.Minigames
         }
 
         /// <summary>Applies the boss's volley settings after the component is added.</summary>
-        public void Configure(float speed, int damageAmount, float radius, float lifeTime)
+        public void Configure(float speed, int damageAmount, float radius, float lifeTime, Vector2 direction)
         {
             flySpeed = speed;
             damage = damageAmount;
             damageRadius = radius;
             lifetime = lifeTime;
+            flyDirection = direction.sqrMagnitude > 0.0001f ? direction.normalized : Vector2.up;
+
+            // The triangle sprite points up, so rotate it to face its flight path.
+            transform.rotation = Quaternion.FromToRotation(Vector3.up, flyDirection);
 
             Destroy(gameObject, lifeTime);
         }

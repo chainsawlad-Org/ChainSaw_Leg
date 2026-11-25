@@ -674,21 +674,15 @@ MonoBehaviour:
   firstAttackDelay: 2
   attackInterval: 4
   trianglePrefab: {fileID: 5162837099581258495, guid: 4f3dc4f8892aaed4fbffd62854160a4e, type: 3}
-  triangleCount: 3
-  holeWidth: 0
-  triangleSpacing: 2
+  spreadAngle: 45
+  triangleSpawnInterval: 0
   triangleSpeed: 20
   triangleLifetime: 15
   triangleDamage: 1
   triangleDamageRadius: 0.5
-  maxSpawnHeightBelowPlayer: 20
-  warningCanvas: {fileID: 0}
-  warningTime: 1.5
-  warningYOffset: 60
-  warningSize: 36
-  warningColor: {r: 1, g: 0.85, b: 0.25, a: 1}
+  spawnOffset: {x: 0, y: 0}
+  onlyAttackInSameRoom: 1
   monsterHealth: {fileID: 0}
-  cameraFlow: {fileID: 0}
 --- !u!114 &148392821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3588,7 +3582,7 @@ Transform:
   m_GameObject: {fileID: 835031566}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 228.44, y: 24.51, z: 0}
+  m_LocalPosition: {x: 250.7, y: -3.5, z: 0}
   m_LocalScale: {x: 8.36, y: 5.61, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

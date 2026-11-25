@@ -1,18 +1,14 @@
 using System.Collections;
-using System.Collections.Generic;
-using ChainSawLeg.Features.Exploration;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace ChainSawLeg.Features.Minigames
 {
     /// <summary>
-    /// Half Evil Misty boss: once in a while performs a Mad Dummy-style triangle
-    /// volley. Yellow warning triangles first appear on the UI at the bottom of
-    /// the screen, marking the columns where triangles will fly; after the
-    /// warning time they disappear and a row of triangles spawns on the boss
-    /// and flies upward. The warning phase plus the spacing between triangles
-    /// is the dodge window: the player can leave the columns or slip between them.
+    /// Half Evil Misty boss: every attack releases a fan of three triangles from
+    /// the boss body. One triangle is aimed at the player, and the other two fly
+    /// 45 degrees below and above that aim line. The three are released one after
+    /// another at a fixed interval. The boss only attacks while it shares a room
+    /// with the player (rooms are defined by <see cref="RoomCameraPoint"/>).
     /// </summary>
     public sealed class HalfEvilMisty : MonoBehaviour
     {
@@ -22,42 +18,37 @@ namespace ChainSawLeg.Features.Minigames
 
         [Header("Triangle Volley")]
         [SerializeField] private GameObject trianglePrefab;
-        [SerializeField, Min(1)] private int triangleCount = 3;
-        [Tooltip("How wide the safe gap in the triangle wall is, in world units. Rounded up to whole columns (one column = triangleSpacing wide).")]
-        [SerializeField, Min(0f)] private float holeWidth = 2.2f;
-        [SerializeField, Min(0f)] private float triangleSpacing = 2.2f;
+        [Tooltip("Angle between the aimed triangle and each of the two side triangles.")]
+        [SerializeField, Range(1f, 89f)] private float spreadAngle = 45f;
+        [Tooltip("Delay between each of the three triangles leaving the boss body.")]
+        [SerializeField, Min(0f)] private float triangleSpawnInterval = 0.35f;
         [SerializeField, Min(0.01f)] private float triangleSpeed = 8f;
         [SerializeField, Min(0.01f)] private float triangleLifetime = 4f;
         [SerializeField, Min(1)] private int triangleDamage = 1;
         [SerializeField, Min(0f)] private float triangleDamageRadius = 0.5f;
-        [Tooltip("Triangles spawn at the boss's height, but never further below the player than this, so a player high above the boss doesn't wait for the attack.")]
-        [SerializeField, Min(0f)] private float maxSpawnHeightBelowPlayer = 5f;
+        [Tooltip("Offset from the boss pivot where the triangles appear.")]
+        [SerializeField] private Vector2 spawnOffset;
 
-        [Header("Warning UI")]
-        [SerializeField] private Canvas warningCanvas;
-        [SerializeField, Min(0f)] private float warningTime = 1.5f;
-        [SerializeField, Min(0f)] private float warningYOffset = 60f;
-        [SerializeField, Min(1f)] private float warningSize = 36f;
-        [SerializeField] private Color warningColor = new Color(1f, 0.85f, 0.25f, 1f);
+        [Header("Room Gating")]
+        [Tooltip("Only attack while the boss and the player are inside the same RoomCameraPoint.")]
+        [SerializeField] private bool onlyAttackInSameRoom = true;
 
         [Header("References")]
         [SerializeField] private MonsterHealth monsterHealth;
-        [SerializeField] private CameraFlow cameraFlow;
 
         private PlatformerPlayerHealth playerHealth;
-        private Camera warningCamera;
+        private RoomCameraPoint[] rooms;
 
         private void Awake()
         {
             if (monsterHealth == null) monsterHealth = GetComponent<MonsterHealth>();
             if (monsterHealth != null) monsterHealth.Died += OnBossDied;
-            if (cameraFlow == null) cameraFlow = FindFirstObjectByType<CameraFlow>();
         }
 
         private void Start()
         {
             playerHealth = FindFirstObjectByType<PlatformerPlayerHealth>();
-            warningCamera = cameraFlow != null ? cameraFlow.camera : Camera.main;
+            rooms = FindObjectsByType<RoomCameraPoint>(FindObjectsSortMode.None);
         }
 
         public void StartAttack()
@@ -88,7 +79,7 @@ namespace ChainSawLeg.Features.Minigames
 
             while (BossAlive())
             {
-                if (playerHealth != null && playerHealth.IsAlive)
+                if (playerHealth != null && playerHealth.IsAlive && IsPlayerInSameRoom())
                     yield return TriangleVolley();
 
                 yield return new WaitForSeconds(attackInterval);
@@ -97,137 +88,84 @@ namespace ChainSawLeg.Features.Minigames
 
         private IEnumerator TriangleVolley()
         {
-            // Wall centered on the player's X at volley start (locked — no homing).
-            float centerX = playerHealth != null ? playerHealth.transform.position.x : transform.position.x;
-            float rowWidth = (triangleCount - 1) * triangleSpacing;
-            float startX = centerX - rowWidth * 0.5f;
-
-            var columns = new List<float>(triangleCount);
-            for (int i = 0; i < triangleCount; i++)
-                columns.Add(startX + i * triangleSpacing);
-
-            // Poke holes in the wall: those columns get no triangle AND no warning,
-            // so the blinking row shows exactly where the safe gap is. The hole is
-            // one contiguous run of columns, sized by holeWidth in world units.
-            var holes = new HashSet<int>();
-            int widthColumns = Mathf.Clamp(
-                Mathf.CeilToInt(holeWidth / Mathf.Max(0.001f, triangleSpacing)), 0, triangleCount);
-            if (widthColumns > 0)
-            {
-                int holeStart = Random.Range(0, triangleCount - widthColumns + 1);
-                for (int i = 0; i < widthColumns; i++)
-                    holes.Add(holeStart + i);
-            }
-
-            // Columns that will actually fire.
-            var firingColumns = new List<float>(columns.Count);
-            for (int i = 0; i < columns.Count; i++)
-                if (!holes.Contains(i))
-                    firingColumns.Add(columns[i]);
-
-            // Spawn height: the boss's own level, but if the player climbed far
-            // above the boss, triangles spawn closer to them so they don't have
-            // to wait for the wall to travel up. Never spawns above the player
-            // (triangles fly up, so they must start below to be a threat).
-            float spawnY = transform.position.y;
-            if (playerHealth != null && maxSpawnHeightBelowPlayer > 0f)
-            {
-                float playerY = playerHealth.transform.position.y;
-                spawnY = Mathf.Clamp(playerY - maxSpawnHeightBelowPlayer, transform.position.y, playerY);
-            }
-
-            // --- Warning phase: UI triangles mark the firing columns at the screen bottom ---
-            List<Image> warnings = null;
-            Canvas canvas = warningCanvas != null ? warningCanvas : FindFirstObjectByType<Canvas>();
-
-            if (canvas != null && warningCamera != null && warningTime > 0f)
-            {
-                warnings = CreateWarnings(canvas, firingColumns, spawnY);
-
-                float elapsed = 0f;
-                while (elapsed < warningTime)
-                {
-                    elapsed += Time.deltaTime;
-                    UpdateWarnings(warnings, firingColumns, spawnY, canvas);
-                    yield return null;
-                }
-
-                DestroyWarnings(warnings);
-            }
-            else
-            {
-                // No UI available: still give the same dodge window in time.
-                yield return new WaitForSeconds(warningTime);
-            }
-
-            // --- Volley: triangles spawn and fly upward ---
             if (trianglePrefab == null)
             {
                 Debug.LogWarning("HalfEvilMisty: no trianglePrefab assigned — volley skipped.", this);
                 yield break;
             }
 
-            foreach (float column in firingColumns)
-            {
-                var missileGO = Instantiate(trianglePrefab, new Vector3(column, spawnY, transform.position.z), Quaternion.identity);
+            // The whole fan is locked to the player's position at volley start.
+            Vector2 aimDirection = GetAimDirection();
+            float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
 
-                var missile = missileGO.GetComponent<BossTriangleMissile>();
-                if (missile != null)
-                    missile.Configure(triangleSpeed, triangleDamage, triangleDamageRadius, triangleLifetime);
+            // One triangle on the aim line, then one 45 degrees below it and one above it.
+            float[] angleOffsets = { 0f, -spreadAngle, spreadAngle };
+
+            for (int i = 0; i < angleOffsets.Length; i++)
+            {
+                if (!BossAlive() || playerHealth == null || !playerHealth.IsAlive || !IsPlayerInSameRoom())
+                    yield break;
+
+                float angle = (aimAngle + angleOffsets[i]) * Mathf.Deg2Rad;
+                SpawnTriangle(new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)));
+
+                if (i < angleOffsets.Length - 1 && triangleSpawnInterval > 0f)
+                    yield return new WaitForSeconds(triangleSpawnInterval);
             }
         }
 
-        private List<Image> CreateWarnings(Canvas canvas, List<float> columns, float spawnY)
+        private Vector2 GetAimDirection()
         {
-            var warnings = new List<Image>(columns.Count);
+            if (playerHealth == null) return Vector2.up;
 
-            foreach (float column in columns)
-            {
-                var imageGO = new GameObject("TriangleWarning", typeof(RectTransform));
-                imageGO.transform.SetParent(canvas.transform, false);
+            Vector2 direction = (Vector2)playerHealth.transform.position - (Vector2)GetSpawnPosition();
 
-                Image image = imageGO.AddComponent<Image>();
-                image.sprite = BossTriangleMissile.CreateTriangleSprite();
-                image.raycastTarget = false;
-
-                RectTransform rect = imageGO.GetComponent<RectTransform>();
-                rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(0.5f, 0.5f);
-                rect.sizeDelta = new Vector2(warningSize, warningSize);
-
-                warnings.Add(image);
-            }
-
-            UpdateWarnings(warnings, columns, spawnY, canvas);
-
-            return warnings;
+            return direction.sqrMagnitude > 0.0001f ? direction.normalized : Vector2.up;
         }
 
-        private void UpdateWarnings(List<Image> warnings, List<float> columns, float spawnY, Canvas canvas)
+        private Vector3 GetSpawnPosition()
         {
-            if (warnings == null || warnings.Count != columns.Count) return;
-
-            RectTransform canvasRect = (RectTransform)canvas.transform;
-            float scale = canvasRect.lossyScale.x;
-
-            for (int i = 0; i < warnings.Count; i++)
-            {
-                Vector3 screen = warningCamera.WorldToScreenPoint(new Vector3(columns[i], spawnY, 0f));
-                warnings[i].rectTransform.anchoredPosition =
-                    (new Vector2(screen.x, warningYOffset) - (Vector2)canvasRect.position) / scale;
-
-                // Blink so the warnings read as "incoming".
-                float alpha = Mathf.Lerp(0.35f, 1f, Mathf.PingPong(Time.time * 3f, 1f));
-                warnings[i].color = new Color(warningColor.r, warningColor.g, warningColor.b, alpha);
-            }
+            return transform.position + (Vector3)spawnOffset;
         }
 
-        private static void DestroyWarnings(List<Image> warnings)
+        private void SpawnTriangle(Vector2 direction)
         {
-            if (warnings == null) return;
+            GameObject missileGO = Instantiate(trianglePrefab, GetSpawnPosition(), Quaternion.identity);
 
-            foreach (Image warning in warnings)
-                if (warning != null)
-                    Destroy(warning.gameObject);
+            BossTriangleMissile missile = missileGO.GetComponent<BossTriangleMissile>();
+            if (missile != null)
+                missile.Configure(triangleSpeed, triangleDamage, triangleDamageRadius, triangleLifetime, direction);
+        }
+
+        private bool IsPlayerInSameRoom()
+        {
+            if (!onlyAttackInSameRoom) return true;
+            if (playerHealth == null) return false;
+
+            // No room data in this scene: nothing to gate against.
+            if (rooms == null || rooms.Length == 0) return true;
+
+            RoomCameraPoint bossRoom = FindRoomAt(transform.position);
+            RoomCameraPoint playerRoom = FindRoomAt(playerHealth.transform.position);
+
+            return bossRoom != null && bossRoom == playerRoom;
+        }
+
+        private RoomCameraPoint FindRoomAt(Vector3 position)
+        {
+            if (rooms == null) return null;
+
+            foreach (RoomCameraPoint room in rooms)
+            {
+                if (room == null) continue;
+
+                Collider2D roomCollider = room.GetComponent<Collider2D>();
+
+                if (roomCollider != null && roomCollider.bounds.Contains(position))
+                    return room;
+            }
+
+            return null;
         }
     }
 }
