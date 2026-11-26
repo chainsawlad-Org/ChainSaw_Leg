@@ -673,6 +673,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.HalfEvilMisty
   firstAttackDelay: 2
   attackInterval: 4
+  telegraphDuration: 0.5
+  telegraphShakeStrength: 0.3
+  telegraphShakeVibrato: 40
   trianglePrefab: {fileID: 5162837099581258495, guid: 4f3dc4f8892aaed4fbffd62854160a4e, type: 3}
   spreadAngle: 45
   triangleSpawnInterval: 0

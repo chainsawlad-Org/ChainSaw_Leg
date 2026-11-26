@@ -1,4 +1,5 @@
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 namespace ChainSawLeg.Features.Minigames
@@ -15,6 +16,12 @@ namespace ChainSawLeg.Features.Minigames
         [Header("Attack Loop")]
         [SerializeField, Min(0f)] private float firstAttackDelay = 2f;
         [SerializeField, Min(0f)] private float attackInterval = 4f;
+
+        [Header("Telegraph")]
+        [Tooltip("How long the boss shakes in place before releasing the triangles.")]
+        [SerializeField, Min(0f)] private float telegraphDuration = 0.5f;
+        [SerializeField, Min(0f)] private float telegraphShakeStrength = 0.3f;
+        [SerializeField, Min(0)] private int telegraphShakeVibrato = 40;
 
         [Header("Triangle Volley")]
         [SerializeField] private GameObject trianglePrefab;
@@ -38,11 +45,17 @@ namespace ChainSawLeg.Features.Minigames
 
         private PlatformerPlayerHealth playerHealth;
         private RoomCameraPoint[] rooms;
+        private Tween shakeTween;
 
         private void Awake()
         {
             if (monsterHealth == null) monsterHealth = GetComponent<MonsterHealth>();
-            if (monsterHealth != null) monsterHealth.Died += OnBossDied;
+
+            if (monsterHealth != null)
+            {
+                monsterHealth.HealthChanged += OnHealthChanged;
+                monsterHealth.Died += OnBossDied;
+            }
         }
 
         private void Start()
@@ -58,8 +71,13 @@ namespace ChainSawLeg.Features.Minigames
 
         private void OnDestroy()
         {
-            if (monsterHealth != null) monsterHealth.Died -= OnBossDied;
+            if (monsterHealth != null)
+            {
+                monsterHealth.HealthChanged -= OnHealthChanged;
+                monsterHealth.Died -= OnBossDied;
+            }
 
+            KillShakeTween();
             StopAllCoroutines();
         }
 
@@ -70,7 +88,15 @@ namespace ChainSawLeg.Features.Minigames
 
         private void OnBossDied()
         {
+            KillShakeTween();
             StopAllCoroutines();
+        }
+
+        private void OnHealthChanged(int currentHealth, int maxHealth)
+        {
+            // A hit ends the telegraph early: BossRoomProgression may immediately
+            // tween the boss to the next room, which would fight the shake tween.
+            KillShakeTween();
         }
 
         private IEnumerator RunAttackLoop()
@@ -94,6 +120,9 @@ namespace ChainSawLeg.Features.Minigames
                 yield break;
             }
 
+            // Telegraph: shake in place so the player knows a volley is coming.
+            yield return Telegraph();
+            
             // The whole fan is locked to the player's position at volley start.
             Vector2 aimDirection = GetAimDirection();
             float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
@@ -112,6 +141,30 @@ namespace ChainSawLeg.Features.Minigames
                 if (i < angleOffsets.Length - 1 && triangleSpawnInterval > 0f)
                     yield return new WaitForSeconds(triangleSpawnInterval);
             }
+        }
+
+        private IEnumerator Telegraph()
+        {
+            if (telegraphDuration <= 0f) yield break;
+
+            if (telegraphShakeStrength <= 0f || telegraphShakeVibrato <= 0)
+            {
+                yield return new WaitForSeconds(telegraphDuration);
+                yield break;
+            }
+
+            Vector3 startPosition = transform.position;
+            shakeTween = transform.DOShakePosition(telegraphDuration, telegraphShakeStrength, telegraphShakeVibrato)
+                .OnComplete(() => transform.position = startPosition);
+            yield return shakeTween.WaitForCompletion();
+            shakeTween = null;
+        }
+
+        private void KillShakeTween()
+        {
+            if (shakeTween != null && shakeTween.IsActive()) shakeTween.Kill();
+
+            shakeTween = null;
         }
 
         private Vector2 GetAimDirection()
@@ -147,7 +200,7 @@ namespace ChainSawLeg.Features.Minigames
 
             RoomCameraPoint bossRoom = FindRoomAt(transform.position);
             RoomCameraPoint playerRoom = FindRoomAt(playerHealth.transform.position);
-
+            
             return bossRoom != null && bossRoom == playerRoom;
         }
 
