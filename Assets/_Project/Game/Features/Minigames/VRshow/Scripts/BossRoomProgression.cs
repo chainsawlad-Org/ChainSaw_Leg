@@ -189,6 +189,7 @@ namespace ChainSawLeg.Features.Minigames
             moveTween = transform.DOMove(target, moveDuration)
                 .SetEase(moveEase)
                 .SetUpdate(useUnscaledTime)
+                .OnUpdate(() => transform.position = new Vector3(transform.position.x, transform.position.y, 0f))
                 .OnComplete(() => ApplyPosition(target));
         }
 

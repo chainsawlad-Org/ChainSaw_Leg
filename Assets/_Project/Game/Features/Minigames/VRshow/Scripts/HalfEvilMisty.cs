@@ -160,6 +160,7 @@ namespace ChainSawLeg.Features.Minigames
             Vector3 startPosition = transform.position;
             if (shakeTween.IsActive()) shakeTween.Complete();
             shakeTween = transform.DOShakePosition(telegraphDuration, telegraphShakeStrength, telegraphShakeVibrato)
+                .OnUpdate(() => transform.position = new Vector3(transform.position.x, transform.position.y, 0f))
                 .OnComplete(() => transform.position = startPosition);
             yield return shakeTween.WaitForCompletion();
             shakeTween = null;
