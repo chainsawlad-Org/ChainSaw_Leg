@@ -80,7 +80,7 @@ namespace ChainSawLeg.Features.Minigames
             if (isAttacking && isAreaAttack && airborneSkin != null)
                 airborneSkin.Rotate(0f, 0f, airborneSkinSpinSpeed * Time.deltaTime);
 
-            if (isAttacking || !Keyboard.current.leftShiftKey.wasPressedThisFrame) return;
+            if (isAttacking || !Keyboard.current.enterKey.wasPressedThisFrame) return;
             if (Time.time < attackLockedUntil) return;
             if (Time.time < nextAttackTime) return;
 
