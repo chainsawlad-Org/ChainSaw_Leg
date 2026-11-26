@@ -9768,6 +9768,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6564643838517370663, guid: ca5e6d279e01e413f8bbf07d75aebe7f, type: 3}
+      propertyPath: _keyboardShortcut._key
+      value: 96
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564643838517370663, guid: ca5e6d279e01e413f8bbf07d75aebe7f, type: 3}
+      propertyPath: _keyboardShortcut._shift
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564643838517370663, guid: ca5e6d279e01e413f8bbf07d75aebe7f, type: 3}
+      propertyPath: _keyboardShortcut._control
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6564643838517370666, guid: ca5e6d279e01e413f8bbf07d75aebe7f, type: 3}
       propertyPath: m_Name
       value: DebugSheetCanvas
