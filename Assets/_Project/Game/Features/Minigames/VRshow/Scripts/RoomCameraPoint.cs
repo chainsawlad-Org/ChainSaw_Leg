@@ -1,4 +1,5 @@
 using ChainSawLeg.Features.Exploration;
+using DG.Tweening;
 using UnityEngine;
 
 namespace ChainSawLeg.Features.Minigames
@@ -12,6 +13,7 @@ namespace ChainSawLeg.Features.Minigames
     public sealed class RoomCameraPoint : MonoBehaviour
     {
         [SerializeField, Min(0f)] private float transitionDuration = 0.5f;
+        [SerializeField] private Transform[] platformsToNextRoom;
 
         private CameraFlow cameraFlow;
         private Collider2D triggerCollider;
@@ -22,6 +24,7 @@ namespace ChainSawLeg.Features.Minigames
             if (triggerCollider != null) triggerCollider.isTrigger = true;
 
             cameraFlow = FindFirstObjectByType<CameraFlow>();
+            foreach (var platform in platformsToNextRoom) platform.gameObject.SetActive(false);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -38,7 +41,16 @@ namespace ChainSawLeg.Features.Minigames
             cameraFlow.bounds.max = triggerCollider.transform.position;
             cameraFlow.clampPosition = true;
             cameraFlow.TransitToRoom(roomBounds, transitionDuration, playerHealth.transform.position);
-            
+        }
+
+        public void ActivatePlatformsToNextRoom()
+        {
+            foreach (var platform in platformsToNextRoom)
+            {
+                platform.gameObject.SetActive(true);
+                Vector3 scale = platform.localScale;
+                platform.DOScale(scale, 1f).From(Vector3.zero);
+            }
         }
 
         private void OnDrawGizmosSelected()

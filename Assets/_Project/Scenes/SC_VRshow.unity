@@ -499,6 +499,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86d5973585b1a8469b8a27fc1bce9d3, type: 3}
+--- !u!4 &65057028 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2186779123363464210, guid: d86d5973585b1a8469b8a27fc1bce9d3, type: 3}
+  m_PrefabInstance: {fileID: 1931818743}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &148392815
 GameObject:
   m_ObjectHideFlags: 0
@@ -1460,6 +1465,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &360470184 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2186779123363464210, guid: d86d5973585b1a8469b8a27fc1bce9d3, type: 3}
+  m_PrefabInstance: {fileID: 2010673693}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &387639573
 GameObject:
   m_ObjectHideFlags: 0
@@ -1598,6 +1608,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &404375378 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2186779123363464210, guid: d86d5973585b1a8469b8a27fc1bce9d3, type: 3}
+  m_PrefabInstance: {fileID: 2021080024}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &407692288
 GameObject:
   m_ObjectHideFlags: 0
@@ -6844,6 +6859,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86d5973585b1a8469b8a27fc1bce9d3, type: 3}
+--- !u!4 &1278854085 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2186779123363464210, guid: d86d5973585b1a8469b8a27fc1bce9d3, type: 3}
+  m_PrefabInstance: {fileID: 1022853426}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1280318485
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7425,6 +7445,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.RoomCameraPoint
   transitionDuration: 0.5
+  platformsToNextRoom:
+  - {fileID: 756052130}
+  - {fileID: 1966068099}
+  - {fileID: 885491006}
+  - {fileID: 404375378}
 --- !u!61 &1397180917
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7712,6 +7737,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86d5973585b1a8469b8a27fc1bce9d3, type: 3}
+--- !u!4 &1448912198 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2186779123363464210, guid: d86d5973585b1a8469b8a27fc1bce9d3, type: 3}
+  m_PrefabInstance: {fileID: 1280318485}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1484122170
 GameObject:
   m_ObjectHideFlags: 0
@@ -8685,6 +8715,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.RoomCameraPoint
   transitionDuration: 0.5
+  platformsToNextRoom:
+  - {fileID: 1524365571}
+  - {fileID: 1705077187}
+  - {fileID: 360470184}
+--- !u!4 &1705077187 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2186779123363464210, guid: d86d5973585b1a8469b8a27fc1bce9d3, type: 3}
+  m_PrefabInstance: {fileID: 2074279565}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1707840368
 GameObject:
   m_ObjectHideFlags: 0
@@ -8949,6 +8988,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.RoomCameraPoint
   transitionDuration: 0.5
+  platformsToNextRoom:
+  - {fileID: 1122630311}
+  - {fileID: 65057028}
+  - {fileID: 1448912198}
+  - {fileID: 1278854085}
 --- !u!1001 &1760495690
 PrefabInstance:
   m_ObjectHideFlags: 0

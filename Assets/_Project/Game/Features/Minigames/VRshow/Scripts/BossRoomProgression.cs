@@ -100,6 +100,8 @@ namespace ChainSawLeg.Features.Minigames
                 nextIndex = 0;
             }
 
+            rooms[currentRoomIndex].ActivatePlatformsToNextRoom();
+
             currentRoomIndex = nextIndex;
             MoveTo(GetPlacementPosition(nextIndex, rooms[nextIndex]));
         }
