@@ -37,6 +37,9 @@ namespace ChainSawLeg.Features.Minigames
         private int currentRoomIndex = -1;
         private Tween moveTween;
 
+        /// <summary>True while the boss is being tweened into another room.</summary>
+        public bool IsMovingBetweenRooms => moveTween != null && moveTween.IsActive();
+
         private void Awake()
         {
             if (monsterHealth == null) monsterHealth = GetComponent<MonsterHealth>();

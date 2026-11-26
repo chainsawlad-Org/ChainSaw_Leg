@@ -42,6 +42,7 @@ namespace ChainSawLeg.Features.Minigames
 
         [Header("References")]
         [SerializeField] private MonsterHealth monsterHealth;
+        [SerializeField] private BossRoomProgression roomProgression;
 
         private PlatformerPlayerHealth playerHealth;
         private RoomCameraPoint[] rooms;
@@ -50,6 +51,7 @@ namespace ChainSawLeg.Features.Minigames
         private void Awake()
         {
             if (monsterHealth == null) monsterHealth = GetComponent<MonsterHealth>();
+            if (roomProgression == null) roomProgression = GetComponent<BossRoomProgression>();
 
             if (monsterHealth != null)
             {
@@ -105,7 +107,7 @@ namespace ChainSawLeg.Features.Minigames
 
             while (BossAlive())
             {
-                if (playerHealth != null && playerHealth.IsAlive && IsPlayerInSameRoom())
+                if (playerHealth != null && playerHealth.IsAlive && IsPlayerInSameRoom() && !IsMovingBetweenRooms())
                     yield return TriangleVolley();
 
                 yield return new WaitForSeconds(attackInterval);
@@ -120,6 +122,8 @@ namespace ChainSawLeg.Features.Minigames
                 yield break;
             }
 
+            if (IsMovingBetweenRooms()) yield break;
+
             // Telegraph: shake in place so the player knows a volley is coming.
             yield return Telegraph();
             
@@ -132,7 +136,7 @@ namespace ChainSawLeg.Features.Minigames
 
             for (int i = 0; i < angleOffsets.Length; i++)
             {
-                if (!BossAlive() || playerHealth == null || !playerHealth.IsAlive || !IsPlayerInSameRoom())
+                if (!BossAlive() || playerHealth == null || !playerHealth.IsAlive || !IsPlayerInSameRoom() || IsMovingBetweenRooms())
                     yield break;
 
                 float angle = (aimAngle + angleOffsets[i]) * Mathf.Deg2Rad;
@@ -154,6 +158,7 @@ namespace ChainSawLeg.Features.Minigames
             }
 
             Vector3 startPosition = transform.position;
+            if (shakeTween.IsActive()) shakeTween.Complete();
             shakeTween = transform.DOShakePosition(telegraphDuration, telegraphShakeStrength, telegraphShakeVibrato)
                 .OnComplete(() => transform.position = startPosition);
             yield return shakeTween.WaitForCompletion();
@@ -188,6 +193,11 @@ namespace ChainSawLeg.Features.Minigames
             BossTriangleMissile missile = missileGO.GetComponent<BossTriangleMissile>();
             if (missile != null)
                 missile.Configure(triangleSpeed, triangleDamage, triangleDamageRadius, triangleLifetime, direction);
+        }
+
+        private bool IsMovingBetweenRooms()
+        {
+            return roomProgression != null && roomProgression.IsMovingBetweenRooms;
         }
 
         private bool IsPlayerInSameRoom()

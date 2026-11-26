@@ -644,6 +644,7 @@ MonoBehaviour:
   spawnOffset: {x: 0, y: 0}
   onlyAttackInSameRoom: 1
   monsterHealth: {fileID: 0}
+  roomProgression: {fileID: 148392822}
 --- !u!114 &148392821
 MonoBehaviour:
   m_ObjectHideFlags: 0
