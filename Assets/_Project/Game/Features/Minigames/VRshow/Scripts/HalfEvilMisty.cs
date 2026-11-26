@@ -198,13 +198,13 @@ namespace ChainSawLeg.Features.Minigames
             // No room data in this scene: nothing to gate against.
             if (rooms == null || rooms.Length == 0) return true;
 
-            RoomCameraPoint bossRoom = FindRoomAt(transform.position);
-            RoomCameraPoint playerRoom = FindRoomAt(playerHealth.transform.position);
+            RoomCameraPoint bossRoom = FindRoomAt(gameObject.GetComponent<Collider2D>());
+            RoomCameraPoint playerRoom = FindRoomAt(playerHealth.GetComponent<Collider2D>());
             
             return bossRoom != null && bossRoom == playerRoom;
         }
 
-        private RoomCameraPoint FindRoomAt(Vector3 position)
+        private RoomCameraPoint FindRoomAt(Collider2D collider)
         {
             if (rooms == null) return null;
 
@@ -214,8 +214,9 @@ namespace ChainSawLeg.Features.Minigames
 
                 Collider2D roomCollider = room.GetComponent<Collider2D>();
 
-                if (roomCollider != null && roomCollider.bounds.Contains(position))
+                if (roomCollider != null && roomCollider.bounds.Intersects(collider.bounds))
                     return room;
+                
             }
 
             return null;
