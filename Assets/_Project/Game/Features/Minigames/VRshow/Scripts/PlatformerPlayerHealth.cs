@@ -11,6 +11,10 @@ namespace ChainSawLeg.Features.Minigames
         [Header("Health")]
         [SerializeField, Min(1)] private int maxHealth = 5;
 
+        [Header("Spawn")]
+        [Tooltip("On Awake, snap to the last saved checkpoint position (platformer players). Turn off for players spawned elsewhere, like the FlyEvilMisty arena player.")]
+        [SerializeField] private bool applyCheckpointOnAwake = true;
+
         [Header("Invulnerability")]
         [SerializeField] private float invulnerabilityDuration = 1f;
         [SerializeField] private float blinkInterval = 0.08f;
@@ -81,13 +85,20 @@ namespace ChainSawLeg.Features.Minigames
 
             CurrentHealth = maxHealth;
 
-            if (PlatformerCheckpointData.HasPosition)
+            if (applyCheckpointOnAwake && PlatformerCheckpointData.HasPosition)
             {
                 Vector3 position = PlatformerCheckpointData.Position;
                 transform.position = position;
 
                 if (body != null) body.position = position;
             }
+        }
+
+        private void OnEnable()
+        {
+            // Re-announce the current health so the shared mask UI follows the
+            // active player when the platformer and FlyEvilMisty players swap.
+            HealthChanged?.Invoke(CurrentHealth, maxHealth);
         }
 
         public void TakeDamage(int amount)
@@ -171,13 +182,21 @@ namespace ChainSawLeg.Features.Minigames
 
         private void ApplyHitKnockback(Vector2 sourcePosition)
         {
-            if (movement == null) return;
-
             // Push away from the attacker, slightly upward.
             Vector2 away = (Vector2)transform.position - sourcePosition;
             float sideX = Mathf.Abs(away.x) > 0.01f ? Mathf.Sign(away.x) : 1f;
 
-            movement.ApplyKnockback(new Vector2(sideX * knockbackSide, knockbackUp));
+            if (movement != null)
+            {
+                movement.ApplyKnockback(new Vector2(sideX * knockbackSide, knockbackUp));
+                return;
+            }
+
+            // No platformer movement (e.g. the FlyEvilMisty arena player): push the
+            // rigidbody directly; its controller hands control over while it plays out.
+            if (body == null) return;
+
+            body.linearVelocity = new Vector2(sideX * knockbackSide, knockbackUp);
         }
 
         public void Heal(int amount)

@@ -13,6 +13,10 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField] private LayerMask targetMask = ~0;
         [SerializeField, Min(0f)] private float touchPadding = 0.15f;
 
+        [Header("Attack State Gate")]
+        [Tooltip("Optional: don't deal touch damage while this component is mid-attack (e.g. the FlyEvilMisty player's AirborneAttack striking the boss).")]
+        [SerializeField] private AirborneAttack airborneAttackGate;
+
         [Header("References")]
         [SerializeField] private MonsterHealth monsterHealth;
 
@@ -26,6 +30,10 @@ namespace ChainSawLeg.Features.Minigames
 
         private void Update()
         {
+            // The gated player's attack state makes contact safe (their strike hits
+            // the boss instead of the boss hurting them).
+            if (airborneAttackGate != null && airborneAttackGate.IsAttacking) return;
+
             if (Time.time < nextDamageTime) return;
             if (monsterHealth != null && !monsterHealth.IsAlive) return;
 

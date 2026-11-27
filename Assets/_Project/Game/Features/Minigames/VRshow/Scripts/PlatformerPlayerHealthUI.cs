@@ -12,6 +12,8 @@ namespace ChainSawLeg.Features.Minigames
     {
         [Header("Binding")]
         [SerializeField] private PlatformerPlayerHealth health;
+        [Tooltip("Second player (e.g. the FlyEvilMisty arena player) whose death also runs the scene restart. Its health is not shown as masks.")]
+        [SerializeField] private PlatformerPlayerHealth secondaryHealth;
 
         [Header("Masks")]
         [SerializeField] private Sprite maskSprite;
@@ -50,28 +52,89 @@ namespace ChainSawLeg.Features.Minigames
 
             if (health == null) return;
 
-            health.HealthChanged += OnHealthChanged;
+            health.HealthChanged += OnMainHealthChanged;
             health.Died += OnDied;
-            OnHealthChanged(health.CurrentHealth, health.MaxHealth);
+            OnHealthChanged(health);
+
+            if (secondaryHealth != null)
+            {
+                secondaryHealth.HealthChanged += OnSecondaryHealthChanged;
+                secondaryHealth.Died += OnSecondaryDied;
+            }
         }
 
         private void OnDestroy()
         {
             if (health != null)
             {
-                health.HealthChanged -= OnHealthChanged;
+                health.HealthChanged -= OnMainHealthChanged;
                 health.Died -= OnDied;
+            }
+
+            if (secondaryHealth != null)
+            {
+                secondaryHealth.HealthChanged -= OnSecondaryHealthChanged;
+                secondaryHealth.Died -= OnSecondaryDied;
+            }
+        }
+
+        private void OnMainHealthChanged(int current, int max)
+        {
+            OnHealthChanged(health);
+        }
+
+        private void OnSecondaryHealthChanged(int current, int max)
+        {
+            OnHealthChanged(secondaryHealth);
+        }
+
+        private void OnHealthChanged(PlatformerPlayerHealth source)
+        {
+            // The two players share one mask row: only the active one drives it.
+            if (source == null || !source.gameObject.activeInHierarchy) return;
+
+            EnsureMaskCount(source.MaxHealth);
+
+            for (int i = 0; i < fills.Count; i++)
+            {
+                if (i < source.CurrentHealth) ShowMask(fills[i]);
+                else BreakMask(fills[i]);
+            }
+        }
+
+        private void EnsureMaskCount(int count)
+        {
+            if (fills.Count == count) return;
+
+            // Rebuild the row for a different max health.
+            foreach (Image fill in fills)
+            {
+                if (fill != null) Destroy(fill.transform.parent.gameObject);
+            }
+
+            fills.Clear();
+
+            for (int i = 0; i < count; i++)
+            {
+                RectTransform slot = CreateSlot(i);
+                CreateVessel(slot);
+                fills.Add(CreateFill(slot));
             }
         }
 
         private void OnDied()
         {
-            StartCoroutine(DeathSequence());
+            StartCoroutine(DeathSequence(health));
         }
 
-        private IEnumerator DeathSequence()
+        private void OnSecondaryDied()
         {
-            yield return new WaitForSeconds(health.DeathShakeDuration);
+            StartCoroutine(DeathSequence(secondaryHealth));
+        }
+
+        private IEnumerator DeathSequence(PlatformerPlayerHealth sourceHealth)
+        {
+            yield return new WaitForSeconds(sourceHealth.DeathShakeDuration);
 
             if (blackScreen != null)
             {
@@ -153,15 +216,6 @@ namespace ChainSawLeg.Features.Minigames
             rect.offsetMax = Vector2.zero;
 
             return image;
-        }
-
-        private void OnHealthChanged(int current, int max)
-        {
-            for (int i = 0; i < fills.Count; i++)
-            {
-                if (i < current) ShowMask(fills[i]);
-                else BreakMask(fills[i]);
-            }
         }
 
         private void ShowMask(Image fill)
