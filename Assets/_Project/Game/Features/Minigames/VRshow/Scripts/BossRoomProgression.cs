@@ -29,6 +29,7 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField, Min(0f)] private float moveDuration = 0.25f;
         [SerializeField] private Ease moveEase = Ease.OutQuad;
         [SerializeField] private bool useUnscaledTime;
+        [SerializeField] private Transform centerObject;
 
         [Header("Physics")]
         [SerializeField] private bool resetVelocityAfterMove = true;
@@ -186,7 +187,7 @@ namespace ChainSawLeg.Features.Minigames
                 body.simulated = false;
             }
 
-            moveTween = transform.DOMove(target, moveDuration)
+            moveTween = transform.DOMove(new Vector3(transform.position.x, target.y, 0f), moveDuration)
                 .SetEase(moveEase)
                 .SetUpdate(useUnscaledTime)
                 .OnUpdate(() => transform.position = new Vector3(transform.position.x, transform.position.y, 0f))
@@ -200,6 +201,17 @@ namespace ChainSawLeg.Features.Minigames
             if (body == null) return;
 
             body.position = target;
+
+            if (body.transform.position.x < centerObject.position.x)
+            {
+                body.GetComponent<SpriteRenderer>().flipX = true;
+                body.transform.rotation = Quaternion.Euler(0f, 0f, -30f);
+            }
+            else
+            {
+                body.GetComponent<SpriteRenderer>().flipX = false;
+                body.transform.rotation = Quaternion.Euler(0f, 0f, 30f);
+            }
 
             // Do not wake physics back up if the boss died while it was moving.
             if (monsterHealth != null && !monsterHealth.IsAlive) return;
