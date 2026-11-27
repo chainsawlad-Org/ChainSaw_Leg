@@ -182,21 +182,24 @@ namespace ChainSawLeg.Features.Minigames
 
         private void ApplyHitKnockback(Vector2 sourcePosition)
         {
-            // Push away from the attacker, slightly upward.
-            Vector2 away = (Vector2)transform.position - sourcePosition;
-            float sideX = Mathf.Abs(away.x) > 0.01f ? Mathf.Sign(away.x) : 1f;
-
             if (movement != null)
             {
+                // Push away from the attacker, slightly upward.
+                Vector2 away = (Vector2)transform.position - sourcePosition;
+                float sideX = Mathf.Abs(away.x) > 0.01f ? Mathf.Sign(away.x) : 1f;
+
                 movement.ApplyKnockback(new Vector2(sideX * knockbackSide, knockbackUp));
                 return;
             }
 
             // No platformer movement (e.g. the FlyEvilMisty arena player): push the
-            // rigidbody directly; its controller hands control over while it plays out.
+            // rigidbody radially away from the hit source; its controller hands
+            // control over while the knockback plays out.
             if (body == null) return;
 
-            body.linearVelocity = new Vector2(sideX * knockbackSide, knockbackUp);
+            Vector2 direction = (Vector2)transform.position - sourcePosition;
+
+            body.linearVelocity = (direction.sqrMagnitude > 0.0001f ? direction.normalized : Vector2.up) * knockbackSide;
         }
 
         public void Heal(int amount)

@@ -1417,7 +1417,7 @@ MonoBehaviour:
   padding: {x: 0.2, y: 0.2}
   startPosition: {x: 500, y: 6}
   resetToStartOnEnable: 0
-  damageControlSuspendTime: 0.35
+  damageControlSuspendTime: 0.5
   cameraFlow: {fileID: 878292290}
   arenaCameraAnchor: {fileID: 90915732}
   arenaCamera: {fileID: 519420031}
@@ -1473,8 +1473,8 @@ MonoBehaviour:
   applyCheckpointOnAwake: 0
   invulnerabilityDuration: 1
   blinkInterval: 0.08
-  knockbackSide: 8
-  knockbackUp: 6
+  knockbackSide: 30
+  knockbackUp: 30
   hitTimeScale: 0.2
   hitTimeScaleFadeIn: 0.05
   hitTimeScaleHold: 0.1
@@ -6602,8 +6602,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bb93bed06661524f90667aa52056625, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ChainSawLeg.Features.Minigames.Runtime::ChainSawLeg.Features.Minigames.FlyEvilMistyBoss
-  horizontalSpeed: 2.5
+  moveSpeed: 2.5
   horizontalRange: 2.5
+  verticalRange: 1.5
   directionChangeInterval: 3
   directionChangeIntervalVariation: 1.5
   patrolAnchor: {fileID: 90915732}

@@ -5,9 +5,10 @@ using UnityEngine;
 namespace ChainSawLeg.Features.Minigames
 {
     /// <summary>
-    /// Fly Evil Misty boss: hovers in the lower part of the screen and slowly drifts
-    /// left-right, flipping direction on a random timer and at the screen edges.
-    /// Every attack releases a fan of three triangles aimed at the flying player,
+    /// Fly Evil Misty boss: hovers in the lower part of the screen and slowly
+    /// wanders around its anchor in a random 2D direction, bouncing off its small
+    /// patrol box (X and Y) and re-picking a random direction on a timer. Every
+    /// attack releases a fan of three triangles aimed at the flying player,
     /// reusing the volley and telegraph pattern of <see cref="HalfEvilMisty"/>. The
     /// boss only attacks while the dedicated FlyEvilMisty player is active. Killing
     /// it plays the usual MonsterHealth death effect and stops the attacks; it does
@@ -16,11 +17,13 @@ namespace ChainSawLeg.Features.Minigames
     public sealed class FlyEvilMistyBoss : MonoBehaviour
     {
         [Header("Patrol")]
-        [Tooltip("Horizontal drift speed while patrolling the lower screen.")]
-        [SerializeField, Min(0.01f)] private float horizontalSpeed = 2.5f;
-        [Tooltip("How far the boss may stray from its anchor on each side, in world units.")]
+        [Tooltip("Drift speed while patrolling the lower screen.")]
+        [SerializeField, Min(0.01f)] private float moveSpeed = 2.5f;
+        [Tooltip("How far the boss may stray from its anchor X on each side, in world units.")]
         [SerializeField, Min(0f)] private float horizontalRange = 2.5f;
-        [Tooltip("Average time between random direction flips.")]
+        [Tooltip("How far the boss may stray from its start Y on each side, in world units.")]
+        [SerializeField, Min(0f)] private float verticalRange = 1.5f;
+        [Tooltip("Average time between random direction re-picks.")]
         [SerializeField, Min(0.05f)] private float directionChangeInterval = 3f;
         [Tooltip("Random +/- range applied to the direction change interval.")]
         [SerializeField, Min(0f)] private float directionChangeIntervalVariation = 1.5f;
@@ -60,8 +63,9 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField] private PlatformerPlayerHealth attackTargetHealth;
         [SerializeField] private Rigidbody2D body;
 
-        private int patrolDirection = 1;
+        private Vector2 patrolDirection;
         private float patrolCenterX;
+        private float patrolCenterY;
         private float nextDirectionFlipTime;
         private bool movementFrozen;
         private Vector3 shakeStartPosition;
@@ -86,6 +90,8 @@ namespace ChainSawLeg.Features.Minigames
         private void Start()
         {
             patrolCenterX = patrolAnchor != null ? patrolAnchor.position.x : transform.position.x;
+            patrolCenterY = transform.position.y;
+            patrolDirection = RandomDirection();
             PlanNextDirectionFlip();
             StartCoroutine(RunAttackLoop());
         }
@@ -118,27 +124,52 @@ namespace ChainSawLeg.Features.Minigames
 
         private void Patrol()
         {
-            // The boss stays near the bottom-center of the arena: it may only
-            // stray horizontalRange units from its anchor on each side.
+            // The boss stays near the bottom-center of the arena: it wanders in a
+            // random 2D direction inside a small box around its anchor (X) and its
+            // start height (Y), bouncing off that box's edges.
             float minX = patrolCenterX - horizontalRange;
             float maxX = patrolCenterX + horizontalRange;
-            float x = transform.position.x;
+            float minY = patrolCenterY - verticalRange;
+            float maxY = patrolCenterY + verticalRange;
 
-            if (x <= minX) patrolDirection = 1;
-            else if (x >= maxX) patrolDirection = -1;
+            Vector2 position = body != null ? body.position : (Vector2)transform.position;
+            Vector2 direction = patrolDirection;
+
+            // Component-wise bounce, DVD-logo style.
+            if ((position.x <= minX && direction.x < 0f) || (position.x >= maxX && direction.x > 0f))
+                direction.x = -direction.x;
+            if ((position.y <= minY && direction.y < 0f) || (position.y >= maxY && direction.y > 0f))
+                direction.y = -direction.y;
+
+            patrolDirection = direction.normalized;
+
+            // Never drift out of the patrol box, whatever happened.
+            Vector2 clamped = new Vector2(Mathf.Clamp(position.x, minX, maxX), Mathf.Clamp(position.y, minY, maxY));
+            if (clamped != position)
+            {
+                if (body != null) body.position = clamped;
+                transform.position = new Vector3(clamped.x, clamped.y, transform.position.z);
+            }
 
             if (Time.time >= nextDirectionFlipTime)
             {
-                patrolDirection = -patrolDirection;
+                patrolDirection = RandomDirection();
                 PlanNextDirectionFlip();
             }
 
-            Vector2 step = new Vector2(patrolDirection * horizontalSpeed, 0f) * Time.fixedDeltaTime;
+            Vector2 step = patrolDirection * (moveSpeed * Time.fixedDeltaTime);
 
             if (body != null)
                 body.MovePosition(body.position + step);
             else
                 transform.position += (Vector3)step;
+        }
+
+        private Vector2 RandomDirection()
+        {
+            float angle = Random.Range(0f, Mathf.PI * 2f);
+
+            return new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
         }
 
         private void PlanNextDirectionFlip()
@@ -282,11 +313,10 @@ namespace ChainSawLeg.Features.Minigames
         private void OnDrawGizmosSelected()
         {
             float centerX = patrolAnchor != null ? patrolAnchor.position.x : transform.position.x;
+            float centerY = Application.isPlaying ? patrolCenterY : transform.position.y;
 
             Gizmos.color = Color.cyan;
-            Gizmos.DrawLine(new Vector3(centerX - horizontalRange, transform.position.y - 1f, 0f), new Vector3(centerX - horizontalRange, transform.position.y + 1f, 0f));
-            Gizmos.DrawLine(new Vector3(centerX + horizontalRange, transform.position.y - 1f, 0f), new Vector3(centerX + horizontalRange, transform.position.y + 1f, 0f));
-            Gizmos.DrawLine(new Vector3(centerX, transform.position.y, 0f), new Vector3(centerX, transform.position.y + 2.5f, 0f));
+            Gizmos.DrawWireCube(new Vector3(centerX, centerY, 0f), new Vector3(horizontalRange * 2f, verticalRange * 2f, 0f));
         }
     }
 }
