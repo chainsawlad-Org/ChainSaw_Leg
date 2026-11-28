@@ -7,6 +7,8 @@ namespace ChainSawLeg.Features.Minigames
         [SerializeField] Vector2 startVector;
         private Rigidbody2D rb;
 
+        public Vector2 vector;
+
         private void Awake()
         {
             rb = gameObject.GetComponent<Rigidbody2D>();

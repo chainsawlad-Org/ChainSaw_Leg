@@ -11,6 +11,8 @@ namespace ChainSawLeg.Features.Minigames
         public float speed;
         public float radius;
 
+        [SerializeField] private float proximitySpeed = 2f;
+
         private List<GameObject> squares = new List<GameObject>();
 
         private void Start()
@@ -28,6 +30,7 @@ namespace ChainSawLeg.Features.Minigames
                 Vector3 spawnPosition = transform.position + new Vector3(x, y, 0);
 
                 GameObject newSquare = Instantiate(square, spawnPosition, Quaternion.identity, transform);
+                newSquare.GetComponent<SquareMove>().vector = new Vector2 (x, y).normalized;
                 newSquare.transform.up = (transform.position - spawnPosition).normalized;
                 squares.Add(newSquare);
             }
@@ -36,11 +39,15 @@ namespace ChainSawLeg.Features.Minigames
         private void Update()
         {
             transform.Rotate(0f, 0f, speed * Time.deltaTime);
+            Proximity();
         }
 
-        public void ChangeRadius()
+        public void Proximity()
         {
-
+            foreach (var obj in squares)
+            {
+                obj.GetComponent<Rigidbody2D>().linearVelocity = -1 * obj.GetComponent<SquareMove>().vector;
+            }
         }
     }
 }
