@@ -8,6 +8,7 @@ public class VirusesInstaller : MonoInstaller
     [SerializeField] private VirusesGameManager gameManager;
     [SerializeField] private LevelTwoController levelTwoController;
     [SerializeField] private LevelThreeController levelThreeController;
+    [SerializeField] private LevelFourController levelFourController;
 
     [SerializeField] private CursorContoll cursorContoll;
     [SerializeField] private GameObject cursor;
@@ -24,6 +25,10 @@ public class VirusesInstaller : MonoInstaller
 
         Container.Bind<LevelThreeController>()
                 .FromInstance(levelThreeController)
+                .AsSingle();
+
+        Container.Bind<LevelFourController>()
+                .FromInstance(levelFourController)
                 .AsSingle();
 
         Container.Bind<CursorContoll>()

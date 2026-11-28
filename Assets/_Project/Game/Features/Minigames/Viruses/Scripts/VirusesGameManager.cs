@@ -11,6 +11,7 @@ namespace ChainSawLeg.Features.Minigames
         public LevelOneController oneController;
         public LevelTwoController twoController;
         public LevelThreeController threeController;
+        public LevelFourController fourController;
 
         //Уровни
         public GameObject spawnOne;
@@ -39,16 +40,24 @@ namespace ChainSawLeg.Features.Minigames
                 case 2:
                     if (!levelIsStarted)
                     {
-                        twoController.StartLevel();
                         currentLevel = twoController.gameObject;
+                        currentLevel.GetComponent<ILevel>().StartLevel();
                         levelIsStarted = true;
                     }
                     break;
                 case 3:
                     if (!levelIsStarted)
                     {
-                        threeController.StartLevel();
                         currentLevel = threeController.gameObject;
+                        currentLevel.GetComponent<ILevel>().StartLevel();
+                        levelIsStarted = true;
+                    }
+                    break;
+                case 4:
+                    if (!levelIsStarted)
+                    {
+                        currentLevel = fourController.gameObject;
+                        currentLevel.GetComponent<ILevel>().StartLevel();
                         levelIsStarted = true;
                     }
                     break;

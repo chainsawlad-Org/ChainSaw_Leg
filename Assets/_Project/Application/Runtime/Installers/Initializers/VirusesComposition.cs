@@ -9,6 +9,7 @@ namespace ChainSawLeg.Composition
         private readonly VirusesGameManager gameManager;
         private readonly LevelTwoController levelTwoController;
         private readonly LevelThreeController levelThreeController;
+        private readonly LevelFourController levelFourController;
 
         private readonly CursorContoll cursorContoll;
         private readonly GameObject cursor;
@@ -18,6 +19,7 @@ namespace ChainSawLeg.Composition
             VirusesGameManager gameManager,
             LevelTwoController levelTwoController,
             LevelThreeController levelThreeController,
+            LevelFourController levelFourController,
             [Inject(Id = "Cursor")] GameObject cursor,
             [Inject(Id = "MainCamera")] GameObject mainCamera,
             CursorContoll cursorContoll)
@@ -25,6 +27,7 @@ namespace ChainSawLeg.Composition
             this.gameManager = gameManager;
             this.levelTwoController = levelTwoController;
             this.levelThreeController = levelThreeController;
+            this.levelFourController = levelFourController;
             this.cursor = cursor;
             this.mainCamera = mainCamera;
             this.cursorContoll = cursorContoll;
@@ -34,7 +37,8 @@ namespace ChainSawLeg.Composition
         {
             gameManager.Initialize(cursor);
             levelTwoController.Initialize(cursor, mainCamera, gameManager);
-            levelThreeController.Initialize(cursor, gameManager);
+            levelThreeController.Initialize(cursor, mainCamera, gameManager);
+            levelFourController.Initialize(cursor, mainCamera, gameManager);
 
             cursorContoll.Initialize(gameManager);
         }
